@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CapKit Co. — كاب كيت كو — قطع تُقتنى، لا تُستهلك</title>
+<meta name="description" content="CapKit Co. — كاب كيت كو. فن التشكيل المعدني الفاخر. قطع مصنوعة يدوياً، مرقمة، وموثقة، إلى جانب الأرشيف الهندسي الحصري."> 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500;700;900&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+
+<style>
+/* ═══════════════════════════════════════════════
+CapKit Co. (كاب كيت كو) — Art Direction & Multi-Stream
+Palette: Obsidian • Gold Leaf • Silver • Ember
+═══════════════════════════════════════════════ */ 
+
+:root {
+--obsidian: #050505;
+--obsidian-2: #0a0a0a;
+--obsidian-3: #111111;
+--gold: #c9a961;
+--gold-light: #e8d5a0;
+--gold-dark: #8b7434;
+--silver: #c4c4c4;
+--silver-bright: #efefef;
+--ember: #8b1a1a;
+--text-primary: #f5f0e8;
+--text-secondary: #8a8578;
+--text-muted: #4a4640;
+--border: rgba(201, 169, 97, 0.15);
+--border-light: rgba(201, 169, 97, 0.3);
+} 
+
+*, *::before, *::after {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+} 
+
+html { scroll-behavior: smooth; } 
+
+body {
+font-family: 'Tajawal', sans-serif;
+background: var(--obsidian);
+color: var(--text-primary);
+line-height: 1.7;
+overflow-x: hidden;
+-webkit-font-smoothing: antialiased;
+} 
+
+/* Grain texture overlay */
+body::before {
+content: '';
+position: fixed;
+inset: 0;
+background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+pointer-events: none;
+z-index: 9999;
+mix-blend-mode: overlay;
+} 
+
+/* ═══ Navigation ═══ */
+nav.top {
+position: fixed;
+top: 0;
+width: 100%;
+padding: 24px 60px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+z-index: 1000;
+transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+background: linear-gradient(180deg, rgba(5,5,5,0.9) 0%, transparent 100%);
+} 
+
+nav.top.scrolled {
+padding: 16px 60px;
+background: rgba(5, 5, 5, 0.95);
+backdrop-filter: blur(20px);
+border-bottom: 1px solid var(--border);
+} 
+
+.brand {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.8rem;
+font-weight: 500;
+letter-spacing: 0.15em;
+color: var(--text-primary);
+text-decoration: none;
+display: flex;
+align-items: center;
+gap: 12px;
+} 
+
+.brand-mark {
+width: 32px;
+height: 32px;
+border: 1.5px solid var(--gold);
+border-radius: 50%;
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+} 
+
+.brand-mark::before {
+content: 'C';
+font-family: 'Cormorant Garamond', serif;
+color: var(--gold);
+font-size: 1rem;
+font-weight: 600;
+} 
+
+.brand-text .ar {
+display: block;
+font-family: 'Tajawal', sans-serif;
+font-size: 0.65rem;
+letter-spacing: 0.2em;
+color: var(--gold);
+margin-top: -4px;
+} 
+
+.nav-links {
+display: flex;
+gap: 30px;
+list-style: none;
+align-items: center;
+} 
+
+.nav-links a {
+color: var(--text-secondary);
+text-decoration: none;
+font-size: 0.85rem;
+letter-spacing: 0.1em;
+font-weight: 300;
+transition: color 0.4s;
+position: relative;
+} 
+
+.nav-links a::after {
+content: '';
+position: absolute;
+bottom: -6px;
+right: 0;
+width: 0;
+height: 1px;
+background: var(--gold);
+transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+} 
+
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; } 
+
+.nav-cta {
+background: transparent;
+border: 1px solid var(--gold);
+color: var(--gold) !important;
+padding: 8px 20px;
+font-size: 0.75rem !important;
+letter-spacing: 0.2em !important;
+transition: all 0.4s;
+}
+.nav-cta:hover {
+background: var(--gold);
+color: var(--obsidian) !important;
+}
+.nav-cta::after { display: none !important; } 
+
+/* Hamburger Menu Toggle for Mobile */
+.hamburger {
+display: none;
+flex-direction: column;
+gap: 6px;
+background: none;
+border: none;
+cursor: pointer;
+z-index: 1001;
+padding: 5px;
+}
+.hamburger span {
+width: 28px;
+height: 2px;
+background: var(--gold);
+transition: 0.4s;
+} 
+
+/* Mobile Menu Overlay */
+.mobile-menu {
+position: fixed;
+inset: 0;
+background: rgba(5,5,5,0.98);
+backdrop-filter: blur(20px);
+z-index: 999;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 25px;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.4s ease;
+}
+.mobile-menu.active {
+opacity: 1;
+pointer-events: auto;
+}
+.mobile-menu a {
+font-family: 'Amiri', serif;
+font-size: 1.5rem;
+color: var(--text-primary);
+text-decoration: none;
+letter-spacing: 0.1em;
+transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--gold); } 
+
+/* ═══ Hero ═══ */
+.hero {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 140px 40px 80px;
+position: relative;
+overflow: hidden;
+} 
+
+.hero::before {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 900px;
+height: 900px;
+background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 60%);
+transform: translate(-50%, -50%);
+pointer-events: none;
+animation: pulse 8s ease-in-out infinite;
+} 
+
+@keyframes pulse {
+0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+} 
+
+.hero-inner {
+max-width: 1100px;
+text-align: center;
+position: relative;
+z-index: 2;
+} 
+
+.hero-eyebrow {
+display: inline-flex;
+align-items: center;
+gap: 16px;
+color: var(--gold);
+font-size: 0.75rem;
+letter-spacing: 0.5em;
+font-weight: 300;
+margin-bottom: 40px;
+opacity: 0;
+animation: fadeUp 1.2s 0.3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+} 
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+content: '';
+width: 60px;
+height: 1px;
+background: var(--gold);
+opacity: 0.5;
+} 
+
+.hero h1 {
+font-family: 'Amiri', serif;
+font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+font-weight: 400;
+line-height: 1.25;
+letter-spacing: -0.02em;
+margin-bottom: 40px;
+opacity: 0;
+animation: fadeUp 1.4s 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+} 
+
+.hero h1 .gold {
+color: var(--gold);
+font-style: italic;
+position: relative;
+display: inline-block;
+} 
+
+.hero-manifesto {
+font-family: 'Amiri', serif;
+font-size: clamp(1rem, 1.5vw, 1.25rem);
+color: var(--text-secondary);
+max-width: 720px;
+margin: 0 auto 60px;
+line-height: 2;
+opacity: 0;
+animation: fadeUp 1.4s 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+} 
+
+.hero-manifesto em {
+color: var(--gold-light);
+font-style: normal;
+font-weight: 700;
+} 
+
+.hero-cta {
+display: flex;
+gap: 24px;
+justify-content: center;
+flex-wrap: wrap;
+opacity: 0;
+animation: fadeUp 1.4s 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+} 
+
+.btn {
+display: inline-flex;
+align-items: center;
+gap: 14px;
+padding: 20px 44px;
+font-family: 'Tajawal', sans-serif;
+font-size: 0.85rem;
+letter-spacing: 0.25em;
+font-weight: 500;
+text-decoration: none;
+transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+position: relative;
+overflow: hidden;
+cursor: pointer;
+border: none;
+} 
+
+.btn-primary {
+background: var(--gold);
+color: var(--obsidian);
+} 
+
+.btn-primary:hover {
+background: var(--gold-light);
+box-shadow: 0 20px 60px rgba(201, 169, 97, 0.3);
+transform: translateY(-2px);
+} 
+
+.btn-ghost {
+background: transparent;
+color: var(--text-primary);
+border: 1px solid var(--border-light);
+} 
+
+.btn-ghost:hover {
+border-color: var(--gold);
+color: var(--gold);
+} 
+
+.btn .arrow {
+transition: transform 0.4s;
+} 
+
+.btn:hover .arrow { transform: translateX(-6px); } 
+
+/* Scroll indicator */
+.scroll-hint {
+position: absolute;
+bottom: 40px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 12px;
+color: var(--text-muted);
+font-size: 0.7rem;
+letter-spacing: 0.4em;
+opacity: 0;
+animation: fadeUp 1.4s 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+} 
+
+.scroll-hint .line {
+width: 1px;
+height: 50px;
+background: linear-gradient(180deg, var(--gold), transparent);
+animation: scrollLine 2s ease-in-out infinite;
+} 
+
+@keyframes scrollLine {
+0% { transform: scaleY(0); transform-origin: top; }
+50% { transform: scaleY(1); transform-origin: top; }
+51% { transform-origin: bottom; }
+100% { transform: scaleY(0); transform-origin: bottom; }
+} 
+
+/* ═══ Section base ═══ */
+section {
+padding: 140px 40px;
+position: relative;
+} 
+
+.container {
+max-width: 1280px;
+margin: 0 auto;
+} 
+
+.section-num {
+font-family: 'Cormorant Garamond', serif;
+font-size: 0.85rem;
+letter-spacing: 0.5em;
+color: var(--gold);
+font-style: italic;
+margin-bottom: 24px;
+display: flex;
+align-items: center;
+gap: 20px;
+} 
+
+.section-num::after {
+content: '';
+flex: 1;
+height: 1px;
+background: linear-gradient(90deg, var(--border-light), transparent);
+} 
+
+.section-title {
+font-family: 'Amiri', serif;
+font-size: clamp(2rem, 4.5vw, 3.5rem);
+font-weight: 400;
+line-height: 1.3;
+margin-bottom: 30px;
+color: var(--text-primary);
+} 
+
+.section-title em {
+color: var(--gold);
+font-style: italic;
+} 
+
+.section-desc {
+font-size: 1.05rem;
+color: var(--text-secondary);
+max-width: 680px;
+line-height: 2;
+margin-bottom: 80px;
+} 
+
+/* ═══ Manifesto Section ═══ */
+.manifesto {
+background: linear-gradient(180deg, var(--obsidian) 0%, var(--obsidian-2) 50%, var(--obsidian) 100%);
+text-align: center;
+} 
+
+.manifesto-inner {
+max-width: 900px;
+margin: 0 auto;
+} 
+
+.manifesto-quote {
+font-family: 'Amiri', serif;
+font-size: clamp(1.4rem, 3vw, 2.4rem);
+line-height: 1.8;
+color: var(--text-primary);
+font-weight: 400;
+margin-bottom: 40px;
+position: relative;
+} 
+
+.manifesto-quote::before {
+content: '❝';
+position: absolute;
+top: -60px;
+right: 50%;
+transform: translateX(50%);
+font-size: 5rem;
+color: var(--gold);
+opacity: 0.3;
+font-family: 'Amiri', serif;
+} 
+
+.manifesto-quote .em {
+color: var(--gold);
+font-style: italic;
+} 
+
+.manifesto-author {
+font-size: 0.8rem;
+letter-spacing: 0.4em;
+color: var(--text-muted);
+margin-top: 40px;
+} 
+
+/* ═══ Artifacts Grid (Physical Luxury Stream) ═══ */
+.artifacts-grid {
+display: grid;
+grid-template-columns: repeat(12, 1fr);
+gap: 30px;
+} 
+
+.artifact {
+position: relative;
+background: var(--obsidian-3);
+border: 1px solid var(--border);
+overflow: hidden;
+transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+display: flex;
+flex-direction: column;
+min-height: 420px;
+} 
+
+.artifact:hover {
+border-color: var(--gold);
+transform: translateY(-8px);
+box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(201, 169, 97, 0.2);
+} 
+
+.artifact-visual {
+flex: 1;
+position: relative;
+background: radial-gradient(circle at 50% 40%, rgba(201, 169, 97, 0.15), transparent 70%);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 60px 30px;
+overflow: hidden;
+} 
+
+.emblem {
+width: 180px;
+height: 180px;
+border-radius: 50%;
+background: radial-gradient(circle at 35% 30%, #f5f0e8 0%, #c4c4c4 25%, #6a6a6a 55%, #2a2a2a 85%);
+box-shadow: inset 0 4px 12px rgba(255,255,255,0.4), inset 0 -8px 16px rgba(0,0,0,0.6), 0 20px 40px rgba(0,0,0,0.7);
+position: relative;
+z-index: 2;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+} 
+
+.artifact:hover .emblem {
+transform: scale(1.08) rotate(-3deg);
+} 
+
+.emblem-icon {
+font-family: 'Amiri', serif;
+font-size: 4rem;
+color: rgba(0,0,0,0.5);
+text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+font-weight: 700;
+} 
+
+.emblem.gold {
+background: radial-gradient(circle at 35% 30%, #f5e8c0 0%, #c9a961 25%, #8b7434 55%, #3a2f0a 85%);
+} 
+
+.emblem.copper {
+background: radial-gradient(circle at 35% 30%, #f5d5b8 0%, #c97a4a 25%, #7a4520 55%, #2f1a0a 85%);
+} 
+
+.artifact-info {
+padding: 30px;
+border-top: 1px solid var(--border);
+background: var(--obsidian-2);
+position: relative;
+display: flex;
+flex-direction: column;
+gap: 12px;
+} 
+
+.artifact-serial {
+font-family: 'Cormorant Garamond', serif;
+font-size: 0.75rem;
+letter-spacing: 0.3em;
+color: var(--gold);
+font-style: italic;
+display: flex;
+justify-content: space-between;
+align-items: center;
+} 
+
+.artifact-serial .dots {
+flex: 1;
+height: 1px;
+background: repeating-linear-gradient(90deg, var(--border-light) 0 2px, transparent 2px 6px);
+margin: 0 12px;
+} 
+
+.artifact-name {
+font-family: 'Amiri', serif;
+font-size: 1.4rem;
+color: var(--text-primary);
+font-weight: 700;
+} 
+
+.artifact-desc {
+font-size: 0.85rem;
+color: var(--text-muted);
+letter-spacing: 0.05em;
+} 
+
+.artifact-footer {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 8px;
+padding-top: 15px;
+border-top: 1px solid rgba(201,169,97,0.1);
+} 
+
+.artifact-price {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.2rem;
+color: var(--gold);
+font-weight: 600;
+} 
+
+.btn-reserve {
+background: transparent;
+border: 1px solid var(--gold);
+color: var(--gold);
+padding: 8px 16px;
+font-size: 0.75rem;
+letter-spacing: 0.15em;
+cursor: pointer;
+transition: all 0.3s;
+text-decoration: none;
+} 
+
+.btn-reserve:hover {
+background: var(--gold);
+color: var(--obsidian);
+} 
+
+.artifact-badge {
+position: absolute;
+top: 20px;
+right: 20px;
+background: var(--gold);
+color: var(--obsidian);
+font-size: 0.65rem;
+padding: 6px 12px;
+letter-spacing: 0.2em;
+font-weight: 700;
+z-index: 3;
+} 
+
+/* Grid spans */
+.artifact:nth-child(1) { grid-column: span 7; }
+.artifact:nth-child(2) { grid-column: span 5; }
+.artifact:nth-child(3) { grid-column: span 5; }
+.artifact:nth-child(4) { grid-column: span 7; } 
+
+/* ═══ DIGITAL WORKSHOP STREAM ═══ */
+.digital-stream {
+background: var(--obsidian-2);
+border-top: 1px solid var(--border);
+border-bottom: 1px solid var(--border);
+} 
+
+.digital-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+gap: 30px;
+} 
+
+.digital-card {
+background: var(--obsidian-3);
+border: 1px solid var(--border);
+padding: 40px;
+position: relative;
+transition: all 0.5s;
+} 
+
+.digital-card:hover {
+border-color: var(--gold);
+transform: translateY(-5px);
+} 
+
+.digital-tag {
+font-family: 'Cormorant Garamond', serif;
+font-size: 0.7rem;
+letter-spacing: 0.4em;
+color: var(--gold);
+margin-bottom: 12px;
+font-style: italic;
+} 
+
+.digital-title {
+font-family: 'Amiri', serif;
+font-size: 1.5rem;
+margin-bottom: 16px;
+color: var(--text-primary);
+} 
+
+.digital-desc {
+color: var(--text-secondary);
+font-size: 0.9rem;
+margin-bottom: 24px;
+line-height: 1.8;
+} 
+
+.digital-specs {
+list-style: none;
+margin-bottom: 30px;
+font-size: 0.85rem;
+color: var(--text-muted);
+} 
+
+.digital-specs li {
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
+} 
+
+.digital-specs li::before {
+content: '—';
+color: var(--gold);
+} 
+
+.digital-action {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-top: 20px;
+border-top: 1px solid var(--border);
+} 
+
+.digital-price {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.3rem;
+color: var(--gold);
+} 
+
+/* ═══ CERTIFICATE & LOOKUP SECTION ═══ */
+.certificate {
+background: var(--obsidian);
+position: relative;
+overflow: hidden;
+} 
+
+.cert-card {
+max-width: 780px;
+margin: 0 auto 50px;
+background: linear-gradient(180deg, #0d0d0d 0%, #080808 100%);
+border: 1px solid var(--border-light);
+padding: 70px 60px;
+position: relative;
+box-shadow: 0 60px 120px rgba(0,0,0,0.6);
+} 
+
+.cert-card::before,
+.cert-card::after {
+content: '';
+position: absolute;
+width: 40px;
+height: 40px;
+border: 1px solid var(--gold);
+} 
+
+.cert-card::before { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+.cert-card::after { bottom: 20px; left: 20px; border-right: none; border-top: none; } 
+
+.cert-header {
+text-align: center;
+padding-bottom: 30px;
+border-bottom: 1px solid var(--border);
+margin-bottom: 40px;
+} 
+
+.cert-label {
+font-family: 'Cormorant Garamond', serif;
+font-size: 0.7rem;
+letter-spacing: 0.6em;
+color: var(--gold);
+font-style: italic;
+margin-bottom: 16px;
+} 
+
+.cert-title {
+font-family: 'Amiri', serif;
+font-size: 1.8rem;
+color: var(--text-primary);
+font-weight: 700;
+} 
+
+.cert-body {
+font-family: 'Amiri', serif;
+font-size: 1.15rem;
+line-height: 2.2;
+color: var(--text-secondary);
+text-align: center;
+margin-bottom: 40px;
+} 
+
+.cert-body .highlight {
+color: var(--gold);
+font-weight: 700;
+} 
+
+.cert-meta {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 30px;
+padding-top: 30px;
+border-top: 1px solid var(--border);
+text-align: center;
+} 
+
+.cert-meta-label {
+font-size: 0.7rem;
+letter-spacing: 0.4em;
+color: var(--text-muted);
+margin-bottom: 10px;
+font-family: 'Cormorant Garamond', serif;
+font-style: italic;
+} 
+
+.cert-meta-value {
+font-family: 'Amiri', serif;
+font-size: 1.4rem;
+color: var(--gold);
+font-weight: 700;
+} 
+
+.cert-signature {
+text-align: center;
+margin-top: 40px;
+padding-top: 30px;
+border-top: 1px solid var(--border);
+} 
+
+.cert-signature .sig {
+font-family: 'Amiri', serif;
+font-size: 1.6rem;
+color: var(--gold);
+font-style: italic;
+margin-bottom: 8px;
+} 
+
+.cert-signature .sig-label {
+font-size: 0.7rem;
+letter-spacing: 0.4em;
+color: var(--text-muted);
+} 
+
+/* Bonus: Certificate Lookup Widget */
+.lookup-box {
+max-width: 600px;
+margin: 0 auto;
+background: var(--obsidian-3);
+border: 1px solid var(--border);
+padding: 30px;
+text-align: center;
+}
+.lookup-box h3 {
+font-family: 'Amiri', serif;
+font-size: 1.2rem;
+margin-bottom: 15px;
+color: var(--text-primary);
+}
+.lookup-form {
+display: flex;
+gap: 10px;
+justify-content: center;
+}
+.lookup-input {
+background: var(--obsidian);
+border: 1px solid var(--border-light);
+padding: 12px 20px;
+color: var(--text-primary);
+font-family: 'Tajawal', sans-serif;
+outline: none;
+flex: 1;
+max-width: 300px;
+}
+.lookup-input:focus { border-color: var(--gold); } 
+
+/* ═══ PHILOSOPHY & MAKING OF ═══ */
+.philosophy {
+background: var(--obsidian-2);
+} 
+
+.philosophy-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 1px;
+background: var(--border);
+border: 1px solid var(--border);
+margin-bottom: 80px;
+} 
+
+.phil-item {
+background: var(--obsidian-3);
+padding: 60px 40px;
+transition: all 0.5s;
+position: relative;
+overflow: hidden;
+} 
+
+.phil-item::before {
+content: '';
+position: absolute;
+top: 0;
+right: 0;
+width: 0;
+height: 2px;
+background: var(--gold);
+transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+} 
+
+.phil-item:hover::before { width: 100%; } 
+
+.phil-num {
+font-family: 'Cormorant Garamond', serif;
+font-size: 3rem;
+color: var(--gold);
+font-style: italic;
+opacity: 0.3;
+margin-bottom: 20px;
+line-height: 1;
+} 
+
+.phil-title {
+font-family: 'Amiri', serif;
+font-size: 1.5rem;
+color: var(--text-primary);
+margin-bottom: 16px;
+font-weight: 700;
+} 
+
+.phil-text {
+color: var(--text-secondary);
+font-size: 0.95rem;
+line-height: 1.9;
+} 
+
+/* Bonus: Making Of Teaser Banner */
+.making-banner {
+background: linear-gradient(90deg, rgba(201,169,97,0.05), rgba(201,169,97,0.15), rgba(201,169,97,0.05));
+border: 1px solid var(--border-light);
+padding: 50px;
+text-align: center;
+}
+.making-banner h3 {
+font-family: 'Amiri', serif;
+font-size: 1.8rem;
+margin-bottom: 15px;
+color: var(--text-primary);
+}
+.making-banner p {
+color: var(--text-secondary);
+margin-bottom: 25px;
+font-size: 0.95rem;
+} 
+
+/* ═══ MARKETPLACE / VENDORS SECTION ═══ */
+.marketplace {
+background: var(--obsidian);
+border-top: 1px solid var(--border);
+text-align: center;
+}
+.market-box {
+max-width: 800px;
+margin: 0 auto;
+background: var(--obsidian-3);
+border: 1px solid var(--border);
+padding: 70px 40px;
+position: relative;
+}
+.market-box h2 {
+font-family: 'Amiri', serif;
+font-size: 2.2rem;
+margin-bottom: 20px;
+}
+.market-box p {
+color: var(--text-secondary);
+line-height: 1.9;
+margin-bottom: 30px;
+font-size: 1rem;
+} 
+
+/* ═══ CTA FINAL ═══ */
+.cta-final {
+background: linear-gradient(180deg, var(--obsidian) 0%, #0d0a05 100%);
+text-align: center;
+position: relative;
+padding: 140px 40px;
+} 
+
+.cta-final-inner {
+max-width: 800px;
+margin: 0 auto;
+position: relative;
+z-index: 2;
+} 
+
+.cta-final h2 {
+font-family: 'Amiri', serif;
+font-size: clamp(2rem, 4.5vw, 3.5rem);
+line-height: 1.3;
+margin-bottom: 30px;
+font-weight: 400;
+} 
+
+.cta-final h2 em {
+color: var(--gold);
+font-style: italic;
+} 
+
+.cta-final p {
+color: var(--text-secondary);
+font-size: 1.05rem;
+margin-bottom: 50px;
+line-height: 2;
+} 
+
+/* ═══ FOOTER ═══ */
+footer {
+background: var(--obsidian-2);
+border-top: 1px solid var(--border);
+padding: 80px 40px 40px;
+} 
+
+.footer-inner {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr;
+gap: 60px;
+margin-bottom: 60px;
+} 
+
+.footer-brand .brand { margin-bottom: 20px; } 
+
+.footer-brand p {
+color: var(--text-muted);
+font-size: 0.9rem;
+line-height: 1.9;
+max-width: 320px;
+} 
+
+.footer-col h4 {
+font-family: 'Cormorant Garamond', serif;
+font-size: 0.85rem;
+letter-spacing: 0.4em;
+color: var(--gold);
+margin-bottom: 24px;
+font-style: italic;
+font-weight: 500;
+} 
+
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 12px; } 
+
+.footer-col a {
+color: var(--text-secondary);
+text-decoration: none;
+font-size: 0.9rem;
+transition: color 0.3s;
+} 
+
+.footer-col a:hover { color: var(--gold); } 
+
+.footer-bottom {
+max-width: 1280px;
+margin: 0 auto;
+padding-top: 40px;
+border-top: 1px solid var(--border);
+display: flex;
+justify-content: space-between;
+align-items: center;
+color: var(--text-muted);
+font-size: 0.8rem;
+letter-spacing: 0.1em;
+flex-wrap: wrap;
+gap: 20px;
+} 
+
+/* ═══ Animations ═══ */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+} 
+
+.reveal {
+opacity: 0;
+transform: translateY(40px);
+transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+} 
+
+.reveal.visible {
+opacity: 1;
+transform: translateY(0);
+} 
+
+/* ═══ Responsive ═══ */
+@media (max-width: 900px) {
+nav.top { padding: 18px 24px; }
+.nav-links { display: none; }
+.hamburger { display: flex; }
+section { padding: 90px 24px; }
+.artifact:nth-child(n) { grid-column: span 12; }
+.cert-card { padding: 50px 30px; }
+.footer-inner { grid-template-columns: 1fr; gap: 40px; }
+.footer-bottom { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body> 
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav class="top" id="nav">
+<a href="#" class="brand">
+<span class="brand-mark"></span>
+<span class="brand-text">
+<span style="font-family:'Cormorant Garamond',serif;">CAPKIT CO.</span>
+<span class="ar">كاب كيت كو</span>
+</span>
+</a>
+<ul class="nav-links">
+<li><a href="#manifesto">الفلسفة</a></li>
+<li><a href="#artifacts">المقتنيات</a></li>
+<li><a href="#digital">الورشة الرقمية</a></li>
+<li><a href="#certificate">الشهادة</a></li>
+<li><a href="#marketplace">الشركاء</a></li>
+<li><a href="#contact" class="nav-cta">اقتنِ قطعتك</a></li>
+</ul>
+<button class="hamburger" id="hamburger" aria-label="القائمة">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</nav> 
+
+<!-- Mobile Overlay Menu -->
+<div class="mobile-menu" id="mobileMenu">
+<a href="#manifesto" class="mobile-link">الفلسفة</a>
+<a href="#artifacts" class="mobile-link">المقتنيات</a>
+<a href="#digital" class="mobile-link">الورشة الرقمية</a>
+<a href="#certificate" class="mobile-link">الشهادة</a>
+<a href="#marketplace" class="mobile-link">الشركاء والصنّاع</a>
+<a href="#contact" class="mobile-link" style="color:var(--gold);">اقتنِ قطعتك</a>
+</div> 
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+<div class="hero-inner">
+<div class="hero-eyebrow">EST. MMXXIV — كاب كيت كو · مصر</div>
+<h1>
+قطعٌ <span class="gold">تُقتنى</span>،<br>
+ولا تُستهلك.
+</h1>
+<p class="hero-manifesto">
+حين يتآكل البلاستيك بالزمن، ويبهت لونه بعد غسلاتٍ معدودة..<br>
+نصنع نحن قطعاً <em>تُورَّث</em>. من التن بليت الصلب، بفنّ التشكيل اليدوي،<br>
+وبلمسةٍ هندسية لا تُقلَّد — <em>لِتُولَد لِتُقتَنى، لا لِتُستهْلَك</em>.
+</p>
+<div class="hero-cta">
+<a href="#artifacts" class="btn btn-primary">
+اكتشف الإصدارات <span class="arrow">←</span>
+</a>
+<a href="#digital" class="btn btn-ghost">
+الأرشيف الهندسي والرقمي
+</a>
+</div>
+</div>
+<div class="scroll-hint">
+<span>SCROLL</span>
+<span class="line"></span>
+</div>
+</section> 
+
+<!-- ═══ MANIFESTO ═══ -->
+<section class="manifesto" id="manifesto">
+<div class="container">
+<div class="manifesto-inner reveal">
+<div class="section-num" style="justify-content:center;">الفصل الأول — الفلسفة</div>
+<p class="manifesto-quote">
+«صُنِعَت لِتكون <span class="em">أصلاً</span>.. اكْتَمَلَت تفاصيلها يوم <span class="em">15/10/2026</span>،<br>
+وتشَرَّبَت خاماتُها روح الصنعة، لتسقُط عنها فكرة التآكل إلى الأبد.<br>
+لَقَد وُلِدَت هذه القطعة <span class="em">لِتُقتَنى، لا لِتُستهلَك</span>.»
+</p>
+<div class="manifesto-author">— CAPKIT CO. · كاب كيت كو</div>
+</div>
+</div>
+</section> 
+
+<!-- ═══ ARTIFACTS (Physical Stream with Realistic Prices) ═══ -->
+<section id="artifacts">
+<div class="container">
+<div class="reveal">
+<div class="section-num">الفصل الثاني — المقتنيات المادية</div>
+<h2 class="section-title">مجموعة <em>الإصدار الأول</em></h2>
+<p class="section-desc">
+كل قطعة تُصنع يدوياً، وتُرقَّم، وتُوثَّق. لا نسخَ متكررة، لا إنتاج جماهيري.
+كل ما يُغادر ورشتنا يحمل توقيع الصنعة، وشهادة انتماءٍ إلى نُدرةٍ لا تُكرَّر.
+</p>
+</div> 
+
+<div class="artifacts-grid">
+<!-- Artifact 1 -->
+<div class="artifact reveal">
+<div class="artifact-badge">الإصدار الأول</div>
+<div class="artifact-visual">
+<div class="emblem"><span class="emblem-icon">Ⅰ</span></div>
+</div>
+<div class="artifact-info">
+<div class="artifact-serial"><span>N° 017 / 100</span><span class="dots"></span><span>2026</span></div>
+<div class="artifact-name">الأسد — النخبة</div>
+<div class="artifact-desc">تن بليت 0.3 مم · طلاء كروم فاخر · 60 مم</div>
+<div class="artifact-footer">
+<span class="artifact-price">295 EGP</span>
+<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء القطعة: الأسد — النخبة (N° 017)" class="btn-reserve">اقتنِ الآن</a>
+</div>
+</div>
+</div> 
+
+<!-- Artifact 2 -->
+<div class="artifact reveal">
+<div class="artifact-visual">
+<div class="emblem gold"><span class="emblem-icon">Ⅱ</span></div>
+</div>
+<div class="artifact-info">
+<div class="artifact-serial"><span>N° 042 / 100</span><span class="dots"></span><span>2026</span></div>
+<div class="artifact-name">النسر الذهبي</div>
+<div class="artifact-desc">تن بليت 0.3 مم · طلاء ذهبي · 45 مم</div>
+<div class="artifact-footer">
+<span class="artifact-price">275 EGP</span>
+<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء القطعة: النسر الذهبي (N° 042)" class="btn-reserve">اقتنِ الآن</a>
+</div>
+</div>
+</div> 
+
+<!-- Artifact 3 -->
+<div class="artifact reveal">
+<div class="artifact-visual">
+<div class="emblem copper"><span class="emblem-icon">Ⅲ</span></div>
+</div>
+<div class="artifact-info">
+<div class="artifact-serial"><span>N° 088 / 100</span><span class="dots"></span><span>2026</span></div>
+<div class="artifact-name">النمر النحاسي</div>
+<div class="artifact-desc">تن بليت 0.3 مم · نحاسي مصقول · 60 مم</div>
+<div class="artifact-footer">
+<span class="artifact-price">295 EGP</span>
+<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء القطعة: النمر النحاسي (N° 088)" class="btn-reserve">اقتنِ الآن</a>
+</div>
+</div>
+</div> 
+
+<!-- Artifact 4 -->
+<div class="artifact reveal">
+<div class="artifact-visual">
+<div class="emblem"><span class="emblem-icon">Ⅳ</span></div>
+</div>
+<div class="artifact-info">
+<div class="artifact-serial"><span>N° 100 / 100</span><span class="dots"></span><span>2026</span></div>
+<div class="artifact-name">الطقم الكامل — الإرث</div>
+<div class="artifact-desc">6 قطع متناسقة · علبة خشبية · شهادة أصلية</div>
+<div class="artifact-footer">
+<span class="artifact-price">1,450 EGP</span>
+<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء الطقم الكامل (N° 100)" class="btn-reserve">اقتنِ الآن</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section> 
+
+<!-- ═══ DIGITAL WORKSHOP STREAM ═══ -->
+<section class="digital-stream" id="digital">
+<div class="container">
+<div class="reveal">
+<div class="section-num">الفصل الثالث — الورشة الرقمية</div>
+<h2 class="section-title">الأرشيف الهندسي و<em>ملفات الـ G-Code</em></h2>
+<p class="section-desc">
+لمحترفي الـ CNC، الصنّاع، والاستوديوهات الخاصة: احصل على ملفات التشكيل والتصميم الحصرية (Vector & G-Code) المصممة خصيصاً لتنفيذ أعمال المعادن بدقة ميكرونية.
+</p>
+</div> 
+
+<div class="digital-grid reveal">
+<div class="digital-card">
+<div class="digital-tag">DIGITAL ASSET — 01</div>
+<h3 class="digital-title">حزمة المتجهات البرونزية (Vector Pack Vol. 1)</h3>
+<p class="digital-desc">ملفات مسارات أدوات متقدمة بصيغ DXF و CDR متوافقة مع Aspire و CorelDRAW للتشكيل المعدني.</p>
+<ul class="digital-specs">
+<li>تنسيقات متوافقة تماماً مع Mach3</li>
+<li>إرشادات العمق ومسارات الـ Drag Knife</li>
+<li>حق الاستخدام التجاري الفردي</li>
+</ul>
+<div class="digital-action">
+<span class="digital-price">$45 USD</span>
+<a href="https://wa.me/?text=مرحباً، أرغب في شراء حزمة المتجهات البرونزية الرقمية من كاب كيت كو" class="btn-reserve">اطلب الملفات</a>
+</div>
+</div> 
+
+<div class="digital-card">
+<div class="digital-tag">DIGITAL ASSET — 02</div>
+<h3 class="digital-title">مخططات النقش العميق والزخرفة (G-Code Master)</h3>
+<p class="digital-desc">أكواد جاهزة للتشغيل البرمجي على ماكينات الـ CNC لنقش الشعارات الدقيقة واللوحات الجدارية المعدنية.</p>
+<ul class="digital-specs">
+<li>تم اختبارها عملياً في ورش كاب كيت كو</li>
+<li>متوافقة مع ألواح التن بليت 0.3 مم</li>
+<li>دعم فني مباشر عبر الواتساب للاستفسارات</li>
+</ul>
+<div class="digital-action">
+<span class="digital-price">$75 USD</span>
+<a href="https://wa.me/?text=مرحباً، أرغب في شراء حزمة G-Code Master من كاب كيت كو" class="btn-reserve">اطلب الملفات</a>
+</div>
+</div>
+</div>
+</div>
+</section> 
+
+<!-- ═══ CERTIFICATE & LOOKUP SECTION ═══ -->
+<section class="certificate" id="certificate">
+<div class="container">
+<div style="text-align:center; margin-bottom:60px;" class="reveal">
+<div class="section-num" style="justify-content:center;">الفصل الرابع — التوثيق والتحقق</div>
+<h2 class="section-title">شهادة <em>الملكية والتحقق</em></h2>
+<p class="section-desc" style="margin-left:auto; margin-right:auto;">
+كل قطعة مادية تُرافقها شهادة أصلية موثّقة. ليست ورقة تعليمات، بل وثيقة تاريخية تُثبِّت انتماء قطعتك إلى نُدرةٍ مرقّمة.
+</p>
+</div> 
+
+<div class="cert-card reveal">
+<div class="cert-header">
+<div class="cert-label">CERTIFICATE OF AUTHENTICITY</div>
+<div class="cert-title">شهادة أصالة</div>
+</div>
+<div class="cert-body">
+سُجِّلَت هذه القطعة برقمٍ متسلسلٍ فريد <span class="highlight">[017 / 100]</span>.<br>
+خَضَعَت لمعالجةٍ دقيقة، وَانْتَهَت رحلة تشكيلها المادي،<br>
+<span class="highlight">لِتَبْدَأ رحلتها التاريخية معك</span>.<br><br>
+لَقَد أصبحت بالفعل جزءاً من <span class="highlight">نُدرةٍ لا تتكرر</span>.
+</div>
+<div class="cert-meta">
+<div>
+<div class="cert-meta-label">SERIAL NUMBER</div>
+<div class="cert-meta-value">017 / 100</div>
+</div>
+<div>
+<div class="cert-meta-label">COMPLETION DATE</div>
+<div class="cert-meta-value">15 / 09 / 2026</div>
+</div>
+</div>
+<div class="cert-signature">
+<div class="sig">CapKit Co.</div>
+<div class="sig-label">خاتم الصنعة — كاب كيت كو</div>
+</div>
+</div> 
+
+<!-- Bonus: Certificate Lookup Widget -->
+<div class="lookup-box reveal">
+<h3>التحقق من الرقم التسلسلي للقطعة</h3>
+<p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:20px;">أدخل رقم القطعة (مثال: 017) لتأكيد توثيقها في سجلات كاب كيت كو.</p>
+<div class="lookup-form">
+<input type="text" class="lookup-input" placeholder="أدخل الرقم التسلسلي..." id="serialInput">
+<button class="btn btn-primary" onclick="alert('رقم موثّق في أرشيف كاب كيت كو الإصدار الأول.')" style="padding: 12px 24px;">تحقق</button>
+</div>
+</div> 
+
+</div>
+</section> 
+
+<!-- ═══ PHILOSOPHY & MAKING OF ═══ -->
+<section class="philosophy">
+<div class="container">
+<div class="reveal">
+<div class="section-num">الفصل الخامس — المبادئ</div>
+<h2 class="section-title">لماذا <em>CapKit Co.</em>؟</h2>
+<p class="section-desc">
+لأن الفرق بين القطعة التي تُشترى وتُستهلك، والقطعة التي تُقتنى وتُورَّث — ليس في السعر، بل في الفلسفة.
+</p>
+</div> 
+
+<div class="philosophy-grid reveal">
+<div class="phil-item">
+<div class="phil-num">01</div>
+<div class="phil-title">الخامة الأصلية</div>
+<div class="phil-text">تن بليت صلب بسماكة 0.3 مم، لا يتأثر بالحرارة حتى 70°م، ولا يبهت مع الغسلات. المعادن تُشيخ بكرامة، والبلاستيك يذوب بصمت.</div>
+</div>
+<div class="phil-item">
+<div class="phil-num">02</div>
+<div class="phil-title">فن التشكيل اليدوي</div>
+<div class="phil-text">التشكيل على المعدن بالجرّ والضغط — فنّ قديم لا تُتقنه الماكينات الحديثة. كل قطعة تحمل بصمة يد الصانع، لا تقليدَ الكود.</div>
+</div>
+<div class="phil-item">
+<div class="phil-num">03</div>
+<div class="phil-title">نُدرةٌ مرقّمة</div>
+<div class="phil-text">لا إنتاج جماهيري. كل قطعة تُرقَّم، وتُوثَّق، وتُرفق بشهادة أصلية. أنت لا تشتري منتجاً — أنت تنضم إلى مجموعة مالكين معدودين.</div>
+</div>
+<div class="phil-item">
+<div class="phil-num">04</div>
+<div class="phil-title">استثمار لا يُباع</div>
+<div class="phil-text">مع الوقت، لا تفقد قطعتك قيمتها — بل تكتسب قيمة جديدة. لأن ما يُصنع بصدق، يستحيل أن يُنسى.</div>
+</div>
+</div> 
+
+<!-- Bonus: Making Of Section -->
+<div class="making-banner reveal">
+<h3>داخل الورشة: هكذا تُصنع الروح</h3>
+<p>شاهد كيف يتحول لوح التن بليت الخام إلى تحفة معدنية مرقمة عبر دقة ماكينات الـ CNC ولمسة اليد البشرية.</p>
+<a href="https://wa.me/?text=مرحباً، أرغب في مشاهدة فيديو كواليس التشكيل في ورشة كاب كيت كو" class="btn btn-ghost">اطلب فيديو الكواليس (Making Of)</a>
+</div> 
+
+</div>
+</section> 
+
+<!-- ═══ MARKETPLACE / VENDORS ═══ -->
+<section class="marketplace" id="marketplace">
+<div class="container">
+<div class="market-box reveal">
+<div class="section-num" style="justify-content:center;">الفصل السادس — الشركاء</div>
+<h2>هل أنت صانع معدن أو فنان تشكيل؟</h2>
+<p>
+تفتح <strong>كاب كيت كو</strong> أبوابها أمام المبدعين والصنّاع للانضمام إلى شبكتنا كشركاء عرض. انشر أعمالك المعدنية المرقمة أمام جمهور عالمي يقدر قيمة الصنعة الحقيقية.
+</p>
+<a href="https://wa.me/?text=مرحباً، أرغب في الانضمام إلى كاب كيت كو كصانع / شريك معتمد" class="btn btn-primary">تقدّم بطلب انضمام شريك</a>
+</div>
+</div>
+</section> 
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="cta-final" id="contact">
+<div class="cta-final-inner reveal">
+<div class="section-num" style="justify-content:center;">الفصل الأخير — الانضمام</div>
+<h2>
+قطعتك <em>منتظرة</em>.<br>
+رقمها التسلسلي لم يُحجز بعد.
+</h2>
+<p>
+نستقبل طلبات المالكين الجدد والطلبات الخاصة (Private Commission) عبر قناة خاصة.<br>
+أخبرنا بتصميمك الخاص أو القطعة التي تناسبك، وسنخصص لك رقمك التسلسلي الفوري.
+</p>
+<a href="https://wa.me/?text=مرحباً، أرغب في حجز قطعتي المخصصة من كاب كيت كو (Private Commission)" class="btn btn-primary" style="font-size:1rem; padding:24px 60px;">
+تحدَّث معنا على واتساب <span class="arrow">←</span>
+</a>
+</div>
+</section> 
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+<div class="footer-inner">
+<div class="footer-brand">
+<a href="#" class="brand">
+<span class="brand-mark"></span>
+<span class="brand-text">
+<span style="font-family:'Cormorant Garamond',serif;">CAPKIT CO.</span>
+<span class="ar">كاب كيت كو</span>
+</span>
+</a>
+<p>
+فن التشكيل المعدني الفاخر. قطع مرقّمة، موثّقة، تُقتنى ولا تُستهلك. صُنعت في مصر بمعايير عالمية بواسطة كاب كيت كو.
+</p>
+</div>
+<div class="footer-col">
+<h4>المجموعة</h4>
+<ul>
+<li><a href="#artifacts">الإصدار الأول</a></li>
+<li><a href="#digital">الأرشيف الرقمي</a></li>
+<li><a href="#artifacts">الطقم الكامل</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>الدار</h4>
+<ul>
+<li><a href="#manifesto">الفلسفة</a></li>
+<li><a href="#certificate">الشهادات والتحقق</a></li>
+<li><a href="#marketplace">انضم كصانع</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>تواصل</h4>
+<ul>
+<li><a href="https://wa.me/">واتساب مباشر</a></li>
+<li><a href="#">الطلبات الخاصة (Bespoke)</a></li>
+<li><a href="#">ورشة كاب كيت كو — مصر</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<div>© 2026 CAPKIT CO. (كاب كيت كو) — جميع الحقوق محفوظة</div>
+<div>صُنع في مصر · MADE IN EGYPT</div>
+</div>
+</footer> 
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+if (window.scrollY > 50) nav.classList.add('scrolled');
+else nav.classList.remove('scrolled');
+}); 
+
+// Mobile Menu Toggle
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileLinks = document.querySelectorAll('.mobile-link'); 
+
+hamburger.addEventListener('click', () => {
+mobileMenu.classList.toggle('active');
+}); 
+
+mobileLinks.forEach(link => {
+lin
