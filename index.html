@@ -3,1507 +3,1603 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CapKit Co. — كاب كيت كو — قطع تُقتنى، لا تُستهلك</title>
-<meta name="description" content="CapKit Co. — كاب كيت كو. فن التشكيل المعدني الفاخر. قطع مصنوعة يدوياً، مرقمة، وموثقة، إلى جانب الأرشيف الهندسي الحصري."> 
+<title>CapKit Souq — منصة الصنّاع والخدمات</title>
+<meta name="description" content="منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. عرض مجاني، تواصل مباشر، بلا وسطاء.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500;700;900&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ═══════════════════════════════════════════════
-CapKit Co. (كاب كيت كو) — Art Direction & Multi-Stream
-Palette: Obsidian • Gold Leaf • Silver • Ember
-═══════════════════════════════════════════════ */ 
-
 :root {
---obsidian: #050505;
---obsidian-2: #0a0a0a;
---obsidian-3: #111111;
---gold: #c9a961;
---gold-light: #e8d5a0;
---gold-dark: #8b7434;
---silver: #c4c4c4;
---silver-bright: #efefef;
---ember: #8b1a1a;
---text-primary: #f5f0e8;
---text-secondary: #8a8578;
---text-muted: #4a4640;
---border: rgba(201, 169, 97, 0.15);
---border-light: rgba(201, 169, 97, 0.3);
-} 
+  --obsidian: #0a0a0a;
+  --obsidian-2: #111111;
+  --obsidian-3: #181818;
+  --obsidian-4: #1f1f1f;
+  --gold: #c9a961;
+  --gold-light: #e8d5a0;
+  --gold-dark: #8b7434;
+  --text-primary: #f5f0e8;
+  --text-secondary: #8a8578;
+  --text-muted: #5a5650;
+  --border: rgba(201, 169, 97, 0.12);
+  --border-light: rgba(201, 169, 97, 0.25);
+  --success: #4ade80;
+  --accent: #f97316;
+  --blue: #3b82f6;
+}
 
-*, *::before, *::after {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-} 
-
-html { scroll-behavior: smooth; } 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-font-family: 'Tajawal', sans-serif;
-background: var(--obsidian);
-color: var(--text-primary);
-line-height: 1.7;
-overflow-x: hidden;
--webkit-font-smoothing: antialiased;
-} 
-
-/* Grain texture overlay */
-body::before {
-content: '';
-position: fixed;
-inset: 0;
-background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-pointer-events: none;
-z-index: 9999;
-mix-blend-mode: overlay;
-} 
-
-/* ═══ Navigation ═══ */
-nav.top {
-position: fixed;
-top: 0;
-width: 100%;
-padding: 24px 60px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-z-index: 1000;
-transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-background: linear-gradient(180deg, rgba(5,5,5,0.9) 0%, transparent 100%);
-} 
-
-nav.top.scrolled {
-padding: 16px 60px;
-background: rgba(5, 5, 5, 0.95);
-backdrop-filter: blur(20px);
-border-bottom: 1px solid var(--border);
-} 
-
-.brand {
-font-family: 'Cormorant Garamond', serif;
-font-size: 1.8rem;
-font-weight: 500;
-letter-spacing: 0.15em;
-color: var(--text-primary);
-text-decoration: none;
-display: flex;
-align-items: center;
-gap: 12px;
-} 
-
-.brand-mark {
-width: 32px;
-height: 32px;
-border: 1.5px solid var(--gold);
-border-radius: 50%;
-position: relative;
-display: flex;
-align-items: center;
-justify-content: center;
-} 
-
-.brand-mark::before {
-content: 'C';
-font-family: 'Cormorant Garamond', serif;
-color: var(--gold);
-font-size: 1rem;
-font-weight: 600;
-} 
-
-.brand-text .ar {
-display: block;
-font-family: 'Tajawal', sans-serif;
-font-size: 0.65rem;
-letter-spacing: 0.2em;
-color: var(--gold);
-margin-top: -4px;
-} 
-
-.nav-links {
-display: flex;
-gap: 30px;
-list-style: none;
-align-items: center;
-} 
-
-.nav-links a {
-color: var(--text-secondary);
-text-decoration: none;
-font-size: 0.85rem;
-letter-spacing: 0.1em;
-font-weight: 300;
-transition: color 0.4s;
-position: relative;
-} 
-
-.nav-links a::after {
-content: '';
-position: absolute;
-bottom: -6px;
-right: 0;
-width: 0;
-height: 1px;
-background: var(--gold);
-transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-} 
-
-.nav-links a:hover { color: var(--gold); }
-.nav-links a:hover::after { width: 100%; } 
-
-.nav-cta {
-background: transparent;
-border: 1px solid var(--gold);
-color: var(--gold) !important;
-padding: 8px 20px;
-font-size: 0.75rem !important;
-letter-spacing: 0.2em !important;
-transition: all 0.4s;
+  font-family: 'Tajawal', sans-serif;
+  background: var(--obsidian);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
 }
-.nav-cta:hover {
-background: var(--gold);
-color: var(--obsidian) !important;
+
+/* ═══ NAVBAR ═══ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 10, 0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
 }
-.nav-cta::after { display: none !important; } 
 
-/* Hamburger Menu Toggle for Mobile */
-.hamburger {
-display: none;
-flex-direction: column;
-gap: 6px;
-background: none;
-border: none;
-cursor: pointer;
-z-index: 1001;
-padding: 5px;
+.navbar-top {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
 }
-.hamburger span {
-width: 28px;
-height: 2px;
-background: var(--gold);
-transition: 0.4s;
-} 
 
-/* Mobile Menu Overlay */
-.mobile-menu {
-position: fixed;
-inset: 0;
-background: rgba(5,5,5,0.98);
-backdrop-filter: blur(20px);
-z-index: 999;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 25px;
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.4s ease;
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
-.mobile-menu.active {
-opacity: 1;
-pointer-events: auto;
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-size: 1rem;
 }
-.mobile-menu a {
-font-family: 'Amiri', serif;
-font-size: 1.5rem;
-color: var(--text-primary);
-text-decoration: none;
-letter-spacing: 0.1em;
-transition: color 0.3s;
+
+.logo-sub {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  display: block;
+  margin-top: -2px;
+  font-family: 'Tajawal', sans-serif;
 }
-.mobile-menu a:hover { color: var(--gold); } 
 
-/* ═══ Hero ═══ */
-.hero {
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 140px 40px 80px;
-position: relative;
-overflow: hidden;
-} 
+.advanced-search {
+  flex: 1;
+  display: flex;
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 780px;
+  transition: border 0.3s;
+}
 
-.hero::before {
-content: '';
-position: absolute;
-top: 50%;
-left: 50%;
-width: 900px;
-height: 900px;
-background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 60%);
-transform: translate(-50%, -50%);
-pointer-events: none;
-animation: pulse 8s ease-in-out infinite;
-} 
+.advanced-search:focus-within {
+  border-color: var(--gold);
+}
 
-@keyframes pulse {
-0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-} 
+.search-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  min-width: 0;
+}
 
-.hero-inner {
-max-width: 1100px;
-text-align: center;
-position: relative;
-z-index: 2;
-} 
+.search-field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  padding: 11px 6px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.88rem;
+}
 
-.hero-eyebrow {
-display: inline-flex;
-align-items: center;
-gap: 16px;
-color: var(--gold);
-font-size: 0.75rem;
-letter-spacing: 0.5em;
-font-weight: 300;
-margin-bottom: 40px;
-opacity: 0;
-animation: fadeUp 1.2s 0.3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-} 
+.search-field input::placeholder { color: var(--text-muted); }
 
-.hero-eyebrow::before,
-.hero-eyebrow::after {
-content: '';
-width: 60px;
-height: 1px;
-background: var(--gold);
-opacity: 0.5;
-} 
+.search-divider {
+  width: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
 
-.hero h1 {
-font-family: 'Amiri', serif;
-font-size: clamp(2.5rem, 6.5vw, 5.5rem);
-font-weight: 400;
-line-height: 1.25;
-letter-spacing: -0.02em;
-margin-bottom: 40px;
-opacity: 0;
-animation: fadeUp 1.4s 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-} 
+.search-select {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-secondary);
+  padding: 0 14px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  min-width: 130px;
+}
 
-.hero h1 .gold {
-color: var(--gold);
-font-style: italic;
-position: relative;
-display: inline-block;
-} 
+.search-select option { background: var(--obsidian-2); }
 
-.hero-manifesto {
-font-family: 'Amiri', serif;
-font-size: clamp(1rem, 1.5vw, 1.25rem);
-color: var(--text-secondary);
-max-width: 720px;
-margin: 0 auto 60px;
-line-height: 2;
-opacity: 0;
-animation: fadeUp 1.4s 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-} 
+.search-btn {
+  background: var(--gold);
+  color: var(--obsidian);
+  border: none;
+  padding: 0 22px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
 
-.hero-manifesto em {
-color: var(--gold-light);
-font-style: normal;
-font-weight: 700;
-} 
+.search-btn:hover { background: var(--gold-light); }
 
-.hero-cta {
-display: flex;
-gap: 24px;
-justify-content: center;
-flex-wrap: wrap;
-opacity: 0;
-animation: fadeUp 1.4s 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-} 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
 
-.btn {
-display: inline-flex;
-align-items: center;
-gap: 14px;
-padding: 20px 44px;
-font-family: 'Tajawal', sans-serif;
-font-size: 0.85rem;
-letter-spacing: 0.25em;
-font-weight: 500;
-text-decoration: none;
-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-position: relative;
-overflow: hidden;
-cursor: pointer;
-border: none;
-} 
+.lang-toggle {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.lang-toggle:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
 
 .btn-primary {
-background: var(--gold);
-color: var(--obsidian);
-} 
+  background: var(--gold);
+  color: var(--obsidian);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Tajawal', sans-serif;
+  white-space: nowrap;
+}
 
 .btn-primary:hover {
-background: var(--gold-light);
-box-shadow: 0 20px 60px rgba(201, 169, 97, 0.3);
-transform: translateY(-2px);
-} 
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
 
 .btn-ghost {
-background: transparent;
-color: var(--text-primary);
-border: 1px solid var(--border-light);
-} 
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Tajawal', sans-serif;
+  white-space: nowrap;
+}
 
 .btn-ghost:hover {
-border-color: var(--gold);
-color: var(--gold);
-} 
+  border-color: var(--border);
+  color: var(--gold);
+}
 
-.btn .arrow {
-transition: transform 0.4s;
-} 
+/* ═══ CATEGORY BAR ═══ */
+.category-bar {
+  background: var(--obsidian-2);
+  border-top: 1px solid var(--border);
+  padding: 10px 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 
-.btn:hover .arrow { transform: translateX(-6px); } 
+.category-bar::-webkit-scrollbar { display: none; }
 
-/* Scroll indicator */
-.scroll-hint {
-position: absolute;
-bottom: 40px;
-left: 50%;
-transform: translateX(-50%);
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 12px;
-color: var(--text-muted);
-font-size: 0.7rem;
-letter-spacing: 0.4em;
-opacity: 0;
-animation: fadeUp 1.4s 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-} 
+.cat-bar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
 
-.scroll-hint .line {
-width: 1px;
-height: 50px;
-background: linear-gradient(180deg, var(--gold), transparent);
-animation: scrollLine 2s ease-in-out infinite;
-} 
+.cat-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
 
-@keyframes scrollLine {
-0% { transform: scaleY(0); transform-origin: top; }
-50% { transform: scaleY(1); transform-origin: top; }
-51% { transform-origin: bottom; }
-100% { transform: scaleY(0); transform-origin: bottom; }
-} 
+.cat-item:hover {
+  background: var(--obsidian-3);
+  color: var(--gold);
+}
 
-/* ═══ Section base ═══ */
-section {
-padding: 140px 40px;
-position: relative;
-} 
+.cat-item .emoji { font-size: 1rem; }
 
-.container {
-max-width: 1280px;
-margin: 0 auto;
-} 
+/* ═══ HERO ═══ */
+.hero {
+  padding: 50px 20px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
-.section-num {
-font-family: 'Cormorant Garamond', serif;
-font-size: 0.85rem;
-letter-spacing: 0.5em;
-color: var(--gold);
-font-style: italic;
-margin-bottom: 24px;
-display: flex;
-align-items: center;
-gap: 20px;
-} 
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(201, 169, 97, 0.08), transparent 70%);
+  pointer-events: none;
+}
 
-.section-num::after {
-content: '';
-flex: 1;
-height: 1px;
-background: linear-gradient(90deg, var(--border-light), transparent);
-} 
+.hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201, 169, 97, 0.1);
+  border: 1px solid var(--border-light);
+  color: var(--gold);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  margin-bottom: 20px;
+  letter-spacing: 0.05em;
+}
+
+.hero h1 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  line-height: 1.3;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.hero h1 em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.hero p {
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto 28px;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ═══ GOVERNEATE STRIP ═══ */
+.governorates {
+  padding: 20px 20px 10px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gov-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: none;
+}
+
+.gov-scroll::-webkit-scrollbar { display: none; }
+
+.gov-chip {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Tajawal', sans-serif;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gov-chip:hover,
+.gov-chip.active {
+  background: var(--gold);
+  color: var(--obsidian);
+  border-color: var(--gold);
+}
+
+/* ═══ SECTIONS ═══ */
+.section {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
 
 .section-title {
-font-family: 'Amiri', serif;
-font-size: clamp(2rem, 4.5vw, 3.5rem);
-font-weight: 400;
-line-height: 1.3;
-margin-bottom: 30px;
-color: var(--text-primary);
-} 
-
-.section-title em {
-color: var(--gold);
-font-style: italic;
-} 
-
-.section-desc {
-font-size: 1.05rem;
-color: var(--text-secondary);
-max-width: 680px;
-line-height: 2;
-margin-bottom: 80px;
-} 
-
-/* ═══ Manifesto Section ═══ */
-.manifesto {
-background: linear-gradient(180deg, var(--obsidian) 0%, var(--obsidian-2) 50%, var(--obsidian) 100%);
-text-align: center;
-} 
-
-.manifesto-inner {
-max-width: 900px;
-margin: 0 auto;
-} 
-
-.manifesto-quote {
-font-family: 'Amiri', serif;
-font-size: clamp(1.4rem, 3vw, 2.4rem);
-line-height: 1.8;
-color: var(--text-primary);
-font-weight: 400;
-margin-bottom: 40px;
-position: relative;
-} 
-
-.manifesto-quote::before {
-content: '❝';
-position: absolute;
-top: -60px;
-right: 50%;
-transform: translateX(50%);
-font-size: 5rem;
-color: var(--gold);
-opacity: 0.3;
-font-family: 'Amiri', serif;
-} 
-
-.manifesto-quote .em {
-color: var(--gold);
-font-style: italic;
-} 
-
-.manifesto-author {
-font-size: 0.8rem;
-letter-spacing: 0.4em;
-color: var(--text-muted);
-margin-top: 40px;
-} 
-
-/* ═══ Artifacts Grid (Physical Luxury Stream) ═══ */
-.artifacts-grid {
-display: grid;
-grid-template-columns: repeat(12, 1fr);
-gap: 30px;
-} 
-
-.artifact {
-position: relative;
-background: var(--obsidian-3);
-border: 1px solid var(--border);
-overflow: hidden;
-transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-display: flex;
-flex-direction: column;
-min-height: 420px;
-} 
-
-.artifact:hover {
-border-color: var(--gold);
-transform: translateY(-8px);
-box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(201, 169, 97, 0.2);
-} 
-
-.artifact-visual {
-flex: 1;
-position: relative;
-background: radial-gradient(circle at 50% 40%, rgba(201, 169, 97, 0.15), transparent 70%);
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 60px 30px;
-overflow: hidden;
-} 
-
-.emblem {
-width: 180px;
-height: 180px;
-border-radius: 50%;
-background: radial-gradient(circle at 35% 30%, #f5f0e8 0%, #c4c4c4 25%, #6a6a6a 55%, #2a2a2a 85%);
-box-shadow: inset 0 4px 12px rgba(255,255,255,0.4), inset 0 -8px 16px rgba(0,0,0,0.6), 0 20px 40px rgba(0,0,0,0.7);
-position: relative;
-z-index: 2;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-} 
-
-.artifact:hover .emblem {
-transform: scale(1.08) rotate(-3deg);
-} 
-
-.emblem-icon {
-font-family: 'Amiri', serif;
-font-size: 4rem;
-color: rgba(0,0,0,0.5);
-text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-font-weight: 700;
-} 
-
-.emblem.gold {
-background: radial-gradient(circle at 35% 30%, #f5e8c0 0%, #c9a961 25%, #8b7434 55%, #3a2f0a 85%);
-} 
-
-.emblem.copper {
-background: radial-gradient(circle at 35% 30%, #f5d5b8 0%, #c97a4a 25%, #7a4520 55%, #2f1a0a 85%);
-} 
-
-.artifact-info {
-padding: 30px;
-border-top: 1px solid var(--border);
-background: var(--obsidian-2);
-position: relative;
-display: flex;
-flex-direction: column;
-gap: 12px;
-} 
-
-.artifact-serial {
-font-family: 'Cormorant Garamond', serif;
-font-size: 0.75rem;
-letter-spacing: 0.3em;
-color: var(--gold);
-font-style: italic;
-display: flex;
-justify-content: space-between;
-align-items: center;
-} 
-
-.artifact-serial .dots {
-flex: 1;
-height: 1px;
-background: repeating-linear-gradient(90deg, var(--border-light) 0 2px, transparent 2px 6px);
-margin: 0 12px;
-} 
-
-.artifact-name {
-font-family: 'Amiri', serif;
-font-size: 1.4rem;
-color: var(--text-primary);
-font-weight: 700;
-} 
-
-.artifact-desc {
-font-size: 0.85rem;
-color: var(--text-muted);
-letter-spacing: 0.05em;
-} 
-
-.artifact-footer {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-top: 8px;
-padding-top: 15px;
-border-top: 1px solid rgba(201,169,97,0.1);
-} 
-
-.artifact-price {
-font-family: 'Cormorant Garamond', serif;
-font-size: 1.2rem;
-color: var(--gold);
-font-weight: 600;
-} 
-
-.btn-reserve {
-background: transparent;
-border: 1px solid var(--gold);
-color: var(--gold);
-padding: 8px 16px;
-font-size: 0.75rem;
-letter-spacing: 0.15em;
-cursor: pointer;
-transition: all 0.3s;
-text-decoration: none;
-} 
-
-.btn-reserve:hover {
-background: var(--gold);
-color: var(--obsidian);
-} 
-
-.artifact-badge {
-position: absolute;
-top: 20px;
-right: 20px;
-background: var(--gold);
-color: var(--obsidian);
-font-size: 0.65rem;
-padding: 6px 12px;
-letter-spacing: 0.2em;
-font-weight: 700;
-z-index: 3;
-} 
-
-/* Grid spans */
-.artifact:nth-child(1) { grid-column: span 7; }
-.artifact:nth-child(2) { grid-column: span 5; }
-.artifact:nth-child(3) { grid-column: span 5; }
-.artifact:nth-child(4) { grid-column: span 7; } 
-
-/* ═══ DIGITAL WORKSHOP STREAM ═══ */
-.digital-stream {
-background: var(--obsidian-2);
-border-top: 1px solid var(--border);
-border-bottom: 1px solid var(--border);
-} 
-
-.digital-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-gap: 30px;
-} 
-
-.digital-card {
-background: var(--obsidian-3);
-border: 1px solid var(--border);
-padding: 40px;
-position: relative;
-transition: all 0.5s;
-} 
-
-.digital-card:hover {
-border-color: var(--gold);
-transform: translateY(-5px);
-} 
-
-.digital-tag {
-font-family: 'Cormorant Garamond', serif;
-font-size: 0.7rem;
-letter-spacing: 0.4em;
-color: var(--gold);
-margin-bottom: 12px;
-font-style: italic;
-} 
-
-.digital-title {
-font-family: 'Amiri', serif;
-font-size: 1.5rem;
-margin-bottom: 16px;
-color: var(--text-primary);
-} 
-
-.digital-desc {
-color: var(--text-secondary);
-font-size: 0.9rem;
-margin-bottom: 24px;
-line-height: 1.8;
-} 
-
-.digital-specs {
-list-style: none;
-margin-bottom: 30px;
-font-size: 0.85rem;
-color: var(--text-muted);
-} 
-
-.digital-specs li {
-margin-bottom: 8px;
-display: flex;
-align-items: center;
-gap: 8px;
-} 
-
-.digital-specs li::before {
-content: '—';
-color: var(--gold);
-} 
-
-.digital-action {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding-top: 20px;
-border-top: 1px solid var(--border);
-} 
-
-.digital-price {
-font-family: 'Cormorant Garamond', serif;
-font-size: 1.3rem;
-color: var(--gold);
-} 
-
-/* ═══ CERTIFICATE & LOOKUP SECTION ═══ */
-.certificate {
-background: var(--obsidian);
-position: relative;
-overflow: hidden;
-} 
-
-.cert-card {
-max-width: 780px;
-margin: 0 auto 50px;
-background: linear-gradient(180deg, #0d0d0d 0%, #080808 100%);
-border: 1px solid var(--border-light);
-padding: 70px 60px;
-position: relative;
-box-shadow: 0 60px 120px rgba(0,0,0,0.6);
-} 
-
-.cert-card::before,
-.cert-card::after {
-content: '';
-position: absolute;
-width: 40px;
-height: 40px;
-border: 1px solid var(--gold);
-} 
-
-.cert-card::before { top: 20px; right: 20px; border-left: none; border-bottom: none; }
-.cert-card::after { bottom: 20px; left: 20px; border-right: none; border-top: none; } 
-
-.cert-header {
-text-align: center;
-padding-bottom: 30px;
-border-bottom: 1px solid var(--border);
-margin-bottom: 40px;
-} 
-
-.cert-label {
-font-family: 'Cormorant Garamond', serif;
-font-size: 0.7rem;
-letter-spacing: 0.6em;
-color: var(--gold);
-font-style: italic;
-margin-bottom: 16px;
-} 
-
-.cert-title {
-font-family: 'Amiri', serif;
-font-size: 1.8rem;
-color: var(--text-primary);
-font-weight: 700;
-} 
-
-.cert-body {
-font-family: 'Amiri', serif;
-font-size: 1.15rem;
-line-height: 2.2;
-color: var(--text-secondary);
-text-align: center;
-margin-bottom: 40px;
-} 
-
-.cert-body .highlight {
-color: var(--gold);
-font-weight: 700;
-} 
-
-.cert-meta {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 30px;
-padding-top: 30px;
-border-top: 1px solid var(--border);
-text-align: center;
-} 
-
-.cert-meta-label {
-font-size: 0.7rem;
-letter-spacing: 0.4em;
-color: var(--text-muted);
-margin-bottom: 10px;
-font-family: 'Cormorant Garamond', serif;
-font-style: italic;
-} 
-
-.cert-meta-value {
-font-family: 'Amiri', serif;
-font-size: 1.4rem;
-color: var(--gold);
-font-weight: 700;
-} 
-
-.cert-signature {
-text-align: center;
-margin-top: 40px;
-padding-top: 30px;
-border-top: 1px solid var(--border);
-} 
-
-.cert-signature .sig {
-font-family: 'Amiri', serif;
-font-size: 1.6rem;
-color: var(--gold);
-font-style: italic;
-margin-bottom: 8px;
-} 
-
-.cert-signature .sig-label {
-font-size: 0.7rem;
-letter-spacing: 0.4em;
-color: var(--text-muted);
-} 
-
-/* Bonus: Certificate Lookup Widget */
-.lookup-box {
-max-width: 600px;
-margin: 0 auto;
-background: var(--obsidian-3);
-border: 1px solid var(--border);
-padding: 30px;
-text-align: center;
+  font-family: 'Amiri', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.lookup-box h3 {
-font-family: 'Amiri', serif;
-font-size: 1.2rem;
-margin-bottom: 15px;
-color: var(--text-primary);
+
+.section-title::before {
+  content: '';
+  width: 3px;
+  height: 20px;
+  background: var(--gold);
+  border-radius: 2px;
 }
-.lookup-form {
-display: flex;
-gap: 10px;
-justify-content: center;
+
+.section-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 400;
 }
-.lookup-input {
-background: var(--obsidian);
-border: 1px solid var(--border-light);
-padding: 12px 20px;
-color: var(--text-primary);
-font-family: 'Tajawal', sans-serif;
-outline: none;
-flex: 1;
-max-width: 300px;
+
+.section-link {
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.82rem;
+  transition: opacity 0.3s;
+  white-space: nowrap;
 }
-.lookup-input:focus { border-color: var(--gold); } 
 
-/* ═══ PHILOSOPHY & MAKING OF ═══ */
-.philosophy {
-background: var(--obsidian-2);
-} 
+.section-link:hover { opacity: 0.7; }
 
-.philosophy-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap: 1px;
-background: var(--border);
-border: 1px solid var(--border);
-margin-bottom: 80px;
-} 
-
-.phil-item {
-background: var(--obsidian-3);
-padding: 60px 40px;
-transition: all 0.5s;
-position: relative;
-overflow: hidden;
-} 
-
-.phil-item::before {
-content: '';
-position: absolute;
-top: 0;
-right: 0;
-width: 0;
-height: 2px;
-background: var(--gold);
-transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-} 
-
-.phil-item:hover::before { width: 100%; } 
-
-.phil-num {
-font-family: 'Cormorant Garamond', serif;
-font-size: 3rem;
-color: var(--gold);
-font-style: italic;
-opacity: 0.3;
-margin-bottom: 20px;
-line-height: 1;
-} 
-
-.phil-title {
-font-family: 'Amiri', serif;
-font-size: 1.5rem;
-color: var(--text-primary);
-margin-bottom: 16px;
-font-weight: 700;
-} 
-
-.phil-text {
-color: var(--text-secondary);
-font-size: 0.95rem;
-line-height: 1.9;
-} 
-
-/* Bonus: Making Of Teaser Banner */
-.making-banner {
-background: linear-gradient(90deg, rgba(201,169,97,0.05), rgba(201,169,97,0.15), rgba(201,169,97,0.05));
-border: 1px solid var(--border-light);
-padding: 50px;
-text-align: center;
+/* ═══ PRODUCTS GRID ═══ */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
 }
-.making-banner h3 {
-font-family: 'Amiri', serif;
-font-size: 1.8rem;
-margin-bottom: 15px;
-color: var(--text-primary);
+
+.product-card {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
 }
-.making-banner p {
-color: var(--text-secondary);
-margin-bottom: 25px;
-font-size: 0.95rem;
-} 
 
-/* ═══ MARKETPLACE / VENDORS SECTION ═══ */
-.marketplace {
-background: var(--obsidian);
-border-top: 1px solid var(--border);
-text-align: center;
+.product-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
-.market-box {
-max-width: 800px;
-margin: 0 auto;
-background: var(--obsidian-3);
-border: 1px solid var(--border);
-padding: 70px 40px;
-position: relative;
+
+.product-image {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--obsidian-3), #0d0d0d);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
-.market-box h2 {
-font-family: 'Amiri', serif;
-font-size: 2.2rem;
-margin-bottom: 20px;
+
+.product-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(201, 169, 97, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 169, 97, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
-.market-box p {
-color: var(--text-secondary);
-line-height: 1.9;
-margin-bottom: 30px;
-font-size: 1rem;
-} 
 
-/* ═══ CTA FINAL ═══ */
-.cta-final {
-background: linear-gradient(180deg, var(--obsidian) 0%, #0d0a05 100%);
-text-align: center;
-position: relative;
-padding: 140px 40px;
-} 
+.product-emblem {
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f5f0e8 0%, #c4c4c4 25%, #6a6a6a 55%, #2a2a2a 85%);
+  box-shadow: 
+    inset 0 4px 12px rgba(255,255,255,0.4),
+    inset 0 -8px 16px rgba(0,0,0,0.6),
+    0 15px 30px rgba(0,0,0,0.6);
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Amiri', serif;
+  font-size: 1.8rem;
+  color: rgba(0,0,0,0.5);
+  font-weight: 700;
+  transition: transform 0.5s;
+}
 
-.cta-final-inner {
-max-width: 800px;
-margin: 0 auto;
-position: relative;
-z-index: 2;
-} 
+.product-card:hover .product-emblem {
+  transform: scale(1.05) rotate(-3deg);
+}
 
-.cta-final h2 {
-font-family: 'Amiri', serif;
-font-size: clamp(2rem, 4.5vw, 3.5rem);
-line-height: 1.3;
-margin-bottom: 30px;
-font-weight: 400;
-} 
+.product-emblem.gold {
+  background: radial-gradient(circle at 35% 30%, #f5e8c0 0%, #c9a961 25%, #8b7434 55%, #3a2f0a 85%);
+}
 
-.cta-final h2 em {
-color: var(--gold);
-font-style: italic;
-} 
+.product-emblem.copper {
+  background: radial-gradient(circle at 35% 30%, #f5d5b8 0%, #c97a4a 25%, #7a4520 55%, #2f1a0a 85%);
+}
 
-.cta-final p {
-color: var(--text-secondary);
-font-size: 1.05rem;
-margin-bottom: 50px;
-line-height: 2;
-} 
+.product-emblem.service {
+  background: radial-gradient(circle at 35% 30%, #7dd3fc 0%, #0ea5e9 25%, #0369a1 55%, #082f49 85%);
+  color: rgba(255,255,255,0.7);
+}
+
+.badge-original {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--gold);
+  color: var(--obsidian);
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  z-index: 3;
+  letter-spacing: 0.05em;
+}
+
+.badge-service {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--blue);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  z-index: 3;
+  letter-spacing: 0.05em;
+}
+
+.product-info {
+  padding: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.workshop-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.verified { color: var(--success); font-size: 0.68rem; }
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  gap: 8px;
+}
+
+.product-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.product-price small {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.product-price.service-price {
+  color: var(--blue);
+  font-size: 0.92rem;
+}
+
+.btn-wa {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: var(--success);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+  font-family: 'Tajawal', sans-serif;
+  white-space: nowrap;
+}
+
+.btn-wa:hover {
+  background: var(--success);
+  color: var(--obsidian);
+}
+
+/* ═══ SERVICES SECTION ═══ */
+.services-section {
+  background: linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.03), transparent);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 50px 20px;
+}
+
+.services-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.services-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.services-header .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--blue);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.services-header h2 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-bottom: 10px;
+}
+
+.services-header p {
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.9rem;
+}
+
+/* ═══ ORIGINALS SECTION ═══ */
+.originals {
+  background: linear-gradient(180deg, transparent, rgba(201, 169, 97, 0.04), transparent);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 50px 20px;
+}
+
+.originals-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.originals-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.originals-header .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gold);
+  color: var(--obsidian);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.originals-header h2 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-bottom: 10px;
+}
+
+.originals-header p {
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.9rem;
+}
+
+/* ═══ WORKSHOPS ═══ */
+.workshops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.workshop-card {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 16px;
+  text-align: center;
+  transition: all 0.4s;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.workshop-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+
+.workshop-avatar {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Amiri', serif;
+  font-size: 1.5rem;
+  color: var(--obsidian);
+  font-weight: 700;
+}
+
+.workshop-avatar.blue {
+  background: linear-gradient(135deg, var(--blue), #60a5fa);
+  color: white;
+}
+
+.workshop-card h3 {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.workshop-cat {
+  font-size: 0.72rem;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.workshop-location {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.workshop-stats {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.workshop-stats strong {
+  color: var(--gold);
+  display: block;
+  font-size: 0.88rem;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ═══ CTA ═══ */
+.cta-section {
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(201, 169, 97, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-inner h2 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  line-height: 1.3;
+  margin-bottom: 16px;
+}
+
+.cta-inner h2 em { color: var(--gold); font-style: italic; }
+
+.cta-inner p {
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
 /* ═══ FOOTER ═══ */
 footer {
-background: var(--obsidian-2);
-border-top: 1px solid var(--border);
-padding: 80px 40px 40px;
-} 
+  background: var(--obsidian-2);
+  border-top: 1px solid var(--border);
+  padding: 40px 20px 24px;
+  margin-top: 40px;
+}
 
 .footer-inner {
-max-width: 1280px;
-margin: 0 auto;
-display: grid;
-grid-template-columns: 2fr 1fr 1fr 1fr;
-gap: 60px;
-margin-bottom: 60px;
-} 
-
-.footer-brand .brand { margin-bottom: 20px; } 
-
-.footer-brand p {
-color: var(--text-muted);
-font-size: 0.9rem;
-line-height: 1.9;
-max-width: 320px;
-} 
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 30px;
+}
 
 .footer-col h4 {
-font-family: 'Cormorant Garamond', serif;
-font-size: 0.85rem;
-letter-spacing: 0.4em;
-color: var(--gold);
-margin-bottom: 24px;
-font-style: italic;
-font-weight: 500;
-} 
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 14px;
+  font-style: italic;
+}
 
 .footer-col ul { list-style: none; }
-.footer-col li { margin-bottom: 12px; } 
+.footer-col li { margin-bottom: 8px; }
 
 .footer-col a {
-color: var(--text-secondary);
-text-decoration: none;
-font-size: 0.9rem;
-transition: color 0.3s;
-} 
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.82rem;
+  transition: color 0.3s;
+}
 
-.footer-col a:hover { color: var(--gold); } 
+.footer-col a:hover { color: var(--gold); }
+
+.footer-brand p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  max-width: 320px;
+  margin-top: 10px;
+}
 
 .footer-bottom {
-max-width: 1280px;
-margin: 0 auto;
-padding-top: 40px;
-border-top: 1px solid var(--border);
-display: flex;
-justify-content: space-between;
-align-items: center;
-color: var(--text-muted);
-font-size: 0.8rem;
-letter-spacing: 0.1em;
-flex-wrap: wrap;
-gap: 20px;
-} 
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
 
-/* ═══ Animations ═══ */
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(30px); }
-to { opacity: 1; transform: translateY(0); }
-} 
-
-.reveal {
-opacity: 0;
-transform: translateY(40px);
-transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-} 
-
-.reveal.visible {
-opacity: 1;
-transform: translateY(0);
-} 
-
-/* ═══ Responsive ═══ */
+/* ═══ MOBILE ═══ */
 @media (max-width: 900px) {
-nav.top { padding: 18px 24px; }
-.nav-links { display: none; }
-.hamburger { display: flex; }
-section { padding: 90px 24px; }
-.artifact:nth-child(n) { grid-column: span 12; }
-.cert-card { padding: 50px 30px; }
-.footer-inner { grid-template-columns: 1fr; gap: 40px; }
-.footer-bottom { flex-direction: column; text-align: center; }
+  .advanced-search {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 8px;
+  }
+  
+  .navbar-top {
+    flex-wrap: wrap;
+    padding: 10px 16px;
+  }
+  
+  .logo-sub { display: none; }
+  
+  .btn-ghost { display: none; }
+  
+  .search-select { min-width: 100px; padding: 0 10px; font-size: 0.78rem; }
+  
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .product-info { padding: 10px; }
+  .product-title { font-size: 0.82rem; }
+  .product-desc { font-size: 0.7rem; }
+  .product-price { font-size: 0.95rem; }
+  .product-emblem { font-size: 1.4rem; }
+  
+  .workshops-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .workshop-avatar { width: 48px; height: 48px; font-size: 1.2rem; }
+  .workshop-card h3 { font-size: 0.85rem; }
+  .workshop-card { padding: 16px 10px; }
+  
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  
+  .footer-brand { grid-column: span 2; }
+  
+  .section { padding: 30px 16px; }
+  .section-title { font-size: 1.15rem; }
+}
+
+@media (max-width: 380px) {
+  .cat-bar-inner { gap: 4px; }
+  .cat-item { padding: 6px 10px; font-size: 0.75rem; }
 }
 </style>
 </head>
-<body> 
+<body>
 
-<!-- ═══ NAVIGATION ═══ -->
-<nav class="top" id="nav">
-<a href="#" class="brand">
-<span class="brand-mark"></span>
-<span class="brand-text">
-<span style="font-family:'Cormorant Garamond',serif;">CAPKIT CO.</span>
-<span class="ar">كاب كيت كو</span>
-</span>
-</a>
-<ul class="nav-links">
-<li><a href="#manifesto">الفلسفة</a></li>
-<li><a href="#artifacts">المقتنيات</a></li>
-<li><a href="#digital">الورشة الرقمية</a></li>
-<li><a href="#certificate">الشهادة</a></li>
-<li><a href="#marketplace">الشركاء</a></li>
-<li><a href="#contact" class="nav-cta">اقتنِ قطعتك</a></li>
-</ul>
-<button class="hamburger" id="hamburger" aria-label="القائمة">
-<span></span>
-<span></span>
-<span></span>
-</button>
-</nav> 
-
-<!-- Mobile Overlay Menu -->
-<div class="mobile-menu" id="mobileMenu">
-<a href="#manifesto" class="mobile-link">الفلسفة</a>
-<a href="#artifacts" class="mobile-link">المقتنيات</a>
-<a href="#digital" class="mobile-link">الورشة الرقمية</a>
-<a href="#certificate" class="mobile-link">الشهادة</a>
-<a href="#marketplace" class="mobile-link">الشركاء والصنّاع</a>
-<a href="#contact" class="mobile-link" style="color:var(--gold);">اقتنِ قطعتك</a>
-</div> 
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar">
+  <div class="navbar-top">
+    <a href="/" class="logo">
+      <span class="logo-mark">C</span>
+      <span>
+        CAPKIT
+        <span class="logo-sub">SOUQ</span>
+      </span>
+    </a>
+    
+    <div class="advanced-search">
+      <div class="search-field">
+        <span style="color: var(--text-muted); font-size: 0.95rem;">🔍</span>
+        <input type="text" placeholder="ابحث عن منتج، خدمة، أو ورشة...">
+      </div>
+      <div class="search-divider"></div>
+      <select class="search-select">
+        <option>كل المحافظات</option>
+        <option>القاهرة</option>
+        <option>الجيزة</option>
+        <option>الإسكندرية</option>
+        <option>الدقهلية</option>
+        <option>الشرقية</option>
+        <option>المنوفية</option>
+        <option>القليوبية</option>
+        <option>البحيرة</option>
+        <option>الغربية</option>
+        <option>بورسعيد</option>
+        <option>دمياط</option>
+        <option>الإسماعيلية</option>
+        <option>السويس</option>
+        <option>كفر الشيخ</option>
+        <option>الفيوم</option>
+        <option>بني سويف</option>
+        <option>المنيا</option>
+        <option>أسيوط</option>
+        <option>سوهاج</option>
+        <option>قنا</option>
+        <option>الأقصر</option>
+        <option>أسوان</option>
+        <option>البحر الأحمر</option>
+        <option>الوادي الجديد</option>
+        <option>مطروح</option>
+        <option>شمال سيناء</option>
+        <option>جنوب سيناء</option>
+      </select>
+      <button class="search-btn">بحث</button>
+    </div>
+    
+    <div class="nav-actions">
+      <button class="lang-toggle">EN</button>
+      <a href="#" class="btn-ghost">دخول</a>
+      <a href="#join" class="btn-primary">انضم كصانع</a>
+    </div>
+  </div>
+  
+  <!-- Category Bar -->
+  <div class="category-bar">
+    <div class="cat-bar-inner">
+      <a href="#" class="cat-item"><span class="emoji">🏠</span> الكل</a>
+      <a href="#" class="cat-item"><span class="emoji">🔩</span> معادن وحدادة</a>
+      <a href="#" class="cat-item"><span class="emoji">🪵</span> خشب وأثاث</a>
+      <a href="#" class="cat-item"><span class="emoji">🚗</span> سيارات</a>
+      <a href="#" class="cat-item"><span class="emoji">🔧</span> صيانة</a>
+      <a href="#" class="cat-item"><span class="emoji">🎨</span> فنون وحرف</a>
+      <a href="#" class="cat-item"><span class="emoji">🧵</span> نسيج وملابس</a>
+      <a href="#" class="cat-item"><span class="emoji">👞</span> جلود</a>
+      <a href="#" class="cat-item"><span class="emoji">🖨️</span> طباعة وتغليف</a>
+      <a href="#" class="cat-item"><span class="emoji">💻</span> خدمات رقمية</a>
+      <a href="#" class="cat-item"><span class="emoji">🏗️</span> مقاولات</a>
+    </div>
+  </div>
+</nav>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
-<div class="hero-inner">
-<div class="hero-eyebrow">EST. MMXXIV — كاب كيت كو · مصر</div>
-<h1>
-قطعٌ <span class="gold">تُقتنى</span>،<br>
-ولا تُستهلك.
-</h1>
-<p class="hero-manifesto">
-حين يتآكل البلاستيك بالزمن، ويبهت لونه بعد غسلاتٍ معدودة..<br>
-نصنع نحن قطعاً <em>تُورَّث</em>. من التن بليت الصلب، بفنّ التشكيل اليدوي،<br>
-وبلمسةٍ هندسية لا تُقلَّد — <em>لِتُولَد لِتُقتَنى، لا لِتُستهْلَك</em>.
-</p>
-<div class="hero-cta">
-<a href="#artifacts" class="btn btn-primary">
-اكتشف الإصدارات <span class="arrow">←</span>
-</a>
-<a href="#digital" class="btn btn-ghost">
-الأرشيف الهندسي والرقمي
-</a>
-</div>
-</div>
-<div class="scroll-hint">
-<span>SCROLL</span>
-<span class="line"></span>
-</div>
-</section> 
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span>✨</span>
+      <span>منصة الصنّاع — بدون وسطاء، بدون استغلال</span>
+    </div>
+    <h1>
+      هنا، كل ورشة عندها <em>مكان.</em><br>
+      هنا، الصنعة بتلاقي <em>جمهورها.</em>
+    </h1>
+    <p>
+      منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. اعرض شغلك مجاناً، تواصل مع عملائك مباشرة، وبلا وسطاء.
+    </p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary" style="padding: 12px 24px;">اكتشف الصنّاع</a>
+      <a href="#join" class="btn-ghost" style="padding: 12px 20px;">اعرض شغلك مجاناً</a>
+    </div>
+  </div>
+</section>
 
-<!-- ═══ MANIFESTO ═══ -->
-<section class="manifesto" id="manifesto">
-<div class="container">
-<div class="manifesto-inner reveal">
-<div class="section-num" style="justify-content:center;">الفصل الأول — الفلسفة</div>
-<p class="manifesto-quote">
-«صُنِعَت لِتكون <span class="em">أصلاً</span>.. اكْتَمَلَت تفاصيلها يوم <span class="em">15/10/2026</span>،<br>
-وتشَرَّبَت خاماتُها روح الصنعة، لتسقُط عنها فكرة التآكل إلى الأبد.<br>
-لَقَد وُلِدَت هذه القطعة <span class="em">لِتُقتَنى، لا لِتُستهلَك</span>.»
-</p>
-<div class="manifesto-author">— CAPKIT CO. · كاب كيت كو</div>
-</div>
-</div>
-</section> 
+<!-- ═══ GOVERNORATE STRIP ═══ -->
+<section class="governorates">
+  <div class="gov-scroll">
+    <a href="#" class="gov-chip active">📍 كل المحافظات</a>
+    <a href="#" class="gov-chip">📍 القاهرة</a>
+    <a href="#" class="gov-chip">📍 الجيزة</a>
+    <a href="#" class="gov-chip">📍 الإسكندرية</a>
+    <a href="#" class="gov-chip">📍 الدقهلية</a>
+    <a href="#" class="gov-chip">📍 الشرقية</a>
+    <a href="#" class="gov-chip">📍 القليوبية</a>
+    <a href="#" class="gov-chip">📍 المنوفية</a>
+    <a href="#" class="gov-chip">📍 الغربية</a>
+    <a href="#" class="gov-chip">📍 البحيرة</a>
+    <a href="#" class="gov-chip">📍 الإسماعيلية</a>
+    <a href="#" class="gov-chip">📍 بورسعيد</a>
+    <a href="#" class="gov-chip">📍 السويس</a>
+    <a href="#" class="gov-chip">📍 دمياط</a>
+    <a href="#" class="gov-chip">📍 كفر الشيخ</a>
+    <a href="#" class="gov-chip">📍 الفيوم</a>
+    <a href="#" class="gov-chip">📍 بني سويف</a>
+    <a href="#" class="gov-chip">📍 المنيا</a>
+    <a href="#" class="gov-chip">📍 أسيوط</a>
+    <a href="#" class="gov-chip">📍 سوهاج</a>
+    <a href="#" class="gov-chip">📍 قنا</a>
+    <a href="#" class="gov-chip">📍 الأقصر</a>
+    <a href="#" class="gov-chip">📍 أسوان</a>
+    <a href="#" class="gov-chip">📍 مطروح</a>
+  </div>
+</section>
 
-<!-- ═══ ARTIFACTS (Physical Stream with Realistic Prices) ═══ -->
-<section id="artifacts">
-<div class="container">
-<div class="reveal">
-<div class="section-num">الفصل الثاني — المقتنيات المادية</div>
-<h2 class="section-title">مجموعة <em>الإصدار الأول</em></h2>
-<p class="section-desc">
-كل قطعة تُصنع يدوياً، وتُرقَّم، وتُوثَّق. لا نسخَ متكررة، لا إنتاج جماهيري.
-كل ما يُغادر ورشتنا يحمل توقيع الصنعة، وشهادة انتماءٍ إلى نُدرةٍ لا تُكرَّر.
-</p>
-</div> 
+<!-- ═══ PRODUCTS ═══ -->
+<section class="section" id="products">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">أحدث المنتجات</h2>
+      <div class="section-sub">اكتشف إبداعات الورش في جميع المحافظات</div>
+    </div>
+    <a href="#" class="section-link">عرض الكل ←</a>
+  </div>
+  
+  <div class="products-grid">
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <span class="badge-original">✨ أصلي</span>
+        <div class="product-emblem">Ⅰ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">الأسد — النخبة</div>
+        <div class="product-desc">تين بليت · كروم فاخر · 60 مم</div>
+        <div class="product-meta">
+          <span class="workshop-name">CapKit Co. <span class="verified">✓</span></span>
+          <span>·</span>
+          <span>الإسماعيلية</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">295 <small>EGP</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">واتساب</a>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <div class="product-emblem gold">Ⅱ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">النسر الذهبي</div>
+        <div class="product-desc">تين بليت · ذهبي · 45 مم</div>
+        <div class="product-meta">
+          <span class="workshop-name">ورشة النور <span class="verified">✓</span></span>
+          <span>·</span>
+          <span>القاهرة</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">275 <small>EGP</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">واتساب</a>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <div class="product-emblem copper">Ⅲ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">النمر النحاسي</div>
+        <div class="product-desc">تين بليت · نحاسي · 60 مم</div>
+        <div class="product-meta">
+          <span class="workshop-name">ورشة الأصالة</span>
+          <span>·</span>
+          <span>المنصورة</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">اتصل <small>للسعر</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">واتساب</a>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <div class="product-emblem">Ⅳ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">طقم كامل — الإرث</div>
+        <div class="product-desc">6 قطع · علبة خشبية</div>
+        <div class="product-meta">
+          <span class="workshop-name">CapKit Co. <span class="verified">✓</span></span>
+          <span>·</span>
+          <span>الإسماعيلية</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">1,450 <small>EGP</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">واتساب</a>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <div class="product-emblem gold">Ⅴ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">لوحة آية الكرسي</div>
+        <div class="product-desc">نحاس أصفر · 40×60 سم</div>
+        <div class="product-meta">
+          <span class="workshop-name">ورشة الفن الأصيل</span>
+          <span>·</span>
+          <span>طنطا</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">850 <small>EGP</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">واتساب</a>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <div class="product-emblem">Ⅵ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">حزمة ملفات CNC</div>
+        <div class="product-desc">Vector Pack · تحميل فوري</div>
+        <div class="product-meta">
+          <span class="workshop-name">CapKit Digital <span class="verified">✓</span></span>
+          <span>·</span>
+          <span>رقمي</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">$45 <small>USD</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">تحميل</a>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <div class="product-emblem copper">Ⅶ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">ميدالية فهد فاخرة</div>
+        <div class="product-desc">ستانلس · نقش يدوي</div>
+        <div class="product-meta">
+          <span class="workshop-name">ورشة الصفا</span>
+          <span>·</span>
+          <span>الإسكندرية</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">150 <small>EGP</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">واتساب</a>
+        </div>
+      </div>
+    </a>
+    
+    <a href="#" class="product-card">
+      <div class="product-image">
+        <div class="product-emblem">Ⅷ</div>
+      </div>
+      <div class="product-info">
+        <div class="product-title">باب كريتال فاخر</div>
+        <div class="product-desc">كريتال · أبواب خارجية</div>
+        <div class="product-meta">
+          <span class="workshop-name">ورشة الحديد الذهبي</span>
+          <span>·</span>
+          <span>القليوبية</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">اتصل <small>للسعر</small></div>
+          <a href="#" class="btn-wa" onclick="event.stopPropagation()">واتساب</a>
+        </div>
+      </div>
+    </a>
+    
+  </div>
+</section>
 
-<div class="artifacts-grid">
-<!-- Artifact 1 -->
-<div class="artifact reveal">
-<div class="artifact-badge">الإصدار الأول</div>
-<div class="artifact-visual">
-<div class="emblem"><span class="emblem-icon">Ⅰ</span></div>
-</div>
-<div class="artifact-info">
-<div class="artifact-serial"><span>N° 017 / 100</span><span class="dots"></span><span>2026</span></div>
-<div class="artifact-name">الأسد — النخبة</div>
-<div class="artifact-desc">تن بليت 0.3 مم · طلاء كروم فاخر · 60 مم</div>
-<div class="artifact-footer">
-<span class="artifact-price">295 EGP</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء القطعة: الأسد — النخبة (N° 017)" class="btn-reserve">اقتنِ الآن</a>
-</div>
-</div>
-</div> 
+<!-- ═══ SERVICES SECTION ═══ -->
+<section class="services-section" id="services">
+  <div class="services-inner">
+    <div class="services-header">
+      <span class="badge">🔧 خدمات الصيانة</span>
+      <h2>ابحث عن فني قريب منك</h2>
+      <p>من الصيانة المنزلية إلى صيانة السيارات والمعدات — كل الفنيين في مكان واحد.</p>
+    </div>
+    
+    <div class="products-grid">
+      
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-service">خدمة</span>
+          <div class="product-emblem service">🔧</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">صيانة تكييف</div>
+          <div class="product-desc">تركيب · صيانة · غاز</div>
+          <div class="product-meta">
+            <span class="workshop-name">م. أحمد فني</span>
+            <span>·</span>
+            <span>القاهرة</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price service-price">يبدأ 200 EGP</div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation()">اتصال</a>
+          </div>
+        </div>
+      </a>
+      
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-service">خدمة</span>
+          <div class="product-emblem service">⚡</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">كهرباء منزلية</div>
+          <div class="product-desc">تأسيس · إصلاح · طوارئ</div>
+          <div class="product-meta">
+            <span class="workshop-name">ورشة الأمين</span>
+            <span>·</span>
+            <span>الجيزة</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price service-price">اتصل للسعر</div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation()">اتصال</a>
+          </div>
+        </div>
+      </a>
+      
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-service">خدمة</span>
+          <div class="product-emblem service">🚗</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">صيانة سيارات</div>
+          <div class="product-desc">ميكانيكا · كهرباء · تكييف</div>
+          <div class="product-meta">
+            <span class="workshop-name">مركز النخبة</span>
+            <span class="verified">✓</span>
+            <span>·</span>
+            <span>الإسكندرية</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price service-price">يبدأ 150 EGP</div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation()">اتصال</a>
+          </div>
+        </div>
+      </a>
+      
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-service">خدمة</span>
+          <div class="product-emblem service">🚿</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">سباكة</div>
+          <div class="product-desc">تسليك · تركيب · صيانة</div>
+          <div class="product-meta">
+            <span class="workshop-name">أسطى محمود</span>
+            <span>·</span>
+            <span>المنصورة</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price service-price">يبدأ 150 EGP</div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation()">اتصال</a>
+          </div>
+        </div>
+      </a>
+      
+    </div>
+  </div>
+</section>
 
-<!-- Artifact 2 -->
-<div class="artifact reveal">
-<div class="artifact-visual">
-<div class="emblem gold"><span class="emblem-icon">Ⅱ</span></div>
-</div>
-<div class="artifact-info">
-<div class="artifact-serial"><span>N° 042 / 100</span><span class="dots"></span><span>2026</span></div>
-<div class="artifact-name">النسر الذهبي</div>
-<div class="artifact-desc">تن بليت 0.3 مم · طلاء ذهبي · 45 مم</div>
-<div class="artifact-footer">
-<span class="artifact-price">275 EGP</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء القطعة: النسر الذهبي (N° 042)" class="btn-reserve">اقتنِ الآن</a>
-</div>
-</div>
-</div> 
+<!-- ═══ CAPKIT ORIGINALS ═══ -->
+<section class="originals">
+  <div class="originals-inner">
+    <div class="originals-header">
+      <span class="badge">✨ CAPKIT ORIGINALS</span>
+      <h2>منتجات كاب كيت الأصلية</h2>
+      <p>كل قطعة تُصنع يدوياً، وتُرقّم، وتُرفق بشهادة أصلية. هذه هي القطع التي تُقتنى ولا تُستهلك.</p>
+    </div>
+    
+    <div class="products-grid">
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-original">N° 017/100</span>
+          <div class="product-emblem">Ⅰ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">الأسد — النخبة</div>
+          <div class="product-desc">تين بليت · كروم فاخر · 60 مم</div>
+          <div class="product-footer">
+            <div class="product-price">295 <small>EGP</small></div>
+          </div>
+        </div>
+      </a>
+      
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-original">N° 042/100</span>
+          <div class="product-emblem gold">Ⅱ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">النسر الذهبي</div>
+          <div class="product-desc">تين بليت · ذهبي · 45 مم</div>
+          <div class="product-footer">
+            <div class="product-price">275 <small>EGP</small></div>
+          </div>
+        </div>
+      </a>
+      
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-original">N° 088/100</span>
+          <div class="product-emblem copper">Ⅲ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">النمر النحاسي</div>
+          <div class="product-desc">تين بليت · نحاسي · 60 مم</div>
+          <div class="product-footer">
+            <div class="product-price">295 <small>EGP</small></div>
+          </div>
+        </div>
+      </a>
+      
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-original">N° 100/100</span>
+          <div class="product-emblem">Ⅳ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">الطقم الكامل — الإرث</div>
+          <div class="product-desc">6 قطع · علبة خشبية · شهادة</div>
+          <div class="product-footer">
+            <div class="product-price">1,450 <small>EGP</small></div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
 
-<!-- Artifact 3 -->
-<div class="artifact reveal">
-<div class="artifact-visual">
-<div class="emblem copper"><span class="emblem-icon">Ⅲ</span></div>
-</div>
-<div class="artifact-info">
-<div class="artifact-serial"><span>N° 088 / 100</span><span class="dots"></span><span>2026</span></div>
-<div class="artifact-name">النمر النحاسي</div>
-<div class="artifact-desc">تن بليت 0.3 مم · نحاسي مصقول · 60 مم</div>
-<div class="artifact-footer">
-<span class="artifact-price">295 EGP</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء القطعة: النمر النحاسي (N° 088)" class="btn-reserve">اقتنِ الآن</a>
-</div>
-</div>
-</div> 
+<!-- ═══ WORKSHOPS ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">ورش مميزة</h2>
+      <div class="section-sub">ورش موثّقة ومختارة بعناية</div>
+    </div>
+    <a href="#" class="section-link">كل الورش ←</a>
+  </div>
+  
+  <div class="workshops-grid">
+    
+    <a href="#" class="workshop-card">
+      <div class="workshop-avatar">ن</div>
+      <h3>ورشة النور</h3>
+      <div class="workshop-cat">حدادة وكريتال</div>
+      <div class="workshop-location">📍 القاهرة</div>
+      <div class="workshop-stats">
+        <div><strong>23</strong>منتج</div>
+        <div><strong>4.8</strong>تقييم</div>
+      </div>
+    </a>
+    
+    <a href="#" class="workshop-card">
+      <div class="workshop-avatar">أ</div>
+      <h3>ورشة الأصالة</h3>
+      <div class="workshop-cat">نجارة وأويما</div>
+      <div class="workshop-location">📍 المنصورة</div>
+      <div class="workshop-stats">
+        <div><strong>15</strong>منتج</div>
+        <div><strong>4.6</strong>تقييم</div>
+      </div>
+    </a>
+    
+    <a href="#" class="workshop-card">
+      <div class="workshop-avatar">ف</div>
+      <h3>ورشة الفن الأصيل</h3>
+      <div class="workshop-cat">لوحات معدنية</div>
+      <div class="workshop-location">📍 طنطا</div>
+      <div class="workshop-stats">
+        <div><strong>42</strong>منتج</div>
+        <div><strong>4.9</strong>تقييم</div>
+      </div>
+    </a>
+    
+    <a href="#" class="workshop-card">
+      <div class="workshop-avatar blue">ص</div>
+      <h3>مركز النخبة</h3>
+      <div class="workshop-cat">صيانة سيارات</div>
+      <div class="workshop-location">📍 الإسكندرية</div>
+      <div class="workshop-stats">
+        <div><strong>خدمة</strong>معتمدة</div>
+        <div><strong>4.7</strong>تقييم</div>
+      </div>
+    </a>
+    
+  </div>
+</section>
 
-<!-- Artifact 4 -->
-<div class="artifact reveal">
-<div class="artifact-visual">
-<div class="emblem"><span class="emblem-icon">Ⅳ</span></div>
-</div>
-<div class="artifact-info">
-<div class="artifact-serial"><span>N° 100 / 100</span><span class="dots"></span><span>2026</span></div>
-<div class="artifact-name">الطقم الكامل — الإرث</div>
-<div class="artifact-desc">6 قطع متناسقة · علبة خشبية · شهادة أصلية</div>
-<div class="artifact-footer">
-<span class="artifact-price">1,450 EGP</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في اقتناء الطقم الكامل (N° 100)" class="btn-reserve">اقتنِ الآن</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section> 
-
-<!-- ═══ DIGITAL WORKSHOP STREAM ═══ -->
-<section class="digital-stream" id="digital">
-<div class="container">
-<div class="reveal">
-<div class="section-num">الفصل الثالث — الورشة الرقمية</div>
-<h2 class="section-title">الأرشيف الهندسي و<em>ملفات الـ G-Code</em></h2>
-<p class="section-desc">
-لمحترفي الـ CNC، الصنّاع، والاستوديوهات الخاصة: احصل على ملفات التشكيل والتصميم الحصرية (Vector & G-Code) المصممة خصيصاً لتنفيذ أعمال المعادن بدقة ميكرونية.
-</p>
-</div> 
-
-<div class="digital-grid reveal">
-<div class="digital-card">
-<div class="digital-tag">DIGITAL ASSET — 01</div>
-<h3 class="digital-title">حزمة المتجهات البرونزية (Vector Pack Vol. 1)</h3>
-<p class="digital-desc">ملفات مسارات أدوات متقدمة بصيغ DXF و CDR متوافقة مع Aspire و CorelDRAW للتشكيل المعدني.</p>
-<ul class="digital-specs">
-<li>تنسيقات متوافقة تماماً مع Mach3</li>
-<li>إرشادات العمق ومسارات الـ Drag Knife</li>
-<li>حق الاستخدام التجاري الفردي</li>
-</ul>
-<div class="digital-action">
-<span class="digital-price">$45 USD</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في شراء حزمة المتجهات البرونزية الرقمية من كاب كيت كو" class="btn-reserve">اطلب الملفات</a>
-</div>
-</div> 
-
-<div class="digital-card">
-<div class="digital-tag">DIGITAL ASSET — 02</div>
-<h3 class="digital-title">مخططات النقش العميق والزخرفة (G-Code Master)</h3>
-<p class="digital-desc">أكواد جاهزة للتشغيل البرمجي على ماكينات الـ CNC لنقش الشعارات الدقيقة واللوحات الجدارية المعدنية.</p>
-<ul class="digital-specs">
-<li>تم اختبارها عملياً في ورش كاب كيت كو</li>
-<li>متوافقة مع ألواح التن بليت 0.3 مم</li>
-<li>دعم فني مباشر عبر الواتساب للاستفسارات</li>
-</ul>
-<div class="digital-action">
-<span class="digital-price">$75 USD</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في شراء حزمة G-Code Master من كاب كيت كو" class="btn-reserve">اطلب الملفات</a>
-</div>
-</div>
-</div>
-</div>
-</section> 
-
-<!-- ═══ CERTIFICATE & LOOKUP SECTION ═══ -->
-<section class="certificate" id="certificate">
-<div class="container">
-<div style="text-align:center; margin-bottom:60px;" class="reveal">
-<div class="section-num" style="justify-content:center;">الفصل الرابع — التوثيق والتحقق</div>
-<h2 class="section-title">شهادة <em>الملكية والتحقق</em></h2>
-<p class="section-desc" style="margin-left:auto; margin-right:auto;">
-كل قطعة مادية تُرافقها شهادة أصلية موثّقة. ليست ورقة تعليمات، بل وثيقة تاريخية تُثبِّت انتماء قطعتك إلى نُدرةٍ مرقّمة.
-</p>
-</div> 
-
-<div class="cert-card reveal">
-<div class="cert-header">
-<div class="cert-label">CERTIFICATE OF AUTHENTICITY</div>
-<div class="cert-title">شهادة أصالة</div>
-</div>
-<div class="cert-body">
-سُجِّلَت هذه القطعة برقمٍ متسلسلٍ فريد <span class="highlight">[017 / 100]</span>.<br>
-خَضَعَت لمعالجةٍ دقيقة، وَانْتَهَت رحلة تشكيلها المادي،<br>
-<span class="highlight">لِتَبْدَأ رحلتها التاريخية معك</span>.<br><br>
-لَقَد أصبحت بالفعل جزءاً من <span class="highlight">نُدرةٍ لا تتكرر</span>.
-</div>
-<div class="cert-meta">
-<div>
-<div class="cert-meta-label">SERIAL NUMBER</div>
-<div class="cert-meta-value">017 / 100</div>
-</div>
-<div>
-<div class="cert-meta-label">COMPLETION DATE</div>
-<div class="cert-meta-value">15 / 09 / 2026</div>
-</div>
-</div>
-<div class="cert-signature">
-<div class="sig">CapKit Co.</div>
-<div class="sig-label">خاتم الصنعة — كاب كيت كو</div>
-</div>
-</div> 
-
-<!-- Bonus: Certificate Lookup Widget -->
-<div class="lookup-box reveal">
-<h3>التحقق من الرقم التسلسلي للقطعة</h3>
-<p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:20px;">أدخل رقم القطعة (مثال: 017) لتأكيد توثيقها في سجلات كاب كيت كو.</p>
-<div class="lookup-form">
-<input type="text" class="lookup-input" placeholder="أدخل الرقم التسلسلي..." id="serialInput">
-<button class="btn btn-primary" onclick="alert('رقم موثّق في أرشيف كاب كيت كو الإصدار الأول.')" style="padding: 12px 24px;">تحقق</button>
-</div>
-</div> 
-
-</div>
-</section> 
-
-<!-- ═══ PHILOSOPHY & MAKING OF ═══ -->
-<section class="philosophy">
-<div class="container">
-<div class="reveal">
-<div class="section-num">الفصل الخامس — المبادئ</div>
-<h2 class="section-title">لماذا <em>CapKit Co.</em>؟</h2>
-<p class="section-desc">
-لأن الفرق بين القطعة التي تُشترى وتُستهلك، والقطعة التي تُقتنى وتُورَّث — ليس في السعر، بل في الفلسفة.
-</p>
-</div> 
-
-<div class="philosophy-grid reveal">
-<div class="phil-item">
-<div class="phil-num">01</div>
-<div class="phil-title">الخامة الأصلية</div>
-<div class="phil-text">تن بليت صلب بسماكة 0.3 مم، لا يتأثر بالحرارة حتى 70°م، ولا يبهت مع الغسلات. المعادن تُشيخ بكرامة، والبلاستيك يذوب بصمت.</div>
-</div>
-<div class="phil-item">
-<div class="phil-num">02</div>
-<div class="phil-title">فن التشكيل اليدوي</div>
-<div class="phil-text">التشكيل على المعدن بالجرّ والضغط — فنّ قديم لا تُتقنه الماكينات الحديثة. كل قطعة تحمل بصمة يد الصانع، لا تقليدَ الكود.</div>
-</div>
-<div class="phil-item">
-<div class="phil-num">03</div>
-<div class="phil-title">نُدرةٌ مرقّمة</div>
-<div class="phil-text">لا إنتاج جماهيري. كل قطعة تُرقَّم، وتُوثَّق، وتُرفق بشهادة أصلية. أنت لا تشتري منتجاً — أنت تنضم إلى مجموعة مالكين معدودين.</div>
-</div>
-<div class="phil-item">
-<div class="phil-num">04</div>
-<div class="phil-title">استثمار لا يُباع</div>
-<div class="phil-text">مع الوقت، لا تفقد قطعتك قيمتها — بل تكتسب قيمة جديدة. لأن ما يُصنع بصدق، يستحيل أن يُنسى.</div>
-</div>
-</div> 
-
-<!-- Bonus: Making Of Section -->
-<div class="making-banner reveal">
-<h3>داخل الورشة: هكذا تُصنع الروح</h3>
-<p>شاهد كيف يتحول لوح التن بليت الخام إلى تحفة معدنية مرقمة عبر دقة ماكينات الـ CNC ولمسة اليد البشرية.</p>
-<a href="https://wa.me/?text=مرحباً، أرغب في مشاهدة فيديو كواليس التشكيل في ورشة كاب كيت كو" class="btn btn-ghost">اطلب فيديو الكواليس (Making Of)</a>
-</div> 
-
-</div>
-</section> 
-
-<!-- ═══ MARKETPLACE / VENDORS ═══ -->
-<section class="marketplace" id="marketplace">
-<div class="container">
-<div class="market-box reveal">
-<div class="section-num" style="justify-content:center;">الفصل السادس — الشركاء</div>
-<h2>هل أنت صانع معدن أو فنان تشكيل؟</h2>
-<p>
-تفتح <strong>كاب كيت كو</strong> أبوابها أمام المبدعين والصنّاع للانضمام إلى شبكتنا كشركاء عرض. انشر أعمالك المعدنية المرقمة أمام جمهور عالمي يقدر قيمة الصنعة الحقيقية.
-</p>
-<a href="https://wa.me/?text=مرحباً، أرغب في الانضمام إلى كاب كيت كو كصانع / شريك معتمد" class="btn btn-primary">تقدّم بطلب انضمام شريك</a>
-</div>
-</div>
-</section> 
-
-<!-- ═══ CTA FINAL ═══ -->
-<section class="cta-final" id="contact">
-<div class="cta-final-inner reveal">
-<div class="section-num" style="justify-content:center;">الفصل الأخير — الانضمام</div>
-<h2>
-قطعتك <em>منتظرة</em>.<br>
-رقمها التسلسلي لم يُحجز بعد.
-</h2>
-<p>
-نستقبل طلبات المالكين الجدد والطلبات الخاصة (Private Commission) عبر قناة خاصة.<br>
-أخبرنا بتصميمك الخاص أو القطعة التي تناسبك، وسنخصص لك رقمك التسلسلي الفوري.
-</p>
-<a href="https://wa.me/?text=مرحباً، أرغب في حجز قطعتي المخصصة من كاب كيت كو (Private Commission)" class="btn btn-primary" style="font-size:1rem; padding:24px 60px;">
-تحدَّث معنا على واتساب <span class="arrow">←</span>
-</a>
-</div>
-</section> 
+<!-- ═══ CTA ═══ -->
+<section class="cta-section" id="join">
+  <div class="cta-inner">
+    <h2>
+      عندك ورشة أو خدمة؟ <em>انضم إلينا.</em><br>
+      بدون رسوم، بدون عمولة، بدون وسطاء.
+    </h2>
+    <p>
+      اعرض منتجاتك أو خدماتك أمام آلاف العملاء، وتواصل معهم مباشرة عبر واتساب.<br>
+      نحن نؤمن أن الصنعة الحقيقية تستحق منصة حقيقية.
+    </p>
+    <div class="cta-actions">
+      <a href="#" class="btn-primary" style="padding: 14px 28px; font-size: 0.95rem;">سجّل ورشتك — مجاناً</a>
+      <a href="#" class="btn-ghost" style="padding: 14px 24px; border: 1px solid var(--border-light);">قدّم خدمة</a>
+    </div>
+  </div>
+</section>
 
 <!-- ═══ FOOTER ═══ -->
 <footer>
-<div class="footer-inner">
-<div class="footer-brand">
-<a href="#" class="brand">
-<span class="brand-mark"></span>
-<span class="brand-text">
-<span style="font-family:'Cormorant Garamond',serif;">CAPKIT CO.</span>
-<span class="ar">كاب كيت كو</span>
-</span>
-</a>
-<p>
-فن التشكيل المعدني الفاخر. قطع مرقّمة، موثّقة، تُقتنى ولا تُستهلك. صُنعت في مصر بمعايير عالمية بواسطة كاب كيت كو.
-</p>
-</div>
-<div class="footer-col">
-<h4>المجموعة</h4>
-<ul>
-<li><a href="#artifacts">الإصدار الأول</a></li>
-<li><a href="#digital">الأرشيف الرقمي</a></li>
-<li><a href="#artifacts">الطقم الكامل</a></li>
-</ul>
-</div>
-<div class="footer-col">
-<h4>الدار</h4>
-<ul>
-<li><a href="#manifesto">الفلسفة</a></li>
-<li><a href="#certificate">الشهادات والتحقق</a></li>
-<li><a href="#marketplace">انضم كصانع</a></li>
-</ul>
-</div>
-<div class="footer-col">
-<h4>تواصل</h4>
-<ul>
-<li><a href="https://wa.me/">واتساب مباشر</a></li>
-<li><a href="#">الطلبات الخاصة (Bespoke)</a></li>
-<li><a href="#">ورشة كاب كيت كو — مصر</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<div>© 2026 CAPKIT CO. (كاب كيت كو) — جميع الحقوق محفوظة</div>
-<div>صُنع في مصر · MADE IN EGYPT</div>
-</div>
-</footer> 
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo">
+        <span class="logo-mark">C</span>
+        <span>
+          CAPKIT
+          <span class="logo-sub">SOUQ</span>
+        </span>
+      </a>
+      <p>
+        منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. عرض مجاني، تواصل مباشر، بلا وسطاء. مشروع من CapKit Co.
+      </p>
+    </div>
+    
+    <div class="footer-col">
+      <h4>المنصة</h4>
+      <ul>
+        <li><a href="#">تصفح المنتجات</a></li>
+        <li><a href="#">الخدمات</a></li>
+        <li><a href="#">الورش</a></li>
+        <li><a href="#">المميزون</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-col">
+      <h4>الصنّاع</h4>
+      <ul>
+        <li><a href="#">انضم كصانع</a></li>
+        <li><a href="#">قدّم خدمة</a></li>
+        <li><a href="#">دليل البائع</a></li>
+        <li><a href="#">شروط النشر</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-col">
+      <h4>تواصل</h4>
+      <ul>
+        <li><a href="#">واتساب</a></li>
+        <li><a href="#">إنستغرام</a></li>
+        <li><a href="#">البريد</a></li>
+        <li><a href="#">CapKit Co.</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    © 2026 CapKit Co. — جميع الحقوق محفوظة · صُنع في مصر
+  </div>
+</footer>
 
 <script>
-// Nav scroll effect
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-if (window.scrollY > 50) nav.classList.add('scrolled');
-else nav.classList.remove('scrolled');
-}); 
+// Language toggle
+document.querySelector('.lang-toggle').addEventListener('click', function() {
+  alert('النسخة الإنجليزية قادمة قريباً');
+});
 
-// Mobile Menu Toggle
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-const mobileLinks = document.querySelectorAll('.mobile-link'); 
+// Search
+document.querySelector('.search-btn').addEventListener('click', function() {
+  const q = document.querySelector('.search-field input').value;
+  const gov = document.querySelector('.search-select').value;
+  alert('بحث: "' + q + '" في ' + gov);
+});
 
-hamburger.addEventListener('click', () => {
-mobileMenu.classList.toggle('active');
-}); 
+document.querySelector('.search-field input').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') document.querySelector('.search-btn').click();
+});
 
-mobileLinks.forEach(link => {
-lin
+// Category bar
+document.querySelectorAll('.cat-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Governorate chips
+document.querySelectorAll('.gov-chip').forEach(chip => {
+  chip.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.gov-chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Prevent card click when clicking WhatsApp button
+document.querySelectorAll('.btn-wa').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+});
+</script>
+
+</body>
+</html>
