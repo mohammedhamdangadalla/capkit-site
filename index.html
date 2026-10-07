@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CapKit Souq — منصة الصنّاع</title>
+<title>CapKit Souq — منصة الصنّاع والخدمات</title>
+<meta name="description" content="منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. عرض مجاني، تواصل مباشر، بلا وسطاء.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -31,13 +33,13 @@
         <span>🗂️</span>
         <span class="hide-mobile">التصنيفات</span>
       </button>
-      <button class="nav-icon-btn" id="openFreelancers">
-        <span>🔨</span>
-        <span class="hide-mobile">العمل الحر</span>
+      <button class="nav-icon-btn" id="openGovernorates">
+        <span>📍</span>
+        <span class="hide-mobile">المنطقة</span>
       </button>
-      <button class="lang-toggle">EN</button>
+      <button class="lang-toggle hide-mobile">EN</button>
       <a href="#" class="btn-ghost hide-mobile">دخول</a>
-      <a href="#join" class="btn-primary">انضم كصانع</a>
+      <a href="#join" class="btn-primary">انضم</a>
     </div>
   </div>
 </nav>
@@ -49,19 +51,16 @@
     <h2 class="drawer-title">تصفح المنصة</h2>
   </div>
 
-  <!-- Tabs -->
   <div class="drawer-tabs">
     <button class="tab active" data-tab="products">🛒 منتجات</button>
     <button class="tab" data-tab="services">🔧 خدمات</button>
     <button class="tab" data-tab="freelance">🔨 عمل حر</button>
   </div>
 
-  <!-- Breadcrumb -->
   <div class="breadcrumb" id="categoriesBreadcrumb">
     <span class="bc-item bc-home">الرئيسية</span>
   </div>
 
-  <!-- Tree Container -->
   <div class="tree-container" id="categoriesTree">
     <!-- يُملأ بواسطة JavaScript -->
   </div>
@@ -98,7 +97,7 @@
 
   <div class="search-body">
     <input type="text" class="search-input" id="searchInput" placeholder="ابحث...">
-    
+
     <div class="search-filters">
       <button class="filter-btn" onclick="openDrawer('governoratesDrawer')">
         <span>📍</span>
@@ -119,29 +118,574 @@
 
 <!-- ═══ OVERLAY ═══ -->
 <div class="overlay" id="overlay" onclick="closeAllDrawers()"></div>
-
-<!-- ═══ MAIN CONTENT (placeholder) ═══ -->
+<!-- ═══ MAIN CONTENT ═══ -->
 <main>
+
+  <!-- ═══ HERO ═══ -->
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-badge">
         <span>✨</span>
         <span>منصة الصنّاع — بدون وسطاء، بدون استغلال</span>
       </div>
-      <h1>هنا، كل ورشة عندها <em>مكان.</em><br>هنا، الصنعة بتلاقي <em>جمهورها.</em></h1>
-      <p>منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. اعرض شغلك مجاناً، تواصل مع عملائك مباشرة، وبلا وسطاء.</p>
+      <h1>
+        هنا، كل ورشة عندها <em>مكان.</em><br>
+        هنا، الصنعة بتلاقي <em>جمهورها.</em>
+      </h1>
+      <p>
+        منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. اعرض شغلك مجاناً، تواصل مع عملائك مباشرة، وبلا وسطاء.
+      </p>
       <div class="hero-actions">
-        <button class="btn-primary" onclick="openDrawer('categoriesDrawer')">تصفح المنصة</button>
-        <a href="#join" class="btn-ghost">اعرض شغلك مجاناً</a>
+        <button class="btn-primary" onclick="openDrawer('categoriesDrawer')" style="padding: 12px 24px;">
+          تصفح المنصة
+        </button>
+        <a href="#join" class="btn-ghost" style="padding: 12px 20px;">اعرض شغلك مجاناً</a>
       </div>
     </div>
   </section>
+
+  <!-- ═══ GOVERNORATE STRIP ═══ -->
+  <section class="governorates">
+    <div class="gov-scroll">
+      <a href="#" class="gov-chip active">📍 كل المحافظات</a>
+      <a href="#" class="gov-chip">📍 القاهرة</a>
+      <a href="#" class="gov-chip">📍 الجيزة</a>
+      <a href="#" class="gov-chip">📍 الإسكندرية</a>
+      <a href="#" class="gov-chip">📍 الدقهلية</a>
+      <a href="#" class="gov-chip">📍 الشرقية</a>
+      <a href="#" class="gov-chip">📍 القليوبية</a>
+      <a href="#" class="gov-chip">📍 المنوفية</a>
+      <a href="#" class="gov-chip">📍 الغربية</a>
+      <a href="#" class="gov-chip">📍 البحيرة</a>
+      <a href="#" class="gov-chip">📍 الإسماعيلية</a>
+      <a href="#" class="gov-chip">📍 بورسعيد</a>
+      <a href="#" class="gov-chip">📍 السويس</a>
+      <a href="#" class="gov-chip">📍 دمياط</a>
+    </div>
+  </section>
+
+  <!-- ═══ PRODUCTS ═══ -->
+  <section class="section" id="products">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">أحدث المنتجات</h2>
+        <div class="section-sub">اكتشف إبداعات الورش في جميع المحافظات</div>
+      </div>
+      <button class="section-link" onclick="openDrawer('categoriesDrawer')">تصفح الكل ←</button>
+    </div>
+
+    <div class="products-grid">
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <span class="badge-original">✨ أصلي</span>
+          <div class="product-emblem">Ⅰ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">الأسد — النخبة</div>
+          <div class="product-desc">تين بليت · كروم فاخر · 60 مم</div>
+          <div class="product-meta">
+            <span class="workshop-name">CapKit Co. <span class="verified">✓</span></span>
+            <span>·</span>
+            <span>الإسماعيلية</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">295 <small>EGP</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">واتساب</a>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <div class="product-emblem gold">Ⅱ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">النسر الذهبي</div>
+          <div class="product-desc">تين بليت · ذهبي · 45 مم</div>
+          <div class="product-meta">
+            <span class="workshop-name">ورشة النور <span class="verified">✓</span></span>
+            <span>·</span>
+            <span>القاهرة</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">275 <small>EGP</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">واتساب</a>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <div class="product-emblem copper">Ⅲ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">النمر النحاسي</div>
+          <div class="product-desc">تين بليت · نحاسي · 60 مم</div>
+          <div class="product-meta">
+            <span class="workshop-name">ورشة الأصالة</span>
+            <span>·</span>
+            <span>المنصورة</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">اتصل <small>للسعر</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">واتساب</a>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <div class="product-emblem">Ⅳ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">طقم كامل — الإرث</div>
+          <div class="product-desc">6 قطع · علبة خشبية</div>
+          <div class="product-meta">
+            <span class="workshop-name">CapKit Co. <span class="verified">✓</span></span>
+            <span>·</span>
+            <span>الإسماعيلية</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">1,450 <small>EGP</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">واتساب</a>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <div class="product-emblem gold">Ⅴ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">لوحة آية الكرسي</div>
+          <div class="product-desc">نحاس أصفر · 40×60 سم</div>
+          <div class="product-meta">
+            <span class="workshop-name">ورشة الفن الأصيل</span>
+            <span>·</span>
+            <span>طنطا</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">850 <small>EGP</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">واتساب</a>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <div class="product-emblem">Ⅵ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">حزمة ملفات CNC</div>
+          <div class="product-desc">Vector Pack · تحميل فوري</div>
+          <div class="product-meta">
+            <span class="workshop-name">CapKit Digital <span class="verified">✓</span></span>
+            <span>·</span>
+            <span>رقمي</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">$45 <small>USD</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">تحميل</a>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <div class="product-emblem copper">Ⅶ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">ميدالية فهد فاخرة</div>
+          <div class="product-desc">ستانلس · نقش يدوي</div>
+          <div class="product-meta">
+            <span class="workshop-name">ورشة الصفا</span>
+            <span>·</span>
+            <span>الإسكندرية</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">150 <small>EGP</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">واتساب</a>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="product-card">
+        <div class="product-image">
+          <div class="product-emblem">Ⅷ</div>
+        </div>
+        <div class="product-info">
+          <div class="product-title">باب كريتال فاخر</div>
+          <div class="product-desc">كريتال · أبواب خارجية</div>
+          <div class="product-meta">
+            <span class="workshop-name">ورشة الحديد الذهبي</span>
+            <span>·</span>
+            <span>القليوبية</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">اتصل <small>للسعر</small></div>
+            <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">واتساب</a>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="services-section" id="services">
+    <div class="services-inner">
+      <div class="services-header">
+        <span class="badge">🔧 خدمات الصيانة</span>
+        <h2>ابحث عن فني قريب منك</h2>
+        <p>من الصيانة المنزلية إلى صيانة السيارات والمعدات — كل الفنيين في مكان واحد.</p>
+      </div>
+
+      <div class="products-grid">
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-service">خدمة</span>
+            <div class="product-emblem service">🔧</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">صيانة تكييف</div>
+            <div class="product-desc">تركيب · صيانة · غاز</div>
+            <div class="product-meta">
+              <span class="workshop-name">م. أحمد فني</span>
+              <span>·</span>
+              <span>القاهرة</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-price service-price">يبدأ 200 EGP</div>
+              <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">اتصال</a>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-service">خدمة</span>
+            <div class="product-emblem service">⚡</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">كهرباء منزلية</div>
+            <div class="product-desc">تأسيس · إصلاح · طوارئ</div>
+            <div class="product-meta">
+              <span class="workshop-name">ورشة الأمين</span>
+              <span>·</span>
+              <span>الجيزة</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-price service-price">اتصل للسعر</div>
+              <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">اتصال</a>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-service">خدمة</span>
+            <div class="product-emblem service">🚗</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">صيانة سيارات</div>
+            <div class="product-desc">ميكانيكا · كهرباء · تكييف</div>
+            <div class="product-meta">
+              <span class="workshop-name">مركز النخبة <span class="verified">✓</span></span>
+              <span>·</span>
+              <span>الإسكندرية</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-price service-price">يبدأ 150 EGP</div>
+              <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">اتصال</a>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-service">خدمة</span>
+            <div class="product-emblem service">🚿</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">سباكة</div>
+            <div class="product-desc">تسليك · تركيب · صيانة</div>
+            <div class="product-meta">
+              <span class="workshop-name">أسطى محمود</span>
+              <span>·</span>
+              <span>المنصورة</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-price service-price">يبدأ 150 EGP</div>
+              <a href="#" class="btn-wa" onclick="event.stopPropagation();event.preventDefault();">اتصال</a>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CAPKIT ORIGINALS ═══ -->
+  <section class="originals">
+    <div class="originals-inner">
+      <div class="originals-header">
+        <span class="badge">✨ CAPKIT ORIGINALS</span>
+        <h2>منتجات كاب كيت الأصلية</h2>
+        <p>كل قطعة تُصنع يدوياً، وتُرقّم، وتُرفق بشهادة أصلية. هذه هي القطع التي تُقتنى ولا تُستهلك.</p>
+      </div>
+
+      <div class="products-grid">
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-original">N° 017/100</span>
+            <div class="product-emblem">Ⅰ</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">الأسد — النخبة</div>
+            <div class="product-desc">تين بليت · كروم فاخر · 60 مم</div>
+            <div class="product-footer">
+              <div class="product-price">295 <small>EGP</small></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-original">N° 042/100</span>
+            <div class="product-emblem gold">Ⅱ</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">النسر الذهبي</div>
+            <div class="product-desc">تين بليت · ذهبي · 45 مم</div>
+            <div class="product-footer">
+              <div class="product-price">275 <small>EGP</small></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-original">N° 088/100</span>
+            <div class="product-emblem copper">Ⅲ</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">النمر النحاسي</div>
+            <div class="product-desc">تين بليت · نحاسي · 60 مم</div>
+            <div class="product-footer">
+              <div class="product-price">295 <small>EGP</small></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="badge-original">N° 100/100</span>
+            <div class="product-emblem">Ⅳ</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">الطقم الكامل — الإرث</div>
+            <div class="product-desc">6 قطع · علبة خشبية · شهادة</div>
+            <div class="product-footer">
+              <div class="product-price">1,450 <small>EGP</small></div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WORKSHOPS ═══ -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">ورش مميزة</h2>
+        <div class="section-sub">ورش موثّقة ومختارة بعناية</div>
+      </div>
+      <button class="section-link" onclick="openDrawer('categoriesDrawer')">كل الورش ←</button>
+    </div>
+
+    <div class="workshops-grid">
+
+      <a href="#" class="workshop-card">
+        <div class="workshop-avatar">ن</div>
+        <h3>ورشة النور</h3>
+        <div class="workshop-cat">حدادة وكريتال</div>
+        <div class="workshop-location">📍 القاهرة</div>
+        <div class="workshop-stats">
+          <div><strong>23</strong>منتج</div>
+          <div><strong>4.8</strong>تقييم</div>
+        </div>
+      </a>
+
+      <a href="#" class="workshop-card">
+        <div class="workshop-avatar">أ</div>
+        <h3>ورشة الأصالة</h3>
+        <div class="workshop-cat">نجارة وأويما</div>
+        <div class="workshop-location">📍 المنصورة</div>
+        <div class="workshop-stats">
+          <div><strong>15</strong>منتج</div>
+          <div><strong>4.6</strong>تقييم</div>
+        </div>
+      </a>
+
+      <a href="#" class="workshop-card">
+        <div class="workshop-avatar">ف</div>
+        <h3>ورشة الفن الأصيل</h3>
+        <div class="workshop-cat">لوحات معدنية</div>
+        <div class="workshop-location">📍 طنطا</div>
+        <div class="workshop-stats">
+          <div><strong>42</strong>منتج</div>
+          <div><strong>4.9</strong>تقييم</div>
+        </div>
+      </a>
+
+      <a href="#" class="workshop-card">
+        <div class="workshop-avatar blue">ص</div>
+        <h3>مركز النخبة</h3>
+        <div class="workshop-cat">صيانة سيارات</div>
+        <div class="workshop-location">📍 الإسكندرية</div>
+        <div class="workshop-stats">
+          <div><strong>خدمة</strong>معتمدة</div>
+          <div><strong>4.7</strong>تقييم</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+    <!-- ═══ CTA ═══ -->
+  <section class="cta-section" id="join">
+    <div class="cta-inner">
+      <h2>
+        عندك ورشة أو خدمة؟ <em>انضم إلينا.</em><br>
+        بدون رسوم، بدون عمولة، بدون وسطاء.
+      </h2>
+      <p>
+        اعرض منتجاتك أو خدماتك أمام آلاف العملاء، وتواصل معهم مباشرة عبر واتساب.<br>
+        نحن نؤمن أن الصنعة الحقيقية تستحق منصة حقيقية.
+      </p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary" style="padding: 14px 28px; font-size: 0.95rem;">سجّل ورشتك — مجاناً</a>
+        <a href="#" class="btn-ghost" style="padding: 14px 24px; border: 1px solid var(--border-light);">قدّم خدمة</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<script src="assets/js/data-loader.js"></script>
-<script src="assets/js/tree.js"></script>
-<script src="assets/js/drawer.js"></script>
-<script src="assets/js/app.js"></script>
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo">
+        <span class="logo-mark">C</span>
+        <span>CAPKIT<span class="logo-sub">SOUQ</span></span>
+      </a>
+      <p>
+        منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. عرض مجاني، تواصل مباشر، بلا وسطاء. مشروع من CapKit Co.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4>المنصة</h4>
+      <ul>
+        <li><a href="#products">تصفح المنتجات</a></li>
+        <li><a href="#services">الخدمات</a></li>
+        <li><a href="#">الورش</a></li>
+        <li><a href="#">المميزون</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>الصنّاع</h4>
+      <ul>
+        <li><a href="#">انضم كصانع</a></li>
+        <li><a href="#">قدّم خدمة</a></li>
+        <li><a href="#">دليل البائع</a></li>
+        <li><a href="#">شروط النشر</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>تواصل</h4>
+      <ul>
+        <li><a href="#">واتساب</a></li>
+        <li><a href="#">إنستغرام</a></li>
+        <li><a href="#">البريد</a></li>
+        <li><a href="#">CapKit Co.</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 CapKit Co. — جميع الحقوق محفوظة · صُنع في مصر
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="data-loader.js"></script>
+<script src="tree.js"></script>
+<script src="drawer.js"></script>
+<script src="app.js"></script>
+
+<script>
+// ═══ Inline Enhancements ═══
+
+// Governorate chips — click to filter
+document.querySelectorAll('.gov-chip').forEach(chip => {
+  chip.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.gov-chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    
+    const govName = this.textContent.replace('📍', '').trim();
+    const govLabel = document.getElementById('selectedGov');
+    if (govLabel) govLabel.textContent = govName;
+    
+    console.log('📍 Region selected:', govName);
+  });
+});
+
+// Reveal on scroll
+const revealElements = document.querySelectorAll('.section, .hero, .services-section, .originals, .cta-section');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+revealElements.forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  revealObserver.observe(el);
+});
+
+// Prevent card click when clicking WhatsApp button
+document.querySelectorAll('.btn-wa').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+
+// Log data loaded status
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    console.log('📊 Status:');
+    console.log('  Categories:', CATEGORIES_DATA ? '✅ Loaded' : '❌ Not loaded');
+    console.log('  Governorates:', GOVERNORATES_DATA ? '✅ Loaded' : '❌ Not loaded');
+  }, 1000);
+});
+</script>
 
 </body>
-</html>
+          </html>
+  
