@@ -1,1 +1,159 @@
-
+{
+  "version": "1.0",
+  "regions": [
+    {
+      "id": "greater-cairo",
+      "name": "القاهرة الكبرى",
+      "icon": "🏙️",
+      "children": [
+        {"id": "cairo", "name": "القاهرة", "children": [
+          {"id": "nasr-city", "name": "مدينة نصر"},
+          {"id": "heliopolis", "name": "مصر الجديدة"},
+          {"id": "maadi", "name": "المعادي"},
+          {"id": "heliwan", "name": "حلوان"},
+          {"id": "shubra", "name": "شبرا"},
+          {"id": "downtown", "name": "وسط البلد"},
+          {"id": "zamalek", "name": "الزمالك"},
+          {"id": "mohandessin", "name": "المهندسين"},
+          {"id": "abbassia", "name": "العباسية"},
+          {"id": "new-cairo", "name": "القاهرة الجديدة"}
+        ]},
+        {"id": "giza", "name": "الجيزة", "children": [
+          {"id": "dokki", "name": "الدقي"},
+          {"id": "mohandessin-giza", "name": "المهندسين"},
+          {"id": "haram", "name": "الهرم"},
+          {"id": "faisal", "name": "فيصل"},
+          {"id": "6-october", "name": "6 أكتوبر"},
+          {"id": "sheikh-zayed", "name": "الشيخ زايد"},
+          {"id": "imbaba", "name": "إمبابة"}
+        ]},
+        {"id": "qalyubia", "name": "القليوبية", "children": [
+          {"id": "banha", "name": "بنها"},
+          {"id": "shubra-el-kheima", "name": "شبرا الخيمة"},
+          {"id": "qanater", "name": "القناطر"}
+        ]}
+      ]
+    },
+    {
+      "id": "alexandria-delta",
+      "name": "الإسكندرية والدلتا",
+      "icon": "🌊",
+      "children": [
+        {"id": "alexandria", "name": "الإسكندرية", "children": [
+          {"id": "smouha", "name": "سموحة"},
+          {"id": "agami", "name": "العجمي"},
+          {"id": "sidi-gaber", "name": "سيدي جابر"},
+          {"id": "mansheya", "name": "المنشية"},
+          {"id": "borg-el-arab", "name": "برج العرب"}
+        ]},
+        {"id": "dakahlia", "name": "الدقهلية", "children": [
+          {"id": "mansoura", "name": "المنصورة"},
+          {"id": "mit-ghamr", "name": "ميت غمر"},
+          {"id": "talkha", "name": "طلخا"}
+        ]},
+        {"id": "gharbia", "name": "الغربية", "children": [
+          {"id": "tanta", "name": "طنطا"},
+          {"id": "mahalla", "name": "المحلة"}
+        ]},
+        {"id": "monufia", "name": "المنوفية", "children": [
+          {"id": "shebin-el-kom", "name": "شبين الكوم"},
+          {"id": "menouf", "name": "منوف"}
+        ]},
+        {"id": "beheira", "name": "البحيرة", "children": [
+          {"id": "damanhour", "name": "دمنهور"},
+          {"id": "kafr-el-dawwar", "name": "كفر الدوار"}
+        ]},
+        {"id": "kafr-el-sheikh", "name": "كفر الشيخ", "children": [
+          {"id": "kafr-el-sheikh-city", "name": "كفر الشيخ"},
+          {"id": "desouk", "name": "دسوق"}
+        ]},
+        {"id": "damietta", "name": "دمياط", "children": [
+          {"id": "damietta-city", "name": "دمياط"},
+          {"id": "new-damietta", "name": "دمياط الجديدة"}
+        ]}
+      ]
+    },
+    {
+      "id": "canal",
+      "name": "القناة",
+      "icon": "🚢",
+      "children": [
+        {"id": "ismailia", "name": "الإسماعيلية", "children": [
+          {"id": "ismailia-city", "name": "الإسماعيلية"},
+          {"id": "abu-sweir", "name": "أبو صوير"}
+        ]},
+        {"id": "port-said", "name": "بورسعيد", "children": [
+          {"id": "port-said-city", "name": "بورسعيد"},
+          {"id": "port-fouad", "name": "بورفؤاد"}
+        ]},
+        {"id": "suez", "name": "السويس", "children": [
+          {"id": "suez-city", "name": "السويس"},
+          {"id": "ain-sokhna", "name": "العين السخنة"}
+        ]},
+        {"id": "sharqia", "name": "الشرقية", "children": [
+          {"id": "zagazig", "name": "الزقازيق"},
+          {"id": "10th-ramadan", "name": "العاشر من رمضان"},
+          {"id": "belbeis", "name": "بلبيس"}
+        ]}
+      ]
+    },
+    {
+      "id": "upper-egypt",
+      "name": "الوجه القبلي",
+      "icon": "🏜️",
+      "children": [
+        {"id": "fayoum", "name": "الفيوم", "children": [
+          {"id": "fayoum-city", "name": "الفيوم"}
+        ]},
+        {"id": "beni-suef", "name": "بني سويف", "children": [
+          {"id": "beni-suef-city", "name": "بني سويف"}
+        ]},
+        {"id": "minya", "name": "المنيا", "children": [
+          {"id": "minya-city", "name": "المنيا"},
+          {"id": "mallawi", "name": "ملوي"}
+        ]},
+        {"id": "assiut", "name": "أسيوط", "children": [
+          {"id": "assiut-city", "name": "أسيوط"},
+          {"id": "new-assiut", "name": "أسيوط الجديدة"}
+        ]},
+        {"id": "sohag", "name": "سوهاج", "children": [
+          {"id": "sohag-city", "name": "سوهاج"}
+        ]},
+        {"id": "qena", "name": "قنا", "children": [
+          {"id": "qena-city", "name": "قنا"}
+        ]},
+        {"id": "luxor", "name": "الأقصر", "children": [
+          {"id": "luxor-city", "name": "الأقصر"}
+        ]},
+        {"id": "aswan", "name": "أسوان", "children": [
+          {"id": "aswan-city", "name": "أسوان"}
+        ]}
+      ]
+    },
+    {
+      "id": "coasts-desert",
+      "name": "السواحل والصحراء",
+      "icon": "🏝️",
+      "children": [
+        {"id": "matrouh", "name": "مطروح", "children": [
+          {"id": "marsa-matrouh", "name": "مرسى مطروح"},
+          {"id": "alamein", "name": "العلمين"}
+        ]},
+        {"id": "red-sea", "name": "البحر الأحمر", "children": [
+          {"id": "hurghada", "name": "الغردقة"},
+          {"id": "safaga", "name": "سفاجا"}
+        ]},
+        {"id": "north-sinai", "name": "شمال سيناء", "children": [
+          {"id": "arish", "name": "العريش"}
+        ]},
+        {"id": "south-sinai", "name": "جنوب سيناء", "children": [
+          {"id": "sharm", "name": "شرم الشيخ"},
+          {"id": "dahab", "name": "دهب"}
+        ]},
+        {"id": "new-valley", "name": "الوادي الجديد", "children": [
+          {"id": "kharga", "name": "الخارجة"}
+        ]}
+      ]
+    }
+  ]
+        }
