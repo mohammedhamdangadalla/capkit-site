@@ -1,1 +1,341 @@
-
+{
+  "version": "1.0",
+  "categories": [
+    {
+      "id": "metals",
+      "name": "معادن وحدادة",
+      "icon": "🔩",
+      "slug": "metals",
+      "children": [
+        {
+          "id": "general-blacksmithing",
+          "name": "حدادة عامة",
+          "children": [
+            {"id": "iron-doors", "name": "أبواب حديد", "children": [
+              {"id": "ext-iron-doors", "name": "أبواب خارجية"},
+              {"id": "int-iron-doors", "name": "أبواب داخلية"},
+              {"id": "security-doors", "name": "أبواب أمان"},
+              {"id": "sliding-doors", "name": "أبواب سحب"}
+            ]},
+            {"id": "iron-windows", "name": "شبابيك حديد", "children": [
+              {"id": "home-windows", "name": "شبابيك منزلية"},
+              {"id": "shop-windows", "name": "شبابيك محلات"},
+              {"id": "protection-windows", "name": "شبابيك حماية"}
+            ]},
+            {"id": "gates", "name": "بوابات", "children": [
+              {"id": "car-gates", "name": "بوابات سيارات"},
+              {"id": "factory-gates", "name": "بوابات مصانع"},
+              {"id": "auto-gates", "name": "بوابات تلقائية"}
+            ]}
+          ]
+        },
+        {
+          "id": "wrought-iron",
+          "name": "كريتال",
+          "children": [
+            {"id": "wrought-doors", "name": "أبواب كريتال", "children": [
+              {"id": "wrought-ext-doors", "name": "أبواب خارجية"},
+              {"id": "wrought-int-doors", "name": "أبواب داخلية"},
+              {"id": "wrought-modern-doors", "name": "أبواب مودرن"}
+            ]},
+            {"id": "handrails", "name": "درابزين", "children": [
+              {"id": "stair-rails", "name": "درابزين سلالم"},
+              {"id": "balcony-rails", "name": "درابزين بلكونات"},
+              {"id": "roof-rails", "name": "درابزين أسطح"}
+            ]},
+            {"id": "wrought-decor", "name": "ديكورات كريتال", "children": [
+              {"id": "wall-decor", "name": "ديكورات جدارية"},
+              {"id": "chandeliers", "name": "شمعدانات"},
+              {"id": "pendants", "name": "معلقات"}
+            ]}
+          ]
+        },
+        {
+          "id": "alumetal",
+          "name": "ألوميتال",
+          "children": [
+            {"id": "alum-windows", "name": "شبابيك ألوميتال", "children": [
+              {"id": "sliding-alum", "name": "شبابيك جرار"},
+              {"id": "hinged-alum", "name": "شبابيك مفصلي"}
+            ]},
+            {"id": "alum-doors", "name": "أبواب ألوميتال", "children": [
+              {"id": "bathroom-alum", "name": "أبواب حمامات"},
+              {"id": "kitchen-alum", "name": "أبواب مطابخ"}
+            ]},
+            {"id": "alum-facades", "name": "واجهات ألوميتال", "children": [
+              {"id": "shop-facades", "name": "واجهات محلات"}
+            ]}
+          ]
+        },
+        {
+          "id": "copper-brass",
+          "name": "نحاس وأصفر",
+          "children": [
+            {"id": "copper-plates", "name": "لوحات نحاسية", "children": [
+              {"id": "religious-plates", "name": "لوحات دينية"},
+              {"id": "art-plates", "name": "لوحات فنية"},
+              {"id": "name-plates", "name": "لوحات أسماء"}
+            ]},
+            {"id": "copper-artifacts", "name": "تحف نحاسية", "children": [
+              {"id": "copper-statues", "name": "مجسمات"},
+              {"id": "copper-plates-deco", "name": "أطباق زخرفية"}
+            ]}
+          ]
+        },
+        {
+          "id": "stainless",
+          "name": "ستانلس ستيل",
+          "children": [
+            {"id": "stainless-kitchens", "name": "مطابخ ستانلس", "children": [
+              {"id": "home-stainless", "name": "مطابخ منزلية"},
+              {"id": "commercial-stainless", "name": "مطابخ تجارية"}
+            ]},
+            {"id": "stainless-equipment", "name": "تجهيزات ستانلس", "children": [
+              {"id": "stainless-tables", "name": "طاولات"},
+              {"id": "stainless-shelves", "name": "أرفف"}
+            ]}
+          ]
+        },
+        {
+          "id": "laser-cnc",
+          "name": "ليزر وبلازما CNC",
+          "children": [
+            {"id": "laser-cutting", "name": "قص بالليزر", "children": [
+              {"id": "metal-cutting", "name": "قص معادن"},
+              {"id": "wood-cutting", "name": "قص خشب"}
+            ]},
+            {"id": "cnc-engraving", "name": "نقش CNC", "children": [
+              {"id": "metal-engraving", "name": "نقش على معادن"},
+              {"id": "wood-engraving", "name": "نقش على خشب"}
+            ]}
+          ]
+        }
+      ]
+    },
+{
+  "id": "wood",
+  "name": "خشب وأثاث",
+  "icon": "🪵",
+  "slug": "wood",
+  "children": [
+    {"id": "carpentry", "name": "نجارة", "children": [
+      {"id": "doors-windows", "name": "أبواب وشبابيك", "children": [
+        {"id": "wood-doors", "name": "أبواب خشب"},
+        {"id": "wood-windows", "name": "شبابيك خشب"}
+      ]},
+      {"id": "kitchens-wood", "name": "مطابخ خشب", "children": [
+        {"id": "modern-kitchens", "name": "مطابخ مودرن"},
+        {"id": "classic-kitchens", "name": "مطابخ كلاسيك"}
+      ]}
+    ]},
+    {"id": "upholstery", "name": "أويما", "children": [
+      {"id": "upholstery-furniture", "name": "أثاث أويما"},
+      {"id": "upholstery-decor", "name": "ديكورات أويما"}
+    ]},
+    {"id": "arc", "name": "أركت", "children": [
+      {"id": "arc-decor", "name": "ديكورات أركت"},
+      {"id": "arc-panels", "name": "ألواح أركت"}
+    ]},
+    {"id": "furniture", "name": "موبيليا", "children": [
+      {"id": "home-furniture", "name": "أثاث منزلي"},
+      {"id": "office-furniture", "name": "أثاث مكتبي"}
+    ]}
+  ]
+},
+{
+  "id": "cars",
+  "name": "سيارات",
+  "icon": "🚗",
+  "slug": "cars",
+  "children": [
+    {"id": "emblems", "name": "شعارات وميداليات", "children": [
+      {"id": "car-logos", "name": "شعارات سيارات", "children": [
+        {"id": "german-logos", "name": "ماركات ألمانية"},
+        {"id": "japanese-logos", "name": "ماركات يابانية"},
+        {"id": "korean-logos", "name": "ماركات كورية"}
+      ]},
+      {"id": "keychains", "name": "ميداليات مفاتيح"}
+    ]},
+    {"id": "accessories", "name": "إكسسوارات سيارات", "children": [
+      {"id": "interior-acc", "name": "إكسسوارات داخلية"},
+      {"id": "exterior-acc", "name": "إكسسوارات خارجية"}
+    ]},
+    {"id": "car-modification", "name": "تعديل وتخصيص", "children": [
+      {"id": "styling", "name": "تعديلات شكلية"},
+      {"id": "performance", "name": "تعديلات أداء"}
+    ]},
+    {"id": "spare-parts", "name": "قطع غيار"}
+  ]
+},
+{
+  "id": "mobile",
+  "name": "موبايلات وأجهزة ذكية",
+  "icon": "📱",
+  "slug": "mobile",
+  "children": [
+    {"id": "mobile-accessories", "name": "إكسسوارات موبايل", "children": [
+      {"id": "cases", "name": "جرابات وحمايات", "children": [
+        {"id": "silicone-cases", "name": "جرابات سيليكون"},
+        {"id": "leather-cases", "name": "جرابات جلد"},
+        {"id": "custom-cases", "name": "جرابات مخصصة"}
+      ]},
+      {"id": "chargers", "name": "شواحن وكابلات", "children": [
+        {"id": "fast-chargers", "name": "شواحن سريعة"},
+        {"id": "cables", "name": "كابلات"},
+        {"id": "wireless-chargers", "name": "شواحن لاسلكية"}
+      ]},
+      {"id": "headphones", "name": "سماعات", "children": [
+        {"id": "wired-headphones", "name": "سماعات سلكية"},
+        {"id": "wireless-headphones", "name": "سماعات لاسلكية"},
+        {"id": "earbuds", "name": "إيربودز"}
+      ]},
+      {"id": "power-banks", "name": "باور بانك"}
+    ]},
+    {"id": "smart-watches", "name": "ساعات ذكية"},
+    {"id": "tablets", "name": "تابلت"},
+    {"id": "used-mobiles", "name": "مستعمل", "children": [
+      {"id": "apple-used", "name": "أبل"},
+      {"id": "samsung-used", "name": "سامسونج"},
+      {"id": "xiaomi-used", "name": "شاومي"},
+      {"id": "oppo-used", "name": "أوبو"}
+    ]}
+  ]
+},
+{
+  "id": "home-appliances",
+  "name": "أجهزة منزلية وإلكترونيات",
+  "icon": "🏠",
+  "slug": "home-appliances",
+  "children": [
+    {"id": "tv-screens", "name": "شاشات تلفزيون", "children": [
+      {"id": "smart-tv", "name": "شاشات ذكية"},
+      {"id": "led-tv", "name": "شاشات LED"},
+      {"id": "oled-tv", "name": "شاشات OLED"}
+    ]},
+    {"id": "computer-screens", "name": "شاشات كمبيوتر", "children": [
+      {"id": "gaming-monitors", "name": "شاشات جيمنج"},
+      {"id": "work-monitors", "name": "شاشات عمل"}
+    ]},
+    {"id": "cameras", "name": "كاميرات مراقبة", "children": [
+      {"id": "indoor-cameras", "name": "كاميرات داخلية"},
+      {"id": "outdoor-cameras", "name": "كاميرات خارجية"},
+      {"id": "ip-cameras", "name": "كاميرات IP"}
+    ]},
+    {"id": "audio-systems", "name": "أنظمة صوت", "children": [
+      {"id": "speakers", "name": "سماعات"},
+      {"id": "sound-systems", "name": "أنظمة صوتية"},
+      {"id": "home-theater", "name": "هوم ثياتر"}
+    ]},
+    {"id": "lighting", "name": "إضاءة و LED", "children": [
+      {"id": "led-strips", "name": "شرائط LED"},
+      {"id": "smart-lights", "name": "إضاءة ذكية"},
+      {"id": "chandeliers-lighting", "name": "نجف وثريات"}
+    ]},
+    {"id": "kitchen-appliances", "name": "أجهزة مطبخ", "children": [
+      {"id": "refrigerators", "name": "ثلاجات"},
+      {"id": "washing-machines", "name": "غسالات"},
+      {"id": "ovens", "name": "أفران"},
+      {"id": "dishwashers", "name": "غسالات أطباق"}
+    ]},
+    {"id": "ac", "name": "تكييفات"}
+  ]
+},
+        {
+      "id": "arts",
+      "name": "فنون وحرف",
+      "icon": "🎨",
+      "slug": "arts",
+      "children": [
+        {"id": "sculpture", "name": "نحت"},
+        {"id": "ceramics", "name": "خزف وفخار"},
+        {"id": "mosaic", "name": "موزاييك"},
+        {"id": "marble-granite", "name": "رخام وجرانيت"},
+        {"id": "natural-stone", "name": "حجر طبيعي"},
+        {"id": "metal-art", "name": "لوحات معدنية"},
+        {"id": "arabic-calligraphy", "name": "خط عربي"}
+      ]
+    },
+    {
+      "id": "textiles",
+      "name": "نسيج وملابس",
+      "icon": "🧵",
+      "slug": "textiles",
+      "children": [
+        {"id": "embroidery", "name": "تطريز"},
+        {"id": "clothing-print", "name": "طباعة ملابس"},
+        {"id": "tailoring", "name": "خياطة"},
+        {"id": "furnishings", "name": "مفروشات"},
+        {"id": "fashion", "name": "أزياء"}
+      ]
+    },
+    {
+      "id": "leather",
+      "name": "جلود",
+      "icon": "👞",
+      "slug": "leather",
+      "children": [
+        {"id": "natural-leather", "name": "جلود طبيعية"},
+        {"id": "bags-belts", "name": "شنط وأحزمة"},
+        {"id": "shoes", "name": "أحذية"},
+        {"id": "leather-acc", "name": "إكسسوارات جلدية"},
+        {"id": "leather-upholstery", "name": "تنجيد"}
+      ]
+    },
+    {
+      "id": "printing",
+      "name": "طباعة وتغليف",
+      "icon": "🖨️",
+      "slug": "printing",
+      "children": [
+        {"id": "offset-print", "name": "طباعة أوفست"},
+        {"id": "digital-print", "name": "طباعة رقمية"},
+        {"id": "carton-packaging", "name": "تغليف كرتون"},
+        {"id": "gift-packaging", "name": "تغليف هدايا"},
+        {"id": "stickers", "name": "استيكرات"},
+        {"id": "bags-packaging", "name": "أكياس وشنط"}
+      ]
+    },
+    {
+      "id": "entertainment",
+      "name": "ترفيه وتعليم",
+      "icon": "🎮",
+      "slug": "entertainment",
+      "children": [
+        {"id": "musical-instruments", "name": "أدوات موسيقية"},
+        {"id": "educational-toys", "name": "ألعاب تعليمية"},
+        {"id": "robots-models", "name": "روبوتات ومجسمات"},
+        {"id": "art-supplies", "name": "أدوات فنية ورسم"},
+        {"id": "books-stationery", "name": "كتب وأدوات مكتبية"},
+        {"id": "hobbies", "name": "هوايات", "children": [
+          {"id": "stamps", "name": "طوابع"},
+          {"id": "coins", "name": "عملات"}
+        ]}
+      ]
+    },
+    {
+      "id": "digital",
+      "name": "خدمات رقمية",
+      "icon": "💻",
+      "slug": "digital",
+      "children": [
+        {"id": "cnc-files", "name": "ملفات CNC"},
+        {"id": "design-files", "name": "ملفات تصميم"},
+        {"id": "courses", "name": "دورات ودروس"},
+        {"id": "apps-programming", "name": "تطبيقات وبرمجة"}
+      ]
+    },
+    {
+      "id": "construction",
+      "name": "مقاولات وتشطيبات",
+      "icon": "🏗️",
+      "slug": "construction",
+      "children": [
+        {"id": "interior-design", "name": "ديكورات"},
+        {"id": "finishing", "name": "تشطيبات"},
+        {"id": "gypsum", "name": "جبس"},
+        {"id": "paints", "name": "دهانات"},
+        {"id": "ceramic-marble", "name": "سيراميك ورخام"}
+      ]
+    }
+  ]
+}
