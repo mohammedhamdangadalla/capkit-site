@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول — CapKit Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: var(--obsidian);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 28px;
+}
+
+.auth-logo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-logo h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: var(--text-primary);
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
+}
+
+.auth-logo p {
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: var(--obsidian-3);
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.auth-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.auth-tab.active {
+  background: var(--gold);
+  color: var(--obsidian);
+  font-weight: 700;
+}
+
+.role-picker {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.role-option {
+  background: var(--obsidian-3);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.role-option:hover {
+  border-color: var(--border-light);
+}
+
+.role-option.selected {
+  border-color: var(--gold);
+  background: rgba(201, 169, 97, 0.08);
+}
+
+.role-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--obsidian-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.role-text h3 {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.role-text p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.auth-field {
+  margin-bottom: 16px;
+}
+
+.auth-field label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.auth-field input {
+  width: 100%;
+  background: var(--obsidian-3);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.auth-field input:focus {
+  border-color: var(--gold);
+}
+
+.auth-field input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-btn {
+  width: 100%;
+  background: var(--gold);
+  color: var(--obsidian);
+  border: none;
+  padding: 16px;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 8px;
+}
+
+.auth-btn:hover {
+  background: var(--gold-light);
+}
+
+.auth-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auth-msg {
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 0.88rem;
+  display: none;
+}
+
+.auth-msg.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  display: block;
+}
+
+.auth-msg.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+  display: block;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.auth-footer a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.auth-back {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 1.4rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.auth-back:hover {
+  background: var(--obsidian-3);
+  color: var(--gold);
+}
+</style>
+</head>
+<body>
+
+<a href="/" class="auth-back">✕</a>
+
+<main class="auth-page">
+  <div class="auth-card">
+    
+    <div class="auth-logo">
+      <h1>CAPKIT</h1>
+      <p>كاب كيت كو</p>
+    </div>
+
+    <!-- Tabs: Login / Register -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-view="register">حساب جديد</button>
+      <button class="auth-tab" data-view="login">دخول</button>
+    </div>
+
+    <!-- Message Box -->
+    <div id="authMsg" class="auth-msg"></div>
+
+    <!-- ═══ Register View ═══ -->
+    <div id="registerView">
+      
+      <div class="auth-field" style="margin-bottom: 12px;">
+        <label>نوع الحساب</label>
+      </div>
+
+      <div class="role-picker" id="rolePicker">
+        
+        <div class="role-option" data-role="vendor">
+          <div class="role-icon">🛒</div>
+          <div class="role-text">
+            <h3>بائع / ورشة</h3>
+            <p>اعرض منتجاتك في السوق</p>
+          </div>
+        </div>
+
+        <div class="role-option" data-role="service">
+          <div class="role-icon">🔧</div>
+          <div class="role-text">
+            <h3>مقدّم خدمة</h3>
+            <p>صيانة، تركيب، خدمات متخصصة</p>
+          </div>
+        </div>
+
+        <div class="role-option" data-role="freelancer">
+          <div class="role-icon">🔨</div>
+          <div class="role-text">
+            <h3>صنايعي / مقاول / عامل</h3>
+            <p>اعرض مهاراتك للعمل الحر</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="auth-field">
+        <label>الاسم الكامل</label>
+        <input type="text" id="fullName" placeholder="اسمك الكامل أو اسم الورشة">
+      </div>
+
+      <div class="auth-field">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="email" placeholder="example@email.com">
+      </div>
+
+      <div class="auth-field">
+        <label>رقم الواتساب</label>
+        <input type="tel" id="phone" placeholder="+20 1XX XXX XXXX">
+      </div>
+
+      <div class="auth-field">
+        <label>كلمة المرور</label>
+        <input type="password" id="password" placeholder="8 أحرف على الأقل">
+      </div>
+
+      <button class="auth-btn" id="registerBtn">إنشاء الحساب</button>
+
+    </div>
+
+    <!-- ═══ Login View ═══ -->
+    <div id="loginView" style="display: none;">
+      
+      <div class="auth-field">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="loginEmail" placeholder="example@email.com">
+      </div>
+
+      <div class="auth-field">
+        <label>كلمة المرور</label>
+        <input type="password" id="loginPassword" placeholder="كلمة المرور">
+      </div>
+
+      <button class="auth-btn" id="loginBtn">دخول</button>
+
+    </div>
+
+    <div class="auth-footer">
+      بمتابعتك، أنت توافق على
+      <a href="#">شروط الاستخدام</a> و
+      <a href="#">سياسة الخصوصية</a>
+    </div>
+
+  </div>
+</main>
+
+<!-- ═══ Supabase ═══ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="auth.js"></script>
+
+</body>
+</html>
