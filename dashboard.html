@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم — CapKit Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.dashboard-page {
+  min-height: 100vh;
+  padding: 80px 16px 40px;
+  background: var(--obsidian);
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dash-header {
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.12), rgba(201, 169, 97, 0.03));
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dash-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.dash-info {
+  flex: 1;
+}
+
+.dash-info h1 {
+  font-family: 'Amiri', serif;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.dash-info p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.dash-role-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--obsidian);
+  padding: 3px 12px;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.dash-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  scrollbar-width: none;
+}
+
+.dash-tabs::-webkit-scrollbar { display: none; }
+
+.dash-tab {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dash-tab.active {
+  background: var(--gold);
+  color: var(--obsidian);
+  border-color: var(--gold);
+  font-weight: 700;
+}
+
+.dash-content {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 20px;
+  min-height: 400px;
+}
+
+.dash-section {
+  display: none;
+}
+
+.dash-section.active {
+  display: block;
+  animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dash-section h2 {
+  font-family: 'Amiri', serif;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.dash-section-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--obsidian-3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-family: 'Amiri', serif;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: var(--obsidian);
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-action:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--obsidian);
+  color: var(--gold);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .dash-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .dash-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.6rem;
+  }
+  
+  .dash-content {
+    padding: 20px 14px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <span>⏳ جارٍ التحميل...</span>
+</div>
+
+<!-- Dashboard (Hidden by default) -->
+<div class="dashboard-page" id="dashboardPage" style="display: none;">
+  <div class="dashboard-container">
+
+    <!-- Header -->
+    <div class="dash-header">
+      <div class="dash-avatar" id="dashAvatar">👤</div>
+      <div class="dash-info">
+        <h1 id="dashUserName">مرحباً</h1>
+        <p id="dashUserEmail">—</p>
+        <span class="dash-role-badge" id="dashUserRole">—</span>
+      </div>
+      <a href="/" class="btn-action btn-outline">← الرئيسية</a>
+    </div>
+
+    <!-- Tabs -->
+    <div class="dash-tabs">
+      <button class="dash-tab active" data-tab="overview">
+        <span>📊</span> <span>لوحة المعلومات</span>
+      </button>
+      <button class="dash-tab" data-tab="profile">
+        <span>👤</span> <span>ملفي الشخصي</span>
+      </button>
+      <button class="dash-tab" data-tab="products">
+        <span>📦</span> <span>منتجاتي</span>
+      </button>
+      <button class="dash-tab" data-tab="services">
+        <span>🔧</span> <span>خدماتي</span>
+      </button>
+      <button class="dash-tab" data-tab="orders">
+        <span>📋</span> <span>الطلبات</span>
+      </button>
+      <button class="dash-tab" data-tab="settings">
+        <span>⚙️</span> <span>الإعدادات</span>
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="dash-content">
+
+      <!-- Overview -->
+      <section class="dash-section active" id="tab-overview">
+        <h2>لوحة المعلومات</h2>
+        <p class="dash-section-desc">نظرة سريعة على حسابك</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📦</div>
+            <div class="stat-value" id="statProducts">0</div>
+            <div class="stat-label">منتجات</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔧</div>
+            <div class="stat-value" id="statServices">0</div>
+            <div class="stat-label">خدمات</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👁️</div>
+            <div class="stat-value" id="statViews">0</div>
+            <div class="stat-label">مشاهدات</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-value" id="statRating">—</div>
+            <div class="stat-label">تقييم</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile -->
+      <section class="dash-section" id="tab-profile">
+        <h2>ملفي الشخصي</h2>
+        <p class="dash-section-desc">معلوماتك الأساسية</p>
+        
+        <div class="empty-state">
+          <div class="empty-state-icon">👤</div>
+          <h3>تحرير الملف الشخصي</h3>
+          <p>قريباً — تقدر تعدّل اسمك وصورتك وبياناتك</p>
+        </div>
+      </section>
+
+      <!-- Products -->
+      <section class="dash-section" id="tab-products">
+        <h2>منتجاتي</h2>
+        <p class="dash-section-desc">أضف وأدر منتجاتك</p>
+        
+        <div class="empty-state">
+          <div class="empty-state-icon">📦</div>
+          <h3>لم تضف أي منتج بعد</h3>
+          <p>ابدأ بإضافة أول منتج لك، وسيظهر للعملاء في السوق</p>
+          <button class="btn-action" onclick="alert('قريباً: إضافة منتج')">
+            ➕ أضف منتج جديد
+          </button>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section class="dash-section" id="tab-services">
+        <h2>خدماتي</h2>
+        <p class="dash-section-desc">أضف وأدر خدماتك</p>
+        
+        <div class="empty-state">
+          <div class="empty-state-icon">🔧</div>
+          <h3>لم تضف أي خدمة بعد</h3>
+          <p>أضف خدماتك ليصل إليك العملاء</p>
+          <button class="btn-action" onclick="alert('قريباً: إضافة خدمة')">
+            ➕ أضف خدمة جديدة
+          </button>
+        </div>
+      </section>
+
+      <!-- Orders -->
+      <section class="dash-section" id="tab-orders">
+        <h2>الطلبات</h2>
+        <p class="dash-section-desc">تابع طلبات العملاء</p>
+        
+        <div class="empty-state">
+          <div class="empty-state-icon">📋</div>
+          <h3>لا توجد طلبات بعد</h3>
+          <p>لما يوصلك طلب، هيظهر هنا</p>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="dash-section" id="tab-settings">
+        <h2>الإعدادات</h2>
+        <p class="dash-section-desc">إعدادات الحساب</p>
+        
+        <div class="empty-state">
+          <div class="empty-state-icon">⚙️</div>
+          <h3>قريباً</h3>
+          <p>إعدادات الأمان والإشعارات</p>
+          <button class="btn-action btn-outline" id="logoutFromDash">
+            🚪 تسجيل الخروج
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Supabase ═══ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="dashboard.js"></script>
+
+</body>
+</html>
