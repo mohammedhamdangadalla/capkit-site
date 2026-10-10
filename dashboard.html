@@ -504,6 +504,64 @@
   background: rgba(201, 169, 97, 0.15);
   color: var(--gold);
 }
+  /* ═══ Seller Type Picker ═══ */
+.seller-type-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.seller-option {
+  cursor: pointer;
+}
+
+.seller-option input[type="radio"] {
+  display: none;
+}
+
+.seller-option-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--obsidian-3);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 12px;
+  transition: all 0.3s;
+}
+
+.seller-option input:checked + .seller-option-inner {
+  border-color: var(--gold);
+  background: rgba(201, 169, 97, 0.08);
+}
+
+.seller-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.seller-option-inner div {
+  text-align: right;
+}
+
+.seller-option-inner strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  margin-bottom: 2px;
+}
+
+.seller-option-inner small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+@media (max-width: 400px) {
+  .seller-type-picker {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -708,7 +766,32 @@
         <input type="file" id="pImages" accept="image/*" multiple>
         <div class="form-hint">اضغط لاختيار صور من جهازك (حد أقصى 4 صور)</div>
       </div>
-      
+
+      <div class="form-field">
+  <label>نوع البائع *</label>
+  <div class="seller-type-picker">
+    <label class="seller-option">
+      <input type="radio" name="sellerType" value="individual" checked>
+      <div class="seller-option-inner">
+        <span class="seller-icon">👤</span>
+        <div>
+          <strong>بائع حر</strong>
+          <small>أبيع باسمي الشخصي</small>
+        </div>
+      </div>
+    </label>
+    <label class="seller-option">
+      <input type="radio" name="sellerType" value="workshop">
+      <div class="seller-option-inner">
+        <span class="seller-icon">🏭</span>
+        <div>
+          <strong>ورشة / شركة</strong>
+          <small>أبيع باسم ورشتي</small>
+        </div>
+      </div>
+    </label>
+  </div>
+</div>
       <div class="form-field">
         <label>الكمية المتوفرة</label>
         <input type="number" id="pStock" value="1" min="1">
