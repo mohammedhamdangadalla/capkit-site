@@ -53,6 +53,10 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
   if (!phone || phone.length < 10) return showMessage('رقم الواتساب غير صحيح');
   if (!password || password.length < 8) return showMessage('كلمة المرور يجب أن تكون 8 أحرف على الأقل');
   
+  // ✅ التحقق من الموافقة على الشروط
+  const agreed = document.getElementById('agreeTerms')?.checked;
+  if (!agreed) return showMessage('يجب الموافقة على الميثاق والشروط للمتابعة');
+  
   btn.disabled = true;
   btn.textContent = 'جارٍ الإنشاء...';
   hideMessage();
@@ -72,7 +76,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     
     if (error) throw error;
     
-    // إنشاء profile
+    // إنشاء profile + تسجيل الموافقة
     if (data.user) {
       const { error: profileError } = await window.supabaseClient
         .from('profiles')
@@ -84,6 +88,22 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
         });
       
       if (profileError) console.error('Profile error:', profileError);
+
+      // ✅ تسجيل الموافقة على الشروط
+      try {
+        await window.supabaseClient
+          .from('acceptances')
+          .insert({
+            user_id: data.user.id,
+            doc_type: 'terms+privacy+manifesto',
+            doc_version: '1.0',
+            ip_address: 'client',
+            user_agent: navigator.userAgent?.substring(0, 200) || 'unknown'
+          });
+        console.log('✅ Acceptance logged');
+      } catch (acceptErr) {
+        console.warn('Acceptance log failed:', acceptErr);
+      }
     }
     
     showMessage('✅ تم إنشاء حسابك! جارٍ التوجيه...', 'success');
