@@ -243,11 +243,13 @@ function renderWhatsApp() {
   }
 
   // نص الرسالة
-  const message = `مرحباً، أنا مهتم بالمنتج:
- ${p.title}
- ${p.price} ${p.currency}
- ${'https://capkitco.com'}`;
+ const productUrl = `https://capkitco.com/product.html?id=${product.id}`;
 
+const whatsappMessage = `مرحباً، أنا مهتم بالمنتج:
+
+${product.title}
+${product.price} ${product.currency}
+${productUrl}`;
   const encodedMsg = encodeURIComponent(message);
 
   if (phone) {
