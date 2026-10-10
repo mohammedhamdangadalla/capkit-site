@@ -244,9 +244,9 @@ function renderWhatsApp() {
 
   // نص الرسالة
   const message = `مرحباً، أنا مهتم بالمنتج:
-📦 ${p.title}
-💰 ${p.price} ${p.currency}
-🔗 ${window.location.href}`;
+ ${p.title}
+ ${p.price} ${p.currency}
+ ${'https://capkitco.com'}`;
 
   const encodedMsg = encodeURIComponent(message);
 
