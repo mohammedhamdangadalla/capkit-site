@@ -8,6 +8,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+  /* ═══ Profile Form ═══ */
+.profile-form {
+  max-width: 600px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.profile-actions .btn-action {
+  flex: 1;
+  max-width: 250px;
+}
 <style>
 .dashboard-page {
   min-height: 100vh;
@@ -642,15 +657,45 @@
 
       <!-- Profile -->
       <section class="dash-section" id="tab-profile">
-        <h2>ملفي الشخصي</h2>
-        <p class="dash-section-desc">معلوماتك الأساسية</p>
-        
-        <div class="empty-state">
-          <div class="empty-state-icon">👤</div>
-          <h3>تحرير الملف الشخصي</h3>
-          <p>قريباً — تقدر تعدّل اسمك وصورتك وبياناتك</p>
-        </div>
-      </section>
+  <h2>ملفي الشخصي</h2>
+  <p class="dash-section-desc">معلوماتك الأساسية</p>
+  
+  <div class="profile-form">
+    
+    <div class="form-field">
+      <label>الاسم الكامل *</label>
+      <input type="text" id="pfFullName" placeholder="اسمك أو اسم ورشتك" maxlength="60">
+    </div>
+
+    <div class="form-field">
+      <label>رقم الواتساب *</label>
+      <input type="tel" id="pfWhatsapp" placeholder="+20 1XX XXX XXXX">
+      <div class="form-hint">هذا الرقم يظهر للعملاء للتواصل معك</div>
+    </div>
+
+    <div class="form-field">
+      <label>المدينة</label>
+      <input type="text" id="pfCity" placeholder="مثال: القاهرة" maxlength="40">
+    </div>
+
+    <div class="form-field">
+      <label>نبذة عنك / عن ورشتك</label>
+      <textarea id="pfBio" placeholder="اكتب نبذة قصيرة (300 حرف كحد أقصى)..." maxlength="300" rows="4"></textarea>
+      <div class="form-hint">
+        <span id="bioCount">0</span> / 300 حرف
+      </div>
+    </div>
+
+    <div class="modal-message" id="profileMsg"></div>
+
+    <div class="profile-actions">
+      <button class="btn-action" id="saveProfileBtn" onclick="saveProfile()">
+        💾 حفظ التغييرات
+      </button>
+    </div>
+
+  </div>
+</section>
 
       <!-- Products -->
       <section class="dash-section" id="tab-products">
