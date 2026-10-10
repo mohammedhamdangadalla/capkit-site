@@ -39,7 +39,8 @@ async function initDashboard() {
     email: session.user.email
   };
 
-  renderUserInfo();
+    renderUserInfo();
+  loadProfileForm();
   await loadStats();
   await loadMyProducts();
   await handleUrlTab();
@@ -187,6 +188,96 @@ async function loadMyProducts() {
 
   container.appendChild(grid);
 }
+// ═══ Load Profile Data into Form ═══
+function loadProfileForm() {
+  if (!currentProfile) return;
+
+  const el = (id) => document.getElementById(id);
+
+  if (el('pfFullName')) el('pfFullName').value = currentProfile.full_name || '';
+  if (el('pfWhatsapp')) el('pfWhatsapp').value = currentProfile.whatsapp || currentProfile.phone || '';
+  if (el('pfCity')) el('pfCity').value = currentProfile.city || '';
+  if (el('pfBio')) {
+    el('pfBio').value = currentProfile.bio || '';
+    updateBioCounter();
+  }
+}
+
+function updateBioCounter() {
+  const bio = document.getElementById('pfBio');
+  const counter = document.getElementById('bioCount');
+  if (bio && counter) {
+    counter.textContent = bio.value.length;
+  }
+}
+
+// ═══ Save Profile ═══
+window.saveProfile = async function() {
+  const btn = document.getElementById('saveProfileBtn');
+  const msg = document.getElementById('profileMsg');
+  
+  const fullName = document.getElementById('pfFullName')?.value.trim();
+  const whatsapp = document.getElementById('pfWhatsapp')?.value.trim();
+  const city = document.getElementById('pfCity')?.value.trim();
+  const bio = document.getElementById('pfBio')?.value.trim();
+
+  // Validation
+  if (!fullName || fullName.length < 3) {
+    msg.textContent = 'الاسم قصير جداً';
+    msg.className = 'modal-message error';
+    return;
+  }
+
+  if (!whatsapp || whatsapp.replace(/\D/g, '').length < 10) {
+    msg.textContent = 'رقم الواتساب غير صحيح';
+    msg.className = 'modal-message error';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ جارٍ الحفظ...';
+  msg.className = 'modal-message';
+
+  try {
+    const { error } = await window.supabaseClient
+      .from('profiles')
+      .update({
+        full_name: fullName,
+        whatsapp: whatsapp,
+        phone: whatsapp,
+        city: city || null,
+        bio: bio || null,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', currentUser.id);
+
+    if (error) throw error;
+
+    // تحديث البيانات المحلية
+    currentProfile.full_name = fullName;
+    currentProfile.whatsapp = whatsapp;
+    currentProfile.phone = whatsapp;
+    currentProfile.city = city;
+    currentProfile.bio = bio;
+
+    renderUserInfo();
+
+    msg.textContent = '✅ تم حفظ التغييرات بنجاح!';
+    msg.className = 'modal-message success';
+
+    setTimeout(() => {
+      msg.className = 'modal-message';
+    }, 3000);
+
+  } catch (err) {
+    console.error('Save profile error:', err);
+    msg.textContent = '❌ ' + (err.message || 'فشل الحفظ');
+    msg.className = 'modal-message error';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 حفظ التغييرات';
+  }
+};
 
 function getStatusLabel(status) {
   const labels = {
@@ -371,6 +462,12 @@ document.addEventListener('click', async (e) => {
   if (e.target.closest('#logoutFromDash')) {
     await window.supabaseClient.auth.signOut();
     window.location.href = '/';
+  }
+});
+// ═══ Bio Counter Listener ═══
+document.addEventListener('input', (e) => {
+  if (e.target && e.target.id === 'pfBio') {
+    updateBioCounter();
   }
 });
 
