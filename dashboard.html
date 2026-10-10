@@ -415,6 +415,73 @@
   </div>
 </div>
 
+<!-- ═══ Modal: Add Product ═══ -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>➕ أضف منتج جديد</h2>
+      <button class="modal-close" onclick="closeProductModal()">✕</button>
+    </div>
+    
+    <div class="modal-body">
+      
+      <div class="form-field">
+        <label>اسم المنتج *</label>
+        <input type="text" id="pName" placeholder="مثال: شعار الأسد النحاسي" maxlength="60">
+      </div>
+      
+      <div class="form-field">
+        <label>الوصف *</label>
+        <textarea id="pDescription" placeholder="وصف المنتج، المواد، المقاسات..." maxlength="500" rows="4"></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-field">
+          <label>السعر</label>
+          <input type="number" id="pPrice" placeholder="295" min="0">
+        </div>
+        <div class="form-field">
+          <label>العملة</label>
+          <select id="pCurrency">
+            <option value="EGP">EGP — جنيه</option>
+            <option value="USD">USD — دولار</option>
+            <option value="SAR">SAR — ريال</option>
+            <option value="AED">AED — درهم</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-field">
+        <label>التصنيف *</label>
+        <select id="pCategory">
+          <option value="">— اختر التصنيف —</option>
+        </select>
+      </div>
+      
+      <div class="form-field">
+        <label>صور المنتج (اختياري)</label>
+        <input type="file" id="pImages" accept="image/*" multiple>
+        <div class="form-hint">اضغط لاختيار صور من جهازك (حد أقصى 4 صور)</div>
+      </div>
+      
+      <div class="form-field">
+        <label>الكمية المتوفرة</label>
+        <input type="number" id="pStock" value="1" min="1">
+      </div>
+      
+      <div class="modal-message" id="modalMsg"></div>
+      
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-action btn-outline" onclick="closeProductModal()">إلغاء</button>
+      <button class="btn-action" id="saveProductBtn" onclick="saveProduct()">
+        💾 حفظ المنتج
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ Supabase ═══ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
