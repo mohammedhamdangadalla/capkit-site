@@ -245,12 +245,14 @@ function renderWhatsApp() {
   // نص الرسالة
  const productUrl = `https://capkitco.com/product.html?id=${product.id}`;
 
-const whatsappMessage = `مرحباً، أنا مهتم بالمنتج:
+const message = `مرحباً، أنا مهتم بالمنتج:
 
 ${product.title}
 ${product.price} ${product.currency}
+
 ${productUrl}`;
-  const encodedMsg = encodeURIComponent(message);
+
+const encodedMsg = encodeURIComponent(message);
 
   if (phone) {
     btn.href = `https://wa.me/${phone}?text=${encodedMsg}`;
