@@ -313,22 +313,37 @@ window.saveProduct = async function() {
       }
     }
 
-    // 2. حفظ المنتج في DB
-    const { error: dbError } = await window.supabaseClient
-      .from('products')
-      .insert({
-        workshop_id: currentUser.id,
-        category_id: parseInt(categoryId),
-        title: name,
-        description: description,
-        price: price,
-        currency: currency,
-        stock: stock,
-        images: imageUrls,
-        status: 'published',
-        published_at: new Date().toISOString()
-      });
+    // 2. تحديد نوع البائع
+const sellerTypeInput = document.querySelector('input[name="sellerType"]:checked');
+const sellerType = sellerTypeInput ? sellerTypeInput.value : 'individual';
 
+let productData = {
+  category_id: parseInt(categoryId),
+  title: name,
+  description: description,
+  price: price,
+  currency: currency,
+  stock: stock,
+  images: imageUrls,
+  status: 'published',
+  published_at: new Date().toISOString(),
+  seller_type: sellerType
+};
+
+if (sellerType === 'workshop') {
+  // أنشئ / استخدم ورشة
+  const workshop = await ensureWorkshop();
+  productData.workshop_id = workshop.id;
+  productData.seller_id = currentUser.id;
+} else {
+  // بائع حر — بس seller_id
+  productData.seller_id = currentUser.id;
+}
+
+// 3. حفظ المنتج في DB
+const { error: dbError } = await window.supabaseClient
+  .from('products')
+  .insert(productData);
     if (dbError) {
       console.error('DB error:', dbError);
       throw new Error('فشل حفظ المنتج: ' + dbError.message);
