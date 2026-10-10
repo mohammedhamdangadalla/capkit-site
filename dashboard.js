@@ -1,4 +1,4 @@
-// ═══ Dashboard — Logic ═══
+// ═══ Dashboard — Logic (v2) ═══
 
 const ROLE_META = {
   vendor: { name: 'بائع / ورشة', icon: '🛒' },
@@ -10,7 +10,7 @@ const ROLE_META = {
 
 let currentUser = null;
 let currentProfile = null;
-let categoriesCache = [];
+let categoriesLoaded = false;
 
 // ═══ Init Dashboard ═══
 async function initDashboard() {
@@ -40,13 +40,15 @@ async function initDashboard() {
   };
 
   renderUserInfo();
-  await loadCategories();
   await loadStats();
   await loadMyProducts();
   await handleUrlTab();
 
   document.getElementById('loadingScreen').style.display = 'none';
   document.getElementById('dashboardPage').style.display = 'block';
+
+  // ✅ حمّل التصنيفات في الخلفية (بدون انتظار)
+  ensureCategoriesLoaded();
 }
 
 // ═══ Render User Info ═══
@@ -58,30 +60,63 @@ function renderUserInfo() {
   document.getElementById('dashUserRole').textContent = meta.name;
 }
 
-// ═══ Load Categories for dropdown ═══
-async function loadCategories() {
-  const { data, error } = await window.supabaseClient
-    .from('categories')
-    .select('id, name_ar, parent_id, slug')
-    .order('sort_order');
-  
-  if (error) {
-    console.warn('Categories error:', error);
-    return;
-  }
-  
-  categoriesCache = data || [];
-  
+// ═══ Load Categories (once) ═══
+async function ensureCategoriesLoaded() {
+  if (categoriesLoaded) return true;
+
   const select = document.getElementById('pCategory');
-  if (!select) return;
-  
-  // نعرض التصنيفات الرئيسية فقط
-  const mainCats = categoriesCache.filter(c => !c.parent_id);
-  
-  mainCats.forEach(cat => {
+  if (!select) return false;
+
+  try {
+    // 1. جرب Supabase
+    const { data, error } = await window.supabaseClient
+      .from('categories')
+      .select('id, name_ar, parent_id, sort_order')
+      .order('sort_order');
+
+    if (error) throw error;
+
+    if (data && data.length > 0) {
+      const mainCats = data.filter(c => !c.parent_id);
+      fillCategorySelect(select, mainCats.map(c => ({ id: c.id, name: c.name_ar })));
+      categoriesLoaded = true;
+      console.log('✅ Categories loaded from Supabase:', mainCats.length);
+      return true;
+    }
+
+    throw new Error('Empty categories from Supabase');
+
+  } catch (err) {
+    console.warn('⚠️ Supabase categories failed, trying JSON:', err.message);
+
+    // 2. Fallback — JSON محلي
+    try {
+      const res = await fetch('categories.json');
+      const json = await res.json();
+      const mainCats = json.categories || [];
+
+      fillCategorySelect(select, mainCats.map(c => ({ id: c.id, name: c.name })));
+      categoriesLoaded = true;
+      console.log('📁 Categories from JSON fallback:', mainCats.length);
+      return true;
+
+    } catch (jsonErr) {
+      console.error('❌ Both Supabase and JSON failed:', jsonErr);
+      return false;
+    }
+  }
+}
+
+function fillCategorySelect(select, categories) {
+  // احذف كل الخيارات ما عدا الـ placeholder
+  while (select.options.length > 1) {
+    select.remove(1);
+  }
+
+  categories.forEach(cat => {
     const opt = document.createElement('option');
     opt.value = cat.id;
-    opt.textContent = cat.name_ar;
+    opt.textContent = cat.name;
     select.appendChild(opt);
   });
 }
@@ -121,7 +156,6 @@ async function loadMyProducts() {
     return; // Empty state already showing
   }
 
-  // استبدل الـ empty state بجريد المنتجات
   container.innerHTML = '';
 
   const grid = document.createElement('div');
@@ -130,7 +164,7 @@ async function loadMyProducts() {
   data.forEach(product => {
     const card = document.createElement('div');
     card.className = 'my-product-card';
-    
+
     const imageUrl = product.images && product.images.length > 0
       ? product.images[0]
       : '';
@@ -189,14 +223,20 @@ function handleUrlTab() {
 }
 
 // ═══ Modal: Open / Close ═══
-window.openProductModal = function() {
-  document.getElementById('productModal').classList.add('active');
+window.openProductModal = async function() {
+  const modal = document.getElementById('productModal');
+  modal.classList.add('active');
   hideModalMessage();
+
+  // ✅ حمّل التصنيفات لو لسه ما اتحملتش
+  const loaded = await ensureCategoriesLoaded();
+  if (!loaded) {
+    showModalMessage('⚠️ تعذّر تحميل التصنيفات. جرب تحدّث الصفحة.');
+  }
 };
 
 window.closeProductModal = function() {
   document.getElementById('productModal').classList.remove('active');
-  // إعادة تعيين النموذج
   document.getElementById('pName').value = '';
   document.getElementById('pDescription').value = '';
   document.getElementById('pPrice').value = '';
@@ -208,12 +248,14 @@ window.closeProductModal = function() {
 
 function showModalMessage(text, type = 'error') {
   const msg = document.getElementById('modalMsg');
+  if (!msg) return;
   msg.textContent = text;
   msg.className = 'modal-message ' + type;
 }
 
 function hideModalMessage() {
   const msg = document.getElementById('modalMsg');
+  if (!msg) return;
   msg.className = 'modal-message';
   msg.textContent = '';
 }
@@ -221,7 +263,7 @@ function hideModalMessage() {
 // ═══ Save Product ═══
 window.saveProduct = async function() {
   const btn = document.getElementById('saveProductBtn');
-  
+
   const name = document.getElementById('pName').value.trim();
   const description = document.getElementById('pDescription').value.trim();
   const price = parseFloat(document.getElementById('pPrice').value) || 0;
@@ -242,16 +284,16 @@ window.saveProduct = async function() {
   try {
     // 1. رفع الصور
     const imageUrls = [];
-    
+
     if (imageInput.files && imageInput.files.length > 0) {
       const files = Array.from(imageInput.files).slice(0, 4);
-      
+
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const ext = file.name.split('.').pop().toLowerCase();
         const fileName = `${currentUser.id}/${Date.now()}-${i}.${ext}`;
 
-        const { data: uploadData, error: uploadError } = await window.supabaseClient.storage
+        const { error: uploadError } = await window.supabaseClient.storage
           .from('product-images')
           .upload(fileName, file, {
             cacheControl: '3600',
@@ -263,7 +305,6 @@ window.saveProduct = async function() {
           throw new Error('فشل رفع الصورة: ' + uploadError.message);
         }
 
-        // الحصول على الرابط العام
         const { data: { publicUrl } } = window.supabaseClient.storage
           .from('product-images')
           .getPublicUrl(fileName);
@@ -273,8 +314,7 @@ window.saveProduct = async function() {
     }
 
     // 2. حفظ المنتج في DB
-    // ملاحظة: workshop_id مؤقتاً = user.id
-    const { data: product, error: dbError } = await window.supabaseClient
+    const { error: dbError } = await window.supabaseClient
       .from('products')
       .insert({
         workshop_id: currentUser.id,
@@ -287,9 +327,7 @@ window.saveProduct = async function() {
         images: imageUrls,
         status: 'published',
         published_at: new Date().toISOString()
-      })
-      .select()
-      .single();
+      });
 
     if (dbError) {
       console.error('DB error:', dbError);
@@ -297,7 +335,7 @@ window.saveProduct = async function() {
     }
 
     showModalMessage('✅ تم حفظ المنتج بنجاح!', 'success');
-    
+
     setTimeout(() => {
       closeProductModal();
       loadMyProducts();
