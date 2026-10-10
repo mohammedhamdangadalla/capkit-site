@@ -429,6 +429,80 @@
   .form-row {
     grid-template-columns: 1fr;
   }
+}/* ═══ My Products Grid ═══ */
+.my-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.my-product-card {
+  background: var(--obsidian-3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.my-product-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+.my-product-img {
+  aspect-ratio: 1;
+  background: var(--obsidian-2) center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: var(--text-muted);
+}
+
+.my-product-info {
+  padding: 12px;
+}
+
+.my-product-info h4 {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.my-product-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.my-product-status {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 50px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.status-published {
+  background: rgba(34, 197, 94, 0.15);
+  color: #86efac;
+}
+
+.status-draft {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fcd34d;
+}
+
+.status-sold {
+  background: rgba(201, 169, 97, 0.15);
+  color: var(--gold);
 }
 </style>
 </head>
@@ -522,18 +596,23 @@
 
       <!-- Products -->
       <section class="dash-section" id="tab-products">
-        <h2>منتجاتي</h2>
-        <p class="dash-section-desc">أضف وأدر منتجاتك</p>
-        
-        <div class="empty-state">
-          <div class="empty-state-icon">📦</div>
-          <h3>لم تضف أي منتج بعد</h3>
-          <p>ابدأ بإضافة أول منتج لك، وسيظهر للعملاء في السوق</p>
-          <button class="btn-action" onclick="openProductModal()">
-  ➕ أضف منتج جديد
-</button>
-        </div>
-      </section>
+  <h2>منتجاتي</h2>
+  <p class="dash-section-desc">أضف وأدر منتجاتك</p>
+  
+  <div style="margin-bottom: 16px;">
+    <button class="btn-action" onclick="openProductModal()">
+      ➕ أضف منتج جديد
+    </button>
+  </div>
+  
+  <div id="myProductsList">
+    <div class="empty-state">
+      <div class="empty-state-icon">📦</div>
+      <h3>لم تضف أي منتج بعد</h3>
+      <p>ابدأ بإضافة أول منتج لك، وسيظهر للعملاء في السوق</p>
+    </div>
+  </div>
+</section>
 
       <!-- Services -->
       <section class="dash-section" id="tab-services">
