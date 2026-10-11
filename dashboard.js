@@ -130,19 +130,59 @@ function fillCategorySelect(select, categories) {
 // ═══ Load Stats ═══
 async function loadStats() {
   try {
+    // ═══ المنتجات ═══
     const { count: productsCount } = await window.supabaseClient
       .from('products')
-      .select('*', { count: 'exact', head: true });
+      .select('*', { count: 'exact', head: true })
+      .eq('seller_id', currentUser.id);
 
     document.getElementById('statProducts').textContent = productsCount || 0;
-    document.getElementById('statServices').textContent = '0';
-    document.getElementById('statViews').textContent = '0';
-    document.getElementById('statRating').textContent = '—';
+
+    // ═══ الخدمات ═══
+    let servicesCount = 0;
+
+    const { data: freelancer } = await window.supabaseClient
+      .from('freelancers')
+      .select('id')
+      .eq('user_id', currentUser.id)
+      .maybeSingle();
+
+    if (freelancer?.id) {
+      const { count } = await window.supabaseClient
+        .from('services')
+        .select('*', { count: 'exact', head: true })
+        .eq('freelancer_id', freelancer.id);
+
+      servicesCount = count || 0;
+    }
+
+    document.getElementById('statServices').textContent = servicesCount;
+
+    // ═══ المشاهدات ═══
+    const { count: viewsCount } = await window.supabaseClient
+      .from('profile_views')
+      .select('*', { count: 'exact', head: true })
+      .eq('profile_id', currentUser.id);
+
+    document.getElementById('statViews').textContent = viewsCount || 0;
+
+    // ═══ التقييمات ═══
+    const { data: ratings } = await window.supabaseClient
+      .from('ratings')
+      .select('rating')
+      .eq('workshop_id', currentUser.id);
+
+    if (ratings && ratings.length > 0) {
+      const avg = (ratings.reduce((s, r) => s + r.rating, 0) / ratings.length).toFixed(1);
+      document.getElementById('statRating').textContent = avg;
+    } else {
+      document.getElementById('statRating').textContent = '—';
+    }
+
   } catch (err) {
     console.warn('Stats error:', err);
   }
 }
-
 // ═══ Load My Products ═══
 async function loadMyProducts() {
   const container = document.getElementById('myProductsList');
