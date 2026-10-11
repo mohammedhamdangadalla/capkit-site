@@ -356,27 +356,46 @@ async function loadProducts(userId) {
 
 // ═══ Load Services ═══
 async function loadServices(userId) {
-  const { data: services, error } = await window.supabaseClient
-    .from('services')
-    .select('*')
-    .eq('freelancer_id', userId)
-    .eq('status', 'published')
-    .order('created_at', { ascending: false })
-    .limit(6);
+  try {
+    // جلب freelancer_id
+    const { data: freelancer } = await window.supabaseClient
+      .from('freelancers')
+      .select('id')
+      .eq('user_id', userId)
+      .maybeSingle();
 
-  if (error || !services || services.length === 0) return;
+    const freelancerId = freelancer?.id || userId;
 
-  document.getElementById('servicesSection').style.display = 'block';
-  document.getElementById('servicesCount').textContent = services.length;
+    const { data: services, error } = await window.supabaseClient
+      .from('services')
+      .select('*')
+      .eq('freelancer_id', freelancerId)
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .limit(6);
 
-  const container = document.getElementById('servicesContainer');
-  container.innerHTML = '';
+    if (error || !services || services.length === 0) {
+      console.log('No services found');
+      return;
+    }
 
-  const grid = document.createElement('div');
-  grid.className = 'user-products-grid';
+    document.getElementById('servicesSection').style.display = 'block';
+    document.getElementById('servicesCount').textContent = services.length;
 
-  services.forEach(s => grid.appendChild(createServiceCard(s)));
-  container.appendChild(grid);
+    const container = document.getElementById('servicesContainer');
+    container.innerHTML = '';
+
+    const grid = document.createElement('div');
+    grid.className = 'user-products-grid';
+
+    services.forEach(s => grid.appendChild(createServiceCard(s)));
+    container.appendChild(grid);
+
+    console.log('✅ Services loaded:', services.length);
+
+  } catch (err) {
+    console.warn('Services error:', err);
+  }
 }
 
 // ═══ Load Ratings ═══
