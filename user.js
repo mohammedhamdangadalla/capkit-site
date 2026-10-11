@@ -375,7 +375,12 @@ async function loadServices(userId) {
       .eq('user_id', userId)
       .maybeSingle();
 
-    const freelancerId = freelancer?.id || userId;
+      if (!freelancer?.id) {
+      console.log('ℹ️ No freelancer profile found');
+      return;
+    }
+    
+    const freelancerId = freelancer.id;
 
     const { data: services, error } = await window.supabaseClient
       .from('services')
