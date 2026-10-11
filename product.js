@@ -212,7 +212,7 @@ function switchImage(index) {
 }
 
 // ═══ Seller ═══
-function renderSeller() {
+
 function renderSeller() {
   if (!currentSeller) return;
 
