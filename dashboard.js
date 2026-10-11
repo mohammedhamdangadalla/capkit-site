@@ -502,12 +502,12 @@ const { error: dbError } = await window.supabaseClient
   }
 };
 
-  // ═══ Load My Services ═══
+// ═══ Load My Services ═══
 async function loadMyServices() {
   const container = document.getElementById('myServicesList');
   if (!container) return;
 
-  // نلاقي freelancer_id الحقيقي
+  // نلاقي freelancer_id
   const { data: freelancer } = await window.supabaseClient
     .from('freelancers')
     .select('id')
@@ -515,7 +515,7 @@ async function loadMyServices() {
     .maybeSingle();
 
   if (!freelancer?.id) {
-    console.log('ℹ️ No freelancer profile');
+    console.log('ℹ️ No freelancer profile yet');
     return;
   }
 
