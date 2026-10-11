@@ -100,27 +100,39 @@ async function logView(profileId) {
 // ═══ Get Seller Stats ═══
 async function getSellerStats(userId) {
   try {
-    // منتجات
+    // ═══ خدمات: نجيب freelancer_id الأول ═══
+    let servicesCount = 0;
+    
+    const { data: freelancer } = await window.supabaseClient
+      .from('freelancers')
+      .select('id')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (freelancer?.id) {
+      const { count } = await window.supabaseClient
+        .from('services')
+        .select('*', { count: 'exact', head: true })
+        .eq('freelancer_id', freelancer.id)
+        .eq('status', 'published');
+      
+      servicesCount = count || 0;
+    }
+
+    // ═══ منتجات ═══
     const { count: productsCount } = await window.supabaseClient
       .from('products')
       .select('*', { count: 'exact', head: true })
       .eq('seller_id', userId)
       .eq('status', 'published');
 
-    // خدمات
-    const { count: servicesCount } = await window.supabaseClient
-      .from('services')
-      .select('*', { count: 'exact', head: true })
-      .eq('freelancer_id', userId)
-      .eq('status', 'published');
-
-    // متابعين
+    // ═══ متابعين ═══
     const { count: followersCount } = await window.supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
       .eq('following_id', userId);
 
-    // تقييمات — نبسط الاستعلام
+    // ═══ تقييمات ═══
     let ratingsCount = 0;
     let avgRating = null;
 
@@ -140,7 +152,7 @@ async function getSellerStats(userId) {
 
     return {
       products_count: productsCount || 0,
-      services_count: servicesCount || 0,
+      services_count: servicesCount,
       followers_count: followersCount || 0,
       ratings_count: ratingsCount,
       avg_rating: avgRating
@@ -157,7 +169,6 @@ async function getSellerStats(userId) {
     };
   }
 }
-
 // ═══ Follow Status ═══
 async function checkFollowStatus(targetId) {
   if (!currentUserId) return false;
