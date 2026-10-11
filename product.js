@@ -21,7 +21,6 @@ async function initProduct() {
   }
 
   try {
-    // جلب المنتج
     const { data: product, error } = await window.supabaseClient
       .from('products')
       .select('*')
@@ -37,10 +36,7 @@ async function initProduct() {
     currentProduct = product;
     currentImages = product.images || [];
 
-    // جلب معلومات البائع
     await loadSeller(product);
-
-    // عرض المنتج
     renderProduct();
     showContent();
 
@@ -53,11 +49,11 @@ async function initProduct() {
 // ═══ Load Seller ═══
 async function loadSeller(product) {
   try {
-    // لو فيه seller_id (بائع حر)
+    // بائع حر
     if (product.seller_id) {
       const { data: profile } = await window.supabaseClient
         .from('profiles')
-        .select('full_name, role, governorate_id')
+        .select('full_name, role, whatsapp, phone, city')
         .eq('id', product.seller_id)
         .single();
 
@@ -66,13 +62,15 @@ async function loadSeller(product) {
           name: profile.full_name || 'بائع',
           type: 'individual',
           role: profile.role,
-          id: product.seller_id
+          id: product.seller_id,
+          whatsapp: profile.whatsapp || profile.phone,
+          city: profile.city
         };
         return;
       }
     }
 
-    // لو فيه workshop_id
+    // ورشة
     if (product.workshop_id) {
       const { data: workshop } = await window.supabaseClient
         .from('workshops')
@@ -91,7 +89,6 @@ async function loadSeller(product) {
       }
     }
 
-    // Fallback
     currentSeller = {
       name: 'بائع',
       type: 'individual',
@@ -108,30 +105,19 @@ async function loadSeller(product) {
 function renderProduct() {
   const p = currentProduct;
 
-  // Title
   document.getElementById('productTitle').textContent = p.title || 'بدون اسم';
 
-  // Price
   const priceEl = document.getElementById('productPrice');
   priceEl.innerHTML = `<span>${p.price || 0}</span><small>${p.currency || 'EGP'}</small>`;
 
-  // Description
   document.getElementById('productDescription').textContent = 
     p.description || 'لا يوجد وصف';
 
-  // Badges
   renderBadges();
-
-  // Gallery
   renderGallery();
-
-  // Seller
   renderSeller();
-
-  // WhatsApp
   renderWhatsApp();
 
-  // Page Title
   document.title = `${p.title || 'المنتج'} — CapKit Co.`;
 }
 
@@ -180,12 +166,10 @@ function renderGallery() {
   const main = document.getElementById('galleryMain');
   const thumbs = document.getElementById('galleryThumbs');
 
-  // Main Image
   if (currentImages.length > 0) {
     main.innerHTML = `<img src="${currentImages[0]}" alt="صورة المنتج" onerror="this.parentElement.innerHTML='<span class=\\'placeholder-icon\\'>📦</span>'">`;
   }
 
-  // Thumbs
   thumbs.innerHTML = '';
   currentImages.forEach((url, index) => {
     const t = document.createElement('div');
@@ -195,7 +179,6 @@ function renderGallery() {
     thumbs.appendChild(t);
   });
 
-  // Hide thumbs if only 1 image
   if (currentImages.length <= 1) {
     thumbs.style.display = 'none';
   }
@@ -212,9 +195,7 @@ function switchImage(index) {
 }
 
 // ═══ Seller ═══
-
 function renderSeller() {
- function renderSeller() {
   if (!currentSeller) return;
 
   const box = document.getElementById('sellerBox');
@@ -223,7 +204,6 @@ function renderSeller() {
     ? 'ورشة / شركة' 
     : 'بائع حر';
 
-  // رابط لصفحة البائع
   const sellerLink = currentSeller.id 
     ? `user?id=${currentSeller.id}` 
     : '#';
@@ -239,33 +219,20 @@ function renderSeller() {
       <p>${roleText} · موثّق · <span style="color: var(--gold);">شوف الملف ←</span></p>
     </div>
   `;
-
-  // اجعل الـ box كله قابل للنقر
-  box.style.cursor = 'pointer';
-  box.addEventListener('click', (e) => {
-    // لو ضغط على لينك، سيب المتصفح يتصرف
-    if (e.target.tagName === 'A') return;
-    if (currentSeller.id) {
-      window.location.href = sellerLink;
-    }
-  });
 }
+
 // ═══ WhatsApp ═══
 function renderWhatsApp() {
   const btn = document.getElementById('whatsappBtn');
   const p = currentProduct;
 
-  // رقم الواتساب
   let phone = '';
-
   if (currentSeller?.whatsapp) {
     phone = currentSeller.whatsapp.replace(/\D/g, '');
   }
 
-  // الرابط الكامل للمنتج
   const productUrl = `https://capkitco.com/product?id=${p.id}`;
 
-  // نص الرسالة
   const message = `مرحباً، أنا مهتم بالمنتج:
 
 ${p.title}
@@ -278,7 +245,6 @@ ${productUrl}`;
   if (phone) {
     btn.href = `https://wa.me/${phone}?text=${encodedMsg}`;
   } else {
-    // لو مفيش رقم، نحط نص بس
     btn.href = `https://wa.me/?text=${encodedMsg}`;
   }
 }
