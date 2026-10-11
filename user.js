@@ -120,16 +120,23 @@ async function getSellerStats(userId) {
       .select('*', { count: 'exact', head: true })
       .eq('following_id', userId);
 
-    // تقييمات
-    const { data: ratingsData } = await window.supabaseClient
-      .from('ratings')
-      .select('rating')
-      .or(`workshop_id.eq.${userId},product_id.in.(SELECT id FROM products WHERE seller_id='${userId}')`);
+    // تقييمات — نبسط الاستعلام
+    let ratingsCount = 0;
+    let avgRating = null;
 
-    const ratingsCount = ratingsData?.length || 0;
-    const avgRating = ratingsCount > 0
-      ? (ratingsData.reduce((s, r) => s + r.rating, 0) / ratingsCount).toFixed(1)
-      : null;
+    try {
+      const { data: ratingsData } = await window.supabaseClient
+        .from('ratings')
+        .select('rating')
+        .eq('workshop_id', userId);
+
+      if (ratingsData && ratingsData.length > 0) {
+        ratingsCount = ratingsData.length;
+        avgRating = (ratingsData.reduce((s, r) => s + r.rating, 0) / ratingsCount).toFixed(1);
+      }
+    } catch (err) {
+      console.warn('Ratings fetch error:', err);
+    }
 
     return {
       products_count: productsCount || 0,
