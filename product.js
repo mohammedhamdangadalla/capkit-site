@@ -213,7 +213,7 @@ function switchImage(index) {
 
 // ═══ Seller ═══
 function renderSeller() {
- function renderSeller() {
+function renderSeller() {
   if (!currentSeller) return;
 
   const box = document.getElementById('sellerBox');
@@ -222,32 +222,13 @@ function renderSeller() {
     ? 'ورشة / شركة' 
     : 'بائع حر';
 
-  // رابط لصفحة البائع
-  const sellerLink = currentSeller.id 
-    ? `user?id=${currentSeller.id}` 
-    : '#';
-
   box.innerHTML = `
-    <a href="${sellerLink}" class="seller-avatar" style="text-decoration:none;">${icon}</a>
+    <div class="seller-avatar">${icon}</div>
     <div class="seller-info">
-      <h4>
-        <a href="${sellerLink}" style="color: inherit; text-decoration: none;">
-          ${escapeHtml(currentSeller.name)}
-        </a>
-      </h4>
-      <p>${roleText} · موثّق · <span style="color: var(--gold);">شوف الملف ←</span></p>
+      <h4>${escapeHtml(currentSeller.name)}</h4>
+      <p>${roleText} · موثّق</p>
     </div>
   `;
-
-  // اجعل الـ box كله قابل للنقر
-  box.style.cursor = 'pointer';
-  box.addEventListener('click', (e) => {
-    // لو ضغط على لينك، سيب المتصفح يتصرف
-    if (e.target.tagName === 'A') return;
-    if (currentSeller.id) {
-      window.location.href = sellerLink;
-    }
-  });
 }
 // ═══ WhatsApp ═══
 function renderWhatsApp() {
