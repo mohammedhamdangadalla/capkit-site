@@ -119,10 +119,14 @@ function fillCategorySelect(select, categories) {
     const opt = document.createElement('option');
     opt.value = cat.id;
     opt.textContent = cat.name;
+    opt.style.color = '#f5f0e8';
+    opt.style.background = '#181818';
     select.appendChild(opt);
   });
-}
 
+  // Force refresh
+  select.style.color = 'var(--text-primary)';
+}
 // ═══ Load Stats ═══
 async function loadStats() {
   try {
