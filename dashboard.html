@@ -628,18 +628,23 @@
 
       <!-- Services -->
       <section class="dash-section" id="tab-services">
-        <h2>خدماتي</h2>
-        <p class="dash-section-desc">أضف وأدر خدماتك</p>
-        
-        <div class="empty-state">
-          <div class="empty-state-icon">🔧</div>
-          <h3>لم تضف أي خدمة بعد</h3>
-          <p>أضف خدماتك ليصل إليك العملاء</p>
-          <button class="btn-action" onclick="alert('قريباً: إضافة خدمة')">
-            ➕ أضف خدمة جديدة
-          </button>
-        </div>
-      </section>
+  <h2>خدماتي</h2>
+  <p class="dash-section-desc">أضف وأدر خدماتك</p>
+  
+  <div style="margin-bottom: 16px;">
+    <button class="btn-action" onclick="openServiceModal()">
+      ➕ أضف خدمة جديدة
+    </button>
+  </div>
+  
+  <div id="myServicesList">
+    <div class="empty-state">
+      <div class="empty-state-icon">🔧</div>
+      <h3>لم تضف أي خدمة بعد</h3>
+      <p>أضف خدماتك ليصل إليك العملاء</p>
+    </div>
+  </div>
+</section>
 
       <!-- Orders -->
       <section class="dash-section" id="tab-orders">
@@ -759,6 +764,105 @@
       <button class="btn-action btn-outline" onclick="closeProductModal()">إلغاء</button>
       <button class="btn-action" id="saveProductBtn" onclick="saveProduct()">
         💾 حفظ المنتج
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Modal: Add Service ═══ -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>🔧 أضف خدمة جديدة</h2>
+      <button class="modal-close" onclick="closeServiceModal()">✕</button>
+    </div>
+    
+    <div class="modal-body">
+      
+      <div class="form-field">
+        <label>اسم الخدمة *</label>
+        <input type="text" id="sName" placeholder="مثال: صيانة تكييف" maxlength="60">
+      </div>
+      
+      <div class="form-field">
+        <label>الوصف *</label>
+        <textarea id="sDescription" placeholder="وصف الخدمة، ما تشمله، المدة المتوقعة..." maxlength="500" rows="4"></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-field">
+          <label>السعر يبدأ من</label>
+          <input type="number" id="sPriceStart" placeholder="200" min="0">
+        </div>
+        <div class="form-field">
+          <label>إلى (اختياري)</label>
+          <input type="number" id="sPriceEnd" placeholder="500" min="0">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>العملة</label>
+          <select id="sCurrency">
+            <option value="EGP">EGP — جنيه</option>
+            <option value="USD">USD — دولار</option>
+            <option value="SAR">SAR — ريال</option>
+            <option value="AED">AED — درهم</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>نوع الخدمة</label>
+          <select id="sType">
+            <option value="repair">🔧 صيانة</option>
+            <option value="installation">🔨 تركيب</option>
+            <option value="maintenance">⚙️ صيانة دورية</option>
+            <option value="consultation">💬 استشارة</option>
+            <option value="custom">✨ خدمة مخصصة</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-field">
+        <label>التصنيف *</label>
+        <select id="sCategory">
+          <option value="">— اختر التصنيف —</option>
+        </select>
+      </div>
+      
+      <div class="form-field">
+        <label>السعر قابل للتفاوض؟</label>
+        <div class="seller-type-picker">
+          <label class="seller-option">
+            <input type="radio" name="sNegotiable" value="true" checked>
+            <div class="seller-option-inner">
+              <span class="seller-icon">💬</span>
+              <div>
+                <strong>قابل للتفاوض</strong>
+                <small>السعر مرجعي</small>
+              </div>
+            </div>
+          </label>
+          <label class="seller-option">
+            <input type="radio" name="sNegotiable" value="false">
+            <div class="seller-option-inner">
+              <span class="seller-icon">🔒</span>
+              <div>
+                <strong>سعر ثابت</strong>
+                <small>غير قابل للتفاوض</small>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+      
+      <div class="modal-message" id="serviceModalMsg"></div>
+      
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-action btn-outline" onclick="closeServiceModal()">إلغاء</button>
+      <button class="btn-action" id="saveServiceBtn" onclick="saveService()">
+        💾 حفظ الخدمة
       </button>
     </div>
   </div>
