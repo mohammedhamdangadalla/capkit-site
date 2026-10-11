@@ -188,11 +188,11 @@ async function loadMyProducts() {
   const container = document.getElementById('myProductsList');
   if (!container) return;
 
-  const { data, error } = await window.supabaseClient
-    .from('products')
-    .select('*')
-    .order('created_at', { ascending: false });
-
+ const { data, error } = await window.supabaseClient
+  .from('products')
+  .select('*')
+  .eq('seller_id', currentUser.id)
+  .order('created_at', { ascending: false });
   if (error) {
     console.error('Products error:', error);
     return;
@@ -506,11 +506,67 @@ async function loadMyServices() {
   const container = document.getElementById('myServicesList');
   if (!container) return;
 
+  // ═══ Load My Services ═══
+async function loadMyServices() {
+  const container = document.getElementById('myServicesList');
+  if (!container) return;
+
+  // نلاقي freelancer_id الحقيقي
+  const { data: freelancer } = await window.supabaseClient
+    .from('freelancers')
+    .select('id')
+    .eq('user_id', currentUser.id)
+    .maybeSingle();
+
+  if (!freelancer?.id) {
+    console.log('ℹ️ No freelancer profile');
+    return;
+  }
+
   const { data, error } = await window.supabaseClient
     .from('services')
     .select('*')
-    .eq('freelancer_id', currentUser.id)
+    .eq('freelancer_id', freelancer.id)
     .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Services error:', error);
+    return;
+  }
+
+  if (!data || data.length === 0) return;
+
+  container.innerHTML = '';
+
+  const grid = document.createElement('div');
+  grid.className = 'my-products-grid';
+
+  data.forEach(service => {
+    const card = document.createElement('div');
+    card.className = 'my-product-card';
+
+    const priceText = service.price_start
+      ? `${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'} ${service.currency}`
+      : 'اتصل للسعر';
+
+    card.innerHTML = `
+      <div class="my-product-img" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), transparent);">
+        <span>🔧</span>
+      </div>
+      <div class="my-product-info">
+        <h4>${escapeHtml(service.title)}</h4>
+        <div class="my-product-price">${priceText}</div>
+        <div class="my-product-status status-${service.status}">
+          ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  container.appendChild(grid);
+}
 
   if (error) {
     console.error('Services error:', error);
@@ -606,8 +662,8 @@ window.saveService = async function() {
   hideServiceModalMessage();
 
   try {
-       // ═══ تأكد من وجود freelancer profile ═══
-    let freelancerId = currentUser.id;
+    // ═══ تأكد من وجود freelancer profile ═══
+    let freelancerId = null;
     
     const { data: existingFreelancer } = await window.supabaseClient
       .from('freelancers')
@@ -615,7 +671,11 @@ window.saveService = async function() {
       .eq('user_id', currentUser.id)
       .maybeSingle();
 
-    if (!existingFreelancer) {
+    if (existingFreelancer?.id) {
+      freelancerId = existingFreelancer.id;
+      console.log('✅ Using existing freelancer:', freelancerId);
+    } else {
+      // إنشاء freelancer جديد
       const { data: newFreelancer, error: flError } = await window.supabaseClient
         .from('freelancers')
         .insert({
@@ -629,14 +689,16 @@ window.saveService = async function() {
         .single();
 
       if (flError) {
-        console.warn('Freelancer create failed:', flError);
-      } else {
-        freelancerId = newFreelancer.id;
+        console.error('Freelancer create failed:', flError);
+        throw new Error('فشل إنشاء ملف الصانع: ' + flError.message);
       }
-    } else {
-      freelancerId = existingFreelancer.id;
+
+      freelancerId = newFreelancer.id;
+      console.log('✅ New freelancer created:', freelancerId);
     }
-       const { error } = await window.supabaseClient
+
+    // ═══ حفظ الخدمة ═══
+    const { error } = await window.supabaseClient
       .from('services')
       .insert({
         freelancer_id: freelancerId,
@@ -655,10 +717,10 @@ window.saveService = async function() {
 
     showServiceModalMessage('✅ تم حفظ الخدمة بنجاح!', 'success');
 
-    setTimeout(() => {
-      closeServiceModal();
-      loadMyServices();
-    }, 1500);
+    // ═══ إعادة التحميل بعد الحفظ ═══
+    closeServiceModal();
+    await loadMyServices();
+    await loadStats();
 
   } catch (err) {
     console.error('Save service error:', err);
