@@ -566,10 +566,40 @@ window.saveService = async function() {
   hideServiceModalMessage();
 
   try {
-    const { error } = await window.supabaseClient
+       // ═══ تأكد من وجود freelancer profile ═══
+    let freelancerId = currentUser.id;
+    
+    const { data: existingFreelancer } = await window.supabaseClient
+      .from('freelancers')
+      .select('id')
+      .eq('user_id', currentUser.id)
+      .maybeSingle();
+
+    if (!existingFreelancer) {
+      const { data: newFreelancer, error: flError } = await window.supabaseClient
+        .from('freelancers')
+        .insert({
+          user_id: currentUser.id,
+          type: 'craftsman',
+          skill_level: 'skilled',
+          status: 'active',
+          experience_years: 0
+        })
+        .select()
+        .single();
+
+      if (flError) {
+        console.warn('Freelancer create failed:', flError);
+      } else {
+        freelancerId = newFreelancer.id;
+      }
+    } else {
+      freelancerId = existingFreelancer.id;
+    }
+       const { error } = await window.supabaseClient
       .from('services')
       .insert({
-        freelancer_id: currentUser.id,
+        freelancer_id: freelancerId,
         category_id: parseInt(categoryId),
         title: name,
         description: description,
