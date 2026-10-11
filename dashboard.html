@@ -4,19 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لوحة التحكم — CapKit Co.</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 
 <style>
-  
-.profile-actions .btn-action {
-.profile-actions .btn-action {
-  flex: 1;
-  max-width: 250px;
-}
-
 .dashboard-page {
   min-height: 100vh;
   padding: 80px 16px 40px;
@@ -51,9 +45,7 @@
   flex-shrink: 0;
 }
 
-.dash-info {
-  flex: 1;
-}
+.dash-info { flex: 1; }
 
 .dash-info h1 {
   font-family: 'Amiri', serif;
@@ -121,9 +113,7 @@
   min-height: 400px;
 }
 
-.dash-section {
-  display: none;
-}
+.dash-section { display: none; }
 
 .dash-section.active {
   display: block;
@@ -163,10 +153,7 @@
   text-align: center;
 }
 
-.stat-icon {
-  font-size: 1.8rem;
-  margin-bottom: 8px;
-}
+.stat-icon { font-size: 1.8rem; margin-bottom: 8px; }
 
 .stat-value {
   font-family: 'Cormorant Garamond', serif;
@@ -177,10 +164,7 @@
   margin-bottom: 4px;
 }
 
-.stat-label {
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-}
+.stat-label { color: var(--text-secondary); font-size: 0.75rem; }
 
 .empty-state {
   text-align: center;
@@ -188,11 +172,7 @@
   color: var(--text-secondary);
 }
 
-.empty-state-icon {
-  font-size: 3rem;
-  margin-bottom: 16px;
-  opacity: 0.5;
-}
+.empty-state-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
 
 .empty-state h3 {
   font-family: 'Amiri', serif;
@@ -201,10 +181,7 @@
   margin-bottom: 8px;
 }
 
-.empty-state p {
-  font-size: 0.85rem;
-  margin-bottom: 20px;
-}
+.empty-state p { font-size: 0.85rem; margin-bottom: 20px; }
 
 .btn-action {
   display: inline-flex;
@@ -240,42 +217,6 @@
   background: transparent;
 }
 
-.loading-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--obsidian);
-  color: var(--gold);
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1.1rem;
-}
-
-@media (max-width: 600px) {
-  .dash-header {
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .dash-avatar {
-    width: 60px;
-    height: 60px;
-    font-size: 1.6rem;
-  }
-  
-  .dash-content {
-    padding: 20px 14px;
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-  @media (max-width: 600px) {
-  ...
-  }
-  /* ═══ Modal ═══ */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -289,9 +230,7 @@
   overflow-y: auto;
 }
 
-.modal-overlay.active {
-  display: flex;
-}
+.modal-overlay.active { display: flex; }
 
 .modal-box {
   background: var(--obsidian-2);
@@ -330,10 +269,7 @@
   border-radius: 6px;
 }
 
-.modal-close:hover {
-  background: var(--obsidian-3);
-  color: var(--gold);
-}
+.modal-close:hover { background: var(--obsidian-3); color: var(--gold); }
 
 .modal-body {
   padding: 20px 22px;
@@ -341,9 +277,7 @@
   flex: 1;
 }
 
-.form-field {
-  margin-bottom: 16px;
-}
+.form-field { margin-bottom: 16px; }
 
 .form-field label {
   display: block;
@@ -370,14 +304,9 @@
 
 .form-field input:focus,
 .form-field textarea:focus,
-.form-field select:focus {
-  border-color: var(--gold);
-}
+.form-field select:focus { border-color: var(--gold); }
 
-.form-field textarea {
-  resize: vertical;
-  min-height: 90px;
-}
+.form-field textarea { resize: vertical; min-height: 90px; }
 
 .form-field input[type="file"] {
   padding: 10px;
@@ -433,11 +362,47 @@
   font-size: 0.88rem;
 }
 
-@media (max-width: 500px) {
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-}/* ═══ My Products Grid ═══ */
+.seller-type-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.seller-option { cursor: pointer; }
+.seller-option input[type="radio"] { display: none; }
+
+.seller-option-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--obsidian-3);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 12px;
+  transition: all 0.3s;
+}
+
+.seller-option input:checked + .seller-option-inner {
+  border-color: var(--gold);
+  background: rgba(201, 169, 97, 0.08);
+}
+
+.seller-icon { font-size: 1.5rem; flex-shrink: 0; }
+.seller-option-inner div { text-align: right; }
+
+.seller-option-inner strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  margin-bottom: 2px;
+}
+
+.seller-option-inner small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
 .my-products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -468,9 +433,7 @@
   color: var(--text-muted);
 }
 
-.my-product-info {
-  padding: 12px;
-}
+.my-product-info { padding: 12px; }
 
 .my-product-info h4 {
   font-size: 0.9rem;
@@ -498,82 +461,11 @@
   font-weight: 600;
 }
 
-.status-published {
-  background: rgba(34, 197, 94, 0.15);
-  color: #86efac;
-}
+.status-published { background: rgba(34, 197, 94, 0.15); color: #86efac; }
+.status-draft { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
+.status-sold { background: rgba(201, 169, 97, 0.15); color: var(--gold); }
 
-.status-draft {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fcd34d;
-}
-
-.status-sold {
-  background: rgba(201, 169, 97, 0.15);
-  color: var(--gold);
-}
-  /* ═══ Seller Type Picker ═══ */
-.seller-type-picker {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.seller-option {
-  cursor: pointer;
-}
-
-.seller-option input[type="radio"] {
-  display: none;
-}
-
-.seller-option-inner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--obsidian-3);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 12px;
-  transition: all 0.3s;
-}
-
-.seller-option input:checked + .seller-option-inner {
-  border-color: var(--gold);
-  background: rgba(201, 169, 97, 0.08);
-}
-
-.seller-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.seller-option-inner div {
-  text-align: right;
-}
-
-.seller-option-inner strong {
-  display: block;
-  color: var(--text-primary);
-  font-size: 0.88rem;
-  margin-bottom: 2px;
-}
-
-.seller-option-inner small {
-  display: block;
-  color: var(--text-muted);
-  font-size: 0.72rem;
-}
-@media (max-width: 400px) {
-  .seller-type-picker {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ═══ Profile Form ═══ */
-.profile-form {
-  max-width: 600px;
-}
+.profile-form { max-width: 600px; }
 
 .profile-actions {
   display: flex;
@@ -584,6 +476,15 @@
 .profile-actions .btn-action {
   flex: 1;
   max-width: 250px;
+}
+
+@media (max-width: 600px) {
+  .dash-header { flex-direction: column; text-align: center; padding: 20px; }
+  .dash-avatar { width: 60px; height: 60px; font-size: 1.6rem; }
+  .dash-content { padding: 20px 14px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  .seller-type-picker { grid-template-columns: 1fr; }
 }
 </style>
 </head>
