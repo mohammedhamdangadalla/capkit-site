@@ -41,8 +41,9 @@ async function initDashboard() {
 
     renderUserInfo();
   loadProfileForm();
-  await loadStats();
+   await loadStats();
   await loadMyProducts();
+  await loadMyServices();
   await handleUrlTab();
 
   document.getElementById('loadingScreen').style.display = 'none';
@@ -454,6 +455,143 @@ const { error: dbError } = await window.supabaseClient
   } finally {
     btn.disabled = false;
     btn.textContent = '💾 حفظ المنتج';
+  }
+};
+// ═══ Load My Services ═══
+async function loadMyServices() {
+  const container = document.getElementById('myServicesList');
+  if (!container) return;
+
+  const { data, error } = await window.supabaseClient
+    .from('services')
+    .select('*')
+    .eq('freelancer_id', currentUser.id)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Services error:', error);
+    return;
+  }
+
+  if (!data || data.length === 0) return;
+
+  container.innerHTML = '';
+
+  const grid = document.createElement('div');
+  grid.className = 'my-products-grid';
+
+  data.forEach(service => {
+    const card = document.createElement('div');
+    card.className = 'my-product-card';
+
+    const priceText = service.price_start
+      ? `${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'} ${service.currency}`
+      : 'اتصل للسعر';
+
+    card.innerHTML = `
+      <div class="my-product-img" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), transparent);">
+        <span>🔧</span>
+      </div>
+      <div class="my-product-info">
+        <h4>${escapeHtml(service.title)}</h4>
+        <div class="my-product-price">${priceText}</div>
+        <div class="my-product-status status-${service.status}">
+          ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  container.appendChild(grid);
+}
+
+// ═══ Open / Close Service Modal ═══
+window.openServiceModal = async function() {
+  const modal = document.getElementById('serviceModal');
+  modal.classList.add('active');
+  hideServiceModalMessage();
+  await ensureCategoriesLoaded();
+};
+
+window.closeServiceModal = function() {
+  document.getElementById('serviceModal').classList.remove('active');
+  document.getElementById('sName').value = '';
+  document.getElementById('sDescription').value = '';
+  document.getElementById('sPriceStart').value = '';
+  document.getElementById('sPriceEnd').value = '';
+  document.getElementById('sCategory').value = '';
+  document.querySelector('input[name="sNegotiable"][value="true"]').checked = true;
+  hideServiceModalMessage();
+};
+
+function showServiceModalMessage(text, type = 'error') {
+  const msg = document.getElementById('serviceModalMsg');
+  msg.textContent = text;
+  msg.className = 'modal-message ' + type;
+}
+
+function hideServiceModalMessage() {
+  const msg = document.getElementById('serviceModalMsg');
+  msg.className = 'modal-message';
+  msg.textContent = '';
+}
+
+// ═══ Save Service ═══
+window.saveService = async function() {
+  const btn = document.getElementById('saveServiceBtn');
+  
+  const name = document.getElementById('sName').value.trim();
+  const description = document.getElementById('sDescription').value.trim();
+  const priceStart = parseFloat(document.getElementById('sPriceStart').value) || 0;
+  const priceEnd = parseFloat(document.getElementById('sPriceEnd').value) || null;
+  const currency = document.getElementById('sCurrency').value;
+  const type = document.getElementById('sType').value;
+  const categoryId = document.getElementById('sCategory').value;
+  const negotiableInput = document.querySelector('input[name="sNegotiable"]:checked');
+  const negotiable = negotiableInput ? negotiableInput.value === 'true' : true;
+
+  // Validation
+  if (!name || name.length < 3) return showServiceModalMessage('اسم الخدمة قصير جداً');
+  if (!description || description.length < 20) return showServiceModalMessage('الوصف قصير جداً (20 حرف على الأقل)');
+  if (!categoryId) return showServiceModalMessage('اختر التصنيف');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ جارٍ الحفظ...';
+  hideServiceModalMessage();
+
+  try {
+    const { error } = await window.supabaseClient
+      .from('services')
+      .insert({
+        freelancer_id: currentUser.id,
+        category_id: parseInt(categoryId),
+        title: name,
+        description: description,
+        price_start: priceStart,
+        price_end: priceEnd,
+        currency: currency,
+        negotiable: negotiable,
+        service_type: type,
+        status: 'published'
+      });
+
+    if (error) throw error;
+
+    showServiceModalMessage('✅ تم حفظ الخدمة بنجاح!', 'success');
+
+    setTimeout(() => {
+      closeServiceModal();
+      loadMyServices();
+    }, 1500);
+
+  } catch (err) {
+    console.error('Save service error:', err);
+    showServiceModalMessage('❌ ' + (err.message || 'فشل الحفظ'));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 حفظ الخدمة';
   }
 };
 
