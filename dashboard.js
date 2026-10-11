@@ -501,10 +501,6 @@ const { error: dbError } = await window.supabaseClient
     btn.textContent = '💾 حفظ المنتج';
   }
 };
-// ═══ Load My Services ═══
-async function loadMyServices() {
-  const container = document.getElementById('myServicesList');
-  if (!container) return;
 
   // ═══ Load My Services ═══
 async function loadMyServices() {
