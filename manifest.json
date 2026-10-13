@@ -1,0 +1,42 @@
+{
+  "name": "CapKit Souq — منصة الصنّاع",
+  "short_name": "CapKit",
+  "description": "منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c9a961",
+  "lang": "ar",
+  "dir": "rtl",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "business"],
+  "shortcuts": [
+    {
+      "name": "البحث",
+      "short_name": "البحث",
+      "url": "/search.html",
+      "description": "ابحث عن منتجات وخدمات"
+    },
+    {
+      "name": "لوحة التحكم",
+      "short_name": "حسابي",
+      "url": "/dashboard.html",
+      "description": "إدارة حسابك ومنتجاتك"
+    }
+  ]
+}
