@@ -1,102 +1,62 @@
-// ═══ CapKit Souq — Service Worker ═══
+// ═══ CapKit Souq — Service Worker v2 ═══
 
-const CACHE_NAME = 'capkit-v1';
-const RUNTIME_CACHE = 'capkit-runtime-v1';
+const CACHE_NAME = 'capkit-v2';
 
-// ═══ الملفات الأساسية ═══
-const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/search.html',
-  '/auth.html',
-  '/styles.css',
-  '/app.js',
-  '/search.js',
-  '/data-loader.js',
-  '/tree.js',
-  '/drawer.js',
-  '/user-menu.js',
-  '/homepage-loader.js',
-  '/supabase-config.js'
-];
+// الملفات اللي نجيبها من الشبكة أولاً (HTML, JS, CSS)
+// عشان التحديثات تظهر فورًا
 
-// ═══ Install ═══
 self.addEventListener('install', (event) => {
-  console.log('📦 SW Install');
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(PRECACHE_URLS).catch(err => {
-        console.warn('⚠️ Some files failed to cache:', err);
-      }))
-      .then(() => self.skipWaiting())
-  );
+  console.log('📦 SW Install v2');
+  self.skipWaiting();
 });
 
-// ═══ Activate ═══
 self.addEventListener('activate', (event) => {
-  console.log('🚀 SW Activate');
+  console.log('🚀 SW Activate v2');
   event.waitUntil(
     caches.keys().then(keys => {
       return Promise.all(
-        keys.filter(key => key !== CACHE_NAME && key !== RUNTIME_CACHE)
-          .map(key => caches.delete(key))
+        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
       );
     }).then(() => self.clients.claim())
   );
 });
 
-// ═══ Fetch ═══
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // تجاهل طلبات Supabase (لازم تكون live)
+  // تجاهل Supabase و Google Fonts
   if (url.hostname.includes('supabase')) return;
+  if (url.hostname.includes('googleapis')) return;
+  if (url.hostname.includes('gstatic')) return;
+  if (url.hostname.includes('jsdelivr')) return;
 
-  // تجاهل طلبات غير GET
+  // تجاهل non-GET
   if (event.request.method !== 'GET') return;
 
-  // تجاهل Google Fonts (بيتحمل من CDN)
-  if (url.hostname.includes('googleapis') || url.hostname.includes('gstatic')) return;
-
+  // ═══ Network-First للـ HTML/JS/CSS ═══
+  // جرب الشبكة الأول، لو فشلت استخدم الكاش
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        // Cache Hit — رجّع من الكاش + حدّث في الخلفية
-        event.waitUntil(
-          fetch(event.request)
-            .then(response => {
-              if (response && response.status === 200) {
-                const responseClone = response.clone();
-                caches.open(RUNTIME_CACHE).then(cache => {
-                  cache.put(event.request, responseClone);
-                });
-              }
-            })
-            .catch(() => {})
-        );
-        return cachedResponse;
-      }
-
-      // Cache Miss — جرب الشبكة
-      return fetch(event.request)
-        .then(response => {
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          const responseClone = response.clone();
-          caches.open(RUNTIME_CACHE).then(cache => {
-            cache.put(event.request, responseClone);
+    fetch(event.request)
+      .then(response => {
+        // حفظ نسخة في الكاش
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, clone);
           });
-
-          return response;
-        })
-        .catch(() => {
-          // لو الاتصال قطع، رجّع صفحة offline
+        }
+        return response;
+      })
+      .catch(() => {
+        // لو الشبكة فشلت، جرب الكاش
+        return caches.match(event.request).then(cached => {
+          if (cached) return cached;
+          
+          // لو مش موجود، رجّع الصفحة الرئيسية
           if (event.request.destination === 'document') {
             return caches.match('/index.html');
           }
         });
-    })
+      })
   );
 });
