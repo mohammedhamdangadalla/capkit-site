@@ -362,13 +362,28 @@ window.openProductModal = async function() {
 };
 
 window.closeProductModal = function() {
-  document.getElementById('productModal').classList.remove('active');
-  document.getElementById('pName').value = '';
-  document.getElementById('pDescription').value = '';
-  document.getElementById('pPrice').value = '';
-  document.getElementById('pCategory').value = '';
-  document.getElementById('pImages').value = '';
-  document.getElementById('pStock').value = '1';
+  const modal = document.getElementById('productModal');
+  if (modal) modal.classList.remove('active');
+
+  const el = (id) => document.getElementById(id);
+  if (el('pName')) el('pName').value = '';
+  if (el('pDescription')) el('pDescription').value = '';
+  if (el('pPrice')) el('pPrice').value = '';
+  if (el('pCategory')) el('pCategory').value = '';
+  if (el('pImages')) el('pImages').value = '';
+  if (el('pStock')) el('pStock').value = '1';
+
+  // إعادة تعيين نوع البائع
+  const sellerInput = document.querySelector('input[name="sellerType"][value="individual"]');
+  if (sellerInput) sellerInput.checked = true;
+
+  // إعادة تعيين الزر
+  const btn = document.getElementById('saveProductBtn');
+  if (btn) {
+    btn.textContent = '💾 حفظ المنتج';
+    btn.removeAttribute('data-edit-id');
+  }
+
   hideModalMessage();
 };
 
@@ -386,9 +401,11 @@ function hideModalMessage() {
   msg.textContent = '';
 }
 
-// ═══ Save Product ═══
+// ═══ Save / Update Product ═══
 window.saveProduct = async function() {
   const btn = document.getElementById('saveProductBtn');
+  const editId = btn.getAttribute('data-edit-id');
+  console.log('💾 saveProduct. editId:', editId);
 
   const name = document.getElementById('pName').value.trim();
   const description = document.getElementById('pDescription').value.trim();
@@ -407,8 +424,21 @@ window.saveProduct = async function() {
   hideModalMessage();
 
   try {
-    const imageUrls = [];
+    // ═══ رفع صور جديدة (لو موجودة) ═══
+    let imageUrls = [];
 
+    // في التعديل: نجيب الصور القديمة
+    if (editId) {
+      const { data: oldProduct } = await window.supabaseClient
+        .from('products')
+        .select('images')
+        .eq('id', editId)
+        .single();
+      
+      imageUrls = oldProduct?.images || [];
+    }
+
+    // رفع الصور الجديدة (إضافة للقديمة)
     if (imageInput.files && imageInput.files.length > 0) {
       const files = Array.from(imageInput.files).slice(0, 4);
 
@@ -437,7 +467,7 @@ window.saveProduct = async function() {
     const sellerTypeInput = document.querySelector('input[name="sellerType"]:checked');
     const sellerType = sellerTypeInput ? sellerTypeInput.value : 'individual';
 
-    let productData = {
+    const productData = {
       category_id: parseInt(categoryId),
       title: name,
       description: description,
@@ -445,8 +475,6 @@ window.saveProduct = async function() {
       currency: currency,
       stock: stock,
       images: imageUrls,
-      status: 'published',
-      published_at: new Date().toISOString(),
       seller_type: sellerType,
       seller_id: currentUser.id
     };
@@ -456,29 +484,48 @@ window.saveProduct = async function() {
       productData.workshop_id = workshop.id;
     }
 
-    const { error: dbError } = await window.supabaseClient
-      .from('products')
-      .insert(productData);
+    // ═══ INSERT أو UPDATE ═══
+    let result;
+    if (editId) {
+      console.log('🔄 UPDATE:', editId);
+      result = await window.supabaseClient
+        .from('products')
+        .update(productData)
+        .eq('id', editId)
+        .select();
+    } else {
+      console.log('➕ INSERT');
+      productData.status = 'published';
+      productData.published_at = new Date().toISOString();
+      
+      result = await window.supabaseClient
+        .from('products')
+        .insert(productData)
+        .select();
+    }
 
-    if (dbError) throw new Error('فشل حفظ المنتج: ' + dbError.message);
+    if (result.error) throw new Error(result.error.message);
+    if (!result.data || result.data.length === 0) throw new Error('لم يتم الحفظ');
 
-    showModalMessage('✅ تم حفظ المنتج بنجاح!', 'success');
+    showModalMessage(
+      editId ? '✅ تم تحديث المنتج!' : '✅ تم حفظ المنتج!',
+      'success'
+    );
 
     setTimeout(async () => {
       closeProductModal();
       await loadMyProducts();
       await loadStats();
-    }, 1500);
+    }, 1000);
 
   } catch (err) {
-    console.error(err);
-    showModalMessage('❌ ' + err.message);
+    console.error('❌', err);
+    showModalMessage('❌ ' + (err.message || 'فشل الحفظ'));
   } finally {
     btn.disabled = false;
-    btn.textContent = '💾 حفظ المنتج';
+    btn.textContent = editId ? '💾 تحديث المنتج' : '💾 حفظ المنتج';
   }
 };
-
 // ═══════════════════════════════════════════════
 // SERVICE MODAL — Open/Close/Messages
 // ═══════════════════════════════════════════════
@@ -802,6 +849,66 @@ window.deleteProduct = async function(id) {
   } catch (err) {
     console.error('❌', err);
     alert('❌ فشل الحذف: ' + err.message);
+  }
+};
+// ═══ Edit Product ═══
+window.editProduct = async function(id) {
+  console.log('✏️ Edit product:', id);
+
+  try {
+    const { data, error } = await window.supabaseClient
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      alert('❌ فشل تحميل المنتج');
+      return;
+    }
+
+    // فتح الـ Modal
+    document.getElementById('productModal').classList.add('active');
+    hideModalMessage();
+    await ensureCategoriesLoaded();
+
+    setTimeout(() => {
+      const el = (id) => document.getElementById(id);
+
+      el('pName').value = data.title || '';
+      el('pDescription').value = data.description || '';
+      el('pPrice').value = data.price || '';
+      el('pCurrency').value = data.currency || 'EGP';
+      el('pStock').value = data.stock || 1;
+
+      // التصنيف
+      const catSelect = el('pCategory');
+      if (catSelect && data.category_id) {
+        const trySet = (n = 0) => {
+          const found = Array.from(catSelect.options).some(o => o.value == data.category_id);
+          if (found) catSelect.value = data.category_id;
+          else if (n < 10) setTimeout(() => trySet(n + 1), 200);
+        };
+        trySet();
+      }
+
+      // نوع البائع
+      if (data.seller_type) {
+        const sellerInput = document.querySelector(`input[name="sellerType"][value="${data.seller_type}"]`);
+        if (sellerInput) sellerInput.checked = true;
+      }
+
+      // تحويل الزر
+      const btn = document.getElementById('saveProductBtn');
+      btn.textContent = '💾 تحديث المنتج';
+      btn.setAttribute('data-edit-id', id);
+
+      console.log('✅ Edit mode product:', id);
+    }, 400);
+
+  } catch (err) {
+    console.error(err);
+    alert('❌ ' + err.message);
   }
 };
 // ═══ Ensure Workshop ═══
