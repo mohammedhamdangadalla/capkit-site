@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تواصل معنا — CapKit Co.</title>
+<meta name="description" content="تواصل مع فريق CapKit Co. — واتساب، بريد إلكتروني، أو نموذج مباشر.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.contact-page {
+  min-height: 100vh;
+  padding: 100px 20px 60px;
+  background: var(--obsidian);
+}
+
+.contact-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contact-back {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 1.4rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+}
+
+.contact-back:hover {
+  background: var(--gold);
+  color: var(--obsidian);
+}
+
+/* ═══ Hero ═══ */
+.contact-hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.contact-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--gold);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.5em;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.contact-eyebrow::before,
+.contact-eyebrow::after {
+  content: '';
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+.contact-title {
+  font-family: 'Amiri', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.contact-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.contact-subtitle {
+  font-family: 'Amiri', serif;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: var(--text-secondary);
+  line-height: 1.9;
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+/* ═══ Quick Contact ═══ */
+.contact-quick {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.contact-card {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: all 0.4s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.contact-card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-4px);
+  background: var(--obsidian-3);
+}
+
+.contact-card:hover::before {
+  width: 100%;
+}
+
+.contact-card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(201, 169, 97, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin: 0 auto 16px;
+  transition: all 0.4s;
+}
+
+.contact-card:hover .contact-card-icon {
+  background: var(--gold);
+  transform: scale(1.1);
+}
+
+.contact-card h3 {
+  font-family: 'Amiri', serif;
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.contact-card p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.contact-card .highlight {
+  color: var(--gold);
+  font-weight: 600;
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+/* ═══ Form ═══ */
+.contact-form-section {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 30px;
+}
+
+.contact-form-section h2 {
+  font-family: 'Amiri', serif;
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.contact-form-section > p {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin-bottom: 30px;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-field {
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  background: var(--obsidian-3);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  border-color: var(--gold);
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-submit {
+  background: var(--gold);
+  color: var(--obsidian);
+  border: none;
+  padding: 16px 40px;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.contact-submit:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(201, 169, 97, 0.25);
+}
+
+.contact-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.contact-msg {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  display: none;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.contact-msg.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  display: block;
+}
+
+.contact-msg.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+  display: block;
+}
+
+/* ═══ Mobile ═══ */
+@media (max-width: 600px) {
+  .contact-page { padding: 80px 16px 40px; }
+  .contact-form-section { padding: 28px 20px; }
+  .form-row-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a href="/" class="contact-back" title="رجوع للرئيسية">✕</a>
+
+<main class="contact-page">
+  <div class="contact-container">
+
+    <!-- Hero -->
+    <header class="contact-hero">
+      <div class="contact-eyebrow">تواصل · CONTACT</div>
+      <h1 class="contact-title">
+        نحن هنا، <em>لنسمعك</em>
+      </h1>
+      <p class="contact-subtitle">
+        سؤال، اقتراح، أو استفسار؟ اختر الطريقة الأسهل لك.
+      </p>
+    </header>
+
+    <!-- Quick Contact -->
+    <div class="contact-quick">
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/201116549311?text=مرحباً،%20أرغب%20في%20التواصل%20مع%20فريق%20CapKit" 
+         class="contact-card" 
+         target="_blank">
+        <div class="contact-card-icon">💬</div>
+        <h3>واتساب</h3>
+        <p>الأسرع للرد الفوري</p>
+        <span class="highlight">تحدّث معنا الآن ←</span>
+      </a>
+
+      <!-- Email -->
+      <a href="mailto:hello@capkitco.com" class="contact-card">
+        <div class="contact-card-icon">✉️</div>
+        <h3>البريد الإلكتروني</h3>
+        <p>للاستفسارات الرسمية</p>
+        <span class="highlight">hello@capkitco.com</span>
+      </a>
+
+      <!-- Seller Support -->
+      <a href="auth.html" class="contact-card">
+        <div class="contact-card-icon">🛒</div>
+        <h3>انضم كصانع</h3>
+        <p>اعرض منتجاتك وخدماتك</p>
+        <span class="highlight">سجّل مجاناً ←</span>
+      </a>
+
+    </div>
+
+    <!-- Form -->
+    <section class="contact-form-section">
+      <h2>أرسل رسالة</h2>
+      <p>سنرد عليك خلال 24 ساعة</p>
+
+      <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+        
+        <div class="form-row-2">
+          <div class="form-field">
+            <label>الاسم *</label>
+            <input type="text" id="cName" placeholder="اسمك الكامل" maxlength="60" required>
+          </div>
+          <div class="form-field">
+            <label>رقم الواتساب *</label>
+            <input type="tel" id="cPhone" placeholder="+20 1XX XXX XXXX" required>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>البريد الإلكتروني (اختياري)</label>
+          <input type="email" id="cEmail" placeholder="example@email.com">
+        </div>
+
+        <div class="form-field">
+          <label>الموضوع *</label>
+          <select id="cSubject" required>
+            <option value="">— اختر الموضوع —</option>
+            <option value="general">استفسار عام</option>
+            <option value="seller">بخصوص التسجيل كصانع</option>
+            <option value="product">بخصوص منتج معيّن</option>
+            <option value="service">بخصوص خدمة معيّنة</option>
+            <option value="complaint">شكوى</option>
+            <option value="suggestion">اقتراح</option>
+            <option value="partnership">شراكة</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>الرسالة *</label>
+          <textarea id="cMessage" 
+                    placeholder="اكتب رسالتك بالتفصيل..." 
+                    maxlength="1000" 
+                    required></textarea>
+        </div>
+
+        <button type="submit" class="contact-submit" id="submitBtn">
+          📩 إرسال الرسالة
+        </button>
+
+        <div class="contact-msg" id="contactMsg"></div>
+
+      </form>
+    </section>
+
+  </div>
+</main>
+
+<script>
+// ═══ Contact Form ═══
+function submitContact(e) {
+  e.preventDefault();
+  
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('contactMsg');
+  
+  const name = document.getElementById('cName').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  const email = document.getElementById('cEmail').value.trim();
+  const subject = document.getElementById('cSubject').value;
+  const message = document.getElementById('cMessage').value.trim();
+  
+  // Validation
+  if (!name || name.length < 3) {
+    msg.textContent = 'الاسم قصير جداً';
+    msg.className = 'contact-msg error';
+    return;
+  }
+  
+  if (!phone || phone.replace(/\D/g, '').length < 10) {
+    msg.textContent = 'رقم الواتساب غير صحيح';
+    msg.className = 'contact-msg error';
+    return;
+  }
+  
+  if (!subject) {
+    msg.textContent = 'اختر الموضوع';
+    msg.className = 'contact-msg error';
+    return;
+  }
+  
+  if (!message || message.length < 10) {
+    msg.textContent = 'الرسالة قصيرة جداً (10 أحرف على الأقل)';
+    msg.className = 'contact-msg error';
+    return;
+  }
+  
+  // بناء رسالة واتساب
+  const subjectMap = {
+    general: 'استفسار عام',
+    seller: 'التسجيل كصانع',
+    product: 'بخصوص منتج',
+    service: 'بخصوص خدمة',
+    complaint: 'شكوى',
+    suggestion: 'اقتراح',
+    partnership: 'شراكة'
+  };
+  
+  const waMessage = `*رسالة من موقع CapKit Co.*
+
+👤 الاسم: ${name}
+📱 الواتساب: ${phone}
+${email ? `✉️ البريد: ${email}\n` : ''}📌 الموضوع: ${subjectMap[subject]}
+
+📝 الرسالة:
+${message}`;
+  
+  const waUrl = `https://wa.me/201116549311?text=${encodeURIComponent(waMessage)}`;
+  
+  // Success Message
+  msg.textContent = '✅ جارٍ توجيهك للواتساب...';
+  msg.className = 'contact-msg success';
+  
+  // Redirect to WhatsApp
+  setTimeout(() => {
+    window.open(waUrl, '_blank');
+    
+    setTimeout(() => {
+      msg.textContent = '✅ تم فتح واتساب. شكراً لتواصلك!';
+      
+      // Reset form
+      document.getElementById('contactForm').reset();
+      
+      setTimeout(() => {
+        msg.className = 'contact-msg';
+        msg.textContent = '';
+      }, 3000);
+    }, 500);
+  }, 800);
+}
+</script>
+
+</body>
+</html>
