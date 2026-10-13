@@ -1210,90 +1210,167 @@ body {
   flex-wrap: wrap;
 }
 
-/* ═══ FOOTER ═══ */
-footer {
+/* ═══ Site Footer (Auto-injected) ═══ */
+.site-footer {
   background: var(--obsidian-2);
   border-top: 1px solid var(--border);
-  padding: 40px 20px 24px;
+  padding: 60px 20px 30px;
   margin-top: 40px;
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+  text-align: right;
 }
 
-.footer-inner {
-  max-width: 1400px;
+.site-footer .footer-inner {
+  max-width: 1280px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
-.footer-col h4 {
+.site-footer .footer-brand .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
   font-family: 'Cormorant Garamond', serif;
-  color: var(--gold);
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
-  margin-bottom: 14px;
-  font-style: italic;
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
 }
 
-.footer-col ul { list-style: none; }
-.footer-col li { margin-bottom: 8px; }
+.site-footer .footer-brand .logo-mark {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 1rem;
+  font-weight: 600;
+}
 
-.footer-col a {
+.site-footer .footer-brand .logo-sub {
+  display: block;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-top: -2px;
+}
+
+.site-footer .footer-brand p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.9;
+  max-width: 320px;
+  margin-top: 12px;
+}
+
+.site-footer .footer-col h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-bottom: 20px;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.site-footer .footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer .footer-col li {
+  margin-bottom: 12px;
+}
+
+.site-footer .footer-col a {
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   transition: color 0.3s;
+  font-family: 'Tajawal', sans-serif;
 }
 
-.footer-col a:hover { color: var(--gold); }
-
-.footer-brand p {
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.8;
-  max-width: 320px;
-  margin-top: 10px;
+.site-footer .footer-col a:hover {
+  color: var(--gold);
 }
 
-.footer-bottom {
-  max-width: 1400px;
+.site-footer .footer-bottom {
+  max-width: 1280px;
   margin: 0 auto;
-  padding-top: 20px;
+  padding-top: 30px;
   border-top: 1px solid var(--border);
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.72rem;
-}
-/* ═══ Footer Legal Links ═══ */
-.footer-legal {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.site-footer .footer-legal {
+  display: flex;
+  gap: 8px;
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.footer-legal a {
+.site-footer .footer-legal a {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.78rem;
   transition: color 0.3s;
 }
 
-.footer-legal a:hover {
+.site-footer .footer-legal a:hover {
   color: var(--gold);
 }
 
-.footer-legal span {
+.site-footer .footer-legal span {
   color: var(--text-muted);
   opacity: 0.5;
 }
 
-@media (max-width: 700px) {
-  .footer-bottom {
+@media (max-width: 900px) {
+  .site-footer .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .site-footer .footer-brand {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-footer {
+    padding: 40px 16px 24px;
+  }
+
+  .site-footer .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .site-footer .footer-brand {
+    grid-column: span 1;
+  }
+
+  .site-footer .footer-bottom {
     flex-direction: column;
-    gap: 12px;
+    text-align: center;
   }
 }
 /* ═══ ANIMATIONS ═══ */
