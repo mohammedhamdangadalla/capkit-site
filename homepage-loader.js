@@ -41,6 +41,24 @@ async function loadHomepageContent() {
         console.log('✅ Originals loaded:', originals.length);
       }
     }
+    // ═══ 3. خدمات الصيانة ═══
+    const { data: services, error: sError } = await window.supabaseClient
+      .from('services')
+      .select('*')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .limit(4);
+
+    if (!sError && services && services.length > 0) {
+      const grid = document.getElementById('homepageServicesGrid');
+      if (grid) {
+        grid.innerHTML = '';
+        services.forEach(s => grid.appendChild(createHomeServiceCard(s)));
+        console.log('✅ Home services loaded:', services.length);
+      }
+    } else {
+      console.log('ℹ️ No real services, keeping demo');
+    }
 
     // ═══ 3. الورش المميزة ═══
     const { data: workshops, error: wError } = await window.supabaseClient
@@ -156,6 +174,45 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+// ═══ Home Service Card ═══
+function createHomeServiceCard(service) {
+  const a = document.createElement('a');
+  a.href = `service?id=${service.id}`;
+  a.className = 'product-card';
+
+  const iconMap = {
+    repair: '🔧',
+    installation: '🔨',
+    maintenance: '⚙️',
+    consultation: '💬',
+    custom: '✨'
+  };
+  const icon = iconMap[service.service_type] || '🔧';
+
+  const priceText = service.price_start
+    ? `يبدأ ${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'}`
+    : 'اتصل للسعر';
+
+  a.innerHTML = `
+    <div class="product-image">
+      <span class="badge-service">خدمة</span>
+      <div class="product-emblem service">${icon}</div>
+    </div>
+    <div class="product-info">
+      <div class="product-title">${escapeHtml(service.title)}</div>
+      <div class="product-desc">${escapeHtml((service.description || '').substring(0, 40))}...</div>
+      <div class="product-footer">
+        <div class="product-price service-price">${priceText} ${service.currency || 'EGP'}</div>
+        <a href="https://wa.me/?text=${encodeURIComponent('مرحباً، أنا مهتم بالخدمة: ' + service.title)}" 
+           class="btn-wa" 
+           target="_blank"
+           onclick="event.stopPropagation()">اتصال</a>
+      </div>
+    </div>
+  `;
+
+  return a;
 }
 
 // ═══ Start ═══
