@@ -567,17 +567,28 @@ async function loadMyServices() {
 }
 // ═══ Delete Service ═══
 window.deleteService = async function(id) {
+  console.log('🗑️ Attempting delete:', id);
+  
   if (!confirm('هل أنت متأكد من حذف هذه الخدمة؟\nلا يمكن التراجع عن هذا الإجراء.')) {
     return;
   }
 
   try {
-    const { error } = await window.supabaseClient
+    const { data, error, count } = await window.supabaseClient
       .from('services')
       .delete()
-      .eq('id', id);
+      .eq('id', id)
+      .select();
 
-    if (error) throw error;
+    console.log('Delete result:', { data, error, count });
+
+    if (error) {
+      throw new Error(error.message || 'RLS منع الحذف');
+    }
+
+    if (!data || data.length === 0) {
+      throw new Error('لم يتم حذف أي صف — ربما مش عندك صلاحية');
+    }
 
     console.log('✅ Service deleted:', id);
     
@@ -585,13 +596,15 @@ window.deleteService = async function(id) {
     await loadStats();
 
   } catch (err) {
-    console.error('Delete error:', err);
+    console.error('❌ Delete error:', err);
     alert('❌ فشل الحذف: ' + (err.message || 'حاول تاني'));
   }
 };
 
 // ═══ Edit Service ═══
 window.editService = async function(id) {
+  console.log('✏️ Editing service:', id);
+  
   try {
     // جلب البيانات
     const { data, error } = await window.supabaseClient
@@ -601,14 +614,17 @@ window.editService = async function(id) {
       .single();
 
     if (error || !data) {
+      console.error('Fetch error:', error);
       alert('❌ فشل تحميل الخدمة');
       return;
     }
 
+    console.log('📦 Service data:', data);
+
     // فتح الـ Modal
     await window.openServiceModal();
 
-    // ملء البيانات (بعد ما الـ Modal يفتح)
+    // ملء البيانات
     setTimeout(() => {
       const el = (id) => document.getElementById(id);
       
@@ -618,19 +634,38 @@ window.editService = async function(id) {
       el('sPriceEnd').value = data.price_end || '';
       el('sCurrency').value = data.currency || 'EGP';
       el('sType').value = data.service_type || 'repair';
-      el('sCategory').value = data.category_id || '';
       
+      // اختيار التصنيف
+      const catSelect = el('sCategory');
+      if (catSelect && data.category_id) {
+        // استنى الـ options تتحمل
+        const trySetCategory = (attempts = 0) => {
+          const hasOption = Array.from(catSelect.options).some(
+            opt => opt.value == data.category_id
+          );
+          
+          if (hasOption) {
+            catSelect.value = data.category_id;
+            console.log('✅ Category set:', data.category_id);
+          } else if (attempts < 10) {
+            setTimeout(() => trySetCategory(attempts + 1), 200);
+          }
+        };
+        trySetCategory();
+      }
+      
+      // السعر قابل للتفاوض
       const negVal = data.negotiable ? 'true' : 'false';
       const negInput = document.querySelector(`input[name="sNegotiable"][value="${negVal}"]`);
       if (negInput) negInput.checked = true;
 
-      // تحويل الزر لـ "تحديث"
+      // تحويل الزر
       const btn = document.getElementById('saveServiceBtn');
       btn.textContent = '💾 تحديث الخدمة';
       btn.dataset.editId = id;
 
-      console.log('✏️ Editing service:', id);
-    }, 200);
+      console.log('✅ Edit mode active for:', id);
+    }, 300);
 
   } catch (err) {
     console.error('Edit error:', err);
@@ -666,7 +701,9 @@ window.closeServiceModal = function() {
 // ═══ Save Service (Insert or Update) ═══
 window.saveService = async function() {
   const btn = document.getElementById('saveServiceBtn');
-  const editId = btn.dataset.editId; // لو فيه، يبقى تعديل
+  const editId = btn.dataset.editId;
+  
+  console.log('💾 Save Service — editId:', editId);
   
   const name = document.getElementById('sName').value.trim();
   const description = document.getElementById('sDescription').value.trim();
@@ -729,23 +766,31 @@ window.saveService = async function() {
     };
 
     // ═══ INSERT أو UPDATE ═══
-    let error;
+    let result;
     if (editId) {
-      // تعديل
-      const res = await window.supabaseClient
+      console.log('🔄 Updating service:', editId);
+      result = await window.supabaseClient
         .from('services')
         .update(serviceData)
-        .eq('id', editId);
-      error = res.error;
+        .eq('id', editId)
+        .select();
     } else {
-      // إضافة جديدة
-      const res = await window.supabaseClient
+      console.log('➕ Inserting new service');
+      result = await window.supabaseClient
         .from('services')
-        .insert(serviceData);
-      error = res.error;
+        .insert(serviceData)
+        .select();
     }
 
-    if (error) throw error;
+    console.log('Result:', result);
+
+    if (result.error) {
+      throw new Error(result.error.message || 'فشل الحفظ');
+    }
+
+    if (!result.data || result.data.length === 0) {
+      throw new Error('لم يتم حفظ أي صف — ربما مش عندك صلاحية');
+    }
 
     showServiceModalMessage(
       editId ? '✅ تم تحديث الخدمة!' : '✅ تم حفظ الخدمة!',
@@ -759,7 +804,7 @@ window.saveService = async function() {
     }, 800);
 
   } catch (err) {
-    console.error('Save error:', err);
+    console.error('❌ Save error:', err);
     showServiceModalMessage('❌ ' + (err.message || 'فشل الحفظ'));
   } finally {
     btn.disabled = false;
