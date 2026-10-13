@@ -503,12 +503,10 @@ const { error: dbError } = await window.supabaseClient
 };
 
 // ═══ Load My Services ═══
-// ═══ Load My Services ═══
 async function loadMyServices() {
   const container = document.getElementById('myServicesList');
   if (!container) return;
 
-  // نلاقي freelancer_id
   const { data: freelancer } = await window.supabaseClient
     .from('freelancers')
     .select('id')
@@ -516,7 +514,7 @@ async function loadMyServices() {
     .maybeSingle();
 
   if (!freelancer?.id) {
-    console.log('ℹ️ No freelancer profile yet');
+    console.log('ℹ️ No freelancer profile');
     return;
   }
 
@@ -526,12 +524,7 @@ async function loadMyServices() {
     .eq('freelancer_id', freelancer.id)
     .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Services error:', error);
-    return;
-  }
-
-  if (!data || data.length === 0) return;
+  if (error || !data || data.length === 0) return;
 
   container.innerHTML = '';
 
@@ -555,6 +548,14 @@ async function loadMyServices() {
         <div class="my-product-price">${priceText}</div>
         <div class="my-product-status status-${service.status}">
           ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
+        </div>
+        <div class="my-product-actions">
+          <button class="btn-card-edit" onclick="editService('${service.id}')" title="تعديل">
+            ✏️ تعديل
+          </button>
+          <button class="btn-card-delete" onclick="deleteService('${service.id}')" title="حذف">
+            🗑️ حذف
+          </button>
         </div>
       </div>
     `;
