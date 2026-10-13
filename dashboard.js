@@ -503,6 +503,7 @@ const { error: dbError } = await window.supabaseClient
 };
 
 // ═══ Load My Services ═══
+// ═══ Load My Services ═══
 async function loadMyServices() {
   const container = document.getElementById('myServicesList');
   if (!container) return;
@@ -563,9 +564,6 @@ async function loadMyServices() {
 
   container.appendChild(grid);
 }
-
-  if (error) {
-
 
 // ═══ Open / Close Service Modal ═══
 window.openServiceModal = async function() {
