@@ -440,7 +440,9 @@ window.saveProduct = async function() {
 
     // ═══ رفع الصور الجديدة ═══
     if (imageInput.files && imageInput.files.length > 0) {
-      const files = Array.from(imageInput.files).slice(0, 4);
+      const maxImages = navigator.userAgent.includes('Brave') ? 2 : 4;
+const files = Array.from(imageInput.files).slice(0, maxImages);
+console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
       console.log('📤 Uploading', files.length, 'images...');
 
       for (let i = 0; i < files.length; i++) {
