@@ -477,7 +477,40 @@
   flex: 1;
   max-width: 250px;
 }
+/* ═══ Card Actions (Edit/Delete) ═══ */
+.my-product-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
 
+.btn-card-edit,
+.btn-card-delete {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-card-edit:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201, 169, 97, 0.08);
+}
+
+.btn-card-delete:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
 @media (max-width: 600px) {
   .dash-header { flex-direction: column; text-align: center; padding: 20px; }
   .dash-avatar { width: 60px; height: 60px; font-size: 1.6rem; }
