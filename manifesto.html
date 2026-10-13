@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الميثاق — CapKit Co.</title>
+<meta name="description" content="ميثاق CapKit Co. — بيان الشفافية والمسؤولية والفرصة العادلة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.manifesto-page { min-height: 100vh; background: var(--obsidian); padding: 100px 20px 60px; position: relative; }
+.manifesto-page::before { content: ''; position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; background: radial-gradient(ellipse, rgba(201, 169, 97, 0.1), transparent 70%); pointer-events: none; z-index: 0; }
+.manifesto-back { position: fixed; top: 20px; right: 20px; color: var(--gold); text-decoration: none; font-size: 1.4rem; padding: 8px 14px; border-radius: 8px; transition: all 0.3s; z-index: 100; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border: 1px solid var(--border); }
+.manifesto-back:hover { background: var(--gold); color: var(--obsidian); }
+.manifesto-wrapper { max-width: 820px; margin: 0 auto; position: relative; z-index: 2; }
+.mf-hero { text-align: center; margin-bottom: 80px; }
+.mf-eyebrow { display: inline-flex; align-items: center; gap: 14px; color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.5em; font-style: italic; margin-bottom: 24px; }
+.mf-eyebrow::before, .mf-eyebrow::after { content: ''; width: 50px; height: 1px; background: var(--gold); opacity: 0.5; }
+.mf-title { font-family: 'Amiri', serif; font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 400; line-height: 1.25; color: var(--text-primary); margin-bottom: 20px; }
+.mf-title em { color: var(--gold); font-style: italic; }
+.mf-subtitle { font-family: 'Amiri', serif; font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--text-secondary); line-height: 1.9; max-width: 600px; margin: 0 auto; font-style: italic; }
+.mf-preamble { background: linear-gradient(135deg, rgba(201, 169, 97, 0.06), rgba(201, 169, 97, 0.02)); border: 1px solid var(--border-light); border-radius: 16px; padding: 40px 32px; margin-bottom: 60px; position: relative; text-align: center; }
+.mf-preamble::before { content: '❝'; position: absolute; top: -25px; right: 30px; font-size: 3.5rem; color: var(--gold); opacity: 0.4; font-family: 'Amiri', serif; }
+.mf-preamble p { font-family: 'Amiri', serif; font-size: clamp(1.1rem, 1.8vw, 1.35rem); line-height: 2; color: var(--text-primary); }
+.mf-preamble p strong { color: var(--gold); font-weight: 700; }
+.mf-section { margin-bottom: 60px; }
+.mf-section-num { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold); font-size: 0.85rem; letter-spacing: 0.4em; }
+.mf-section-num::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-light), transparent); }
+.mf-section h2 { font-family: 'Amiri', serif; font-size: clamp(1.5rem, 3vw, 2rem); color: var(--text-primary); font-weight: 700; margin-bottom: 20px; line-height: 1.4; }
+.mf-section h2 em { color: var(--gold); font-style: italic; }
+.mf-section p { color: var(--text-secondary); font-size: 1rem; line-height: 2; margin-bottom: 16px; }
+.mf-section p strong { color: var(--text-primary); font-weight: 600; }
+.mf-section p em { color: var(--gold-light); font-style: italic; }
+.mf-principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 30px 0; }
+.mf-principle { background: var(--obsidian-2); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; transition: all 0.4s; position: relative; overflow: hidden; }
+.mf-principle:hover { border-color: var(--border-light); transform: translateY(-4px); background: var(--obsidian-3); }
+.mf-principle-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+.mf-principle h3 { font-family: 'Amiri', serif; font-size: 1.1rem; color: var(--text-primary); margin-bottom: 10px; font-weight: 700; }
+.mf-principle p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+.mf-closing { text-align: center; margin: 80px 0 40px; padding: 40px 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.mf-closing p { font-family: 'Amiri', serif; font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.9; color: var(--text-primary); max-width: 600px; margin: 0 auto 20px; }
+.mf-closing p em { color: var(--gold); font-style: italic; }
+.mf-signature { font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.5em; color: var(--gold); font-style: italic; margin-top: 30px; }
+.mf-footer { text-align: center; margin-top: 40px; padding-top: 30px; }
+.mf-footer p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
+.mf-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--obsidian); padding: 14px 32px; border-radius: 10px; text-decoration: none; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.95rem; transition: all 0.3s; }
+.mf-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+@media (max-width: 700px) { .manifesto-page { padding: 80px 16px 40px; } .mf-preamble { padding: 30px 20px; } .mf-section { margin-bottom: 45px; } }
+</style>
+</head>
+<body>
+
+<a href="/" class="manifesto-back" title="رجوع للرئيسية">✕</a>
+
+<main class="manifesto-page">
+  <div class="manifesto-wrapper">
+
+    <header class="mf-hero">
+      <div class="mf-eyebrow">EST. MMXXVI · CAIRO</div>
+      <h1 class="mf-title">ميثاقُ <em>الصنعةِ النبيلة</em></h1>
+      <p class="mf-subtitle">بيانٌ للشفافية والمسؤولية والفرصةِ العادلة</p>
+    </header>
+
+    <section class="mf-preamble">
+      <p>
+        نُقيم <strong>CapKit Co.</strong> لتكون بيئةً تجاريةً فاخرة، منظّمةً ونظيفة،
+        تُعنى بإبراز الجودة والصنعةِ المحترفة. منصّةٌ لا تحتكر، ولا تُحابي،
+        بل تُتيح لكل صاحبِ حرفةٍ أن يجدَ مكانه، ولكل عميلٍ أن يجدَ ما يستحقّ.
+      </p>
+    </section>
+
+    <section class="mf-section">
+      <div class="mf-section-num"><span>01</span><span>المبدأ الأساسي</span></div>
+      <h2>الفرصةُ العادلةُ، <em>والمسؤوليةُ الكاملة</em></h2>
+      <p>
+        المنصّةُ مفتوحةٌ لكل صانع، حرفيّ، وورشةٍ تمتلك كفاءةً حقيقية،
+        وترغب في تقديم عملها باحترافية.
+        <strong>لا محسوبية، ولا احتكار، ولا تفضيلَ خفيّ.</strong>
+      </p>
+      <p>
+        الحريّةُ في الانضمام مقترنةٌ <em>بالمسؤولية الكاملة</em>؛
+        فكلُّ بائعٍ ومقدّمِ خدمةٍ مسؤولٌ — قانونياً وأخلاقياً وتشغيلياً —
+        عن جودة منتجه، ودقّةِ بياناته، والوفاءِ بالتزاماته تجاه العميل.
+      </p>
+    </section>
+
+    <section class="mf-section">
+      <div class="mf-section-num"><span>02</span><span>درعُ الثقة</span></div>
+      <h2>التقييماتُ الموثّقة، <em>ومكافحةُ التلاعب</em></h2>
+      <p>لا يقومُ التقييمُ على الظنّ، بل على <strong>معاملةٍ حقيقيةٍ جرى التحققُ منها</strong>.</p>
+      <div class="mf-principles">
+        <div class="mf-principle"><span class="mf-principle-icon">🔐</span><h3>تقييمٌ موثّق</h3><p>لا يُنشر أيّ تقييمٍ إلا بعد تأكيدِ معاملةٍ فعلية، عبر تحقّقٍ رقميٍّ من هويّة العميل.</p></div>
+        <div class="mf-principle"><span class="mf-principle-icon">🛡️</span><h3>حمايةٌ من التلاعب</h3><p>أيّ محاولةٍ لصناعةِ سمعةٍ زائفة تُراجَع يدوياً وتُخضع للمساءلة، لا للاستبعاد التلقائي الأعمى.</p></div>
+        <div class="mf-principle"><span class="mf-principle-icon">⚖️</span><h3>حقُّ الردّ</h3><p>لكلّ طرفٍ حقُّ الدفاع عن سمعته، وتقديم بيّناته، قبل أيّ إجراءٍ نهائي.</p></div>
+        <div class="mf-principle"><span class="mf-principle-icon">🤝</span><h3>الإنصافُ أولاً</h3><p>نستمع للطرفين، ونتحقق، ونتخذ القرار بناءً على الأدلّة لا الانطباعات.</p></div>
+      </div>
+    </section>
+
+    <section class="mf-section">
+      <div class="mf-section-num"><span>03</span><span>التزاماتُ الصنّاع</span></div>
+      <h2>دقّةُ العرض، <em>واستقلاليةُ العمل</em></h2>
+      <p><strong>دقّةُ العرض:</strong> يلتزم البائعُ بمطابقة المنتجِ المعروضِ للصورة والمواصفات.</p>
+      <p><strong>الاستقلاليةُ والالتزام:</strong> تعمل الورشةُ ككيانٍ مستقلّ، وتتحمّل مسؤوليةَ مواعيدِ التصنيعِ والشحن.</p>
+      <p><strong>الوضوحُ في التسعير:</strong> السعرُ المعروضُ هو السعر المرجعيّ، مع إمكانية التنسيق المباشر.</p>
+      <p><strong>احترامُ حقوق الملكية:</strong> يلتزم البائعُ بعدمِ عرضِ منتجاتٍ تنتهك حقوقَ الغير.</p>
+    </section>
+
+    <section class="mf-section">
+      <div class="mf-section-num"><span>04</span><span>حقوقُ العملاء</span></div>
+      <h2>جدّيّةُ الطلب، <em>وعدالةُ التقييم</em></h2>
+      <p>
+        للعميلِ أن يتواصلَ بحرية، وأن يطلبَ القطعةَ التي تناسبه.
+        وللتقييمِ حقُّه؛ فهو شهادةٌ على تجربةٍ حقيقية،
+        تُقدَّمُ بحيادٍ وموضوعية، دون تجنٍّ أو خروجٍ عن نطاق جودةِ المنتجِ والخدمة.
+      </p>
+      <p>
+        <strong>وللعميلِ أيضاً حقوقٌ مكفولة</strong>:
+        الاسترجاعُ خلال المدّة المعلنة، والاستبدالُ عند وجودِ عيبٍ مصنعيّ،
+        والتواصلُ المباشر مع البائع دون وسيط.
+      </p>
+    </section>
+
+    <section class="mf-section">
+      <div class="mf-section-num"><span>05</span><span>الحوكمةُ والعدالة</span></div>
+      <h2>السمعةُ <em>هي الأصل</em></h2>
+      <p>
+        تعتمدُ المنصّةُ معاييرَ ترتيبٍ <strong>شفّافةً ومُعلَنة</strong>،
+        تُبنى على تقييماتٍ موثّقة، ونسبةِ الالتزام بالتسليم، ومعدّلِ النشاط.
+      </p>
+      <p>
+        ومتى ثبت تلاعبٌ أو انخفاضٌ مستمرٌّ في الجودة،
+        يُخطرُ صاحبُ الحساب، ويمنحُ فرصةً للردّ والتظلّم خلال مدّةٍ معلنة،
+        ثم يُتّخذُ القرار النهائي بالعدل.
+      </p>
+      <p>
+        نحمي المشتري من الغشّ، ونحمي الصانعَ الجادّ من الظلم.
+        <em>هذا هو التوازنُ الذي نؤمنُ به.</em>
+      </p>
+    </section>
+
+    <section class="mf-closing">
+      <p>نحن نؤمنُ أن الصنعةَ الحقيقية تستحقُّ منصّةً حقيقية. وأنّ العدلَ في التعامل هو أساسُ كلّ بناءٍ يدوم.</p>
+      <p>هذه ليست شروطاً، بل <em>عهدٌ نلتزمُ به</em>.</p>
+      <div class="mf-signature">CAPKIT CO. · كاب كيت كو</div>
+    </section>
+
+    <footer class="mf-footer">
+      <p>بالانضمام إلى المنصّة، تقرّ بقراءة هذا الميثاق والالتزامِ به</p>
+      <a href="auth.html" class="mf-cta">انضمّ إلينا <span>←</span></a>
+    </footer>
+
+  </div>
+</main>
+
+</body>
+</html>
