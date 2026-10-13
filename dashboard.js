@@ -211,6 +211,10 @@ async function loadMyProducts() {
         <div class="my-product-status status-${product.status}">
           ${getStatusLabel(product.status)}
         </div>
+        <div class="my-product-actions">
+          <button class="btn-card-edit" onclick="editProduct('${product.id}')">✏️ تعديل</button>
+          <button class="btn-card-delete" onclick="deleteProduct('${product.id}')">🗑️ حذف</button>
+        </div>
       </div>
     `;
 
@@ -219,7 +223,6 @@ async function loadMyProducts() {
 
   container.appendChild(grid);
 }
-
 // ═══ Load Profile Form ═══
 function loadProfileForm() {
   if (!currentProfile) return;
@@ -776,7 +779,31 @@ window.saveService = async function() {
     btn.textContent = editId ? '💾 تحديث الخدمة' : '💾 حفظ الخدمة';
   }
 };
+// ═══ Delete Product ═══
+window.deleteProduct = async function(id) {
+  console.log('🗑️ Delete product:', id);
 
+  if (!confirm('هل أنت متأكد من حذف هذا المنتج؟\nلا يمكن التراجع.')) return;
+
+  try {
+    const { data, error } = await window.supabaseClient
+      .from('products')
+      .delete()
+      .eq('id', id)
+      .select();
+
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) throw new Error('لم يتم الحذف');
+
+    console.log('✅ Product deleted');
+    await loadMyProducts();
+    await loadStats();
+
+  } catch (err) {
+    console.error('❌', err);
+    alert('❌ فشل الحذف: ' + err.message);
+  }
+};
 // ═══ Ensure Workshop ═══
 async function ensureWorkshop() {
   const { data: existing } = await window.supabaseClient
