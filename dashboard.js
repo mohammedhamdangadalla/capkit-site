@@ -565,7 +565,78 @@ async function loadMyServices() {
 
   container.appendChild(grid);
 }
+// ═══ Delete Service ═══
+window.deleteService = async function(id) {
+  if (!confirm('هل أنت متأكد من حذف هذه الخدمة؟\nلا يمكن التراجع عن هذا الإجراء.')) {
+    return;
+  }
 
+  try {
+    const { error } = await window.supabaseClient
+      .from('services')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    console.log('✅ Service deleted:', id);
+    
+    await loadMyServices();
+    await loadStats();
+
+  } catch (err) {
+    console.error('Delete error:', err);
+    alert('❌ فشل الحذف: ' + (err.message || 'حاول تاني'));
+  }
+};
+
+// ═══ Edit Service ═══
+window.editService = async function(id) {
+  try {
+    // جلب البيانات
+    const { data, error } = await window.supabaseClient
+      .from('services')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      alert('❌ فشل تحميل الخدمة');
+      return;
+    }
+
+    // فتح الـ Modal
+    await window.openServiceModal();
+
+    // ملء البيانات (بعد ما الـ Modal يفتح)
+    setTimeout(() => {
+      const el = (id) => document.getElementById(id);
+      
+      el('sName').value = data.title || '';
+      el('sDescription').value = data.description || '';
+      el('sPriceStart').value = data.price_start || '';
+      el('sPriceEnd').value = data.price_end || '';
+      el('sCurrency').value = data.currency || 'EGP';
+      el('sType').value = data.service_type || 'repair';
+      el('sCategory').value = data.category_id || '';
+      
+      const negVal = data.negotiable ? 'true' : 'false';
+      const negInput = document.querySelector(`input[name="sNegotiable"][value="${negVal}"]`);
+      if (negInput) negInput.checked = true;
+
+      // تحويل الزر لـ "تحديث"
+      const btn = document.getElementById('saveServiceBtn');
+      btn.textContent = '💾 تحديث الخدمة';
+      btn.dataset.editId = id;
+
+      console.log('✏️ Editing service:', id);
+    }, 200);
+
+  } catch (err) {
+    console.error('Edit error:', err);
+    alert('❌ حدث خطأ: ' + err.message);
+  }
+};
 // ═══ Open / Close Service Modal ═══
 window.openServiceModal = async function() {
   const modal = document.getElementById('serviceModal');
@@ -597,9 +668,10 @@ function hideServiceModalMessage() {
   msg.textContent = '';
 }
 
-// ═══ Save Service ═══
+// ═══ Save Service (Insert or Update) ═══
 window.saveService = async function() {
   const btn = document.getElementById('saveServiceBtn');
+  const editId = btn.dataset.editId; // لو فيه، يبقى تعديل
   
   const name = document.getElementById('sName').value.trim();
   const description = document.getElementById('sDescription').value.trim();
@@ -611,9 +683,8 @@ window.saveService = async function() {
   const negotiableInput = document.querySelector('input[name="sNegotiable"]:checked');
   const negotiable = negotiableInput ? negotiableInput.value === 'true' : true;
 
-  // Validation
   if (!name || name.length < 3) return showServiceModalMessage('اسم الخدمة قصير جداً');
-  if (!description || description.length < 20) return showServiceModalMessage('الوصف قصير جداً (20 حرف على الأقل)');
+  if (!description || description.length < 20) return showServiceModalMessage('الوصف قصير جداً');
   if (!categoryId) return showServiceModalMessage('اختر التصنيف');
 
   btn.disabled = true;
@@ -621,21 +692,18 @@ window.saveService = async function() {
   hideServiceModalMessage();
 
   try {
-    // ═══ تأكد من وجود freelancer profile ═══
+    // ═══ نلاقي أو ننشئ freelancer ═══
     let freelancerId = null;
-    
-    const { data: existingFreelancer } = await window.supabaseClient
+    const { data: existing } = await window.supabaseClient
       .from('freelancers')
       .select('id')
       .eq('user_id', currentUser.id)
       .maybeSingle();
 
-    if (existingFreelancer?.id) {
-      freelancerId = existingFreelancer.id;
-      console.log('✅ Using existing freelancer:', freelancerId);
+    if (existing?.id) {
+      freelancerId = existing.id;
     } else {
-      // إنشاء freelancer جديد
-      const { data: newFreelancer, error: flError } = await window.supabaseClient
+      const { data: newFL, error: flErr } = await window.supabaseClient
         .from('freelancers')
         .insert({
           user_id: currentUser.id,
@@ -647,46 +715,60 @@ window.saveService = async function() {
         .select()
         .single();
 
-      if (flError) {
-        console.error('Freelancer create failed:', flError);
-        throw new Error('فشل إنشاء ملف الصانع: ' + flError.message);
-      }
-
-      freelancerId = newFreelancer.id;
-      console.log('✅ New freelancer created:', freelancerId);
+      if (flErr) throw new Error('فشل إنشاء ملف الصانع');
+      freelancerId = newFL.id;
     }
 
-    // ═══ حفظ الخدمة ═══
-    const { error } = await window.supabaseClient
-      .from('services')
-      .insert({
-        freelancer_id: freelancerId,
-        category_id: parseInt(categoryId),
-        title: name,
-        description: description,
-        price_start: priceStart,
-        price_end: priceEnd,
-        currency: currency,
-        negotiable: negotiable,
-        service_type: type,
-        status: 'published'
-      });
+    // ═══ تجهيز البيانات ═══
+    const serviceData = {
+      freelancer_id: freelancerId,
+      category_id: parseInt(categoryId),
+      title: name,
+      description: description,
+      price_start: priceStart,
+      price_end: priceEnd,
+      currency: currency,
+      negotiable: negotiable,
+      service_type: type,
+      status: 'published'
+    };
+
+    // ═══ INSERT أو UPDATE ═══
+    let error;
+    if (editId) {
+      // تعديل
+      const res = await window.supabaseClient
+        .from('services')
+        .update(serviceData)
+        .eq('id', editId);
+      error = res.error;
+    } else {
+      // إضافة جديدة
+      const res = await window.supabaseClient
+        .from('services')
+        .insert(serviceData);
+      error = res.error;
+    }
 
     if (error) throw error;
 
-    showServiceModalMessage('✅ تم حفظ الخدمة بنجاح!', 'success');
+    showServiceModalMessage(
+      editId ? '✅ تم تحديث الخدمة!' : '✅ تم حفظ الخدمة!',
+      'success'
+    );
 
-    // ═══ إعادة التحميل بعد الحفظ ═══
-    closeServiceModal();
-    await loadMyServices();
-    await loadStats();
+    setTimeout(async () => {
+      closeServiceModal();
+      await loadMyServices();
+      await loadStats();
+    }, 800);
 
   } catch (err) {
-    console.error('Save service error:', err);
+    console.error('Save error:', err);
     showServiceModalMessage('❌ ' + (err.message || 'فشل الحفظ'));
   } finally {
     btn.disabled = false;
-    btn.textContent = '💾 حفظ الخدمة';
+    btn.textContent = editId ? '💾 تحديث الخدمة' : '💾 حفظ الخدمة';
   }
 };
 // ═══ Helpers ═══
