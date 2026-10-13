@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>من نحن — CapKit Co.</title>
+<meta name="description" content="CapKit Co. — منصة الصنّاع العربية. نربط الورش والحرفيين بالعملاء مباشرة، بدون وسطاء.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.about-page {
+  min-height: 100vh;
+  padding: 100px 20px 60px;
+  background: var(--obsidian);
+}
+
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-back {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 1.4rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+}
+
+.about-back:hover {
+  background: var(--gold);
+  color: var(--obsidian);
+}
+
+/* ═══ Hero ═══ */
+.about-hero {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.about-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--gold);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.5em;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.about-eyebrow::before,
+.about-eyebrow::after {
+  content: '';
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+.about-title {
+  font-family: 'Amiri', serif;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.about-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.about-subtitle {
+  font-family: 'Amiri', serif;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: var(--text-secondary);
+  line-height: 1.9;
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+/* ═══ Sections ═══ */
+.about-section {
+  margin-bottom: 60px;
+}
+
+.about-section-num {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.4em;
+}
+
+.about-section-num::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-light), transparent);
+}
+
+.about-section h2 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.about-section h2 em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.about-section p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 2;
+  margin-bottom: 16px;
+}
+
+.about-section p strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ═══ Values Grid ═══ */
+.about-values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 30px 0;
+}
+
+.about-value {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 20px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-value::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.about-value:hover {
+  border-color: var(--border-light);
+  transform: translateY(-4px);
+  background: var(--obsidian-3);
+}
+
+.about-value:hover::before {
+  width: 100%;
+}
+
+.about-value-icon {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.about-value h3 {
+  font-family: 'Amiri', serif;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.about-value p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ═══ Stats ═══ */
+.about-stats {
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(201, 169, 97, 0.02));
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 40px 30px;
+  margin: 40px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+  text-align: center;
+}
+
+.about-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.about-stat-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* ═══ CTA ═══ */
+.about-cta {
+  text-align: center;
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 50px 30px;
+  margin-top: 40px;
+}
+
+.about-cta h3 {
+  font-family: 'Amiri', serif;
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.about-cta p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+.about-cta-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-about {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-about.primary {
+  background: var(--gold);
+  color: var(--obsidian);
+}
+
+.btn-about.primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(201, 169, 97, 0.25);
+}
+
+.btn-about.secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+.btn-about.secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+@media (max-width: 600px) {
+  .about-page { padding: 80px 16px 40px; }
+  .about-section { margin-bottom: 45px; }
+  .about-cta { padding: 36px 20px; }
+}
+</style>
+</head>
+<body>
+
+<a href="/" class="about-back" title="رجوع للرئيسية">✕</a>
+
+<main class="about-page">
+  <div class="about-container">
+
+    <!-- Hero -->
+    <header class="about-hero">
+      <div class="about-eyebrow">EST. MMXXVI · CAIRO</div>
+      <h1 class="about-title">
+        منصةٌ للصنّاع، <em>لا للوسطاء</em>
+      </h1>
+      <p class="about-subtitle">
+        نبني الجسرَ بين من يُتقن الصنعة، ومن يُقدّرها.
+      </p>
+    </header>
+
+    <!-- Section 1: The Problem -->
+    <section class="about-section">
+      <div class="about-section-num">
+        <span>01</span>
+        <span>الحكاية</span>
+      </div>
+      <h2>لماذا <em>CapKit Co.</em>؟</h2>
+      <p>
+        في السوق العربي، يعمل <strong>آلاف الحرفيين والورش الصغيرة</strong> بجودةٍ عالية،
+        ويُنتجون صنعةً تستحقّ الاحترام.
+      </p>
+      <p>
+        لكن كثيراً منهم لا يجد عميله، وليس لديه منصةٌ تعرض عمله بكرامة.
+        ووسطاءُ يقتطعون نصف السعر، دون أن يقدّموا شيئاً سوى قناةٍ للعرض.
+      </p>
+      <p>
+        <strong>CapKit Co.</strong> وُلدت لتكون الحل: منصةٌ تجمع الصنّاع،
+        بلا عمولة، بلا وساطة، باحترامٍ للصنعة أولاً.
+      </p>
+    </section>
+
+    <!-- Section 2: Values -->
+    <section class="about-section">
+      <div class="about-section-num">
+        <span>02</span>
+        <span>قيمنا</span>
+      </div>
+      <h2>ما <em>نؤمن به</em></h2>
+
+      <div class="about-values">
+        <div class="about-value">
+          <span class="about-value-icon">🤝</span>
+          <h3>الفرصة العادلة</h3>
+          <p>كل صانع، حرفيّ، وورشة تمتلك كفاءةً حقيقية، تستحقّ مكاناً بلا محسوبية.</p>
+        </div>
+        <div class="about-value">
+          <span class="about-value-icon">🛡️</span>
+          <h3>حماية الطرفين</h3>
+          <p>نحمي المشتري من الغش، ونحمي الصانع من الظلم. الحياد أساسُ كلّ قرار.</p>
+        </div>
+        <div class="about-value">
+          <span class="about-value-icon">✨</span>
+          <h3>الجودة أولاً</h3>
+          <p>لا مكان للترّهات. كل منتج وخدمة تخضع لمعايير، والسمعة تُبنى بالعمل.</p>
+        </div>
+        <div class="about-value">
+          <span class="about-value-icon">📖</span>
+          <h3>الشفافية</h3>
+          <p>معايير معلنة، قواعد واضحة، وإجراءات مُعلنة. لا شيء مخفيّ.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: The Platform -->
+    <section class="about-section">
+      <div class="about-section-num">
+        <span>03</span>
+        <span>المنصة</span>
+      </div>
+      <h2>ماذا <em>نقدّم</em>؟</h2>
+      <p>
+        <strong>CapKit Co.</strong> هي بيتٌ واحدٌ لثلاثة عوالم:
+      </p>
+      <p>
+        🛒 <strong>سوق المنتجات</strong> — من الشعارات المعدنية إلى الأعمال اليدوية،
+        يعرض الصانع بضاعته، ويتواصل مع العميل مباشرة.
+      </p>
+      <p>
+        🔧 <strong>خدمات الصيانة</strong> — من صيانة السيارات إلى الكهرباء المنزلية،
+        كل فني يجد عميله، وكل عميل يجد فنيّه.
+      </p>
+      <p>
+        💎 <strong>CapKit Originals</strong> — منتجاتنا الأصلية، المُصنَّعة يدوياً،
+        المُرقَّمة، الموثّقة بشهادة أصالة.
+      </p>
+    </section>
+
+    <!-- Stats -->
+    <div class="about-stats">
+      <div>
+        <div class="about-stat-value">27</div>
+        <div class="about-stat-label">محافظة</div>
+      </div>
+      <div>
+        <div class="about-stat-value">74</div>
+        <div class="about-stat-label">تصنيف</div>
+      </div>
+      <div>
+        <div class="about-stat-value">0%</div>
+        <div class="about-stat-label">عمولة</div>
+      </div>
+      <div>
+        <div class="about-stat-value">∞</div>
+        <div class="about-stat-label">فرصة</div>
+      </div>
+    </div>
+
+    <!-- Section 4: The Future -->
+    <section class="about-section">
+      <div class="about-section-num">
+        <span>04</span>
+        <span>الرؤية</span>
+      </div>
+      <h2>إلى <em>أين نتجه</em>؟</h2>
+      <p>
+        نبدأ بمصر، ونطمحُ إلى العالم العربي كلّه. نؤمن أن الصنعة الحقيقية
+        تستحقّ منصةً حقيقية، وأن كلّ صانعٍ جديرٌ بأن يُعرَف.
+      </p>
+      <p>
+        في السنوات القادمة، سنبني:
+        <strong>بوابة مصممين، نظام تقييمات موثّق، متجر أدوات، وشراكات مع شركات الشحن</strong>.
+      </p>
+      <p>
+        <em>لكنّ الأساس يبقى ثابتاً: الصانع أولاً، ثم كل شيء.</em>
+      </p>
+    </section>
+
+    <!-- CTA -->
+    <div class="about-cta">
+      <h3>هل أنت صانع؟</h3>
+      <p>انضمّ إلينا. اعرض عملك، وابدأ رحلتك مع CapKit Co.</p>
+      <div class="about-cta-buttons">
+        <a href="auth.html" class="btn-about primary">سجّل الآن — مجاناً</a>
+        <a href="manifesto.html" class="btn-about secondary">اقرأ الميثاق</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
