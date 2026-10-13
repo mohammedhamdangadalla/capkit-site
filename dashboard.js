@@ -1,4 +1,4 @@
-// ═══ Dashboard — Logic (v2) ═══
+// ═══ Dashboard — Logic (v3 - Fixed) ═══
 
 const ROLE_META = {
   vendor: { name: 'بائع / ورشة', icon: '🛒' },
@@ -39,9 +39,9 @@ async function initDashboard() {
     email: session.user.email
   };
 
-    renderUserInfo();
+  renderUserInfo();
   loadProfileForm();
-   await loadStats();
+  await loadStats();
   await loadMyProducts();
   await loadMyServices();
   await handleUrlTab();
@@ -49,7 +49,6 @@ async function initDashboard() {
   document.getElementById('loadingScreen').style.display = 'none';
   document.getElementById('dashboardPage').style.display = 'block';
 
-  // ✅ حمّل التصنيفات في الخلفية (بدون انتظار)
   ensureCategoriesLoaded();
 }
 
@@ -62,7 +61,7 @@ function renderUserInfo() {
   document.getElementById('dashUserRole').textContent = meta.name;
 }
 
-// ═══ Load Categories (once) ═══
+// ═══ Ensure Categories Loaded ═══
 async function ensureCategoriesLoaded() {
   if (categoriesLoaded) return true;
 
@@ -70,7 +69,6 @@ async function ensureCategoriesLoaded() {
   if (!select) return false;
 
   try {
-    // 1. جرب Supabase
     const { data, error } = await window.supabaseClient
       .from('categories')
       .select('id, name_ar, parent_id, sort_order')
@@ -89,9 +87,8 @@ async function ensureCategoriesLoaded() {
     throw new Error('Empty categories from Supabase');
 
   } catch (err) {
-    console.warn('⚠️ Supabase categories failed, trying JSON:', err.message);
+    console.warn('⚠️ Supabase categories failed:', err.message);
 
-    // 2. Fallback — JSON محلي
     try {
       const res = await fetch('categories.json');
       const json = await res.json();
@@ -99,18 +96,17 @@ async function ensureCategoriesLoaded() {
 
       fillCategorySelect(select, mainCats.map(c => ({ id: c.id, name: c.name })));
       categoriesLoaded = true;
-      console.log('📁 Categories from JSON fallback:', mainCats.length);
+      console.log('📁 Categories from JSON:', mainCats.length);
       return true;
 
     } catch (jsonErr) {
-      console.error('❌ Both Supabase and JSON failed:', jsonErr);
+      console.error('❌ Both failed:', jsonErr);
       return false;
     }
   }
 }
 
 function fillCategorySelect(select, categories) {
-  // احذف كل الخيارات ما عدا الـ placeholder
   while (select.options.length > 1) {
     select.remove(1);
   }
@@ -124,13 +120,12 @@ function fillCategorySelect(select, categories) {
     select.appendChild(opt);
   });
 
-  // Force refresh
   select.style.color = 'var(--text-primary)';
 }
+
 // ═══ Load Stats ═══
 async function loadStats() {
   try {
-    // ═══ المنتجات ═══
     const { count: productsCount } = await window.supabaseClient
       .from('products')
       .select('*', { count: 'exact', head: true })
@@ -138,9 +133,7 @@ async function loadStats() {
 
     document.getElementById('statProducts').textContent = productsCount || 0;
 
-    // ═══ الخدمات ═══
     let servicesCount = 0;
-
     const { data: freelancer } = await window.supabaseClient
       .from('freelancers')
       .select('id')
@@ -158,7 +151,6 @@ async function loadStats() {
 
     document.getElementById('statServices').textContent = servicesCount;
 
-    // ═══ المشاهدات ═══
     const { count: viewsCount } = await window.supabaseClient
       .from('profile_views')
       .select('*', { count: 'exact', head: true })
@@ -166,7 +158,6 @@ async function loadStats() {
 
     document.getElementById('statViews').textContent = viewsCount || 0;
 
-    // ═══ التقييمات ═══
     const { data: ratings } = await window.supabaseClient
       .from('ratings')
       .select('rating')
@@ -183,24 +174,19 @@ async function loadStats() {
     console.warn('Stats error:', err);
   }
 }
+
 // ═══ Load My Products ═══
 async function loadMyProducts() {
   const container = document.getElementById('myProductsList');
   if (!container) return;
 
- const { data, error } = await window.supabaseClient
-  .from('products')
-  .select('*')
-  .eq('seller_id', currentUser.id)
-  .order('created_at', { ascending: false });
-  if (error) {
-    console.error('Products error:', error);
-    return;
-  }
+  const { data, error } = await window.supabaseClient
+    .from('products')
+    .select('*')
+    .eq('seller_id', currentUser.id)
+    .order('created_at', { ascending: false });
 
-  if (!data || data.length === 0) {
-    return; // Empty state already showing
-  }
+  if (error || !data || data.length === 0) return;
 
   container.innerHTML = '';
 
@@ -220,7 +206,7 @@ async function loadMyProducts() {
         ${!imageUrl ? '<span>📦</span>' : ''}
       </div>
       <div class="my-product-info">
-        <h4>${product.title || 'بدون اسم'}</h4>
+        <h4>${escapeHtml(product.title || 'بدون اسم')}</h4>
         <div class="my-product-price">${product.price || 0} ${product.currency || 'EGP'}</div>
         <div class="my-product-status status-${product.status}">
           ${getStatusLabel(product.status)}
@@ -233,7 +219,8 @@ async function loadMyProducts() {
 
   container.appendChild(grid);
 }
-// ═══ Load Profile Data into Form ═══
+
+// ═══ Load Profile Form ═══
 function loadProfileForm() {
   if (!currentProfile) return;
 
@@ -266,7 +253,6 @@ window.saveProfile = async function() {
   const city = document.getElementById('pfCity')?.value.trim();
   const bio = document.getElementById('pfBio')?.value.trim();
 
-  // Validation
   if (!fullName || fullName.length < 3) {
     msg.textContent = 'الاسم قصير جداً';
     msg.className = 'modal-message error';
@@ -298,7 +284,6 @@ window.saveProfile = async function() {
 
     if (error) throw error;
 
-    // تحديث البيانات المحلية
     currentProfile.full_name = fullName;
     currentProfile.whatsapp = whatsapp;
     currentProfile.phone = whatsapp;
@@ -358,13 +343,15 @@ function handleUrlTab() {
   }
 }
 
-// ═══ Modal: Open / Close ═══
+// ═══════════════════════════════════════════════
+// PRODUCT MODAL
+// ═══════════════════════════════════════════════
+
 window.openProductModal = async function() {
   const modal = document.getElementById('productModal');
   modal.classList.add('active');
   hideModalMessage();
 
-  // ✅ حمّل التصنيفات لو لسه ما اتحملتش
   const loaded = await ensureCategoriesLoaded();
   if (!loaded) {
     showModalMessage('⚠️ تعذّر تحميل التصنيفات. جرب تحدّث الصفحة.');
@@ -408,9 +395,8 @@ window.saveProduct = async function() {
   const stock = parseInt(document.getElementById('pStock').value) || 1;
   const imageInput = document.getElementById('pImages');
 
-  // Validation
   if (!name || name.length < 3) return showModalMessage('اسم المنتج قصير جداً');
-  if (!description || description.length < 20) return showModalMessage('الوصف قصير جداً (20 حرف على الأقل)');
+  if (!description || description.length < 20) return showModalMessage('الوصف قصير جداً');
   if (!categoryId) return showModalMessage('اختر التصنيف');
 
   btn.disabled = true;
@@ -418,7 +404,6 @@ window.saveProduct = async function() {
   hideModalMessage();
 
   try {
-    // 1. رفع الصور
     const imageUrls = [];
 
     if (imageInput.files && imageInput.files.length > 0) {
@@ -436,10 +421,7 @@ window.saveProduct = async function() {
             upsert: false
           });
 
-        if (uploadError) {
-          console.error('Upload error:', uploadError);
-          throw new Error('فشل رفع الصورة: ' + uploadError.message);
-        }
+        if (uploadError) throw new Error('فشل رفع الصورة: ' + uploadError.message);
 
         const { data: { publicUrl } } = window.supabaseClient.storage
           .from('product-images')
@@ -449,48 +431,40 @@ window.saveProduct = async function() {
       }
     }
 
-    // 2. تحديد نوع البائع
-const sellerTypeInput = document.querySelector('input[name="sellerType"]:checked');
-const sellerType = sellerTypeInput ? sellerTypeInput.value : 'individual';
+    const sellerTypeInput = document.querySelector('input[name="sellerType"]:checked');
+    const sellerType = sellerTypeInput ? sellerTypeInput.value : 'individual';
 
-let productData = {
-  category_id: parseInt(categoryId),
-  title: name,
-  description: description,
-  price: price,
-  currency: currency,
-  stock: stock,
-  images: imageUrls,
-  status: 'published',
-  published_at: new Date().toISOString(),
-  seller_type: sellerType
-};
+    let productData = {
+      category_id: parseInt(categoryId),
+      title: name,
+      description: description,
+      price: price,
+      currency: currency,
+      stock: stock,
+      images: imageUrls,
+      status: 'published',
+      published_at: new Date().toISOString(),
+      seller_type: sellerType,
+      seller_id: currentUser.id
+    };
 
-if (sellerType === 'workshop') {
-  // أنشئ / استخدم ورشة
-  const workshop = await ensureWorkshop();
-  productData.workshop_id = workshop.id;
-  productData.seller_id = currentUser.id;
-} else {
-  // بائع حر — بس seller_id
-  productData.seller_id = currentUser.id;
-}
-
-// 3. حفظ المنتج في DB
-const { error: dbError } = await window.supabaseClient
-  .from('products')
-  .insert(productData);
-    if (dbError) {
-      console.error('DB error:', dbError);
-      throw new Error('فشل حفظ المنتج: ' + dbError.message);
+    if (sellerType === 'workshop') {
+      const workshop = await ensureWorkshop();
+      productData.workshop_id = workshop.id;
     }
+
+    const { error: dbError } = await window.supabaseClient
+      .from('products')
+      .insert(productData);
+
+    if (dbError) throw new Error('فشل حفظ المنتج: ' + dbError.message);
 
     showModalMessage('✅ تم حفظ المنتج بنجاح!', 'success');
 
-    setTimeout(() => {
+    setTimeout(async () => {
       closeProductModal();
-      loadMyProducts();
-      loadStats();
+      await loadMyProducts();
+      await loadStats();
     }, 1500);
 
   } catch (err) {
@@ -502,7 +476,59 @@ const { error: dbError } = await window.supabaseClient
   }
 };
 
-// ═══ Load My Services ═══
+// ═══════════════════════════════════════════════
+// SERVICE MODAL — Open/Close/Messages
+// ═══════════════════════════════════════════════
+
+window.openServiceModal = async function() {
+  const modal = document.getElementById('serviceModal');
+  modal.classList.add('active');
+  hideServiceModalMessage();
+  await ensureCategoriesLoaded();
+};
+
+window.closeServiceModal = function() {
+  const modal = document.getElementById('serviceModal');
+  if (modal) modal.classList.remove('active');
+
+  // إعادة تعيين الحقول
+  const el = (id) => document.getElementById(id);
+  if (el('sName')) el('sName').value = '';
+  if (el('sDescription')) el('sDescription').value = '';
+  if (el('sPriceStart')) el('sPriceStart').value = '';
+  if (el('sPriceEnd')) el('sPriceEnd').value = '';
+  if (el('sCategory')) el('sCategory').value = '';
+
+  const negInput = document.querySelector('input[name="sNegotiable"][value="true"]');
+  if (negInput) negInput.checked = true;
+
+  const btn = document.getElementById('saveServiceBtn');
+  if (btn) {
+    btn.textContent = '💾 حفظ الخدمة';
+    btn.removeAttribute('data-edit-id');
+  }
+
+  hideServiceModalMessage();
+};
+
+function showServiceModalMessage(text, type = 'error') {
+  const msg = document.getElementById('serviceModalMsg');
+  if (!msg) return;
+  msg.textContent = text;
+  msg.className = 'modal-message ' + type;
+}
+
+function hideServiceModalMessage() {
+  const msg = document.getElementById('serviceModalMsg');
+  if (!msg) return;
+  msg.className = 'modal-message';
+  msg.textContent = '';
+}
+
+// ═══════════════════════════════════════════════
+// SERVICES — Load / Delete / Edit / Save
+// ═══════════════════════════════════════════════
+
 async function loadMyServices() {
   const container = document.getElementById('myServicesList');
   if (!container) return;
@@ -550,12 +576,8 @@ async function loadMyServices() {
           ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
         </div>
         <div class="my-product-actions">
-          <button class="btn-card-edit" onclick="editService('${service.id}')" title="تعديل">
-            ✏️ تعديل
-          </button>
-          <button class="btn-card-delete" onclick="deleteService('${service.id}')" title="حذف">
-            🗑️ حذف
-          </button>
+          <button class="btn-card-edit" onclick="editService('${service.id}')">✏️ تعديل</button>
+          <button class="btn-card-delete" onclick="deleteService('${service.id}')">🗑️ حذف</button>
         </div>
       </div>
     `;
@@ -565,46 +587,37 @@ async function loadMyServices() {
 
   container.appendChild(grid);
 }
+
 // ═══ Delete Service ═══
 window.deleteService = async function(id) {
-  console.log('🗑️ Attempting delete:', id);
-  
-  if (!confirm('هل أنت متأكد من حذف هذه الخدمة؟\nلا يمكن التراجع عن هذا الإجراء.')) {
-    return;
-  }
+  console.log('🗑️ Delete:', id);
+
+  if (!confirm('هل أنت متأكد من حذف هذه الخدمة؟\nلا يمكن التراجع.')) return;
 
   try {
-    const { data, error, count } = await window.supabaseClient
+    const { data, error } = await window.supabaseClient
       .from('services')
       .delete()
       .eq('id', id)
       .select();
 
-    console.log('Delete result:', { data, error, count });
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) throw new Error('لم يتم الحذف');
 
-    if (error) {
-      throw new Error(error.message || 'RLS منع الحذف');
-    }
-
-    if (!data || data.length === 0) {
-      throw new Error('لم يتم حذف أي صف — ربما مش عندك صلاحية');
-    }
-
-    console.log('✅ Service deleted:', id);
-    
+    console.log('✅ Deleted');
     await loadMyServices();
     await loadStats();
 
   } catch (err) {
-    console.error('❌ Delete error:', err);
-    alert('❌ فشل الحذف: ' + (err.message || 'حاول تاني'));
+    console.error('❌', err);
+    alert('❌ فشل الحذف: ' + err.message);
   }
 };
 
 // ═══ Edit Service ═══
 window.editService = async function(id) {
-  console.log('✏️ Editing service:', id);
-  
+  console.log('✏️ Edit:', id);
+
   try {
     const { data, error } = await window.supabaseClient
       .from('services')
@@ -617,47 +630,40 @@ window.editService = async function(id) {
       return;
     }
 
-    // ═══ فتح الـ Modal ═══
-    const modal = document.getElementById('serviceModal');
-    modal.classList.add('active');
+    // فتح الـ Modal
+    document.getElementById('serviceModal').classList.add('active');
     hideServiceModalMessage();
     await ensureCategoriesLoaded();
 
-    // ═══ ملء البيانات ═══
     setTimeout(() => {
-      document.getElementById('sName').value = data.title || '';
-      document.getElementById('sDescription').value = data.description || '';
-      document.getElementById('sPriceStart').value = data.price_start || '';
-      document.getElementById('sPriceEnd').value = data.price_end || '';
-      document.getElementById('sCurrency').value = data.currency || 'EGP';
-      document.getElementById('sType').value = data.service_type || 'repair';
+      const el = (id) => document.getElementById(id);
 
-      // التصنيف
-      const catSelect = document.getElementById('sCategory');
+      el('sName').value = data.title || '';
+      el('sDescription').value = data.description || '';
+      el('sPriceStart').value = data.price_start || '';
+      el('sPriceEnd').value = data.price_end || '';
+      el('sCurrency').value = data.currency || 'EGP';
+      el('sType').value = data.service_type || 'repair';
+
+      const catSelect = el('sCategory');
       if (catSelect && data.category_id) {
         const trySet = (n = 0) => {
           const found = Array.from(catSelect.options).some(o => o.value == data.category_id);
-          if (found) {
-            catSelect.value = data.category_id;
-          } else if (n < 10) {
-            setTimeout(() => trySet(n + 1), 200);
-          }
+          if (found) catSelect.value = data.category_id;
+          else if (n < 10) setTimeout(() => trySet(n + 1), 200);
         };
         trySet();
       }
 
-      // السعر قابل للتفاوض
       const negVal = data.negotiable ? 'true' : 'false';
       const negInput = document.querySelector(`input[name="sNegotiable"][value="${negVal}"]`);
       if (negInput) negInput.checked = true;
 
-      // ═══ تحويل الزر لـ "تحديث" ═══
       const btn = document.getElementById('saveServiceBtn');
       btn.textContent = '💾 تحديث الخدمة';
-      btn.setAttribute('data-edit-id', id); // ← استخدم setAttribute
-      
-      console.log('✅ Edit mode active. Button ID:', btn.getAttribute('data-edit-id'));
+      btn.setAttribute('data-edit-id', id);
 
+      console.log('✅ Edit mode:', id);
     }, 400);
 
   } catch (err) {
@@ -669,11 +675,9 @@ window.editService = async function(id) {
 // ═══ Save / Update Service ═══
 window.saveService = async function() {
   const btn = document.getElementById('saveServiceBtn');
-  
-  // ═══ نقرأ editId من attribute ═══
   const editId = btn.getAttribute('data-edit-id');
-  console.log('💾 saveService called. editId:', editId);
-  
+  console.log('💾 saveService. editId:', editId);
+
   const name = document.getElementById('sName').value.trim();
   const description = document.getElementById('sDescription').value.trim();
   const priceStart = parseFloat(document.getElementById('sPriceStart').value) || 0;
@@ -693,7 +697,6 @@ window.saveService = async function() {
   hideServiceModalMessage();
 
   try {
-    // ═══ نلاقي freelancer ═══
     let freelancerId = null;
     const { data: existing } = await window.supabaseClient
       .from('freelancers')
@@ -742,7 +745,7 @@ window.saveService = async function() {
         .eq('id', editId)
         .select();
     } else {
-      console.log('➕ INSERT new');
+      console.log('➕ INSERT');
       result = await window.supabaseClient
         .from('services')
         .insert(serviceData)
@@ -752,13 +755,10 @@ window.saveService = async function() {
     console.log('Result:', result);
 
     if (result.error) throw new Error(result.error.message);
-
-    if (!result.data || result.data.length === 0) {
-      throw new Error('لم يتم حفظ أي صف');
-    }
+    if (!result.data || result.data.length === 0) throw new Error('لم يتم الحفظ');
 
     showServiceModalMessage(
-      editId ? '✅ تم تحديث الخدمة!' : '✅ تم حفظ الخدمة!',
+      editId ? '✅ تم التحديث!' : '✅ تم الحفظ!',
       'success'
     );
 
@@ -777,24 +777,36 @@ window.saveService = async function() {
   }
 };
 
-// ═══ Close Service Modal — نمسح editId ═══
-window.closeServiceModal = function() {
-  document.getElementById('serviceModal').classList.remove('active');
-  document.getElementById('sName').value = '';
-  document.getElementById('sDescription').value = '';
-  document.getElementById('sPriceStart').value = '';
-  document.getElementById('sPriceEnd').value = '';
-  document.getElementById('sCategory').value = '';
-  
-  const negInput = document.querySelector('input[name="sNegotiable"][value="true"]');
-  if (negInput) negInput.checked = true;
-  
-  const btn = document.getElementById('saveServiceBtn');
-  btn.textContent = '💾 حفظ الخدمة';
-  btn.removeAttribute('data-edit-id');
-  
-  hideServiceModalMessage();
-};
+// ═══ Ensure Workshop ═══
+async function ensureWorkshop() {
+  const { data: existing } = await window.supabaseClient
+    .from('workshops')
+    .select('id, name')
+    .eq('owner_id', currentUser.id)
+    .maybeSingle();
+
+  if (existing) return existing;
+
+  const userName = currentProfile.full_name || 'ورشة';
+  const workshopSlug = 'w-' + currentUser.id.slice(0, 8);
+
+  const { data: created, error } = await window.supabaseClient
+    .from('workshops')
+    .insert({
+      owner_id: currentUser.id,
+      name: userName,
+      slug: workshopSlug,
+      description: 'ورشة ' + userName,
+      workshop_type: 'product',
+      status: 'active'
+    })
+    .select()
+    .single();
+
+  if (error) throw new Error('فشل إنشاء الورشة: ' + error.message);
+  return created;
+}
+
 // ═══ Helpers ═══
 function escapeHtml(text) {
   if (!text) return '';
@@ -810,6 +822,7 @@ document.addEventListener('click', async (e) => {
     window.location.href = '/';
   }
 });
+
 // ═══ Bio Counter Listener ═══
 document.addEventListener('input', (e) => {
   if (e.target && e.target.id === 'pfBio') {
