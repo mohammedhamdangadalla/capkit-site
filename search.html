@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>البحث — CapKit Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.search-page {
+  min-height: 100vh;
+  padding: 80px 16px 40px;
+  background: var(--obsidian);
+}
+
+.search-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ═══ Search Bar ═══ */
+.search-header {
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(201, 169, 97, 0.02));
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-bottom: 20px;
+}
+
+.search-bar-main {
+  display: flex;
+  gap: 10px;
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  transition: border 0.3s;
+}
+
+.search-bar-main:focus-within {
+  border-color: var(--gold);
+}
+
+.search-bar-main input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  padding: 12px 16px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1rem;
+}
+
+.search-bar-main input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-bar-main button {
+  background: var(--gold);
+  color: var(--obsidian);
+  border: none;
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.search-bar-main button:hover {
+  background: var(--gold-light);
+}
+
+/* ═══ Filters ═══ */
+.filters-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.filters-row::-webkit-scrollbar { display: none; }
+
+.filter-chip {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-chip:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.filter-chip.active {
+  background: var(--gold);
+  color: var(--obsidian);
+  border-color: var(--gold);
+  font-weight: 700;
+}
+
+/* ═══ Results ═══ */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.results-count {
+  font-family: 'Amiri', serif;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.results-count span {
+  color: var(--gold);
+}
+
+.results-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.result-type-btn {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.result-type-btn.active {
+  background: var(--gold);
+  color: var(--obsidian);
+  border-color: var(--gold);
+  font-weight: 700;
+}
+
+/* ═══ Grid ═══ */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.search-empty {
+  text-align: center;
+  padding: 60px 20px;
+  grid-column: 1 / -1;
+}
+
+.search-empty-icon {
+  font-size: 3.5rem;
+  opacity: 0.3;
+  margin-bottom: 16px;
+}
+
+.search-empty h3 {
+  font-family: 'Amiri', serif;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.search-empty p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ═══ Loading ═══ */
+.search-loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gold);
+  font-size: 1rem;
+}
+
+/* ═══ Mobile ═══ */
+@media (max-width: 700px) {
+  .search-page { padding: 70px 12px 30px; }
+  .search-bar-main { flex-direction: column; }
+  .search-bar-main button { width: 100%; }
+  .results-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .results-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<main class="search-page">
+  <div class="search-container">
+    
+    <!-- Search Header -->
+    <div class="search-header">
+      <div class="search-bar-main">
+        <input type="text" id="searchInput" placeholder="ابحث عن منتج، خدمة، أو ورشة..." autofocus>
+        <button onclick="performSearch()">
+          <span>🔍</span>
+          <span>بحث</span>
+        </button>
+      </div>
+      
+      <!-- Type Filter -->
+      <div class="filters-row" id="typeFilters">
+        <button class="filter-chip active" data-type="all">🌐 الكل</button>
+        <button class="filter-chip" data-type="product">📦 منتجات</button>
+        <button class="filter-chip" data-type="service">🔧 خدمات</button>
+      </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="filters-row" id="categoryFilters" style="margin-bottom: 20px;">
+      <!-- يُملأ بواسطة JS -->
+    </div>
+
+    <!-- Results Header -->
+    <div class="results-header">
+      <div class="results-count">
+        <span id="resultsNumber">0</span> نتيجة
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="searchContent">
+      <div class="search-empty">
+        <div class="search-empty-icon">🔍</div>
+        <h3>ابدأ البحث</h3>
+        <p>اكتب كلمة للبحث في المنتجات والخدمات</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ═══ Supabase ═══ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="search.js"></script>
+
+</body>
+</html>
