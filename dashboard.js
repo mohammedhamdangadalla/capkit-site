@@ -652,22 +652,17 @@ window.closeServiceModal = function() {
   document.getElementById('sPriceStart').value = '';
   document.getElementById('sPriceEnd').value = '';
   document.getElementById('sCategory').value = '';
-  document.querySelector('input[name="sNegotiable"][value="true"]').checked = true;
+  
+  const negInput = document.querySelector('input[name="sNegotiable"][value="true"]');
+  if (negInput) negInput.checked = true;
+  
+  // ═══ Reset button (شيل editId) ═══
+  const btn = document.getElementById('saveServiceBtn');
+  btn.textContent = '💾 حفظ الخدمة';
+  delete btn.dataset.editId;
+  
   hideServiceModalMessage();
 };
-
-function showServiceModalMessage(text, type = 'error') {
-  const msg = document.getElementById('serviceModalMsg');
-  msg.textContent = text;
-  msg.className = 'modal-message ' + type;
-}
-
-function hideServiceModalMessage() {
-  const msg = document.getElementById('serviceModalMsg');
-  msg.className = 'modal-message';
-  msg.textContent = '';
-}
-
 // ═══ Save Service (Insert or Update) ═══
 window.saveService = async function() {
   const btn = document.getElementById('saveServiceBtn');
