@@ -565,43 +565,7 @@ async function loadMyServices() {
 }
 
   if (error) {
-    console.error('Services error:', error);
-    return;
-  }
 
-  if (!data || data.length === 0) return;
-
-  container.innerHTML = '';
-
-  const grid = document.createElement('div');
-  grid.className = 'my-products-grid';
-
-  data.forEach(service => {
-    const card = document.createElement('div');
-    card.className = 'my-product-card';
-
-    const priceText = service.price_start
-      ? `${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'} ${service.currency}`
-      : 'اتصل للسعر';
-
-    card.innerHTML = `
-      <div class="my-product-img" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), transparent);">
-        <span>🔧</span>
-      </div>
-      <div class="my-product-info">
-        <h4>${escapeHtml(service.title)}</h4>
-        <div class="my-product-price">${priceText}</div>
-        <div class="my-product-status status-${service.status}">
-          ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
-        </div>
-      </div>
-    `;
-
-    grid.appendChild(card);
-  });
-
-  container.appendChild(grid);
-}
 
 // ═══ Open / Close Service Modal ═══
 window.openServiceModal = async function() {
