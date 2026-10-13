@@ -424,7 +424,7 @@ window.saveProduct = async function() {
   hideModalMessage();
 
   try {
-    // ═══ رفع صور جديدة (لو موجودة) ═══
+        // ═══ رفع صور جديدة ═══
     let imageUrls = [];
 
     // في التعديل: نجيب الصور القديمة
@@ -438,12 +438,20 @@ window.saveProduct = async function() {
       imageUrls = oldProduct?.images || [];
     }
 
-    // رفع الصور الجديدة (إضافة للقديمة)
+    // ═══ رفع الصور الجديدة ═══
     if (imageInput.files && imageInput.files.length > 0) {
       const files = Array.from(imageInput.files).slice(0, 4);
+      console.log('📤 Uploading', files.length, 'images...');
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
+        
+        // ═══ تحقق من الحجم (2 MB) ═══
+        if (file.size > 2 * 1024 * 1024) {
+          console.warn('⚠️ Image too large, skipping:', file.name);
+          continue;
+        }
+
         const ext = file.name.split('.').pop().toLowerCase();
         const fileName = `${currentUser.id}/${Date.now()}-${i}.${ext}`;
 
@@ -454,7 +462,11 @@ window.saveProduct = async function() {
             upsert: false
           });
 
-        if (uploadError) throw new Error('فشل رفع الصورة: ' + uploadError.message);
+        // ═══ لو فشلت صورة، نكمل بدونها ═══
+        if (uploadError) {
+          console.warn('⚠️ Upload failed, skipping:', uploadError.message);
+          continue;
+        }
 
         const { data: { publicUrl } } = window.supabaseClient.storage
           .from('product-images')
@@ -462,6 +474,8 @@ window.saveProduct = async function() {
 
         imageUrls.push(publicUrl);
       }
+      
+      console.log('✅ Images uploaded:', imageUrls.length);
     }
 
     const sellerTypeInput = document.querySelector('input[name="sellerType"]:checked');
