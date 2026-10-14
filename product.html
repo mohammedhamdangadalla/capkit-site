@@ -372,16 +372,19 @@
           </div>
 
           <div class="product-actions-main">
-            <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
-              <span>💬</span>
-              <span>اطلب عبر واتساب</span>
-            </a>
-            <button class="btn-secondary-action" onclick="copyLink()">
-              <span>🔗</span>
-              <span>نسخ رابط المنتج</span>
-            </button>
-          </div>
-
+  <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
+    <span>💬</span>
+    <span>اطلب عبر واتساب</span>
+  </a>
+  
+  <div style="display: flex; gap: 10px;">
+    <div id="likeContainer" style="flex: 1;"></div>
+    <button class="btn-secondary-action" onclick="copyLink()" style="flex: 1;">
+      <span>🔗</span>
+      <span>نسخ الرابط</span>
+    </button>
+  </div>
+</div>
         </div>
       </div>
     </div>
