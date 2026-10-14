@@ -363,16 +363,20 @@
             </div>
           </div>
 
-          <div class="service-actions-main">
-            <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
-              <span>💬</span>
-              <span>اطلب الخدمة عبر واتساب</span>
-            </a>
-            <button class="btn-secondary-action" onclick="copyLink()">
-              <span>🔗</span>
-              <span>نسخ رابط الخدمة</span>
-            </button>
-          </div>
+         <div class="service-actions-main">
+  <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
+    <span>💬</span>
+    <span>اطلب الخدمة عبر واتساب</span>
+  </a>
+  
+  <div style="display: flex; gap: 10px;">
+    <div id="likeContainer" style="flex: 1;"></div>
+    <button class="btn-secondary-action" onclick="copyLink()" style="flex: 1;">
+      <span>🔗</span>
+      <span>نسخ الرابط</span>
+    </button>
+  </div>
+</div>
 
         </div>
       </div>
@@ -384,6 +388,7 @@
 <!-- ═══ Supabase ═══ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
+<script src="likes.js"></script>
 <script src="service.js"></script>
 <!-- ═══ Footer ═══ -->
 <script src="footer.js"></script>
