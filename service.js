@@ -156,6 +156,10 @@ function renderService() {
 
   // Page Title
   document.title = `${s.title || 'الخدمة'} — CapKit Co.`;
+
+  // ✨ إضافة زر الإعجاب
+  renderServiceLike(s.id);
+
 }
 
 // ═══ Badges ═══
@@ -267,6 +271,14 @@ window.copyLink = function() {
     }, 1500);
   });
 };
+// ═══ Render Service Like ═══
+function renderServiceLike(serviceId) {
+  const container = document.getElementById('likeContainer');
+  if (!container) return;
+
+  container.innerHTML = renderLikeButton('service', serviceId);
+  refreshLikeButton('service', serviceId);
+}
 
 // ═══ Helpers ═══
 function showNotFound() {
