@@ -117,8 +117,11 @@ function renderProduct() {
   renderGallery();
   renderSeller();
   renderWhatsApp();
-
+  
   document.title = `${p.title || 'المنتج'} — CapKit Co.`;
+  
+  // ✨ إضافة زر الإعجاب
+  renderProductLike(p.id);
 }
 
 // ═══ Badges ═══
@@ -286,4 +289,12 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initProduct);
 } else {
   initProduct();
+}
+// ═══ Render Product Like ═══
+async function renderProductLike(productId) {
+  const container = document.getElementById('likeContainer');
+  if (!container) return;
+
+  container.innerHTML = renderLikeButton('product', productId);
+  await refreshLikeButton('product', productId);
 }
