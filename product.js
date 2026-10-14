@@ -122,7 +122,15 @@ function renderProduct() {
   
   // ✨ إضافة زر الإعجاب
   renderProductLike(p.id);
+    // ✨ ربط زر المشاركة
+  setTimeout(() => {
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+      shareBtn.onclick = () => shareItem('product', p.id, p.title);
+    }
+  }, 100);
 }
+
 
 // ═══ Badges ═══
 function renderBadges() {
