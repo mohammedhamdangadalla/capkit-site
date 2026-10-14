@@ -1706,3 +1706,60 @@ body {
     padding: 5px 8px;
   }
 }
+/* ═══ Like Button ═══ */
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.like-btn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.like-btn.liked {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.like-btn .heart {
+  font-size: 1.1rem;
+  transition: transform 0.3s;
+}
+
+.like-btn:hover .heart {
+  transform: scale(1.2);
+}
+
+.like-btn.liked .heart {
+  animation: heartBeat 0.4s ease;
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+.like-btn .count {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.like-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
