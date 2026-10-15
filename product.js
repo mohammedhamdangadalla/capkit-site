@@ -313,3 +313,29 @@ async function renderProductLike(productId) {
   container.innerHTML = renderLikeButton('product', productId);
   await refreshLikeButton('product', productId);
 }
+// ═══ Update Open Graph Meta Tags ═══
+function updateOpenGraph({ title, description, image, url }) {
+  const fullTitle = `${title} — CapKit Co.`;
+  
+  // OG
+  const ogTitle = document.getElementById('ogTitle');
+  const ogDesc = document.getElementById('ogDescription');
+  const ogImage = document.getElementById('ogImage');
+  const ogUrl = document.getElementById('ogUrl');
+  
+  if (ogTitle) ogTitle.setAttribute('content', fullTitle);
+  if (ogDesc) ogDesc.setAttribute('content', description);
+  if (ogImage) ogImage.setAttribute('content', image);
+  if (ogUrl) ogUrl.setAttribute('content', url);
+  
+  // Twitter
+  const tTitle = document.getElementById('twitterTitle');
+  const tDesc = document.getElementById('twitterDescription');
+  const tImage = document.getElementById('twitterImage');
+  
+  if (tTitle) tTitle.setAttribute('content', fullTitle);
+  if (tDesc) tDesc.setAttribute('content', description);
+  if (tImage) tImage.setAttribute('content', image);
+  
+  console.log('✅ Open Graph updated:', fullTitle);
+}
