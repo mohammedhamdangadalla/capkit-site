@@ -129,7 +129,7 @@ function renderProduct() {
       shareBtn.onclick = () => shareItem('product', p.id, p.title);
     }
   }, 100);
-}
+
   // ✨ Open Graph Meta Tags
   updateOpenGraph({
     title: p.title || 'منتج',
