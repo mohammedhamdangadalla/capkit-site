@@ -46,7 +46,6 @@ async function initService() {
     showNotFound();
   }
 
-
 // ═══ Load Seller ═══
 async function loadSeller(service) {
   try {
