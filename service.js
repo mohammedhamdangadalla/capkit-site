@@ -157,8 +157,17 @@ function renderService() {
   // Page Title
   document.title = `${s.title || 'الخدمة'} — CapKit Co.`;
 
-  // ✨ إضافة زر الإعجاب
+    // ✨ إضافة زر الإعجاب 
   renderServiceLike(s.id);
+  
+  // ✨ ربط زر المشاركة
+  setTimeout(() => {
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+      shareBtn.onclick = () => shareItem('service', s.id, s.title);
+    }
+  }, 100);
+}
 
 }
 
