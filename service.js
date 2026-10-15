@@ -167,8 +167,11 @@ function renderService() {
     image: 'https://capkitco.com/icon-512.png',
     url: `https://capkitco.com/service?id=${s.id}`
   });
+  
 }
-
+  // ✨ تحميل التعليقات
+  initComments('service', s.id);
+}
 // ═══ Badges ═══
 function renderBadges() {
   const s = currentService;
