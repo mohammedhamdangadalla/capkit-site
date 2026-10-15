@@ -138,7 +138,6 @@ function renderProduct() {
     url: `https://capkitco.com/product?id=${p.id}`
   });
 }
-}
 // ═══ Badges ═══
 function renderBadges() {
   const p = currentProduct;
