@@ -286,7 +286,14 @@ function renderServiceLike(serviceId) {
   container.innerHTML = renderLikeButton('service', serviceId);
   refreshLikeButton('service', serviceId);
 }
-
+  // ✨ Open Graph Meta Tags
+  updateOpenGraph({
+    title: s.title || 'خدمة',
+    description: s.description?.substring(0, 160) || 'خدمة من CapKit Co.',
+    image: 'https://capkitco.com/icon-512.png',
+    url: `https://capkitco.com/service?id=${s.id}`
+  });
+}
 // ═══ Helpers ═══
 function showNotFound() {
   document.getElementById('loadingState').style.display = 'none';
