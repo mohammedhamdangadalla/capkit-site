@@ -139,3 +139,25 @@ function showToast(msg) {
     setTimeout(() => toast.remove(), 300);
   }, 2000);
 }
+// ═══ Update Open Graph Meta Tags ═══
+window.updateOpenGraph = function({ title, description, image, url }) {
+  const fullTitle = `${title} — CapKit Co.`;
+  
+  const setMeta = (id, content) => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('content', content);
+  };
+  
+  // OG
+  setMeta('ogTitle', fullTitle);
+  setMeta('ogDescription', description);
+  setMeta('ogImage', image);
+  setMeta('ogUrl', url);
+  
+  // Twitter
+  setMeta('twitterTitle', fullTitle);
+  setMeta('twitterDescription', description);
+  setMeta('twitterImage', image);
+  
+  console.log('✅ Open Graph updated:', fullTitle);
+};
