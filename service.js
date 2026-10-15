@@ -19,7 +19,6 @@ async function initService() {
   }
 
   try {
-    // جلب الخدمة
     const { data: service, error } = await window.supabaseClient
       .from('services')
       .select('*')
@@ -34,10 +33,7 @@ async function initService() {
 
     currentService = service;
 
-    // جلب معلومات البائع
     await loadSeller(service);
-
-    // عرض الخدمة
     renderService();
     showContent();
 
@@ -45,6 +41,7 @@ async function initService() {
     console.error(err);
     showNotFound();
   }
+}
 
 // ═══ Load Seller ═══
 async function loadSeller(service) {
@@ -76,7 +73,8 @@ async function loadSeller(service) {
           };
           return;
         }
-    
+      }
+    }
 
     // التاني: نجرب workshops
     if (service.workshop_id) {
@@ -105,6 +103,7 @@ async function loadSeller(service) {
     console.warn('Seller fetch error:', err);
     currentSeller = { name: 'صانع', type: 'individual' };
   }
+}
 
 // ═══ Render Service ═══
 function renderService() {
@@ -128,7 +127,7 @@ function renderService() {
     priceEl.innerHTML = `<span>اتصل للسعر</span>`;
   }
 
-  // Icon حسب النوع
+  // Icon
   const iconMap = {
     repair: '🔧',
     installation: '🔨',
@@ -142,28 +141,32 @@ function renderService() {
   document.getElementById('serviceDescription').textContent = 
     s.description || 'لا يوجد وصف';
 
-  // Badges
+  // Render
   renderBadges();
-
-  // Seller
   renderSeller();
-
-  // WhatsApp
   renderWhatsApp();
 
   // Page Title
   document.title = `${s.title || 'الخدمة'} — CapKit Co.`;
 
-    // ✨ إضافة زر الإعجاب 
+  // ✨ Like
   renderServiceLike(s.id);
   
-  // ✨ ربط زر المشاركة
+  // ✨ Share
   setTimeout(() => {
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {
       shareBtn.onclick = () => shareItem('service', s.id, s.title);
     }
   }, 100);
+
+  // ✨ Open Graph
+  updateOpenGraph({
+    title: s.title || 'خدمة',
+    description: s.description?.substring(0, 160) || 'خدمة من CapKit Co.',
+    image: 'https://capkitco.com/icon-512.png',
+    url: `https://capkitco.com/service?id=${s.id}`
+  });
 }
 
 // ═══ Badges ═══
@@ -172,7 +175,6 @@ function renderBadges() {
   const container = document.getElementById('serviceBadges');
   container.innerHTML = '';
 
-  // نوع الخدمة
   const typeMap = {
     repair: '🔧 صيانة',
     installation: '🔨 تركيب',
@@ -188,7 +190,6 @@ function renderBadges() {
     container.appendChild(b);
   }
 
-  // قابل للتفاوض
   if (s.negotiable) {
     const b = document.createElement('span');
     b.className = 'badge-tag negotiable';
@@ -196,7 +197,6 @@ function renderBadges() {
     container.appendChild(b);
   }
 
-  // متاح
   if (s.status === 'published') {
     const b = document.createElement('span');
     b.className = 'badge-tag status';
@@ -275,6 +275,7 @@ window.copyLink = function() {
     }, 1500);
   });
 };
+
 // ═══ Render Service Like ═══
 function renderServiceLike(serviceId) {
   const container = document.getElementById('likeContainer');
@@ -283,14 +284,7 @@ function renderServiceLike(serviceId) {
   container.innerHTML = renderLikeButton('service', serviceId);
   refreshLikeButton('service', serviceId);
 }
-  // ✨ Open Graph Meta Tags
-  updateOpenGraph({
-    title: s.title || 'خدمة',
-    description: s.description?.substring(0, 160) || 'خدمة من CapKit Co.',
-    image: 'https://capkitco.com/icon-512.png',
-    url: `https://capkitco.com/service?id=${s.id}`
-  });
-}
+
 // ═══ Helpers ═══
 function showNotFound() {
   document.getElementById('loadingState').style.display = 'none';
