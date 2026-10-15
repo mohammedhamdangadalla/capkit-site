@@ -137,6 +137,9 @@ function renderProduct() {
     image: p.images?.[0] || 'https://capkitco.com/icon-512.png',
     url: `https://capkitco.com/product?id=${p.id}`
   });
+    // ✨ تحميل التعليقات
+  initComments('product', p.id);
+
 }
 // ═══ Badges ═══
 function renderBadges() {
