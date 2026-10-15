@@ -48,15 +48,20 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() => {
-        // لو الشبكة فشلت، جرب الكاش
-        return caches.match(event.request).then(cached => {
-          if (cached) return cached;
-          
-          // لو مش موجود، رجّع الصفحة الرئيسية
-          if (event.request.destination === 'document') {
-            return caches.match('/index.html');
-          }
-        });
-      })
+  return caches.match(event.request).then(cached => {
+    if (cached) return cached;
+    
+    if (event.request.destination === 'document') {
+      return caches.match('/index.html');
+    }
+    
+    // ارجع Response فاضي بدل undefined
+    return new Response('Offline', {
+      status: 503,
+      statusText: 'Service Unavailable',
+      headers: new Headers({ 'Content-Type': 'text/plain; charset=utf-8' })
+    });
+  });
+});
   );
 });
