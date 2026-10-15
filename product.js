@@ -130,8 +130,15 @@ function renderProduct() {
     }
   }, 100);
 }
-
-
+  // ✨ Open Graph Meta Tags
+  updateOpenGraph({
+    title: p.title || 'منتج',
+    description: p.description?.substring(0, 160) || 'منتج من CapKit Co.',
+    image: p.images?.[0] || 'https://capkitco.com/icon-512.png',
+    url: `https://capkitco.com/product?id=${p.id}`
+  });
+}
+}
 // ═══ Badges ═══
 function renderBadges() {
   const p = currentProduct;
