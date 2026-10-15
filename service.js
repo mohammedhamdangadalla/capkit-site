@@ -45,7 +45,7 @@ async function initService() {
     console.error(err);
     showNotFound();
   }
-}
+
 
 // ═══ Load Seller ═══
 async function loadSeller(service) {
@@ -77,8 +77,7 @@ async function loadSeller(service) {
           };
           return;
         }
-      }
-    }
+    
 
     // التاني: نجرب workshops
     if (service.workshop_id) {
@@ -107,7 +106,6 @@ async function loadSeller(service) {
     console.warn('Seller fetch error:', err);
     currentSeller = { name: 'صانع', type: 'individual' };
   }
-}
 
 // ═══ Render Service ═══
 function renderService() {
