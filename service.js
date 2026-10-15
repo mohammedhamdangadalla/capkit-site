@@ -169,8 +169,6 @@ function renderService() {
   }, 100);
 }
 
-}
-
 // ═══ Badges ═══
 function renderBadges() {
   const s = currentService;
