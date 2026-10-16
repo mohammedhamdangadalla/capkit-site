@@ -1,12 +1,64 @@
-// ═══ Auth — Smart Cards with Google OAuth ═══
+// ═══ Auth — Smart Cards + Google + Passkeys + Rate Limiting ═══
 
 let agreed = false;
 let activeCard = null;
 let selectedRole = null;
+let pendingEmailForResend = null;
+
+// ═══ Rate Limiting ═══
+const RATE_KEY = 'auth_rate_limit';
+const MAX_ATTEMPTS = 5;
+const WINDOW_MS = 15 * 60 * 1000; // 15 دقيقة
+
+function checkRateLimit() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(RATE_KEY) || '[]');
+    const now = Date.now();
+    const recent = stored.filter(t => now - t < WINDOW_MS);
+    if (recent.length >= MAX_ATTEMPTS) {
+      const waitMs = WINDOW_MS - (now - recent[0]);
+      const waitMin = Math.ceil(waitMs / 60000);
+      return { allowed: false, waitMin };
+    }
+    return { allowed: true };
+  } catch {
+    return { allowed: true };
+  }
+}
+
+function recordAttempt() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(RATE_KEY) || '[]');
+    const now = Date.now();
+    const recent = stored.filter(t => now - t < WINDOW_MS);
+    recent.push(now);
+    localStorage.setItem(RATE_KEY, JSON.stringify(recent));
+  } catch {}
+}
+
+// ═══ Logging ═══
+async function logAuthEvent(data) {
+  try {
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+    await window.supabaseClient
+      .from('auth_events')
+      .insert({
+        user_id: user?.id || null,
+        email: data.email || null,
+        event_type: data.event_type,
+        provider: data.provider || 'email',
+        user_agent: navigator.userAgent?.substring(0, 200) || 'unknown',
+        metadata: data.metadata || null
+      });
+  } catch (e) {
+    console.warn('Log failed:', e);
+  }
+}
 
 // ═══ Message Helpers ═══
 function showMessage(text, type = 'error') {
   const msg = document.getElementById('authMsg');
+  if (!msg) return;
   msg.textContent = text;
   msg.className = 'auth-msg ' + type;
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -14,20 +66,18 @@ function showMessage(text, type = 'error') {
 
 function hideMessage() {
   const msg = document.getElementById('authMsg');
+  if (!msg) return;
   msg.className = 'auth-msg';
   msg.textContent = '';
 }
 
-// ═══════════════════════════════════════════════
-// ═══ Smart Cards — Unlock Mechanism ═══
-// ═══════════════════════════════════════════════
+// ═══ Terms Unlock ═══
 window.handleTermsChange = function(checkbox) {
   agreed = checkbox.checked;
   const termsBox = document.getElementById('termsBox');
   const cards = document.querySelectorAll('.smart-card');
 
   if (agreed) {
-    // Unlock all cards
     cards.forEach(c => c.classList.remove('locked'));
     document.querySelectorAll('.smart-card-state-icon').forEach(icon => {
       const card = icon.closest('.smart-card');
@@ -36,7 +86,6 @@ window.handleTermsChange = function(checkbox) {
     termsBox.classList.add('checked');
     hideMessage();
   } else {
-    // Lock all cards + close any active
     cards.forEach(c => {
       c.classList.add('locked');
       c.classList.remove('active');
@@ -49,26 +98,19 @@ window.handleTermsChange = function(checkbox) {
   }
 };
 
-// ═══ Toggle Card (Accordion) ═══
+// ═══ Toggle Card ═══
 window.toggleCard = function(name) {
   if (!agreed) {
     handleLockedClick(name);
     return;
   }
-
   const card = document.querySelector(`[data-card="${name}"]`);
   if (!card) return;
-
-  // Close others
   document.querySelectorAll('.smart-card').forEach(c => {
     if (c !== card) c.classList.remove('active');
   });
-
-  // Toggle current
   card.classList.toggle('active');
   activeCard = card.classList.contains('active') ? name : null;
-
-  // Scroll into view
   if (activeCard) {
     setTimeout(() => {
       card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -76,38 +118,27 @@ window.toggleCard = function(name) {
   }
 };
 
-// ═══ Locked Click (shake + focus checkbox) ═══
 function handleLockedClick(name) {
   const card = document.querySelector(`[data-card="${name}"]`);
   if (card) {
     card.classList.add('shake');
     setTimeout(() => card.classList.remove('shake'), 500);
   }
-
-  const checkbox = document.getElementById('agreeTerms');
   const termsBox = document.getElementById('termsBox');
-  
-  // Highlight the checkbox
   termsBox.style.borderColor = '#ef4444';
   termsBox.style.boxShadow = '0 0 0 4px rgba(239, 68, 68, 0.15)';
   setTimeout(() => {
     termsBox.style.borderColor = '';
     termsBox.style.boxShadow = '';
   }, 2000);
-
-  showMessage('⚠️ لازم توافق على الشروط والأحكام الأول عشان تفتح الخيارات', 'error');
-  checkbox.focus();
-
+  showMessage('⚠️ لازم توافق على الشروط والأحكام الأول', 'error');
   setTimeout(() => {
     termsBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 100);
-
   setTimeout(() => hideMessage(), 4000);
 }
 
-// ═══════════════════════════════════════════════
-// ═══ Role Selection ═══
-// ═══════════════════════════════════════════════
+// ═══ Role ═══
 window.selectRole = function(el, role) {
   document.querySelectorAll('.role-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
@@ -116,16 +147,12 @@ window.selectRole = function(el, role) {
   hideMessage();
 };
 
-// ═══════════════════════════════════════════════
-// ═══ Toggle Password Visibility ═══
-// ═══════════════════════════════════════════════
+// ═══ Toggle Password ═══
 window.togglePassword = function(id) {
   const input = document.getElementById(id);
   if (!input) return;
   const isPassword = input.type === 'password';
   input.type = isPassword ? 'text' : 'password';
-  
-  // Change icon
   const btn = input.parentElement.querySelector('.pass-toggle');
   if (btn) btn.textContent = isPassword ? '🙈' : '👁️';
 };
@@ -138,64 +165,55 @@ window.handleGoogleClick = async function() {
     handleLockedClick('google');
     return;
   }
-
   if (!window.supabaseClient) {
     showMessage('❌ لم يتم تحميل الاتصال، أعد تحميل الصفحة');
     return;
   }
-
-  // نحفظ الموافقة
   localStorage.setItem('terms_agreed_at', new Date().toISOString());
-
-  // لو المستخدم اختار role، نحفظه
-  if (selectedRole) {
-    localStorage.setItem('pending_role', selectedRole);
-  } else {
-    localStorage.setItem('pending_role', 'user');
-  }
+  localStorage.setItem('pending_role', selectedRole || 'buyer');
 
   const card = document.querySelector('[data-card="google"]');
   const header = card.querySelector('.smart-card-header');
   const icon = card.querySelector('.smart-card-state-icon');
-  const originalIcon = icon.textContent;
 
   header.style.pointerEvents = 'none';
   icon.textContent = '⏳';
   showMessage('⏳ جارٍ التوجيه إلى Google...', 'success');
 
   try {
+    await logAuthEvent({
+      event_type: 'oauth_signin_start',
+      provider: 'google'
+    });
+
     const { error } = await window.supabaseClient.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: window.location.origin + '/dashboard.html',
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent'
-        }
+        queryParams: { access_type: 'offline', prompt: 'consent' }
       }
     });
 
     if (error) throw error;
-
-    console.log('✅ Redirecting to Google...');
-
   } catch (err) {
     console.error('Google error:', err);
-    showMessage('❌ فشل الاتصال بـ Google، حاول تاني');
+    showMessage('❌ فشل الاتصال بـ Google');
     header.style.pointerEvents = '';
-    icon.textContent = originalIcon;
+    icon.textContent = '→';
   }
 };
 
 // ═══════════════════════════════════════════════
-// ═══ Register (Email/Password) ═══
+// ═══ Register ═══
 // ═══════════════════════════════════════════════
 const registerBtn = document.getElementById('registerBtn');
 if (registerBtn) {
   registerBtn.addEventListener('click', async () => {
-    if (!agreed) {
-      handleLockedClick('register');
-      return;
+    if (!agreed) return handleLockedClick('register');
+
+    const rl = checkRateLimit();
+    if (!rl.allowed) {
+      return showMessage(`⏳ حاولت كتير — انتظر ${rl.waitMin} دقيقة`);
     }
 
     const btn = registerBtn;
@@ -204,12 +222,11 @@ if (registerBtn) {
     const phone = document.getElementById('phone').value.trim();
     const password = document.getElementById('password').value;
 
-    // Validation
     if (!selectedRole) return showMessage('اختر نوع الحساب أولاً');
     if (!fullName || fullName.length < 3) return showMessage('الاسم قصير جداً');
     if (!email || !email.includes('@')) return showMessage('البريد الإلكتروني غير صحيح');
     if (!phone || phone.length < 10) return showMessage('رقم الواتساب غير صحيح');
-    if (!password || password.length < 8) return showMessage('كلمة المرور يجب أن تكون 8 أحرف على الأقل');
+    if (!password || password.length < 8) return showMessage('كلمة المرور يجب أن تكون 8 أحرف');
 
     btn.disabled = true;
     btn.textContent = 'جارٍ الإنشاء...';
@@ -217,33 +234,26 @@ if (registerBtn) {
 
     try {
       const { data, error } = await window.supabaseClient.auth.signUp({
-        email,
-        password,
+        email, password,
         options: {
-          data: {
-            full_name: fullName,
-            phone: phone,
-            role: selectedRole
-          }
+          data: { full_name: fullName, phone, role: selectedRole }
         }
       });
 
       if (error) throw error;
+      recordAttempt();
 
       if (data.user) {
-        // إنشاء profile
-        const { error: profileError } = await window.supabaseClient
+        await window.supabaseClient
           .from('profiles')
           .insert({
             id: data.user.id,
             full_name: fullName,
             phone: phone,
             role: selectedRole
-          });
+          })
+          .then(({ error: pe }) => { if (pe) console.warn('Profile error:', pe); });
 
-        if (profileError) console.error('Profile error:', profileError);
-
-        // تسجيل الموافقة
         try {
           await window.supabaseClient
             .from('acceptances')
@@ -254,29 +264,28 @@ if (registerBtn) {
               ip_address: 'client',
               user_agent: navigator.userAgent?.substring(0, 200) || 'unknown'
             });
-        } catch (e) {
-          console.warn('Acceptance log failed:', e);
-        }
+        } catch (e) {}
+
+        await logAuthEvent({
+          email, event_type: 'signup',
+          provider: 'email',
+          metadata: { role: selectedRole }
+        });
+
+        // Show success screen
+        pendingEmailForResend = email;
+        showSuccessScreen(email);
       }
-
-      showMessage('✅ تم إنشاء حسابك! تحقق من بريدك الإلكتروني لتأكيد الحساب', 'success');
-
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 4000);
 
     } catch (err) {
       console.error(err);
-      let errorMsg = err.message || 'حدث خطأ، حاول مرة أخرى';
-
+      let errorMsg = err.message || 'حدث خطأ';
       if (errorMsg.includes('already registered')) {
         errorMsg = 'البريد الإلكتروني مسجّل بالفعل';
       } else if (errorMsg.includes('Password')) {
         errorMsg = 'كلمة المرور ضعيفة';
       }
-
       showMessage('❌ ' + errorMsg);
-    } finally {
       btn.disabled = false;
       btn.textContent = 'إنشاء الحساب';
     }
@@ -284,14 +293,64 @@ if (registerBtn) {
 }
 
 // ═══════════════════════════════════════════════
-// ═══ Login (Email/Password) ═══
+// ═══ Success Screen ═══
+// ═══════════════════════════════════════════════
+function showSuccessScreen(email) {
+  document.getElementById('mainView').style.display = 'none';
+  document.getElementById('successView').classList.add('active');
+  document.getElementById('successEmail').textContent = email;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const resendBtn = document.getElementById('resendBtn');
+if (resendBtn) {
+  resendBtn.addEventListener('click', async () => {
+    if (!pendingEmailForResend) return;
+    resendBtn.disabled = true;
+    resendBtn.textContent = '⏳ جارٍ الإرسال...';
+
+    try {
+      const { error } = await window.supabaseClient.auth.resend({
+        type: 'signup',
+        email: pendingEmailForResend,
+        options: { emailRedirectTo: window.location.origin + '/dashboard.html' }
+      });
+      if (error) throw error;
+      resendBtn.textContent = '✅ تم الإرسال';
+      setTimeout(() => {
+        resendBtn.disabled = false;
+        resendBtn.textContent = '📩 إعادة إرسال الرابط';
+      }, 4000);
+    } catch (err) {
+      resendBtn.disabled = false;
+      resendBtn.textContent = '❌ فشل — حاول تاني';
+      setTimeout(() => {
+        resendBtn.textContent = '📩 إعادة إرسال الرابط';
+      }, 2500);
+    }
+  });
+}
+
+const backToAuthBtn = document.getElementById('backToAuthBtn');
+if (backToAuthBtn) {
+  backToAuthBtn.addEventListener('click', () => {
+    document.getElementById('successView').classList.remove('active');
+    document.getElementById('mainView').style.display = 'block';
+    pendingEmailForResend = null;
+  });
+}
+
+// ═══════════════════════════════════════════════
+// ═══ Login ═══
 // ═══════════════════════════════════════════════
 const loginBtn = document.getElementById('loginBtn');
 if (loginBtn) {
   loginBtn.addEventListener('click', async () => {
-    if (!agreed) {
-      handleLockedClick('login');
-      return;
+    if (!agreed) return handleLockedClick('login');
+
+    const rl = checkRateLimit();
+    if (!rl.allowed) {
+      return showMessage(`⏳ حاولت كتير — انتظر ${rl.waitMin} دقيقة`);
     }
 
     const btn = loginBtn;
@@ -305,36 +364,32 @@ if (loginBtn) {
     hideMessage();
 
     try {
-      const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
-
+      const { data, error } = await window.supabaseClient.auth.signInWithPassword({ email, password });
       if (error) throw error;
 
-      // فحص تأكيد الإيميل
       if (data.user && !data.user.email_confirmed_at) {
-        showMessage('⚠️ لازم تأكد بريدك الإلكتروني الأول — شوف الإيميل اللي وصلك', 'error');
+        showMessage('⚠️ لازم تأكد بريدك الأول — شوف الإيميل', 'error');
         await window.supabaseClient.auth.signOut();
         btn.disabled = false;
         btn.textContent = '🔐 دخول';
         return;
       }
 
-      showMessage('✅ تم تسجيل الدخول! جارٍ التوجيه...', 'success');
+      recordAttempt();
+      await logAuthEvent({ email, event_type: 'login', provider: 'email' });
 
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 1500);
+      showMessage('✅ تم الدخول! جارٍ التوجيه...', 'success');
+      setTimeout(() => { window.location.href = '/'; }, 1200);
 
     } catch (err) {
       console.error(err);
+      recordAttempt();
+      await logAuthEvent({ email, event_type: 'login_failed', provider: 'email' });
+
       let errorMsg = 'بيانات الدخول غير صحيحة';
-
       if (err.message?.includes('Email not confirmed')) {
-        errorMsg = '⚠️ لازم تأكد بريدك الإلكتروني الأول';
+        errorMsg = '⚠️ لازم تأكد بريدك الأول';
       }
-
       showMessage('❌ ' + errorMsg);
       btn.disabled = false;
       btn.textContent = '🔐 دخول';
@@ -343,7 +398,71 @@ if (loginBtn) {
 }
 
 // ═══════════════════════════════════════════════
-// ═══ Handle OAuth Callback ═══
+// ═══ Passkeys (WebAuthn) ═══
+// ═══════════════════════════════════════════════
+function checkPasskeySupport() {
+  return !!(window.PublicKeyCredential && navigator.credentials);
+}
+
+const biometricBtn = document.getElementById('biometricBtn');
+if (biometricBtn) {
+  if (checkPasskeySupport()) {
+    biometricBtn.classList.remove('hidden');
+  }
+}
+
+window.signInWithPasskey = async function() {
+  if (!checkPasskeySupport()) {
+    return showMessage('❌ الجهاز لا يدعم البصمة');
+  }
+
+  const btn = document.getElementById('biometricBtn');
+  btn.disabled = true;
+  hideMessage();
+
+  try {
+    const { data, error } = await window.supabaseClient.auth.signInWithPasskey();
+    if (error) throw error;
+
+    await logAuthEvent({ event_type: 'login', provider: 'passkey' });
+    showMessage('✅ تم الدخول! جارٍ التوجيه...', 'success');
+    setTimeout(() => { window.location.href = '/'; }, 1200);
+
+  } catch (err) {
+    console.error('Passkey error:', err);
+    const msg = err.message || '';
+    if (msg.includes('not found') || msg.includes('no passkey')) {
+      showMessage('❌ لا توجد بصمة مسجلة — سجل دخول أولاً ثم أضف بصمة من الإعدادات');
+    } else if (msg.toLowerCase().includes('cancel')) {
+      showMessage('تم إلغاء الدخول بالبصمة');
+    } else {
+      showMessage('❌ فشل الدخول بالبصمة');
+    }
+    btn.disabled = false;
+  }
+};
+
+// ═══════════════════════════════════════════════
+// ═══ Redirect if Already Logged In ═══
+// ═══════════════════════════════════════════════
+async function checkAlreadyLoggedIn() {
+  if (!window.supabaseClient) return false;
+
+  // Skip if OAuth callback
+  const hash = window.location.hash;
+  const search = window.location.search;
+  if (hash.includes('access_token') || search.includes('code=')) return false;
+
+  const { data: { session } } = await window.supabaseClient.auth.getSession();
+  if (session?.user) {
+    window.location.href = '/dashboard.html';
+    return true;
+  }
+  return false;
+}
+
+// ═══════════════════════════════════════════════
+// ═══ OAuth Callback Handler ═══
 // ═══════════════════════════════════════════════
 async function handleOAuthCallback() {
   if (!window.supabaseClient) return;
@@ -353,7 +472,6 @@ async function handleOAuthCallback() {
 
   const user = session.user;
 
-  // هل عنده profile؟
   const { data: profile } = await window.supabaseClient
     .from('profiles')
     .select('id')
@@ -361,10 +479,10 @@ async function handleOAuthCallback() {
     .maybeSingle();
 
   if (!profile) {
-    const pendingRole = localStorage.getItem('pending_role') || 'user';
+    const pendingRole = localStorage.getItem('pending_role') || 'buyer';
     const meta = user.user_metadata || {};
 
-    const { error: createErr } = await window.supabaseClient
+    await window.supabaseClient
       .from('profiles')
       .insert({
         id: user.id,
@@ -372,13 +490,9 @@ async function handleOAuthCallback() {
         phone: meta.phone || null,
         role: pendingRole,
         avatar_url: meta.avatar_url || meta.picture || null
-      });
+      })
+      .then(({ error }) => { if (error) console.warn('Profile error:', error); });
 
-    if (createErr) {
-      console.warn('Profile create error:', createErr);
-    }
-
-    // تسجيل الموافقة
     try {
       await window.supabaseClient
         .from('acceptances')
@@ -389,19 +503,29 @@ async function handleOAuthCallback() {
           ip_address: 'oauth',
           user_agent: navigator.userAgent?.substring(0, 200) || 'unknown'
         });
-    } catch (e) {
-      console.warn('Acceptance log failed:', e);
-    }
+    } catch (e) {}
+
+    await logAuthEvent({
+      email: user.email,
+      event_type: 'signup',
+      provider: 'google',
+      metadata: { role: pendingRole }
+    });
+  } else {
+    await logAuthEvent({
+      email: user.email,
+      event_type: 'login',
+      provider: 'google'
+    });
   }
 
-  // امسح البيانات المؤقتة
   localStorage.removeItem('pending_role');
   localStorage.removeItem('terms_agreed_at');
 
   window.location.href = '/dashboard.html';
 }
 
-// ═══ Auto-Check on Load ═══
+// ═══ Init ═══
 window.addEventListener('load', async () => {
   if (!window.supabaseClient) return;
 
@@ -410,19 +534,8 @@ window.addEventListener('load', async () => {
 
   if (hash.includes('access_token') || search.includes('code=')) {
     await handleOAuthCallback();
+    return;
   }
+
+  await checkAlreadyLoggedIn();
 });
-
-// ═══ Auth State Listener ═══
-if (window.supabaseClient) {
-  window.supabaseClient.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN' && session?.user) {
-      const pendingRole = localStorage.getItem('pending_role');
-      const isOAuth = session.user.app_metadata?.provider === 'google';
-
-      if (isOAuth && pendingRole !== null) {
-        await handleOAuthCallback();
-      }
-    }
-  });
-}
