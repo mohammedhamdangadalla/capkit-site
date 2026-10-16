@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الورشة — CapKit Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.workshop-page {
+  min-height: 100vh;
+  padding: 80px 16px 40px;
+  background: var(--obsidian);
+}
+
+.workshop-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 100px 20px;
+  color: var(--gold);
+}
+
+.not-found {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+/* ═══ Cover ═══ */
+.workshop-cover {
+  width: 100%;
+  height: 220px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.25), rgba(201, 169, 97, 0.05));
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.workshop-cover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
+  pointer-events: none;
+}
+
+/* ═══ Header Card ═══ */
+.workshop-header {
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.12), rgba(201, 169, 97, 0.03));
+  border: 1px solid var(--border-light);
+  border-radius: 0 0 20px 20px;
+  padding: 0 24px 24px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.workshop-header-top {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+  margin-top: -50px;
+}
+
+.workshop-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  flex-shrink: 0;
+  box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+  border: 3px solid var(--obsidian);
+  background-size: cover;
+  background-position: center;
+}
+
+.workshop-header-info {
+  flex: 1;
+  min-width: 200px;
+  padding-bottom: 8px;
+}
+
+.workshop-name-large {
+  font-family: 'Amiri', serif;
+  font-size: 1.7rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.verified-badge {
+  font-size: 0.9rem;
+  color: #22c55e;
+}
+
+.workshop-type-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  background: rgba(201, 169, 97, 0.15);
+  border: 1px solid rgba(201, 169, 97, 0.3);
+  border-radius: 20px;
+  font-size: 0.72rem;
+  color: var(--gold);
+  margin-right: 6px;
+}
+
+.workshop-meta-line {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.workshop-meta-line .dot {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* ═══ Stats ═══ */
+.workshop-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 2;
+}
+
+.workshop-stat {
+  text-align: center;
+}
+
+.workshop-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.workshop-stat-label {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+/* ═══ Action Buttons ═══ */
+.workshop-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-workshop-action {
+  flex: 1;
+  min-width: 120px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-workshop-action.primary {
+  background: #25d366;
+  color: white;
+}
+
+.btn-workshop-action.primary:hover {
+  background: #1ebe5a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.25);
+}
+
+.btn-workshop-action.instagram {
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: white;
+}
+
+.btn-workshop-action.instagram:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(220, 39, 67, 0.25);
+}
+
+.btn-workshop-action.follow {
+  background: var(--gold);
+  color: var(--obsidian);
+}
+
+.btn-workshop-action.follow:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-workshop-action.follow.following {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.btn-workshop-action.secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+  flex: 0 1 auto;
+  min-width: auto;
+  padding: 14px 18px;
+}
+
+.btn-workshop-action.secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ═══ Sections ═══ */
+.workshop-section {
+  margin-bottom: 24px;
+}
+
+.workshop-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.workshop-section-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.workshop-section-title::before {
+  content: '';
+  width: 3px;
+  height: 20px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+.workshop-section-count {
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+}
+
+.workshop-description {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+/* ═══ Grids ═══ */
+.workshop-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.workshop-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  background: var(--obsidian-2);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+}
+
+.workshop-empty-icon {
+  font-size: 2.5rem;
+  opacity: 0.4;
+  margin-bottom: 10px;
+}
+
+/* ═══ Ratings ═══ */
+.ratings-summary {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.rating-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.rating-stars-big {
+  color: var(--gold);
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+.rating-count {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.ratings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rating-card {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.rating-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.rating-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--obsidian-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.rating-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rating-info h4 {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.rating-info .meta {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.rating-stars-small {
+  color: var(--gold);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.rating-text {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+/* ═══ Mobile ═══ */
+@media (max-width: 700px) {
+  .workshop-page {
+    padding: 70px 12px 30px;
+  }
+  
+  .workshop-cover {
+    height: 160px;
+  }
+  
+  .workshop-header {
+    padding: 0 18px 18px;
+  }
+  
+  .workshop-logo {
+    width: 80px;
+    height: 80px;
+    font-size: 2.2rem;
+  }
+  
+  .workshop-name-large {
+    font-size: 1.3rem;
+  }
+  
+  .workshop-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  
+  .workshop-stat-value {
+    font-size: 1.3rem;
+  }
+  
+  .workshop-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .ratings-summary {
+    padding: 16px;
+  }
+  
+  .rating-big {
+    font-size: 2.2rem;
+  }
+}
+</style>
+<link rel="icon" href="/icon-192.png">
+<link rel="shortcut icon" href="/icon-192.png">
+</head>
+<body>
+
+<main class="workshop-page">
+  <div class="workshop-container">
+    
+    <!-- Loading -->
+    <div id="loadingState" class="loading-state">
+      ⏳ جارٍ التحميل...
+    </div>
+
+    <!-- Not Found -->
+    <div id="notFoundState" class="not-found" style="display: none;">
+      <div style="font-size: 4rem; opacity: 0.4;">🏭</div>
+      <h2 style="font-family: 'Amiri', serif; color: var(--text-primary); margin: 20px 0 10px;">الورشة غير موجودة</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 20px;">ربما تم حذفها أو الرابط غير صحيح</p>
+      <a href="/" class="btn-workshop-action primary" style="max-width: 250px; margin: 0 auto;">← العودة للرئيسية</a>
+    </div>
+
+    <!-- Workshop Content -->
+    <div id="workshopContent" style="display: none;">
+      
+      <!-- Cover -->
+      <div class="workshop-cover" id="workshopCover"></div>
+      
+      <!-- Header -->
+      <div class="workshop-header">
+        <div class="workshop-header-top">
+          <div class="workshop-logo" id="workshopLogo">🏭</div>
+          <div class="workshop-header-info">
+            <div class="workshop-name-large" id="workshopName">
+              —
+              <span class="verified-badge" id="verifiedBadge" style="display: none;">✓ موثّق</span>
+            </div>
+            <div id="workshopType"></div>
+            <div class="workshop-meta-line" id="workshopMeta"></div>
+          </div>
+        </div>
+        <div class="workshop-stats">
+          <div class="workshop-stat">
+            <div class="workshop-stat-value" id="statProducts">0</div>
+            <div class="workshop-stat-label">منتج</div>
+          </div>
+          <div class="workshop-stat">
+            <div class="workshop-stat-value" id="statServices">0</div>
+            <div class="workshop-stat-label">خدمة</div>
+          </div>
+          <div class="workshop-stat">
+            <div class="workshop-stat-value" id="statFollowers">0</div>
+            <div class="workshop-stat-label">متابع</div>
+          </div>
+          <div class="workshop-stat">
+            <div class="workshop-stat-value" id="statRating">—</div>
+            <div class="workshop-stat-label">تقييم</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="workshop-actions">
+        <a href="#" class="btn-workshop-action primary" id="whatsappContact" target="_blank">
+          <span>💬</span>
+          <span>تواصل واتساب</span>
+        </a>
+        <a href="#" class="btn-workshop-action instagram" id="instagramContact" target="_blank" style="display: none;">
+          <span>📸</span>
+          <span>Instagram</span>
+        </a>
+        <button class="btn-workshop-action follow" id="followBtn" onclick="toggleFollow()">
+          <span>♡</span>
+          <span>متابعة</span>
+        </button>
+        <button class="btn-workshop-action secondary" onclick="shareWorkshop()">
+          <span>🔗</span>
+        </button>
+      </div>
+
+      <!-- Description -->
+      <div class="workshop-section" id="descSection">
+        <div class="workshop-section-header">
+          <h2 class="workshop-section-title">عن الورشة</h2>
+        </div>
+        <div class="workshop-description" id="workshopDescription">—</div>
+      </div>
+
+      <!-- Products -->
+      <div class="workshop-section" id="productsSection">
+        <div class="workshop-section-header">
+          <h2 class="workshop-section-title">المنتجات</h2>
+          <span class="workshop-section-count" id="productsCount">0</span>
+        </div>
+        <div id="productsContainer">
+          <div class="workshop-empty-state">
+            <div class="workshop-empty-icon">📦</div>
+            <div>لا توجد منتجات بعد</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="workshop-section" id="servicesSection" style="display: none;">
+        <div class="workshop-section-header">
+          <h2 class="workshop-section-title">الخدمات</h2>
+          <span class="workshop-section-count" id="servicesCount">0</span>
+        </div>
+        <div id="servicesContainer"></div>
+      </div>
+
+      <!-- Ratings -->
+      <div class="workshop-section" id="ratingsSection" style="display: none;">
+        <div class="workshop-section-header">
+          <h2 class="workshop-section-title">التقييمات</h2>
+          <span class="workshop-section-count" id="ratingsCount">0</span>
+        </div>
+        <div id="ratingsContainer"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ═══ Supabase ═══ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="workshop.js"></script>
+<script src="footer.js"></script>
+</body>
+</html>
