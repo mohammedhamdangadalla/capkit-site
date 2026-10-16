@@ -171,7 +171,7 @@ function renderService() {
   // ✨ تحميل التعليقات
   initComments('service', s.id);
     // ✨ تحميل التقييمات
-  initRating('product', p.id);
+  initRating('product',s.id);
 }
 // ═══ Badges ═══
 function renderBadges() {
