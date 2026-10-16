@@ -202,6 +202,7 @@ function createHomeServiceCard(service) {
     <div class="product-info">
       <div class="product-title">${escapeHtml(service.title)}</div>
       <div class="product-desc">${escapeHtml((service.description || '').substring(0, 40))}...</div>
+     ${renderCardRating(service.rating_avg, service.rating_count)}
       <div class="product-footer">
         <div class="product-price service-price">${priceText} ${service.currency || 'EGP'}</div>
         <a href="https://wa.me/?text=${encodeURIComponent('مرحباً، أنا مهتم بالخدمة: ' + service.title)}" 
