@@ -100,61 +100,51 @@ async function logView(profileId) {
 // ═══ Get Seller Stats ═══
 async function getSellerStats(userId) {
   try {
-    // ═══ خدمات: نجيب freelancer_id الأول ═══
-    let servicesCount = 0;
-    
+    // ═══ freelancer_id (للخدمات) ═══
     const { data: freelancer } = await window.supabaseClient
       .from('freelancers')
       .select('id')
       .eq('user_id', userId)
       .maybeSingle();
 
-    if (freelancer?.id) {
-      const { count } = await window.supabaseClient
-        .from('services')
-        .select('*', { count: 'exact', head: true })
-        .eq('freelancer_id', freelancer.id)
-        .eq('status', 'published');
-      
-      servicesCount = count || 0;
-    }
-
-    // ═══ منتجات ═══
-    const { count: productsCount } = await window.supabaseClient
+    // ═══ المنتجات + تقييماتها ═══
+    const { data: products } = await window.supabaseClient
       .from('products')
-      .select('*', { count: 'exact', head: true })
+      .select('id, rating_avg, rating_count')
       .eq('seller_id', userId)
       .eq('status', 'published');
 
-    // ═══ متابعين ═══
+    // ═══ الخدمات + تقييماتها ═══
+    let services = [];
+    if (freelancer?.id) {
+      const { data: srv } = await window.supabaseClient
+        .from('services')
+        .select('id, rating_avg, rating_count')
+        .eq('freelancer_id', freelancer.id)
+        .eq('status', 'published');
+      services = srv || [];
+    }
+
+    // ═══ المتابعين ═══
     const { count: followersCount } = await window.supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
       .eq('following_id', userId);
 
-    // ═══ تقييمات ═══
-    let ratingsCount = 0;
-    let avgRating = null;
-
-    try {
-      const { data: ratingsData } = await window.supabaseClient
-        .from('ratings')
-        .select('rating')
-        .eq('workshop_id', userId);
-
-      if (ratingsData && ratingsData.length > 0) {
-        ratingsCount = ratingsData.length;
-        avgRating = (ratingsData.reduce((s, r) => s + r.rating, 0) / ratingsCount).toFixed(1);
-      }
-    } catch (err) {
-      console.warn('Ratings fetch error:', err);
-    }
+    // ═══ حساب المتوسط الموزون ═══
+    const allItems = [...(products || []), ...services];
+    const totalCount = allItems.reduce((s, i) => s + (i.rating_count || 0), 0);
+    const weightedSum = allItems.reduce(
+      (s, i) => s + (Number(i.rating_avg) || 0) * (i.rating_count || 0),
+      0
+    );
+    const avgRating = totalCount > 0 ? (weightedSum / totalCount).toFixed(1) : null;
 
     return {
-      products_count: productsCount || 0,
-      services_count: servicesCount,
+      products_count: (products || []).length,
+      services_count: services.length,
       followers_count: followersCount || 0,
-      ratings_count: ratingsCount,
+      ratings_count: totalCount,
       avg_rating: avgRating
     };
 
@@ -169,6 +159,7 @@ async function getSellerStats(userId) {
     };
   }
 }
+
 // ═══ Follow Status ═══
 async function checkFollowStatus(targetId) {
   if (!currentUserId) return false;
@@ -416,10 +407,42 @@ async function loadServices(userId) {
 
 // ═══ Load Ratings ═══
 async function loadRatings(userId, stats) {
+  // 1) نجيب IDs منتجات البائع
+  const { data: prods } = await window.supabaseClient
+    .from('products')
+    .select('id')
+    .eq('seller_id', userId);
+
+  const prodIds = (prods || []).map(p => p.id);
+
+  // 2) نجيب IDs خدمات البائع
+  const { data: freelancer } = await window.supabaseClient
+    .from('freelancers')
+    .select('id')
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  let servIds = [];
+  if (freelancer?.id) {
+    const { data: servs } = await window.supabaseClient
+      .from('services')
+      .select('id')
+      .eq('freelancer_id', freelancer.id);
+    servIds = (servs || []).map(s => s.id);
+  }
+
+  // 3) لو مفيش حاجة، اخرج
+  if (prodIds.length === 0 && servIds.length === 0) return;
+
+  // 4) ابنِ استعلام OR
+  const orConds = [];
+  if (prodIds.length > 0) orConds.push(`product_id.in.(${prodIds.join(',')})`);
+  if (servIds.length > 0) orConds.push(`service_id.in.(${servIds.join(',')})`);
+
   const { data: ratings, error } = await window.supabaseClient
     .from('ratings')
     .select('*, profiles:user_id(full_name)')
-    .or(`workshop_id.eq.${userId},freelancer_id.eq.${userId}`)
+    .or(orConds.join(','))
     .order('created_at', { ascending: false })
     .limit(10);
 
@@ -468,6 +491,7 @@ function createProductCard(product) {
     </div>
     <div class="product-info">
       <div class="product-title">${escapeHtml(product.title)}</div>
+      ${renderCardRating(product.rating_avg, product.rating_count)}
       <div class="product-footer">
         <div class="product-price">${product.price || 0} <small>${product.currency || 'EGP'}</small></div>
       </div>
@@ -488,6 +512,7 @@ function createServiceCard(service) {
     </div>
     <div class="product-info">
       <div class="product-title">${escapeHtml(service.title)}</div>
+      ${renderCardRating(service.rating_avg, service.rating_count)}
       <div class="product-footer">
         <div class="product-price service-price">${service.price_start || 0}+ ${service.currency || 'EGP'}</div>
       </div>
@@ -523,6 +548,19 @@ function createRatingCard(rating) {
 function getStars(rating) {
   const r = Math.round(rating || 0);
   return '★'.repeat(r) + '☆'.repeat(5 - r);
+}
+
+// ═══ Render Card Rating (نجوم صغيرة للكروت) ═══
+function renderCardRating(avg, count) {
+  if (!count || count === 0) return '';
+  const avgNum = Number(avg) || 0;
+  return `
+    <div class="card-rating">
+      <span class="star-icon">⭐</span>
+      <span class="avg">${avgNum.toFixed(1)}</span>
+      <span class="count">(${count})</span>
+    </div>
+  `;
 }
 
 // ═══ Share ═══
