@@ -13,7 +13,7 @@ async function initSearch() {
     return;
   }
 
-  // قراءة الـ query من URL (لو موجود)
+  // قراءة الـ query من URL
   const params = new URLSearchParams(window.location.search);
   const q = params.get('q');
   const cat = params.get('cat');
@@ -33,7 +33,7 @@ async function initSearch() {
   // ربط الأحداث
   setupEventListeners();
 
-  // البحث الأولي لو فيه query
+  // البحث الأولي
   if (currentQuery || currentCategoryId) {
     performSearch();
   }
@@ -51,10 +51,8 @@ async function loadCategories() {
 
     categoriesCache = data || [];
 
-    // تصفية للتصنيفات الرئيسية فقط
     const mainCats = categoriesCache.filter(c => !c.parent_id);
 
-    // ملء الفلاتر
     const container = document.getElementById('categoryFilters');
     container.innerHTML = '';
 
@@ -70,7 +68,7 @@ async function loadCategories() {
     });
     container.appendChild(allBtn);
 
-    // التصنيفات
+    // التصنيفات الرئيسية
     mainCats.forEach(cat => {
       const btn = document.createElement('button');
       btn.className = 'filter-chip' + (currentCategoryId === cat.id ? ' active' : '');
@@ -102,13 +100,11 @@ function updateCategoryChips() {
 
 // ═══ Setup Event Listeners ═══
 function setupEventListeners() {
-  // حقل البحث
   const input = document.getElementById('searchInput');
   input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') performSearch();
   });
 
-  // debounce — بحث تلقائي بعد 500ms
   input.addEventListener('input', () => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
@@ -143,27 +139,27 @@ window.performSearch = async function() {
   
   window.history.replaceState({}, '', url);
 
-  // عرض Loading
+  // Loading
   const content = document.getElementById('searchContent');
   content.innerHTML = '<div class="search-loading">⏳ جارٍ البحث...</div>';
 
   try {
-    // ═══ هل فيه بحث؟ ═══
+    // مفيش بحث
     if (!currentQuery && !currentCategoryId) {
       content.innerHTML = `
         <div class="search-empty">
           <div class="search-empty-icon">🔍</div>
           <h3>ابدأ البحث</h3>
-          <p>اكتب كلمة للبحث في المنتجات والخدمات</p>
+          <p>اكتب كلمة للبحث في المنتجات والخدمات والورش</p>
         </div>
       `;
       document.getElementById('resultsNumber').textContent = '0';
       return;
     }
 
-    // ═══ البحث ═══
     let products = [];
     let services = [];
+    let workshops = [];
 
     // ═══ منتجات ═══
     if (currentType === 'all' || currentType === 'product') {
@@ -203,8 +199,31 @@ window.performSearch = async function() {
       services = data || [];
     }
 
+    // ═══ ورش ═══
+    if (currentType === 'all' || currentType === 'workshop') {
+      let query = window.supabaseClient
+        .from('workshops')
+        .select('*')
+        .eq('status', 'active');
+
+      if (currentQuery) {
+        query = query.or(`name.ilike.%${currentQuery}%,description.ilike.%${currentQuery}%`);
+      }
+
+      // فلترة الورش بالتصنيف (workshop_type بيخزن اسم التصنيف)
+      if (currentCategoryId) {
+        const cat = categoriesCache.find(c => c.id === currentCategoryId);
+        if (cat) {
+          query = query.eq('workshop_type', cat.name_ar);
+        }
+      }
+
+      const { data } = await query.limit(20);
+      workshops = data || [];
+    }
+
     // ═══ عرض النتائج ═══
-    const total = products.length + services.length;
+    const total = products.length + services.length + workshops.length;
     document.getElementById('resultsNumber').textContent = total;
 
     if (total === 0) {
@@ -218,28 +237,31 @@ window.performSearch = async function() {
       return;
     }
 
-    // جريد واحد مشترك
+    // جريد مشترك
     const grid = document.createElement('div');
     grid.className = 'results-grid';
 
     // خلط النتائج
     const allResults = [
       ...products.map(p => ({ ...p, _type: 'product' })),
-      ...services.map(s => ({ ...s, _type: 'service' }))
+      ...services.map(s => ({ ...s, _type: 'service' })),
+      ...workshops.map(w => ({ ...w, _type: 'workshop' }))
     ];
 
     allResults.forEach(item => {
       if (item._type === 'product') {
         grid.appendChild(createProductCard(item));
-      } else {
+      } else if (item._type === 'service') {
         grid.appendChild(createServiceCard(item));
+      } else if (item._type === 'workshop') {
+        grid.appendChild(createWorkshopCard(item));
       }
     });
 
     content.innerHTML = '';
     content.appendChild(grid);
 
-    console.log(`✅ Results: ${products.length} products, ${services.length} services`);
+    console.log(`✅ Results: ${products.length} products, ${services.length} services, ${workshops.length} workshops`);
 
   } catch (err) {
     console.error('Search error:', err);
@@ -272,7 +294,7 @@ function createProductCard(product) {
     <div class="product-info">
       <div class="product-title">${escapeHtml(product.title)}</div>
       <div class="product-desc">${escapeHtml((product.description || '').substring(0, 40))}...</div>
-            ${renderCardRating(product.rating_avg, product.rating_count)}
+      ${renderCardRating(product.rating_avg, product.rating_count)}
       <div class="product-footer">
         <div class="product-price">${priceText}</div>
       </div>
@@ -300,7 +322,7 @@ function createServiceCard(service) {
     <div class="product-info">
       <div class="product-title">${escapeHtml(service.title)}</div>
       <div class="product-desc">${escapeHtml((service.description || '').substring(0, 40))}...</div>
-            ${renderCardRating(service.rating_avg, service.rating_count)}
+      ${renderCardRating(service.rating_avg, service.rating_count)}
       <div class="product-footer">
         <div class="product-price service-price">${priceText}</div>
       </div>
@@ -308,6 +330,50 @@ function createServiceCard(service) {
   `;
 
   return a;
+}
+
+// ═══ Create Workshop Card ═══
+function createWorkshopCard(workshop) {
+  const a = document.createElement('a');
+  a.href = `workshop?id=${workshop.id}`;
+  a.className = 'product-card';
+
+  const logo = workshop.logo_url;
+  const initial = (workshop.name || 'و').charAt(0);
+  const verified = workshop.verified_badge ? ' ✓' : '';
+
+  a.innerHTML = `
+    <div class="product-image">
+      <span class="badge-service" style="background: rgba(201, 169, 97, 0.15); color: var(--gold); border-color: rgba(201, 169, 97, 0.4);">🏭 ورشة</span>
+      ${logo 
+        ? `<img src="${logo}" alt="${escapeHtml(workshop.name)}" style="width:100%;height:100%;object-fit:cover;">`
+        : `<div class="product-emblem" style="background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--obsidian); font-weight: 700;">${escapeHtml(initial)}</div>`}
+    </div>
+    <div class="product-info">
+      <div class="product-title">${escapeHtml(workshop.name)}<span style="color: #22c55e;">${verified}</span></div>
+      <div class="product-desc">${escapeHtml((workshop.description || 'ورشة').substring(0, 40))}...</div>
+      <div class="product-footer">
+        <div class="product-price" style="color: var(--gold); font-size: 0.85rem;">
+          ${escapeHtml(workshop.workshop_type || 'ورشة')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  return a;
+}
+
+// ═══ Render Card Rating ═══
+function renderCardRating(avg, count) {
+  if (!count || count === 0) return '';
+  const avgNum = Number(avg) || 0;
+  return `
+    <div class="card-rating">
+      <span class="star-icon">⭐</span>
+      <span class="avg">${avgNum.toFixed(1)}</span>
+      <span class="count">(${count})</span>
+    </div>
+  `;
 }
 
 // ═══ Helpers ═══
@@ -323,16 +389,4 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initSearch);
 } else {
   initSearch();
-}
-// ═══ Render Card Rating (نجوم صغيرة للكروت) ═══
-function renderCardRating(avg, count) {
-  if (!count || count === 0) return '';
-  const avgNum = Number(avg) || 0;
-  return `
-    <div class="card-rating">
-      <span class="star-icon">⭐</span>
-      <span class="avg">${avgNum.toFixed(1)}</span>
-      <span class="count">(${count})</span>
-    </div>
-  `;
 }
