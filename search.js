@@ -322,3 +322,15 @@ if (document.readyState === 'loading') {
 } else {
   initSearch();
 }
+// ═══ Render Card Rating (نجوم صغيرة للكروت) ═══
+function renderCardRating(avg, count) {
+  if (!count || count === 0) return '';
+  const avgNum = Number(avg) || 0;
+  return `
+    <div class="card-rating">
+      <span class="star-icon">⭐</span>
+      <span class="avg">${avgNum.toFixed(1)}</span>
+      <span class="count">(${count})</span>
+    </div>
+  `;
+}
