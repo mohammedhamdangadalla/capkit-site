@@ -50,7 +50,8 @@ function renderRatingForm() {
   if (!ratingUser) {
     container.innerHTML = `
       <div class="rating-section">
-        <h3 class="rating-section-title">⭐ قيّم هذا ${ratingTargetType === 'product' ? 'المنتج' : 'الخدمة'}</h3>
+      
+       <h3 class="rating-section-title">⭐ قيّم ${ratingTargetType === 'product' ? 'هذا المنتج' : 'هذه الخدمة'}</h3>
         <p class="rating-prompt">سجّل دخولك عشان تقدر تقيّم</p>
         <a href="auth.html" class="rating-submit-btn" style="text-decoration: none; display: inline-block;">تسجيل الدخول</a>
       </div>
@@ -67,7 +68,8 @@ function renderRatingForm() {
   container.innerHTML = `
     <div class="rating-section">
       <h3 class="rating-section-title">
-        ${isEdit ? '✏️ عدّل تقييمك' : '⭐ قيّم هذا ' + (ratingTargetType === 'product' ? 'المنتج' : 'الخدمة')}
+
+     ${isEdit ? '✏️ عدّل تقييمك' : '⭐ قيّم ' + (ratingTargetType === 'product' ? 'هذا المنتج' : 'هذه الخدمة')}
       </h3>
       <p class="rating-prompt">
         ${isEdit ? 'يمكنك تعديل تقييمك في أي وقت' : 'اضغط على النجوم لاختيار التقييم'}
