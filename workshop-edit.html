@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إدارة الورشة — CapKit Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.edit-page {
+  min-height: 100vh;
+  padding: 80px 16px 40px;
+  background: var(--obsidian);
+}
+
+.edit-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.edit-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+}
+
+/* ═══ Form ═══ */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  background: var(--obsidian-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+}
+
+.form-section-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.15rem;
+  color: var(--gold);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-label .required {
+  color: #ef4444;
+  margin-right: 4px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--obsidian-3);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.92rem;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.7;
+}
+
+.form-hint {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-top: 6px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ═══ Image Upload ═══ */
+.image-upload {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.image-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  background: var(--obsidian-3);
+  border: 2px dashed var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.image-preview.cover {
+  width: 200px;
+  height: 120px;
+  border-radius: 12px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-upload-info {
+  flex: 1;
+  min-width: 180px;
+}
+
+.image-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--obsidian-3);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.image-upload-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.image-upload-btn input {
+  display: none;
+}
+
+.image-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 8px;
+  color: #ef4444;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.image-remove-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ═══ Submit ═══ */
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  position: sticky;
+  bottom: 20px;
+  background: var(--obsidian);
+  padding: 16px 0;
+  margin-top: 8px;
+}
+
+.btn-submit {
+  flex: 1;
+  padding: 16px 24px;
+  background: var(--gold);
+  color: var(--obsidian);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(201, 169, 97, 0.3);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  padding: 16px 24px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cancel:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ═══ States ═══ */
+.state-message {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.state-icon {
+  font-size: 4rem;
+  opacity: 0.4;
+  margin-bottom: 16px;
+}
+
+.state-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.state-desc {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+
+.state-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--gold);
+  color: var(--obsidian);
+  border-radius: 12px;
+  text-decoration: none;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.25s;
+}
+
+.state-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+/* ═══ Alert ═══ */
+.alert-msg {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  display: none;
+}
+
+.alert-msg.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+  display: block;
+}
+
+.alert-msg.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  display: block;
+}
+
+/* ═══ Mobile ═══ */
+@media (max-width: 600px) {
+  .edit-page {
+    padding: 70px 12px 30px;
+  }
+  
+  .edit-title {
+    font-size: 1.4rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .image-preview {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .image-preview.cover {
+    width: 100%;
+    height: 100px;
+  }
+  
+  .edit-actions {
+    flex-direction: column;
+  }
+}
+</style>
+<link rel="icon" href="/icon-192.png">
+<link rel="shortcut icon" href="/icon-192.png">
+</head>
+<body>
+
+<main class="edit-page">
+  <div class="edit-container">
+
+    <!-- Loading -->
+    <div id="loadingState" class="state-message">
+      <div class="state-icon">⏳</div>
+      <div class="state-title">جارٍ التحميل...</div>
+    </div>
+
+    <!-- Not Logged In -->
+    <div id="notLoggedState" class="state-message" style="display: none;">
+      <div class="state-icon">🔒</div>
+      <div class="state-title">لازم تسجل دخول</div>
+      <div class="state-desc">عشان تقدر تنشئ ورشتك، لازم تسجل دخول الأول</div>
+      <a href="auth.html" class="state-btn">→ تسجيل الدخول</a>
+    </div>
+
+    <!-- Not Vendor -->
+    <div id="notVendorState" class="state-message" style="display: none;">
+      <div class="state-icon">👤</div>
+      <div class="state-title">حسابك مش بائع</div>
+      <div class="state-desc">عشان تقدر تنشئ ورشة، لازم يكون دور حسابك "بائع / ورشة"</div>
+      <a href="dashboard.html" class="state-btn">→ لوحة التحكم</a>
+    </div>
+
+    <!-- Form -->
+    <div id="formState" style="display: none;">
+      <h1 class="edit-title">
+        <span id="formIcon">🏭</span>
+        <span id="formTitle">إدارة الورشة</span>
+      </h1>
+      <p class="edit-subtitle" id="formSubtitle">املأ البيانات التالية لحفظ ورشتك</p>
+
+      <div id="alertBox" class="alert-msg"></div>
+
+      <form class="edit-form" id="workshopForm" onsubmit="handleSubmit(event)">
+
+        <!-- ═══ Images ═══ -->
+        <div class="form-section">
+          <h2 class="form-section-title">🖼️ الصور</h2>
+
+          <div class="form-group">
+            <label class="form-label">صورة الغلاف</label>
+            <div class="image-upload">
+              <div class="image-preview cover" id="coverPreview">
+                <span>🖼️</span>
+              </div>
+              <div class="image-upload-info">
+                <label class="image-upload-btn">
+                  📁 اختر صورة
+                  <input type="file" accept="image/*" onchange="handleImageSelect(event, 'cover')">
+                </label>
+                <div class="form-hint">صورة عريضة (يفضل 1200×400) - الحد الأقصى 5 MB</div>
+                <button type="button" class="image-remove-btn" id="coverRemoveBtn" onclick="removeImage('cover')" style="display: none;">
+                  🗑️ إزالة الصورة
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">شعار الورشة</label>
+            <div class="image-upload">
+              <div class="image-preview" id="logoPreview">
+                <span>🏭</span>
+              </div>
+              <div class="image-upload-info">
+                <label class="image-upload-btn">
+                  📁 اختر صورة
+                  <input type="file" accept="image/*" onchange="handleImageSelect(event, 'logo')">
+                </label>
+                <div class="form-hint">صورة مربعة (يفضل 400×400) - الحد الأقصى 5 MB</div>
+                <button type="button" class="image-remove-btn" id="logoRemoveBtn" onclick="removeImage('logo')" style="display: none;">
+                  🗑️ إزالة الصورة
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ Basic Info ═══ -->
+        <div class="form-section">
+          <h2 class="form-section-title">📝 المعلومات الأساسية</h2>
+
+          <div class="form-group">
+            <label class="form-label">اسم الورشة <span class="required">*</span></label>
+            <input type="text" class="form-input" id="nameInput" 
+                   placeholder="مثلاً: ورشة الأصالة للنجارة" required maxlength="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">الرابط الودّي (Slug)</label>
+            <input type="text" class="form-input" id="slugInput" 
+                   placeholder="asala-carpentry" maxlength="60" dir="ltr">
+            <div class="form-hint">حروف إنجليزية صغيرة، أرقام، وشرطات فقط</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">الوصف</label>
+            <textarea class="form-textarea" id="descInput" 
+                      placeholder="اكتب نبذة عن ورشتك، خدماتك، وما يميزك..."
+                      maxlength="1000"></textarea>
+            <div class="form-hint"><span id="descCount">0</span> / 1000 حرف</div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">نوع الورشة</label>
+              <select class="form-select" id="typeInput">
+                <option value="">⏳ جارٍ تحميل الأنواع...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">سنة التأسيس</label>
+              <input type="number" class="form-input" id="yearInput" 
+                     placeholder="2015" min="1900" max="2030">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">المحافظة</label>
+            <select class="form-select" id="govInput">
+              <option value="">⏳ جارٍ تحميل المحافظات...</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ═══ Contact ═══ -->
+        <div class="form-section">
+          <h2 class="form-section-title">📞 التواصل</h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">رقم WhatsApp <span class="required">*</span></label>
+              <input type="tel" class="form-input" id="whatsappInput" 
+                     placeholder="201234567890" dir="ltr" required>
+              <div class="form-hint">بصيغة دولية بدون + (مصر = 20)</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">رقم الهاتف</label>
+              <input type="tel" class="form-input" id="phoneInput" 
+                     placeholder="201234567890" dir="ltr">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">حساب Instagram</label>
+            <input type="text" class="form-input" id="instagramInput" 
+                   placeholder="asala_carpentry" dir="ltr">
+            <div class="form-hint">اسم الحساب بدون @</div>
+          </div>
+        </div>
+
+        <!-- ═══ Status ═══ -->
+        <div class="form-section">
+          <h2 class="form-section-title">⚙️ الإعدادات</h2>
+
+          <div class="form-group">
+            <label class="form-label">حالة الورشة</label>
+            <select class="form-select" id="statusInput">
+              <option value="active">✅ نشطة (ظاهرة للجميع)</option>
+              <option value="inactive">⏸️ متوقفة مؤقتاً</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ═══ Actions ═══ -->
+        <div class="edit-actions">
+          <a href="dashboard.html" class="btn-cancel">← إلغاء</a>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            💾 حفظ
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<!-- ═══ Supabase ═══ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="workshop-edit.js"></script>
+<script src="footer.js"></script>
+</body>
+</html>
