@@ -17,7 +17,6 @@
   padding: 70px 16px 30px;
   background: var(--obsidian);
 }
-
 .auth-card {
   width: 100%;
   max-width: 440px;
@@ -26,12 +25,10 @@
   border-radius: 20px;
   padding: 32px 24px;
 }
-
 .auth-logo {
   text-align: center;
   margin-bottom: 26px;
 }
-
 .auth-logo h1 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.9rem;
@@ -39,21 +36,17 @@
   letter-spacing: 0.18em;
   margin-bottom: 6px;
 }
-
 .auth-logo p {
   color: var(--gold);
   font-size: 0.82rem;
   letter-spacing: 0.2em;
 }
-
-/* ═══ Smart Cards Stack ═══ */
 .smart-cards {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
 }
-
 .smart-card {
   background: var(--obsidian-3);
   border: 1.5px solid var(--border);
@@ -62,41 +55,24 @@
   transition: all 0.35s ease;
   position: relative;
 }
-
-.smart-card.locked {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.smart-card.locked .smart-card-header {
-  cursor: not-allowed;
-}
-
-.smart-card:not(.locked) .smart-card-header {
-  cursor: pointer;
-}
-
+.smart-card.locked { opacity: 0.55; cursor: not-allowed; }
+.smart-card.locked .smart-card-header { cursor: not-allowed; }
+.smart-card:not(.locked) .smart-card-header { cursor: pointer; }
 .smart-card:not(.locked):hover {
   border-color: var(--border-light);
   background: rgba(201, 169, 97, 0.03);
 }
-
 .smart-card.active {
   border-color: var(--gold);
   background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(201, 169, 97, 0.02));
   box-shadow: 0 8px 24px rgba(201, 169, 97, 0.12);
 }
-
-.smart-card.shake {
-  animation: shake 0.4s ease;
-}
-
+.smart-card.shake { animation: shake 0.4s ease; }
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-6px); }
   75% { transform: translateX(6px); }
 }
-
 .smart-card-header {
   padding: 16px 18px;
   display: flex;
@@ -105,16 +81,8 @@
   transition: all 0.25s;
   user-select: none;
 }
-
-.smart-card.active .smart-card-header {
-  border-bottom: 1px solid var(--border);
-}
-
-.smart-card-icon {
-  font-size: 1.3rem;
-  flex-shrink: 0;
-}
-
+.smart-card.active .smart-card-header { border-bottom: 1px solid var(--border); }
+.smart-card-icon { font-size: 1.3rem; flex-shrink: 0; }
 .smart-card-title {
   flex: 1;
   color: var(--text-primary);
@@ -122,41 +90,28 @@
   font-size: 0.98rem;
   font-weight: 700;
 }
-
-.smart-card.active .smart-card-title {
-  color: var(--gold);
-}
-
+.smart-card.active .smart-card-title { color: var(--gold); }
 .smart-card-state-icon {
   color: var(--text-muted);
   font-size: 0.9rem;
   transition: all 0.3s;
   flex-shrink: 0;
 }
-
 .smart-card.active .smart-card-state-icon {
   transform: rotate(180deg);
   color: var(--gold);
 }
-
-.smart-card.google-card .smart-card-state-icon {
-  transform: none;
-}
-
-/* ═══ Card Body (Accordion) ═══ */
+.smart-card.google-card .smart-card-state-icon { transform: none; }
 .smart-card-body {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease, padding 0.3s ease;
   padding: 0 18px;
 }
-
 .smart-card.active .smart-card-body {
-  max-height: 1000px;
+  max-height: 1200px;
   padding: 18px;
 }
-
-/* ═══ Role Picker (4 Icons) ═══ */
 .role-label {
   display: block;
   color: var(--text-secondary);
@@ -164,14 +119,12 @@
   margin-bottom: 10px;
   font-weight: 500;
 }
-
 .role-picker {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 6px;
   margin-bottom: 18px;
 }
-
 .role-option {
   background: var(--obsidian-2);
   border: 1.5px solid var(--border);
@@ -186,17 +139,12 @@
   gap: 4px;
   position: relative;
 }
-
-.role-option:hover {
-  border-color: rgba(201, 169, 97, 0.5);
-}
-
+.role-option:hover { border-color: rgba(201, 169, 97, 0.5); }
 .role-option.selected {
   border-color: var(--gold);
   background: linear-gradient(135deg, rgba(201, 169, 97, 0.15), rgba(201, 169, 97, 0.03));
   box-shadow: 0 3px 10px rgba(201, 169, 97, 0.15);
 }
-
 .role-option.selected::after {
   content: '✓';
   position: absolute;
@@ -213,29 +161,15 @@
   align-items: center;
   justify-content: center;
 }
-
-.role-icon {
-  font-size: 1.3rem;
-  line-height: 1;
-}
-
+.role-icon { font-size: 1.3rem; line-height: 1; }
 .role-name {
   color: var(--text-secondary);
   font-size: 0.65rem;
   font-weight: 500;
   line-height: 1.2;
 }
-
-.role-option.selected .role-name {
-  color: var(--gold);
-  font-weight: 700;
-}
-
-/* ═══ Fields ═══ */
-.auth-field {
-  margin-bottom: 12px;
-}
-
+.role-option.selected .role-name { color: var(--gold); font-weight: 700; }
+.auth-field { margin-bottom: 12px; }
 .auth-field label {
   display: block;
   color: var(--text-secondary);
@@ -243,7 +177,6 @@
   margin-bottom: 6px;
   font-weight: 500;
 }
-
 .auth-field input {
   width: 100%;
   background: var(--obsidian-2);
@@ -257,27 +190,14 @@
   transition: all 0.25s;
   box-sizing: border-box;
 }
-
 .auth-field input:focus {
   border-color: var(--gold);
   background: var(--obsidian-3);
   box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
 }
-
-.auth-field input::placeholder {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-
-/* Password wrapper with eye */
-.password-wrap {
-  position: relative;
-}
-
-.password-wrap input {
-  padding-left: 44px;
-}
-
+.auth-field input::placeholder { color: var(--text-muted); font-size: 0.85rem; }
+.password-wrap { position: relative; }
+.password-wrap input { padding-left: 44px; }
 .pass-toggle {
   position: absolute;
   left: 8px;
@@ -292,36 +212,25 @@
   border-radius: 6px;
   transition: all 0.2s;
 }
-
-.pass-toggle:hover {
-  color: var(--gold);
-  background: rgba(201, 169, 97, 0.1);
-}
-
-/* Login actions row */
-.login-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.login-actions .auth-btn {
-  flex: 1;
-  margin-top: 0;
-}
-
+.pass-toggle:hover { color: var(--gold); background: rgba(201, 169, 97, 0.1); }
+.login-actions { display: flex; gap: 8px; margin-top: 14px; }
+.login-actions .auth-btn { flex: 1; margin-top: 0; }
 .biometric-btn {
   width: 52px;
   background: var(--obsidian-2);
   border: 1.5px solid var(--border);
   border-radius: 12px;
-  color: var(--text-muted);
+  color: var(--gold);
   font-size: 1.2rem;
-  cursor: not-allowed;
-  opacity: 0.5;
+  cursor: pointer;
   transition: all 0.2s;
 }
-
+.biometric-btn:hover {
+  background: rgba(201, 169, 97, 0.1);
+  border-color: var(--gold);
+}
+.biometric-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.biometric-btn.hidden { display: none; }
 .forgot-link {
   display: block;
   text-align: center;
@@ -330,12 +239,7 @@
   font-size: 0.78rem;
   text-decoration: none;
 }
-
-.forgot-link:hover {
-  color: var(--gold);
-}
-
-/* ═══ Primary Button ═══ */
+.forgot-link:hover { color: var(--gold); }
 .auth-btn {
   width: 100%;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
@@ -352,28 +256,11 @@
   letter-spacing: 0.3px;
   box-shadow: 0 4px 14px rgba(201, 169, 97, 0.2);
 }
-
 .auth-btn:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(201, 169, 97, 0.35);
 }
-
-.auth-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* ═══ Google Card Special ═══ */
-.smart-card.google-card .smart-card-header {
-  padding: 16px 18px;
-}
-
-.smart-card.google-card .smart-card-title {
-  text-align: right;
-}
-
-/* ═══ Message ═══ */
+.auth-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .auth-msg {
   padding: 12px 16px;
   border-radius: 11px;
@@ -382,22 +269,18 @@
   display: none;
   line-height: 1.5;
 }
-
 .auth-msg.error {
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.3);
   color: #fca5a5;
   display: block;
 }
-
 .auth-msg.success {
   background: rgba(34, 197, 94, 0.08);
   border: 1px solid rgba(34, 197, 94, 0.3);
   color: #86efac;
   display: block;
 }
-
-/* ═══ Terms Checkbox ═══ */
 .terms-checkbox {
   padding: 14px 16px;
   background: var(--obsidian-3);
@@ -405,12 +288,10 @@
   border-radius: 12px;
   transition: all 0.3s;
 }
-
 .terms-checkbox.checked {
   border-color: var(--gold);
   background: rgba(201, 169, 97, 0.06);
 }
-
 .terms-checkbox label {
   display: flex;
   align-items: flex-start;
@@ -420,7 +301,6 @@
   font-size: 0.78rem;
   line-height: 1.65;
 }
-
 .terms-checkbox input[type="checkbox"] {
   width: 20px;
   height: 20px;
@@ -429,18 +309,8 @@
   cursor: pointer;
   flex-shrink: 0;
 }
-
-.terms-checkbox a {
-  color: var(--gold);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.terms-checkbox a:hover {
-  text-decoration: underline;
-}
-
-/* ═══ Back Button ═══ */
+.terms-checkbox a { color: var(--gold); text-decoration: none; font-weight: 600; }
+.terms-checkbox a:hover { text-decoration: underline; }
 .auth-back {
   position: fixed;
   top: 20px;
@@ -460,7 +330,6 @@
   transition: all 0.25s;
   z-index: 100;
 }
-
 .auth-back:hover {
   background: var(--gold);
   color: var(--obsidian);
@@ -468,29 +337,85 @@
   transform: rotate(90deg);
 }
 
-/* ═══ Mobile ═══ */
+/* ═══ Success Screen ═══ */
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 20px 0;
+}
+.success-screen.active { display: block; }
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+  border: 2px solid rgba(34, 197, 94, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 20px;
+  animation: pop 0.5s ease;
+}
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.success-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+.success-email {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  direction: ltr;
+  display: inline-block;
+  padding: 6px 14px;
+  background: rgba(201, 169, 97, 0.1);
+  border-radius: 8px;
+}
+.success-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 11px;
+  color: var(--text-secondary);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.btn-secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
 @media (max-width: 480px) {
-  .auth-page {
-    padding: 60px 12px 20px;
-    align-items: flex-start;
-  }
-
-  .auth-card {
-    padding: 24px 18px;
-    border-radius: 18px;
-  }
-
-  .auth-logo h1 {
-    font-size: 1.6rem;
-  }
-
-  .role-name {
-    font-size: 0.6rem;
-  }
-
-  .role-icon {
-    font-size: 1.15rem;
-  }
+  .auth-page { padding: 60px 12px 20px; align-items: flex-start; }
+  .auth-card { padding: 24px 18px; border-radius: 18px; }
+  .auth-logo h1 { font-size: 1.6rem; }
+  .role-name { font-size: 0.6rem; }
+  .role-icon { font-size: 1.15rem; }
+  .success-icon { width: 70px; height: 70px; font-size: 2.2rem; }
 }
 </style>
 <link rel="icon" href="/icon-192.png">
@@ -503,136 +428,152 @@
 <main class="auth-page">
   <div class="auth-card">
 
-    <div class="auth-logo">
-      <h1>CAPKIT</h1>
-      <p>كاب كيت كو</p>
+    <!-- ═══ MAIN VIEW ═══ -->
+    <div id="mainView">
+      <div class="auth-logo">
+        <h1>CAPKIT</h1>
+        <p>كاب كيت كو</p>
+      </div>
+
+      <div id="authMsg" class="auth-msg"></div>
+
+      <div class="smart-cards">
+
+        <!-- Register -->
+        <div class="smart-card locked" data-card="register">
+          <div class="smart-card-header" onclick="toggleCard('register')">
+            <span class="smart-card-icon">📝</span>
+            <span class="smart-card-title">إنشاء حساب جديد</span>
+            <span class="smart-card-state-icon">🔒</span>
+          </div>
+          <div class="smart-card-body">
+            <label class="role-label">نوع الحساب</label>
+            <div class="role-picker" id="rolePicker">
+              <div class="role-option" data-role="vendor" onclick="selectRole(this, 'vendor')">
+                <div class="role-icon">🛒</div>
+                <div class="role-name">بائع</div>
+              </div>
+              <div class="role-option" data-role="service" onclick="selectRole(this, 'service')">
+                <div class="role-icon">🔧</div>
+                <div class="role-name">خدمة</div>
+              </div>
+              <div class="role-option" data-role="freelancer" onclick="selectRole(this, 'freelancer')">
+                <div class="role-icon">🔨</div>
+                <div class="role-name">صنايعي</div>
+              </div>
+              <div class="role-option" data-role="buyer" onclick="selectRole(this, 'buyer')">
+                <div class="role-icon">👤</div>
+                <div class="role-name">مستخدم</div>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label>الاسم الكامل</label>
+              <input type="text" id="fullName" placeholder="اسمك الكامل أو اسم الورشة">
+            </div>
+
+            <div class="auth-field">
+              <label>البريد الإلكتروني</label>
+              <input type="email" id="email" placeholder="example@email.com">
+            </div>
+
+            <div class="auth-field">
+              <label>رقم الواتساب</label>
+              <input type="tel" id="phone" placeholder="+20 1XX XXX XXXX">
+            </div>
+
+            <div class="auth-field">
+              <label>كلمة المرور</label>
+              <div class="password-wrap">
+                <input type="password" id="password" placeholder="8 أحرف على الأقل">
+                <button type="button" class="pass-toggle" onclick="togglePassword('password')">👁️</button>
+              </div>
+            </div>
+
+            <button class="auth-btn" id="registerBtn">إنشاء الحساب</button>
+          </div>
+        </div>
+
+        <!-- Login -->
+        <div class="smart-card locked" data-card="login">
+          <div class="smart-card-header" onclick="toggleCard('login')">
+            <span class="smart-card-icon">🔐</span>
+            <span class="smart-card-title">تسجيل الدخول</span>
+            <span class="smart-card-state-icon">🔒</span>
+          </div>
+          <div class="smart-card-body">
+            <div class="auth-field">
+              <label>البريد الإلكتروني</label>
+              <input type="email" id="loginEmail" placeholder="example@email.com">
+            </div>
+
+            <div class="auth-field">
+              <label>كلمة المرور</label>
+              <div class="password-wrap">
+                <input type="password" id="loginPassword" placeholder="كلمة المرور">
+                <button type="button" class="pass-toggle" onclick="togglePassword('loginPassword')">👁️</button>
+              </div>
+            </div>
+
+            <div class="login-actions">
+              <button class="auth-btn" id="loginBtn">🔐 دخول</button>
+              <button class="biometric-btn hidden" id="biometricBtn" type="button" title="الدخول بالبصمة" onclick="signInWithPasskey()">👆</button>
+            </div>
+
+            <a href="reset-password.html" class="forgot-link">نسيت كلمة المرور؟</a>
+          </div>
+        </div>
+
+        <!-- Google -->
+        <div class="smart-card google-card locked" data-card="google">
+          <div class="smart-card-header" onclick="handleGoogleClick()">
+            <svg width="20" height="20" viewBox="0 0 48 48" style="flex-shrink: 0;">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <span class="smart-card-title">الدخول بحساب Google</span>
+            <span class="smart-card-state-icon">🔒</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Terms -->
+      <div class="terms-checkbox" id="termsBox">
+        <label>
+          <input type="checkbox" id="agreeTerms" onchange="handleTermsChange(this)">
+          <span>
+            أوافق على <a href="manifesto.html" target="_blank">الميثاق</a>،
+            <a href="terms.html" target="_blank">الشروط والأحكام</a>،
+            و<a href="privacy.html" target="_blank">سياسة الخصوصية</a>
+          </span>
+        </label>
+      </div>
     </div>
 
-    <!-- Message Box -->
-    <div id="authMsg" class="auth-msg"></div>
-
-    <!-- ═══ Smart Cards Stack ═══ -->
-    <div class="smart-cards">
-
-      <!-- ═══ 1) Register Card ═══ -->
-      <div class="smart-card locked" data-card="register">
-        <div class="smart-card-header" onclick="toggleCard('register')">
-          <span class="smart-card-icon">📝</span>
-          <span class="smart-card-title">إنشاء حساب جديد</span>
-          <span class="smart-card-state-icon">🔒</span>
-        </div>
-        <div class="smart-card-body">
-          <label class="role-label">نوع الحساب</label>
-          <div class="role-picker" id="rolePicker">
-            <div class="role-option" data-role="vendor" onclick="selectRole(this, 'vendor')">
-              <div class="role-icon">🛒</div>
-              <div class="role-name">بائع</div>
-            </div>
-            <div class="role-option" data-role="service" onclick="selectRole(this, 'service')">
-              <div class="role-icon">🔧</div>
-              <div class="role-name">خدمة</div>
-            </div>
-            <div class="role-option" data-role="freelancer" onclick="selectRole(this, 'freelancer')">
-              <div class="role-icon">🔨</div>
-              <div class="role-name">صنايعي</div>
-            </div>
-            <div class="role-option" data-role="user" onclick="selectRole(this, 'user')">
-              <div class="role-icon">👤</div>
-              <div class="role-name">لاحقاً</div>
-            </div>
-          </div>
-
-          <div class="auth-field">
-            <label>الاسم الكامل</label>
-            <input type="text" id="fullName" placeholder="اسمك الكامل أو اسم الورشة">
-          </div>
-
-          <div class="auth-field">
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="email" placeholder="example@email.com">
-          </div>
-
-          <div class="auth-field">
-            <label>رقم الواتساب</label>
-            <input type="tel" id="phone" placeholder="+20 1XX XXX XXXX">
-          </div>
-
-          <div class="auth-field">
-            <label>كلمة المرور</label>
-            <div class="password-wrap">
-              <input type="password" id="password" placeholder="8 أحرف على الأقل">
-              <button type="button" class="pass-toggle" onclick="togglePassword('password')">👁️</button>
-            </div>
-          </div>
-
-          <button class="auth-btn" id="registerBtn">إنشاء الحساب</button>
-        </div>
+    <!-- ═══ SUCCESS SCREEN ═══ -->
+    <div id="successView" class="success-screen">
+      <div class="success-icon">✉️</div>
+      <h2 class="success-title">تحقق من بريدك الإلكتروني</h2>
+      <div class="success-email" id="successEmail">—</div>
+      <p class="success-desc">
+        أرسلنا لك رابط تأكيد.<br>
+        افتح الإيميل واضغط على الرابط لتفعيل حسابك.
+      </p>
+      <div class="success-actions">
+        <button class="auth-btn" id="resendBtn">📩 إعادة إرسال الرابط</button>
+        <button class="btn-secondary" id="backToAuthBtn">← رجوع للصفحة الرئيسية</button>
       </div>
-
-      <!-- ═══ 2) Login Card ═══ -->
-      <div class="smart-card locked" data-card="login">
-        <div class="smart-card-header" onclick="toggleCard('login')">
-          <span class="smart-card-icon">🔐</span>
-          <span class="smart-card-title">تسجيل الدخول</span>
-          <span class="smart-card-state-icon">🔒</span>
-        </div>
-        <div class="smart-card-body">
-          <div class="auth-field">
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="loginEmail" placeholder="example@email.com">
-          </div>
-
-          <div class="auth-field">
-            <label>كلمة المرور</label>
-            <div class="password-wrap">
-              <input type="password" id="loginPassword" placeholder="كلمة المرور">
-              <button type="button" class="pass-toggle" onclick="togglePassword('loginPassword')">👁️</button>
-            </div>
-          </div>
-
-          <div class="login-actions">
-            <button class="auth-btn" id="loginBtn">🔐 دخول</button>
-            <button class="biometric-btn" id="biometricBtn" type="button" title="قريباً">👆</button>
-          </div>
-
-          <a href="#" class="forgot-link" onclick="alert('سيتم إضافة استعادة كلمة المرور قريباً'); return false;">
-            نسيت كلمة المرور؟
-          </a>
-        </div>
-      </div>
-
-      <!-- ═══ 3) Google Card ═══ -->
-      <div class="smart-card google-card locked" data-card="google">
-        <div class="smart-card-header" onclick="handleGoogleClick()">
-          <svg width="20" height="20" viewBox="0 0 48 48" style="flex-shrink: 0;">
-            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-          </svg>
-          <span class="smart-card-title">الدخول بحساب Google</span>
-          <span class="smart-card-state-icon">🔒</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ═══ Terms Checkbox (المفتاح) ═══ -->
-    <div class="terms-checkbox" id="termsBox">
-      <label>
-        <input type="checkbox" id="agreeTerms" onchange="handleTermsChange(this)">
-        <span>
-          أوافق على <a href="manifesto.html" target="_blank">الميثاق</a>،
-          <a href="terms.html" target="_blank">الشروط والأحكام</a>،
-          و<a href="privacy.html" target="_blank">سياسة الخصوصية</a>
-        </span>
-      </label>
+      <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 18px; line-height: 1.7;">
+        💡 الإيميل قد يستغرق دقيقة. تحقق من مجلد Spam أيضاً.
+      </p>
     </div>
 
   </div>
 </main>
 
-<!-- ═══ Supabase ═══ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="auth.js"></script>
