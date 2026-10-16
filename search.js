@@ -272,6 +272,7 @@ function createProductCard(product) {
     <div class="product-info">
       <div class="product-title">${escapeHtml(product.title)}</div>
       <div class="product-desc">${escapeHtml((product.description || '').substring(0, 40))}...</div>
+            ${renderCardRating(product.rating_avg, product.rating_count)}
       <div class="product-footer">
         <div class="product-price">${priceText}</div>
       </div>
@@ -299,6 +300,7 @@ function createServiceCard(service) {
     <div class="product-info">
       <div class="product-title">${escapeHtml(service.title)}</div>
       <div class="product-desc">${escapeHtml((service.description || '').substring(0, 40))}...</div>
+            ${renderCardRating(service.rating_avg, service.rating_count)}
       <div class="product-footer">
         <div class="product-price service-price">${priceText}</div>
       </div>
