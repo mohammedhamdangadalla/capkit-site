@@ -269,62 +269,45 @@ window.deleteComment = async function(id) {
 
 // ═══ Report Comment ═══
 window.reportComment = async function(id) {
+  // 1) نتأكد إن المستخدم مسجل دخول
+  const { data: { user } } = await window.supabaseClient.auth.getUser();
+  if (!user) {
+    alert('⚠️ لازم تسجل دخول الأول عشان تبّلغ عن تعليق');
+    return;
+  }
+
+  // 2) نسأل عن السبب (اختياري)
   const reason = prompt('سبب الإبلاغ (اختياري):');
-  if (reason === null) return; // User cancelled
+  if (reason === null) return; // المستخدم ضغط إلغاء
+
+  // 3) نجهز السبب - لو فاضي نستخدم قيمة افتراضية
+  const finalReason = (reason || '').trim() || 'لم يُذكر سبب';
 
   try {
-    // زيادة العداد
-    const { error } = await window.supabaseClient.rpc('increment_comment_reports', {
-      comment_id: id
-    });
+    // 4) INSERT مباشر في جدول reports
+    const { error } = await window.supabaseClient
+      .from('reports')
+      .insert({
+        reporter_id: user.id,
+        comment_id: id,
+        reason: finalReason
+      });
 
     if (error) {
-      // Fallback: update مباشر
-      const { data: comment } = await window.supabaseClient
-        .from('comments')
-        .select('reports_count')
-        .eq('id', id)
-        .single();
-
-      const newCount = (comment?.reports_count || 0) + 1;
-      await window.supabaseClient
-        .from('comments')
-        .update({ reports_count: newCount })
-        .eq('id', id);
+      // 5) لو المستخدم بلّغ عن التعليق ده قبل كده (UNIQUE violation)
+      if (error.code === '23505') {
+        alert('ℹ️ لقد أبلغت عن هذا التعليق مسبقاً. شكراً لك!');
+        return;
+      }
+      throw error;
     }
 
-    // إرسال إيميل لك (لاحقًا عبر Edge Function)
-    console.log('📧 Report:', { comment_id: id, reason });
-
-    alert('✅ تم إرسال الإبلاغ. شكراً!');
+    // 6) نجاح ✅ (الـ Trigger زوّد reports_count تلقائياً)
+    alert('✅ تم إرسال الإبلاغ. شكراً لك!');
+    console.log('✅ Report sent:', { comment_id: id, reason: finalReason });
 
   } catch (err) {
-    console.error('Report error:', err);
-    alert('❌ فشل الإبلاغ');
+    console.error('❌ Report error:', err);
+    alert('❌ فشل الإبلاغ — حاول تاني');
   }
 };
-
-// ═══ Helpers ═══
-function formatCommentDate(dateStr) {
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diff = Math.floor((now - date) / 1000); // بالثواني
-
-  if (diff < 60) return 'الآن';
-  if (diff < 3600) return `منذ ${Math.floor(diff / 60)} دقيقة`;
-  if (diff < 86400) return `منذ ${Math.floor(diff / 3600)} ساعة`;
-  if (diff < 604800) return `منذ ${Math.floor(diff / 86400)} يوم`;
-  
-  return date.toLocaleDateString('ar-EG', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
-  });
-}
-
-function escapeHtmlC(text) {
-  if (!text) return '';
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
