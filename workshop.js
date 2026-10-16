@@ -51,6 +51,7 @@ async function initWorkshopPage() {
     // ═══ عرض كل حاجة ═══
     renderCoverAndLogo(workshop);
     renderHeader(workshop);
+    loadGovernorateName(workshop.governorate_id);   // ← جديد
     renderActions(workshop);
     renderDescription(workshop);
 
@@ -179,7 +180,27 @@ function renderCoverAndLogo(workshop) {
     logo.textContent = (workshop.name || 'و').charAt(0);
   }
 }
-
+// ═══ Load Governorate Name ═══
+async function loadGovernorateName(govId) {
+  if (!govId) return;
+  
+  try {
+    const { data } = await window.supabaseClient
+      .from('governorates')
+      .select('name_ar')
+      .eq('id', govId)
+      .single();
+    
+    if (data?.name_ar) {
+      const govEl = document.getElementById('workshopGov');
+      if (govEl) {
+        govEl.textContent = `📍 ${data.name_ar}`;
+      }
+    }
+  } catch (err) {
+    console.warn('Governorate load error:', err);
+  }
+}
 // ═══ Render Header ═══
 function renderHeader(workshop) {
   // Name
@@ -204,8 +225,8 @@ function renderHeader(workshop) {
   }
 
   if (workshop.governorate_id) {
-    metaParts.push(`<span>📍 محافظة</span>`);
-  }
+  metaParts.push(`<span id="workshopGov">📍 ...</span>`);
+}
 
   if (workshop.status === 'active') {
     metaParts.push(`<span style="color: #22c55e;">● نشطة</span>`);
