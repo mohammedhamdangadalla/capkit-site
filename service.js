@@ -170,6 +170,8 @@ function renderService() {
 
   // ✨ تحميل التعليقات
   initComments('service', s.id);
+    // ✨ تحميل التقييمات
+  initRating('product', p.id);
 }
 // ═══ Badges ═══
 function renderBadges() {
