@@ -14,234 +14,401 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 70px 16px 30px;
   background: var(--obsidian);
 }
 
 .auth-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   background: var(--obsidian-2);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 40px 28px;
+  border-radius: 20px;
+  padding: 32px 24px;
 }
 
 .auth-logo {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 26px;
 }
 
 .auth-logo h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
+  font-size: 1.9rem;
   color: var(--text-primary);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   margin-bottom: 6px;
 }
 
 .auth-logo p {
   color: var(--gold);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   letter-spacing: 0.2em;
 }
 
-.auth-tabs {
+/* ═══ Smart Cards Stack ═══ */
+.smart-cards {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.smart-card {
   background: var(--obsidian-3);
-  padding: 4px;
-  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  position: relative;
 }
 
-.auth-tab {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  padding: 10px;
-  border-radius: 8px;
+.smart-card.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.smart-card.locked .smart-card-header {
+  cursor: not-allowed;
+}
+
+.smart-card:not(.locked) .smart-card-header {
   cursor: pointer;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.3s;
 }
 
-.auth-tab.active {
-  background: var(--gold);
-  color: var(--obsidian);
+.smart-card:not(.locked):hover {
+  border-color: var(--border-light);
+  background: rgba(201, 169, 97, 0.03);
+}
+
+.smart-card.active {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.08), rgba(201, 169, 97, 0.02));
+  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.12);
+}
+
+.smart-card.shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.smart-card-header {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s;
+  user-select: none;
+}
+
+.smart-card.active .smart-card-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.smart-card-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.smart-card-title {
+  flex: 1;
+  color: var(--text-primary);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.98rem;
   font-weight: 700;
+}
+
+.smart-card.active .smart-card-title {
+  color: var(--gold);
+}
+
+.smart-card-state-icon {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.smart-card.active .smart-card-state-icon {
+  transform: rotate(180deg);
+  color: var(--gold);
+}
+
+.smart-card.google-card .smart-card-state-icon {
+  transform: none;
+}
+
+/* ═══ Card Body (Accordion) ═══ */
+.smart-card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+  padding: 0 18px;
+}
+
+.smart-card.active .smart-card-body {
+  max-height: 1000px;
+  padding: 18px;
+}
+
+/* ═══ Role Picker (4 Icons) ═══ */
+.role-label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
 .role-picker {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 18px;
 }
 
 .role-option {
-  background: var(--obsidian-3);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
+  background: var(--obsidian-2);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 4px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
+  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 4px;
+  position: relative;
 }
 
 .role-option:hover {
-  border-color: var(--border-light);
+  border-color: rgba(201, 169, 97, 0.5);
 }
 
 .role-option.selected {
   border-color: var(--gold);
-  background: rgba(201, 169, 97, 0.08);
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.15), rgba(201, 169, 97, 0.03));
+  box-shadow: 0 3px 10px rgba(201, 169, 97, 0.15);
 }
 
-.role-icon {
-  width: 44px;
-  height: 44px;
+.role-option.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: var(--obsidian-2);
+  background: var(--gold);
+  color: var(--obsidian);
+  font-size: 0.55rem;
+  font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  flex-shrink: 0;
 }
 
-.role-text h3 {
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  margin-bottom: 4px;
+.role-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.role-name {
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.role-option.selected .role-name {
+  color: var(--gold);
   font-weight: 700;
 }
 
-.role-text p {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
+/* ═══ Fields ═══ */
 .auth-field {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .auth-field label {
   display: block;
   color: var(--text-secondary);
-  font-size: 0.82rem;
-  margin-bottom: 8px;
+  font-size: 0.76rem;
+  margin-bottom: 6px;
   font-weight: 500;
 }
 
 .auth-field input {
   width: 100%;
-  background: var(--obsidian-3);
-  border: 1px solid var(--border);
+  background: var(--obsidian-2);
+  border: 1.5px solid var(--border);
   color: var(--text-primary);
-  padding: 14px 16px;
+  padding: 12px 14px;
   border-radius: 10px;
   font-family: 'Tajawal', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   outline: none;
-  transition: border 0.3s;
+  transition: all 0.25s;
+  box-sizing: border-box;
 }
 
 .auth-field input:focus {
   border-color: var(--gold);
+  background: var(--obsidian-3);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
 }
 
 .auth-field input::placeholder {
   color: var(--text-muted);
+  font-size: 0.85rem;
 }
 
+/* Password wrapper with eye */
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input {
+  padding-left: 44px;
+}
+
+.pass-toggle {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.pass-toggle:hover {
+  color: var(--gold);
+  background: rgba(201, 169, 97, 0.1);
+}
+
+/* Login actions row */
+.login-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.login-actions .auth-btn {
+  flex: 1;
+  margin-top: 0;
+}
+
+.biometric-btn {
+  width: 52px;
+  background: var(--obsidian-2);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.forgot-link {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  color: var(--gold);
+}
+
+/* ═══ Primary Button ═══ */
 .auth-btn {
   width: 100%;
-  background: var(--gold);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
   color: var(--obsidian);
   border: none;
-  padding: 16px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 11px;
   font-family: 'Tajawal', sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
-  margin-top: 8px;
+  margin-top: 14px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 14px rgba(201, 169, 97, 0.2);
 }
 
-.auth-btn:hover {
-  background: var(--gold-light);
+.auth-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(201, 169, 97, 0.35);
 }
 
 .auth-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
+/* ═══ Google Card Special ═══ */
+.smart-card.google-card .smart-card-header {
+  padding: 16px 18px;
+}
+
+.smart-card.google-card .smart-card-title {
+  text-align: right;
+}
+
+/* ═══ Message ═══ */
 .auth-msg {
   padding: 12px 16px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-  font-size: 0.88rem;
+  border-radius: 11px;
+  margin-bottom: 14px;
+  font-size: 0.83rem;
   display: none;
+  line-height: 1.5;
 }
 
 .auth-msg.error {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.3);
   color: #fca5a5;
   display: block;
 }
 
 .auth-msg.success {
-  background: rgba(34, 197, 94, 0.1);
+  background: rgba(34, 197, 94, 0.08);
   border: 1px solid rgba(34, 197, 94, 0.3);
   color: #86efac;
   display: block;
 }
 
-.auth-footer {
-  text-align: center;
-  margin-top: 24px;
-  color: var(--text-muted);
-  font-size: 0.82rem;
-}
-
-.auth-footer a {
-  color: var(--gold);
-  text-decoration: none;
-}
-
-.auth-back {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 1.4rem;
-  padding: 8px 14px;
-  border-radius: 8px;
+/* ═══ Terms Checkbox ═══ */
+.terms-checkbox {
+  padding: 14px 16px;
+  background: var(--obsidian-3);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
   transition: all 0.3s;
 }
 
-.auth-back:hover {
-  background: var(--obsidian-3);
-  color: var(--gold);
-}
-  /* ═══ Terms Checkbox ═══ */
-.terms-checkbox {
-  margin: 16px 0;
-  padding: 14px 16px;
-  background: var(--obsidian-3);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+.terms-checkbox.checked {
+  border-color: var(--gold);
+  background: rgba(201, 169, 97, 0.06);
 }
 
 .terms-checkbox label {
@@ -250,8 +417,8 @@
   gap: 12px;
   cursor: pointer;
   color: var(--text-secondary);
-  font-size: 0.82rem;
-  line-height: 1.7;
+  font-size: 0.78rem;
+  line-height: 1.65;
 }
 
 .terms-checkbox input[type="checkbox"] {
@@ -272,8 +439,61 @@
 .terms-checkbox a:hover {
   text-decoration: underline;
 }
+
+/* ═══ Back Button ═══ */
+.auth-back {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.05rem;
+  transition: all 0.25s;
+  z-index: 100;
+}
+
+.auth-back:hover {
+  background: var(--gold);
+  color: var(--obsidian);
+  border-color: var(--gold);
+  transform: rotate(90deg);
+}
+
+/* ═══ Mobile ═══ */
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 60px 12px 20px;
+    align-items: flex-start;
+  }
+
+  .auth-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .auth-logo h1 {
+    font-size: 1.6rem;
+  }
+
+  .role-name {
+    font-size: 0.6rem;
+  }
+
+  .role-icon {
+    font-size: 1.15rem;
+  }
+}
 </style>
-  <link rel="icon" href="/icon-192.png">
+<link rel="icon" href="/icon-192.png">
 <link rel="shortcut icon" href="/icon-192.png">
 </head>
 <body>
@@ -282,110 +502,131 @@
 
 <main class="auth-page">
   <div class="auth-card">
-    
+
     <div class="auth-logo">
       <h1>CAPKIT</h1>
       <p>كاب كيت كو</p>
     </div>
 
-    <!-- Tabs: Login / Register -->
-    <div class="auth-tabs">
-      <button class="auth-tab active" data-view="register">حساب جديد</button>
-      <button class="auth-tab" data-view="login">دخول</button>
-    </div>
-
     <!-- Message Box -->
     <div id="authMsg" class="auth-msg"></div>
 
-    <!-- ═══ Register View ═══ -->
-    <div id="registerView">
-      
-      <div class="auth-field" style="margin-bottom: 12px;">
-        <label>نوع الحساب</label>
-      </div>
+    <!-- ═══ Smart Cards Stack ═══ -->
+    <div class="smart-cards">
 
-      <div class="role-picker" id="rolePicker">
-        
-        <div class="role-option" data-role="vendor">
-          <div class="role-icon">🛒</div>
-          <div class="role-text">
-            <h3>بائع / ورشة</h3>
-            <p>اعرض منتجاتك في السوق</p>
-          </div>
+      <!-- ═══ 1) Register Card ═══ -->
+      <div class="smart-card locked" data-card="register">
+        <div class="smart-card-header" onclick="toggleCard('register')">
+          <span class="smart-card-icon">📝</span>
+          <span class="smart-card-title">إنشاء حساب جديد</span>
+          <span class="smart-card-state-icon">🔒</span>
         </div>
-
-        <div class="role-option" data-role="service">
-          <div class="role-icon">🔧</div>
-          <div class="role-text">
-            <h3>مقدّم خدمة</h3>
-            <p>صيانة، تركيب، خدمات متخصصة</p>
+        <div class="smart-card-body">
+          <label class="role-label">نوع الحساب</label>
+          <div class="role-picker" id="rolePicker">
+            <div class="role-option" data-role="vendor" onclick="selectRole(this, 'vendor')">
+              <div class="role-icon">🛒</div>
+              <div class="role-name">بائع</div>
+            </div>
+            <div class="role-option" data-role="service" onclick="selectRole(this, 'service')">
+              <div class="role-icon">🔧</div>
+              <div class="role-name">خدمة</div>
+            </div>
+            <div class="role-option" data-role="freelancer" onclick="selectRole(this, 'freelancer')">
+              <div class="role-icon">🔨</div>
+              <div class="role-name">صنايعي</div>
+            </div>
+            <div class="role-option" data-role="user" onclick="selectRole(this, 'user')">
+              <div class="role-icon">👤</div>
+              <div class="role-name">لاحقاً</div>
+            </div>
           </div>
-        </div>
 
-        <div class="role-option" data-role="freelancer">
-          <div class="role-icon">🔨</div>
-          <div class="role-text">
-            <h3>صنايعي / مقاول / عامل</h3>
-            <p>اعرض مهاراتك للعمل الحر</p>
+          <div class="auth-field">
+            <label>الاسم الكامل</label>
+            <input type="text" id="fullName" placeholder="اسمك الكامل أو اسم الورشة">
           </div>
+
+          <div class="auth-field">
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="email" placeholder="example@email.com">
+          </div>
+
+          <div class="auth-field">
+            <label>رقم الواتساب</label>
+            <input type="tel" id="phone" placeholder="+20 1XX XXX XXXX">
+          </div>
+
+          <div class="auth-field">
+            <label>كلمة المرور</label>
+            <div class="password-wrap">
+              <input type="password" id="password" placeholder="8 أحرف على الأقل">
+              <button type="button" class="pass-toggle" onclick="togglePassword('password')">👁️</button>
+            </div>
+          </div>
+
+          <button class="auth-btn" id="registerBtn">إنشاء الحساب</button>
         </div>
-
       </div>
 
-      <div class="auth-field">
-        <label>الاسم الكامل</label>
-        <input type="text" id="fullName" placeholder="اسمك الكامل أو اسم الورشة">
+      <!-- ═══ 2) Login Card ═══ -->
+      <div class="smart-card locked" data-card="login">
+        <div class="smart-card-header" onclick="toggleCard('login')">
+          <span class="smart-card-icon">🔐</span>
+          <span class="smart-card-title">تسجيل الدخول</span>
+          <span class="smart-card-state-icon">🔒</span>
+        </div>
+        <div class="smart-card-body">
+          <div class="auth-field">
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="loginEmail" placeholder="example@email.com">
+          </div>
+
+          <div class="auth-field">
+            <label>كلمة المرور</label>
+            <div class="password-wrap">
+              <input type="password" id="loginPassword" placeholder="كلمة المرور">
+              <button type="button" class="pass-toggle" onclick="togglePassword('loginPassword')">👁️</button>
+            </div>
+          </div>
+
+          <div class="login-actions">
+            <button class="auth-btn" id="loginBtn">🔐 دخول</button>
+            <button class="biometric-btn" id="biometricBtn" type="button" title="قريباً">👆</button>
+          </div>
+
+          <a href="#" class="forgot-link" onclick="alert('سيتم إضافة استعادة كلمة المرور قريباً'); return false;">
+            نسيت كلمة المرور؟
+          </a>
+        </div>
       </div>
 
-      <div class="auth-field">
-        <label>البريد الإلكتروني</label>
-        <input type="email" id="email" placeholder="example@email.com">
+      <!-- ═══ 3) Google Card ═══ -->
+      <div class="smart-card google-card locked" data-card="google">
+        <div class="smart-card-header" onclick="handleGoogleClick()">
+          <svg width="20" height="20" viewBox="0 0 48 48" style="flex-shrink: 0;">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          <span class="smart-card-title">الدخول بحساب Google</span>
+          <span class="smart-card-state-icon">🔒</span>
+        </div>
       </div>
-
-      <div class="auth-field">
-        <label>رقم الواتساب</label>
-        <input type="tel" id="phone" placeholder="+20 1XX XXX XXXX">
-      </div>
-
-      <div class="auth-field">
-        <label>كلمة المرور</label>
-        <input type="password" id="password" placeholder="8 أحرف على الأقل">
-      </div>
-<div class="terms-checkbox">
-  <label>
-    <input type="checkbox" id="agreeTerms">
-    <span>
-      أوافق على <a href="manifesto.html" target="_blank">الميثاق</a>،
-      <a href="terms.html" target="_blank">الشروط والأحكام</a>،
-      و<a href="privacy.html" target="_blank">سياسة الخصوصية</a>
-    </span>
-  </label>
-</div>
-      <button class="auth-btn" id="registerBtn">إنشاء الحساب</button>
 
     </div>
 
-    <!-- ═══ Login View ═══ -->
-    <div id="loginView" style="display: none;">
-      
-      <div class="auth-field">
-        <label>البريد الإلكتروني</label>
-        <input type="email" id="loginEmail" placeholder="example@email.com">
-      </div>
-
-      <div class="auth-field">
-        <label>كلمة المرور</label>
-        <input type="password" id="loginPassword" placeholder="كلمة المرور">
-      </div>
-
-      <button class="auth-btn" id="loginBtn">دخول</button>
-
-    </div>
-
-    <div class="auth-footer">
-      بمتابعتك، أنت توافق على
-      <a href="#">شروط الاستخدام</a> و
-      <a href="#">سياسة الخصوصية</a>
+    <!-- ═══ Terms Checkbox (المفتاح) ═══ -->
+    <div class="terms-checkbox" id="termsBox">
+      <label>
+        <input type="checkbox" id="agreeTerms" onchange="handleTermsChange(this)">
+        <span>
+          أوافق على <a href="manifesto.html" target="_blank">الميثاق</a>،
+          <a href="terms.html" target="_blank">الشروط والأحكام</a>،
+          و<a href="privacy.html" target="_blank">سياسة الخصوصية</a>
+        </span>
+      </label>
     </div>
 
   </div>
