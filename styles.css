@@ -2453,3 +2453,34 @@ body {
     font-size: 2.2rem;
   }
 }
+/* ═══ Inline Star Rating (كروت المنتجات/الخدمات) ═══ */
+.card-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.82rem;
+  color: #c9a961;
+  margin: 4px 0 2px 0;
+  font-weight: 500;
+}
+
+.card-rating .star-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.card-rating .avg {
+  color: #c9a961;
+  font-weight: 600;
+}
+
+.card-rating .count {
+  color: #888;
+  font-size: 0.72rem;
+}
+
+.card-rating.no-rating {
+  color: #666;
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
