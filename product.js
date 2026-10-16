@@ -139,7 +139,8 @@ function renderProduct() {
   });
     // ✨ تحميل التعليقات
   initComments('product', p.id);
-
+  // ✨ تحميل التقييمات
+  initRating('product', p.id);
 }
 // ═══ Badges ═══
 function renderBadges() {
