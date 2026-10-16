@@ -106,6 +106,7 @@ function createProductCard(product) {
     <div class="product-info">
       <div class="product-title">${escapeHtml(product.title)}</div>
       <div class="product-desc">${escapeHtml((product.description || '').substring(0, 40))}...</div>
+            ${renderCardRating(product.rating_avg, product.rating_count)}
       <div class="product-meta">
         <span class="workshop-name">${sellerName}</span>
       </div>
@@ -140,6 +141,7 @@ function createOriginalCard(product) {
     <div class="product-info">
       <div class="product-title">${escapeHtml(product.title)}</div>
       <div class="product-desc">${escapeHtml((product.description || '').substring(0, 40))}...</div>
+            ${renderCardRating(product.rating_avg, product.rating_count)}
       <div class="product-footer">
         <div class="product-price">${product.price || 0} <small>${product.currency || 'EGP'}</small></div>
       </div>
