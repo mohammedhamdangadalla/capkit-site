@@ -4,6 +4,7 @@ let currentProduct = null;
 let currentSeller = null;
 let currentImages = [];
 let activeImageIndex = 0;
+let isGuest = true; // متغير جديد لمعرفة حالة الزائر
 
 // ═══ Init ═══
 async function initProduct() {
@@ -11,6 +12,10 @@ async function initProduct() {
     showNotFound();
     return;
   }
+
+  // التحقق من تسجيل الدخول
+  const { data: { session } } = await window.supabaseClient.auth.getSession();
+  isGuest = !session;
 
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
@@ -242,10 +247,21 @@ function renderSeller() {
   `;
 }
 
-// ═══ WhatsApp ═══
+// ═══ WhatsApp (Updated for Guests) ═══
 function renderWhatsApp() {
   const btn = document.getElementById('whatsappBtn');
   const p = currentProduct;
+
+  // إذا كان زائراً، أخفِ الرقم واطلب التسجيل
+  if (isGuest) {
+    btn.href = 'javascript:void(0)';
+    btn.innerHTML = '<span>🔒</span><span>سجل دخول لرؤية رقم التواصل</span>';
+    btn.style.background = 'var(--obsidian-3)';
+    btn.style.color = 'var(--gold)';
+    btn.style.border = '1px solid var(--gold)';
+    btn.onclick = () => window.location.href = 'auth.html';
+    return;
+  }
 
   let phone = '';
   if (currentSeller?.whatsapp) {
