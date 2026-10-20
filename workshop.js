@@ -13,7 +13,7 @@ async function initWorkshopPage() {
   }
 
   const { data: { session } } = await window.supabaseClient.auth.getSession();
-  currentUserId = session?.user?.id || null;
+  currentUserId = session?.user?.id || null; // إذا كان null يعني زائر
 
   const params = new URLSearchParams(window.location.search);
   const workshopId = params.get('id');
@@ -51,7 +51,7 @@ async function initWorkshopPage() {
     // ═══ عرض كل حاجة ═══
     renderCoverAndLogo(workshop);
     renderHeader(workshop);
-    loadGovernorateName(workshop.governorate_id);   // ← جديد
+    loadGovernorateName(workshop.governorate_id);
     renderActions(workshop);
     renderDescription(workshop);
 
@@ -235,10 +235,44 @@ function renderHeader(workshop) {
   metaEl.innerHTML = metaParts.join('<span class="dot">·</span>');
 }
 
-// ═══ Render Actions ═══
+// ═══ Render Actions (Updated for Guests) ═══
 function renderActions(workshop) {
-  // WhatsApp
   const waBtn = document.getElementById('whatsappContact');
+  const igBtn = document.getElementById('instagramContact');
+
+  // 1. إذا كان زائراً (غير مسجل)
+  if (!currentUserId) {
+    // قفل زر الواتساب
+    waBtn.href = 'javascript:void(0)';
+    waBtn.innerHTML = '<span>🔒</span><span>سجل لرؤية الواتساب</span>';
+    waBtn.style.background = 'var(--obsidian-3)';
+    waBtn.style.color = 'var(--gold)';
+    waBtn.style.border = '1px solid var(--gold)';
+    waBtn.onclick = () => window.location.href = 'auth.html';
+
+    // قفل زر إنستجرام (إن وجد)
+    if (workshop.instagram) {
+      igBtn.style.display = 'flex';
+      igBtn.href = 'javascript:void(0)';
+      igBtn.innerHTML = '<span>🔒</span><span>سجل لرؤية إنستجرام</span>';
+      igBtn.style.background = 'var(--obsidian-3)';
+      igBtn.style.color = 'var(--gold)';
+      igBtn.style.border = '1px solid var(--gold)';
+      igBtn.onclick = () => window.location.href = 'auth.html';
+    }
+
+    // قفل زر المتابعة
+    const followBtn = document.getElementById('followBtn');
+    followBtn.innerHTML = '<span>♡</span><span>متابعة</span>';
+    followBtn.onclick = () => {
+      if (confirm('لازم تسجل دخول للمتابعة. تروح لصفحة التسجيل؟')) {
+        window.location.href = 'auth.html';
+      }
+    };
+    return;
+  }
+
+  // 2. إذا كان مسجلاً (المنطق الأصلي)
   const phone = (workshop.whatsapp || workshop.phone || '').replace(/\D/g, '');
 
   if (phone) {
@@ -250,35 +284,16 @@ function renderActions(workshop) {
     waBtn.style.pointerEvents = 'none';
   }
 
-  // Instagram
-  const igBtn = document.getElementById('instagramContact');
   if (workshop.instagram) {
-    // تنظيف الـ handle
     let handle = workshop.instagram.replace('@', '').trim();
-    // لو الرابط كامل، نستخدمه زي ما هو
-    let url = handle.startsWith('http') 
-      ? handle 
-      : `https://instagram.com/${handle}`;
-    
+    let url = handle.startsWith('http') ? handle : `https://instagram.com/${handle}`;
     igBtn.href = url;
     igBtn.style.display = 'flex';
   }
 
-  // Follow button
   const followBtn = document.getElementById('followBtn');
-
   if (currentUserId === workshop.owner_id) {
     followBtn.style.display = 'none';
-    return;
-  }
-
-  if (!currentUserId) {
-    followBtn.innerHTML = '<span>♡</span><span>متابعة</span>';
-    followBtn.onclick = () => {
-      if (confirm('لازم تسجل دخول للمتابعة. تروح لصفحة التسجيل؟')) {
-        window.location.href = 'auth.html';
-      }
-    };
     return;
   }
 
@@ -332,7 +347,6 @@ window.toggleFollow = async function() {
 
     updateFollowButton();
 
-    // تحديث عدد المتابعين
     const { count } = await window.supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
@@ -418,7 +432,6 @@ async function loadServices(workshop) {
 
 // ═══ Load Ratings ═══
 async function loadRatings(workshop, stats) {
-  // 1) IDs منتجات الورشة
   const { data: prods } = await window.supabaseClient
     .from('products')
     .select('id')
@@ -426,7 +439,6 @@ async function loadRatings(workshop, stats) {
 
   const prodIds = (prods || []).map(p => p.id);
 
-  // 2) IDs خدمات الورشة
   const { data: servs } = await window.supabaseClient
     .from('services')
     .select('id')
@@ -436,7 +448,6 @@ async function loadRatings(workshop, stats) {
 
   if (prodIds.length === 0 && servIds.length === 0) return;
 
-  // 3) استعلام OR
   const orConds = [];
   if (prodIds.length > 0) orConds.push(`product_id.in.(${prodIds.join(',')})`);
   if (servIds.length > 0) orConds.push(`service_id.in.(${servIds.join(',')})`);
@@ -456,7 +467,6 @@ async function loadRatings(workshop, stats) {
   const container = document.getElementById('ratingsContainer');
   container.innerHTML = '';
 
-  // ملخص
   const summary = document.createElement('div');
   summary.className = 'ratings-summary';
   summary.innerHTML = `
@@ -470,7 +480,6 @@ async function loadRatings(workshop, stats) {
   `;
   container.appendChild(summary);
 
-  // قائمة
   const list = document.createElement('div');
   list.className = 'ratings-list';
 
