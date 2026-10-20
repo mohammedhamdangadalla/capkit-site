@@ -9,364 +9,80 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-.admin-page {
-  min-height: 100vh;
-  padding: 80px 16px 40px;
-  background: var(--obsidian);
-}
-
-.admin-container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.admin-header {
-  background: linear-gradient(135deg, rgba(201, 169, 97, 0.12), rgba(201, 169, 97, 0.03));
-  border: 1px solid var(--border-light);
-  border-radius: 16px;
-  padding: 22px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.admin-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  flex-shrink: 0;
-}
-
+.admin-page { min-height: 100vh; padding: 80px 16px 40px; background: var(--obsidian); }
+.admin-container { max-width: 1100px; margin: 0 auto; }
+.admin-header { background: linear-gradient(135deg, rgba(201, 169, 97, 0.12), rgba(201, 169, 97, 0.03)); border: 1px solid var(--border-light); border-radius: 16px; padding: 22px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+.admin-avatar { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
 .admin-info { flex: 1; }
-
-.admin-info h1 {
-  font-family: 'Amiri', serif;
-  font-size: 1.4rem;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.admin-info p {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-}
-
-.admin-badge {
-  display: inline-block;
-  background: var(--gold);
-  color: var(--obsidian);
-  padding: 3px 12px;
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  margin-top: 6px;
-}
+.admin-info h1 { font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--text-primary); margin-bottom: 4px; }
+.admin-info p { color: var(--text-secondary); font-size: 0.85rem; }
+.admin-badge { display: inline-block; background: var(--gold); color: var(--obsidian); padding: 3px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; margin-top: 6px; }
 
 /* Stats */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.stat-card {
-  background: var(--obsidian-2);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 14px;
-  text-align: center;
-}
-
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.stat-card { background: var(--obsidian-2); border: 1px solid var(--border); border-radius: 14px; padding: 18px 14px; text-align: center; }
 .stat-icon { font-size: 1.6rem; margin-bottom: 6px; }
+.stat-value { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.stat-label { color: var(--text-secondary); font-size: 0.75rem; }
 
-.stat-value {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.7rem;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-}
+/* Main Navigation Tabs */
+.main-nav { display: flex; gap: 10px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.main-nav-btn { background: transparent; border: none; color: var(--text-secondary); font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; padding: 10px 20px; transition: all 0.3s; position: relative; }
+.main-nav-btn.active { color: var(--gold); }
+.main-nav-btn.active::after { content: ''; position: absolute; bottom: -11px; left: 0; right: 0; height: 3px; background: var(--gold); border-radius: 3px 3px 0 0; }
 
 /* Filter Tabs */
-.filter-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  overflow-x: auto;
-  padding-bottom: 6px;
-  scrollbar-width: none;
-}
-
+.filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
 .filter-tabs::-webkit-scrollbar { display: none; }
+.filter-tab { background: var(--obsidian-2); border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 18px; border-radius: 10px; cursor: pointer; font-family: 'Tajawal', sans-serif; font-size: 0.85rem; font-weight: 500; transition: all 0.3s; white-space: nowrap; }
+.filter-tab.active { background: var(--gold); color: var(--obsidian); border-color: var(--gold); font-weight: 700; }
 
-.filter-tab {
-  background: var(--obsidian-2);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  padding: 10px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: all 0.3s;
-  white-space: nowrap;
-}
+/* Cards (Reports & Moderation) */
+.reports-list { display: flex; flex-direction: column; gap: 14px; }
+.report-card { background: var(--obsidian-2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: border 0.3s; }
+.report-card:hover { border-color: var(--border-light); }
+.report-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.report-reason { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 50px; font-size: 0.78rem; color: #fca5a5; font-weight: 600; }
+.report-status { padding: 5px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; }
+.status-pending { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+.status-reviewed { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+.status-dismissed { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid rgba(107, 114, 128, 0.3); }
+.status-suspended { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+.report-date { color: var(--text-muted); font-size: 0.72rem; }
 
-.filter-tab.active {
-  background: var(--gold);
-  color: var(--obsidian);
-  border-color: var(--gold);
-  font-weight: 700;
-}
+.report-comment-box { background: var(--obsidian-3); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; }
+.report-comment-label { color: var(--text-muted); font-size: 0.7rem; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.report-comment-author { color: var(--gold); font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.report-comment-content { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+.report-meta { display: flex; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-muted); }
 
-/* Reports List */
-.reports-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.report-card {
-  background: var(--obsidian-2);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  transition: border 0.3s;
-}
-
-.report-card:hover {
-  border-color: var(--border-light);
-}
-
-.report-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-
-.report-reason {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 50px;
-  font-size: 0.78rem;
-  color: #fca5a5;
-  font-weight: 600;
-}
-
-.report-status {
-  padding: 5px 12px;
-  border-radius: 50px;
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.status-pending {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fcd34d;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.status-reviewed {
-  background: rgba(34, 197, 94, 0.15);
-  color: #86efac;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-.status-dismissed {
-  background: rgba(107, 114, 128, 0.15);
-  color: #9ca3af;
-  border: 1px solid rgba(107, 114, 128, 0.3);
-}
-
-.report-date {
-  color: var(--text-muted);
-  font-size: 0.72rem;
-}
-
-.report-comment-box {
-  background: var(--obsidian-3);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 14px;
-}
-
-.report-comment-label {
-  color: var(--text-muted);
-  font-size: 0.7rem;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.report-comment-author {
-  color: var(--gold);
-  font-size: 0.82rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.report-comment-content {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-
-.report-meta {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.report-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.btn-report-action {
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s;
-  border: 1px solid;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.btn-report-action:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-delete-comment {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
-}
-
-.btn-delete-comment:hover:not(:disabled) {
-  background: rgba(239, 68, 68, 0.2);
-  color: #fff;
-}
-
-.btn-mark-reviewed {
-  background: rgba(34, 197, 94, 0.1);
-  border-color: rgba(34, 197, 94, 0.4);
-  color: #86efac;
-}
-
-.btn-mark-reviewed:hover:not(:disabled) {
-  background: rgba(34, 197, 94, 0.2);
-  color: #fff;
-}
-
-.btn-dismiss {
-  background: transparent;
-  border-color: var(--border-light);
-  color: var(--text-secondary);
-}
-
-.btn-dismiss:hover:not(:disabled) {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-.btn-view-item {
-  background: transparent;
-  border-color: var(--border-light);
-  color: var(--text-secondary);
-  text-decoration: none;
-}
-
-.btn-view-item:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
+.report-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-report-action { padding: 8px 16px; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.25s; border: 1px solid; display: inline-flex; align-items: center; gap: 6px; }
+.btn-report-action:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-delete-comment { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
+.btn-delete-comment:hover:not(:disabled) { background: rgba(239, 68, 68, 0.2); color: #fff; }
+.btn-mark-reviewed { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.4); color: #86efac; }
+.btn-mark-reviewed:hover:not(:disabled) { background: rgba(34, 197, 94, 0.2); color: #fff; }
+.btn-dismiss { background: transparent; border-color: var(--border-light); color: var(--text-secondary); }
+.btn-dismiss:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+.btn-view-item { background: transparent; border-color: var(--border-light); color: var(--text-secondary); text-decoration: none; }
+.btn-view-item:hover { border-color: var(--gold); color: var(--gold); }
 
 /* States */
-.state-message {
-  text-align: center;
-  padding: 60px 20px;
-}
+.state-message { text-align: center; padding: 60px 20px; }
+.state-icon { font-size: 3.5rem; opacity: 0.4; margin-bottom: 16px; }
+.state-title { font-family: 'Amiri', serif; font-size: 1.3rem; color: var(--text-primary); margin-bottom: 10px; }
+.state-desc { color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
+.state-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--gold); color: var(--obsidian); border-radius: 10px; text-decoration: none; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.9rem; transition: all 0.25s; }
+.state-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
 
-.state-icon {
-  font-size: 3.5rem;
-  opacity: 0.4;
-  margin-bottom: 16px;
-}
-
-.state-title {
-  font-family: 'Amiri', serif;
-  font-size: 1.3rem;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.state-desc {
-  color: var(--text-secondary);
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-.state-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: var(--gold);
-  color: var(--obsidian);
-  border-radius: 10px;
-  text-decoration: none;
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: all 0.25s;
-}
-
-.state-btn:hover {
-  background: var(--gold-light);
-  transform: translateY(-2px);
-}
-
-/* Mobile */
 @media (max-width: 600px) {
   .admin-page { padding: 70px 12px 30px; }
   .admin-header { flex-direction: column; text-align: center; padding: 18px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .report-actions { flex-direction: column; }
   .btn-report-action { justify-content: center; width: 100%; }
+  .main-nav { justify-content: center; }
 }
 </style>
 <link rel="icon" href="/icon-192.png">
@@ -413,43 +129,63 @@
         <a href="/" class="state-btn" style="background: transparent; border: 1px solid var(--border-light); color: var(--text-secondary);">← الرئيسية</a>
       </div>
 
-      <!-- Stats -->
-      <div class="stats-grid">
+      <!-- Global Platform Stats -->
+      <h3 style="color: var(--text-secondary); margin-bottom: 10px; font-size: 0.9rem;">📊 إحصائيات المنصة والنمو</h3>
+      <div class="stats-grid" style="margin-bottom: 30px;">
         <div class="stat-card">
-          <div class="stat-icon">📋</div>
-          <div class="stat-value" id="statTotal">0</div>
-          <div class="stat-label">إجمالي الإبلاغات</div>
+          <div class="stat-icon">👥</div>
+          <div class="stat-value" id="statTotalUsers">0</div>
+          <div class="stat-label">إجمالي المسجلين</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">⏳</div>
-          <div class="stat-value" id="statPending">0</div>
-          <div class="stat-label">قيد المراجعة</div>
+          <div class="stat-icon">✨</div>
+          <div class="stat-value" id="statNewUsers">0</div>
+          <div class="stat-label">جديد (30 يوم)</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">✅</div>
-          <div class="stat-value" id="statReviewed">0</div>
-          <div class="stat-label">تمت المراجعة</div>
+          <div class="stat-icon">⛔</div>
+          <div class="stat-value" id="statSuspendedItems" style="color: #fca5a5;">0</div>
+          <div class="stat-label">محتوى معلق</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">🗑️</div>
-          <div class="stat-value" id="statDismissed">0</div>
-          <div class="stat-label">مرفوضة</div>
+          <div class="stat-icon">🚩</div>
+          <div class="stat-value" id="statPendingReports" style="color: #fcd34d;">0</div>
+          <div class="stat-label">بلاغات مفتوحة</div>
         </div>
       </div>
 
-      <!-- Filter Tabs -->
-      <div class="filter-tabs">
-        <button class="filter-tab active" data-status="all">📋 الكل</button>
-        <button class="filter-tab" data-status="pending">⏳ قيد المراجعة</button>
-        <button class="filter-tab" data-status="reviewed">✅ تمت المراجعة</button>
-        <button class="filter-tab" data-status="dismissed">🗑️ مرفوضة</button>
+      <!-- Main Navigation -->
+      <div class="main-nav">
+        <button class="main-nav-btn active" onclick="switchMainTab('moderation')">⛔ مراجعة المحتوى</button>
+        <button class="main-nav-btn" onclick="switchMainTab('reports')">🚩 الإبلاغات</button>
       </div>
 
-      <!-- Reports List -->
-      <div class="reports-list" id="reportsList">
-        <div class="state-message">
-          <div class="state-icon">⏳</div>
-          <div class="state-title">جارٍ تحميل الإبلاغات...</div>
+      <!-- SECTION: Moderation (Content Suspension) -->
+      <div id="moderationSection" style="display: block;">
+        <div class="reports-list" id="moderationList">
+          <div class="state-message">
+            <div class="state-icon">⏳</div>
+            <div class="state-title">جارٍ تحميل المحتوى المعلق...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Reports -->
+      <div id="reportsSection" style="display: none;">
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-status="all">📋 الكل</button>
+          <button class="filter-tab" data-status="pending">⏳ قيد المراجعة</button>
+          <button class="filter-tab" data-status="reviewed">✅ تمت المراجعة</button>
+          <button class="filter-tab" data-status="dismissed">🗑️ مرفوضة</button>
+        </div>
+
+        <!-- Reports List -->
+        <div class="reports-list" id="reportsList">
+          <div class="state-message">
+            <div class="state-icon">⏳</div>
+            <div class="state-title">جارٍ تحميل الإبلاغات...</div>
+          </div>
         </div>
       </div>
 
