@@ -138,7 +138,34 @@ async function logAuthEvent(data) {
   }
 }
 // ==========================================
-// كود استعادة كلمة المرور عبر تليجرام
+// 1. منطق التبويبات (Tabs)
+// ==========================================
+function switchResetTab(tabName) {
+    // إخفاء رسائل الخطأ
+    const msgDiv = document.getElementById('rpMsg');
+    msgDiv.className = 'rp-msg';
+    msgDiv.style.display = 'none';
+    msgDiv.textContent = '';
+
+    // تحديث شكل الأزرار
+    document.getElementById('tab-email').classList.remove('active');
+    document.getElementById('tab-telegram').classList.remove('active');
+    
+    // إخفاء وإظهار المحتوى
+    document.getElementById('email-flow').style.display = 'none';
+    document.getElementById('telegram-flow').style.display = 'none';
+
+    if (tabName === 'email') {
+        document.getElementById('tab-email').classList.add('active');
+        document.getElementById('email-flow').style.display = 'block';
+    } else if (tabName === 'telegram') {
+        document.getElementById('tab-telegram').classList.add('active');
+        document.getElementById('telegram-flow').style.display = 'block';
+    }
+}
+
+// ==========================================
+// 2. كود استعادة كلمة المرور عبر تليجرام
 // ==========================================
 const TG_RESET_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev";
 let tgResetSessionToken = "";
@@ -165,7 +192,7 @@ if (btnTgSend) {
         } catch (err) {
             alert('حدث خطأ في الاتصال بالخادم');
         } finally {
-            btnTgSend.textContent = 'إرسال الكود عبر تليجرام';
+            btnTgSend.textContent = 'إرسال الكود عبر البوت';
             btnTgSend.disabled = false;
         }
     });
