@@ -1084,3 +1084,58 @@ function buildAlertHtml(type, item) {
         </div>
     `;
 }
+// ==========================================
+// كود ربط تليجرام - CapKit
+// ==========================================
+const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"; 
+
+async function checkTelegramStatus() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data: profile } = await supabase.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
+    
+    const unlinkedView = document.getElementById('telegram-unlinked-view');
+    const linkedView = document.getElementById('telegram-linked-view');
+    const tgUsername = document.getElementById('tg-username');
+
+    if (profile && profile.telegram_chat_id) {
+        if(unlinkedView) unlinkedView.style.display = 'none';
+        if(linkedView) linkedView.style.display = 'block';
+        if(tgUsername) tgUsername.textContent = profile.telegram_username ? `@${profile.telegram_username}` : profile.telegram_chat_id;
+    } else {
+        if(unlinkedView) unlinkedView.style.display = 'block';
+        if(linkedView) linkedView.style.display = 'none';
+    }
+}
+
+checkTelegramStatus();
+
+const btnLink = document.getElementById('btn-link-telegram');
+if (btnLink) {
+    btnLink.addEventListener('click', async () => {
+        try {
+            btnLink.textContent = 'جاري التحضير...';
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            const response = await fetch(`${TG_WORKER_URL}/api/telegram/link-token`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${session.access_token}` }
+            });
+            const data = await response.json();
+            
+            if (data.token) {
+                // فتح بوت التليجرام بالتوكن
+                window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
+                btnLink.textContent = '🔗 ربط الحساب الآن';
+            } else {
+                alert('حدث خطأ. يرجى المحاولة لاحقاً.');
+                btnLink.textContent = '🔗 ربط الحساب الآن';
+            }
+        } catch (err) {
+            console.error(err);
+            btnLink.textContent = '🔗 ربط الحساب الآن';
+            alert('حدث خطأ في الاتصال.');
+        }
+    });
+}
