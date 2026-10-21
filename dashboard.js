@@ -1133,7 +1133,6 @@ if (btnLink) {
             btnLink.textContent = 'جاري التحضير...';
             btnLink.disabled = true;
 
-            // استخدام supabaseClient هنا أيضاً
             const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
             
             if (sessionError || !session) {
@@ -1152,7 +1151,8 @@ if (btnLink) {
             if (response.ok && data.token) {
                 window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
             } else {
-                alert(`خطأ: ${data.error || data.details || 'غير معروف'}`);
+                // إظهار تفاصيل الخطأ الحقيقية
+                alert(`خطأ: ${data.details || data.error || 'غير معروف'}`);
             }
         } catch (err) {
             console.error("Fetch Error:", err);
