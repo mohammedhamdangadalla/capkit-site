@@ -1085,27 +1085,39 @@ function buildAlertHtml(type, item) {
     `;
 }
 // ==========================================
-// كود ربط تليجرام - CapKit
+// كود ربط تليجرام - CapKit (محدث لمعالجة الأخطاء)
 // ==========================================
 const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"; 
 
+// التأكد من اسم متغير العميل (سواء كان supabase أو supabaseClient أو db)
+const dbClient = window.supabase || window.supabaseClient || window.db;
+
 async function checkTelegramStatus() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!dbClient) {
+        console.error("لم يتم العثور على عميل Supabase. تأكد من تحميل supabase-config.js");
+        return;
+    }
 
-    const { data: profile } = await supabase.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
-    
-    const unlinkedView = document.getElementById('telegram-unlinked-view');
-    const linkedView = document.getElementById('telegram-linked-view');
-    const tgUsername = document.getElementById('tg-username');
+    try {
+        const { data: { user }, error: userError } = await dbClient.auth.getUser();
+        if (userError || !user) return;
 
-    if (profile && profile.telegram_chat_id) {
-        if(unlinkedView) unlinkedView.style.display = 'none';
-        if(linkedView) linkedView.style.display = 'block';
-        if(tgUsername) tgUsername.textContent = profile.telegram_username ? `@${profile.telegram_username}` : profile.telegram_chat_id;
-    } else {
-        if(unlinkedView) unlinkedView.style.display = 'block';
-        if(linkedView) linkedView.style.display = 'none';
+        const { data: profile } = await dbClient.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
+        
+        const unlinkedView = document.getElementById('telegram-unlinked-view');
+        const linkedView = document.getElementById('telegram-linked-view');
+        const tgUsername = document.getElementById('tg-username');
+
+        if (profile && profile.telegram_chat_id) {
+            if(unlinkedView) unlinkedView.style.display = 'none';
+            if(linkedView) linkedView.style.display = 'block';
+            if(tgUsername) tgUsername.textContent = profile.telegram_username ? `@${profile.telegram_username}` : profile.telegram_chat_id;
+        } else {
+            if(unlinkedView) unlinkedView.style.display = 'block';
+            if(linkedView) linkedView.style.display = 'none';
+        }
+    } catch (err) {
+        console.error("Error checking telegram status:", err);
     }
 }
 
@@ -1114,12 +1126,16 @@ checkTelegramStatus();
 const btnLink = document.getElementById('btn-link-telegram');
 if (btnLink) {
     btnLink.addEventListener('click', async () => {
+        if (!dbClient) {
+            alert('خطأ في تحميل النظام. يرجى تحديث الصفحة.');
+            return;
+        }
+
         try {
             btnLink.textContent = 'جاري التحضير...';
-            btnLink.disabled = true; // تعطيل الزر لمنع الضغط المتكرر
+            btnLink.disabled = true;
 
-            // جلب الجلسة
-            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+            const { data: { session }, error: sessionError } = await dbClient.auth.getSession();
             
             if (sessionError || !session) {
                 alert('انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.');
@@ -1135,10 +1151,8 @@ if (btnLink) {
             const data = await response.json();
             
             if (response.ok && data.token) {
-                // فتح بوت التليجرام بالتوكن
                 window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
             } else {
-                // إظهار الخطأ الحقيقي القادم من الـ Worker
                 alert(`خطأ: ${data.error || data.details || 'غير معروف'}`);
             }
         } catch (err) {
@@ -1148,5 +1162,7 @@ if (btnLink) {
             btnLink.textContent = '🔗 ربط الحساب الآن';
             btnLink.disabled = false;
         }
+    });
+}
     });
 }
