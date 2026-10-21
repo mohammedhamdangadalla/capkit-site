@@ -986,3 +986,71 @@ if (document.readyState === 'loading') {
 } else {
   initDashboard();
 }
+// ═══════════════════════════════════════════════════════════
+// ═══ نظام تنبيهات المحتوى المعلق للبائع (Moderation Alerts) ═══
+// ═══════════════════════════════════════════════════════════
+
+async function loadSellerAlerts() {
+    if (!window.supabaseClient) return;
+
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session?.user) return;
+
+    const container = document.getElementById('sellerAlertsContainer');
+    if (!container) return;
+
+    try {
+        // 1. جلب المنتجات المعلقة أو التي تحتاج مراجعة للبائع
+        const { data: products } = await window.supabaseClient
+            .from('products')
+            .select('id, title, moderation_status, suspension_reason, recommendation')
+            .eq('seller_id', session.user.id)
+            .in('moderation_status', ['suspended', 'pending_review']);
+
+        let alertsHtml = '';
+
+        // 2. بناء التنبيهات
+        if (products && products.length > 0) {
+            products.forEach(prod => {
+                const isSuspended = prod.moderation_status === 'suspended';
+                const statusText = isSuspended ? '⛔ تم تعليق المنتج' : '⏳ المنتج قيد المراجعة';
+                const color = isSuspended ? '#ef4444' : '#f59e0b';
+                const bgColor = isSuspended ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)';
+                
+                alertsHtml += `
+                    <div style="background: ${bgColor}; border: 1px solid ${color}; border-radius: 10px; padding: 15px; margin-bottom: 10px; direction: rtl; text-align: right;">
+                        <div style="color: ${color}; font-weight: bold; margin-bottom: 8px; font-size: 1.1rem;">
+                            ${statusText}: ${prod.title}
+                        </div>
+                        ${prod.suspension_reason ? `
+                        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px;">
+                            <strong>السبب:</strong> ${prod.suspension_reason}
+                        </div>` : ''}
+                        
+                        ${prod.recommendation ? `
+                        <div style="color: #86efac; font-size: 0.9rem; margin-bottom: 12px; background: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 6px;">
+                            <strong>💡 توصية للتحسين:</strong> ${prod.recommendation}
+                        </div>` : ''}
+                        
+                        <a href="product-edit.html?id=${prod.id}" style="display: inline-block; background: var(--gold); color: var(--obsidian); padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.85rem;">تعديل المنتج وإعادة إرساله</a>
+                    </div>
+                `;
+            });
+        }
+
+        // 3. عرض التنبيهات إذا وجدت
+        if (alertsHtml) {
+            container.innerHTML = alertsHtml;
+            container.style.display = 'block';
+        }
+
+    } catch (err) {
+        console.error('Error loading seller alerts:', err);
+    }
+}
+
+// تشغيل الدالة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    // تأخير بسيط للتأكد من تحميل الـ Supabase Client
+    setTimeout(loadSellerAlerts, 500); 
+});
