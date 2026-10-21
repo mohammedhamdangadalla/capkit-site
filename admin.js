@@ -158,6 +158,9 @@ function renderModerationCard(item) {
       <button class="btn-report-action btn-delete-comment" onclick="suspendContent('${item.content_type}', '${item.id}')">
         ⛔ تعليق / تعديل السبب
       </button>
+      <button class="btn-report-action btn-delete-comment" onclick="deleteContentPermanently('${item.content_type}', '${item.id}')">
+  🗑️ حذف نهائي
+</button>
     </div>
   `;
   return card;
@@ -192,6 +195,34 @@ window.suspendContent = async function(type, id) {
     alert('⛔ تم تعليق المحتوى بنجاح');
     await initAdmin(); // Refresh everything
   } catch (err) { alert('❌ خطأ: ' + err.message); }
+  // ═══ دالة الحذف النهائي للمحتوى ═══
+window.deleteContentPermanently = async function(type, id) {
+  if (!confirm('⚠️ هل أنت متأكد من الحذف النهائي؟ لا يمكن التراجع عن هذه الخطوة!')) return;
+  
+  // تحديد اسم الجدول بناءً على نوع المحتوى
+  const table = type === 'product' ? 'products' : 
+                (type === 'service' ? 'services' : 
+                (type === 'workshop' ? 'workshops' : 'freelancers'));
+  
+  try {
+    // تنفيذ أمر الحذف في قاعدة البيانات
+    const { error } = await window.supabaseClient
+      .from(table)
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    
+    alert('🗑️ تم حذف المحتوى نهائياً بنجاح');
+    
+    // إعادة تحميل لوحة التحكم لتحديث القائمة والإحصائيات
+    await initAdmin(); 
+    
+  } catch (err) {
+    console.error('Delete Error:', err);
+    alert('❌ فشل الحذف: ' + err.message);
+  }
+};
 };
 
 // ═══ Main Tabs Switcher ═══
