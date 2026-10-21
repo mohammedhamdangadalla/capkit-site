@@ -1116,26 +1116,37 @@ if (btnLink) {
     btnLink.addEventListener('click', async () => {
         try {
             btnLink.textContent = 'جاري التحضير...';
-            const { data: { session } } = await supabase.auth.getSession();
+            btnLink.disabled = true; // تعطيل الزر لمنع الضغط المتكرر
+
+            // جلب الجلسة
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+            
+            if (sessionError || !session) {
+                alert('انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.');
+                window.location.href = 'auth.html';
+                return;
+            }
             
             const response = await fetch(`${TG_WORKER_URL}/api/telegram/link-token`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${session.access_token}` }
             });
+            
             const data = await response.json();
             
-            if (data.token) {
+            if (response.ok && data.token) {
                 // فتح بوت التليجرام بالتوكن
                 window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
-                btnLink.textContent = '🔗 ربط الحساب الآن';
             } else {
-                alert('حدث خطأ. يرجى المحاولة لاحقاً.');
-                btnLink.textContent = '🔗 ربط الحساب الآن';
+                // إظهار الخطأ الحقيقي القادم من الـ Worker
+                alert(`خطأ: ${data.error || data.details || 'غير معروف'}`);
             }
         } catch (err) {
-            console.error(err);
+            console.error("Fetch Error:", err);
+            alert('حدث خطأ في الاتصال بالخادم. تأكد من اتصالك بالإنترنت.');
+        } finally {
             btnLink.textContent = '🔗 ربط الحساب الآن';
-            alert('حدث خطأ في الاتصال.');
+            btnLink.disabled = false;
         }
     });
 }
