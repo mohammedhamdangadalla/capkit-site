@@ -1085,24 +1085,22 @@ function buildAlertHtml(type, item) {
     `;
 }
 // ==========================================
-// كود ربط تليجرام - CapKit (محدث لمعالجة الأخطاء)
+// كود ربط تليجرام - CapKit (النسخة النهائية)
 // ==========================================
 const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"; 
 
-// التأكد من اسم متغير العميل (سواء كان supabase أو supabaseClient أو db)
-const dbClient = window.supabase || window.supabaseClient || window.db;
-
 async function checkTelegramStatus() {
-    if (!dbClient) {
-        console.error("لم يتم العثور على عميل Supabase. تأكد من تحميل supabase-config.js");
+    // استخدام الاسم الصحيح للمتغير من ملف الإعدادات
+    if (typeof supabaseClient === 'undefined') {
+        console.error("Supabase client is not defined. Check supabase-config.js");
         return;
     }
 
     try {
-        const { data: { user }, error: userError } = await dbClient.auth.getUser();
+        const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
         if (userError || !user) return;
 
-        const { data: profile } = await dbClient.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
+        const { data: profile } = await supabaseClient.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
         
         const unlinkedView = document.getElementById('telegram-unlinked-view');
         const linkedView = document.getElementById('telegram-linked-view');
@@ -1126,7 +1124,7 @@ checkTelegramStatus();
 const btnLink = document.getElementById('btn-link-telegram');
 if (btnLink) {
     btnLink.addEventListener('click', async () => {
-        if (!dbClient) {
+        if (typeof supabaseClient === 'undefined') {
             alert('خطأ في تحميل النظام. يرجى تحديث الصفحة.');
             return;
         }
@@ -1135,7 +1133,8 @@ if (btnLink) {
             btnLink.textContent = 'جاري التحضير...';
             btnLink.disabled = true;
 
-            const { data: { session }, error: sessionError } = await dbClient.auth.getSession();
+            // استخدام supabaseClient هنا أيضاً
+            const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
             
             if (sessionError || !session) {
                 alert('انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.');
