@@ -106,6 +106,13 @@
 
           <h1 class="product-title-main" id="productTitle">—</h1>
 
+          <!-- ✅ زر الأدمن لتعليق المنتج (مخفي افتراضياً) -->
+          <div id="adminSuspendContainer" style="display: none; margin: 5px 0;">
+              <button id="btnSuspendProduct" style="background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid #ef4444; padding: 10px 20px; border-radius: 8px; font-family: 'Tajawal', sans-serif; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                  ⛔ تعليق هذا المنتج (للمشرفين)
+              </button>
+          </div>
+
           <div class="product-price-main" id="productPrice">
             <span>0</span>
             <small>EGP</small>
@@ -124,7 +131,6 @@
           </div>
 
           <div class="product-actions-main">
-            <!-- زر الواتساب (سيتم تغيير شكله برمجياً للزوار) -->
             <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
               <span>💬</span>
               <span>اطلب عبر واتساب</span>
