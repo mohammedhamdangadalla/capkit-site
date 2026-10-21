@@ -4,7 +4,7 @@ let currentProduct = null;
 let currentSeller = null;
 let currentImages = [];
 let activeImageIndex = 0;
-let isGuest = true; // متغير جديد لمعرفة حالة الزائر
+let isGuest = true;
 
 // ═══ Init ═══
 async function initProduct() {
@@ -45,16 +45,63 @@ async function initProduct() {
     renderProduct();
     showContent();
 
+    // تشغيل فحص زر الأدمن
+    await initAdminSuspendButton(productId);
+
   } catch (err) {
     console.error(err);
     showNotFound();
   }
 }
 
+// ═══ Admin Suspend Button Logic ═══
+async function initAdminSuspendButton(productId) {
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session?.user) return;
+
+    const { data: profile } = await window.supabaseClient
+        .from('profiles')
+        .select('role')
+        .eq('id', session.user.id)
+        .single();
+
+    if (profile?.role === 'admin') {
+        const container = document.getElementById('adminSuspendContainer');
+        if (container) {
+            container.style.display = 'block';
+            
+            const btn = document.getElementById('btnSuspendProduct');
+            btn.addEventListener('click', async () => {
+                const reason = prompt('اكتب سبب التعليق (سيظهر للبائع):');
+                if (!reason) return;
+                const rec = prompt('اكتب توصية للتحسين (اختياري):');
+
+                btn.disabled = true;
+                btn.textContent = 'جاري التعليق...';
+
+                const { error } = await window.supabaseClient.rpc('suspend_content', {
+                    p_content_type: 'product',
+                    p_content_id: productId,
+                    p_reason: reason,
+                    p_recommendation: rec || null
+                });
+
+                if (error) {
+                    alert('❌ خطأ: ' + error.message);
+                    btn.disabled = false;
+                    btn.textContent = '⛔ تعليق هذا المنتج (للمشرفين)';
+                } else {
+                    alert('✅ تم تعليق المنتج بنجاح. سيختفي من الموقع الآن.');
+                    window.location.href = '/'; 
+                }
+            });
+        }
+    }
+}
+
 // ═══ Load Seller ═══
 async function loadSeller(product) {
   try {
-    // بائع حر
     if (product.seller_id) {
       const { data: profile } = await window.supabaseClient
         .from('profiles')
@@ -75,7 +122,6 @@ async function loadSeller(product) {
       }
     }
 
-    // ورشة
     if (product.workshop_id) {
       const { data: workshop } = await window.supabaseClient
         .from('workshops')
@@ -94,11 +140,7 @@ async function loadSeller(product) {
       }
     }
 
-    currentSeller = {
-      name: 'بائع',
-      type: 'individual',
-      id: product.seller_id
-    };
+    currentSeller = { name: 'بائع', type: 'individual', id: product.seller_id };
 
   } catch (err) {
     console.warn('Seller fetch error:', err);
@@ -115,8 +157,7 @@ function renderProduct() {
   const priceEl = document.getElementById('productPrice');
   priceEl.innerHTML = `<span>${p.price || 0}</span><small>${p.currency || 'EGP'}</small>`;
 
-  document.getElementById('productDescription').textContent = 
-    p.description || 'لا يوجد وصف';
+  document.getElementById('productDescription').textContent = p.description || 'لا يوجد وصف';
 
   renderBadges();
   renderGallery();
@@ -125,9 +166,8 @@ function renderProduct() {
   
   document.title = `${p.title || 'المنتج'} — CapKit Co.`;
   
-  // ✨ إضافة زر الإعجاب
   renderProductLike(p.id);
-    // ✨ ربط زر المشاركة
+  
   setTimeout(() => {
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {
@@ -135,18 +175,17 @@ function renderProduct() {
     }
   }, 100);
 
-  // ✨ Open Graph Meta Tags
   updateOpenGraph({
     title: p.title || 'منتج',
     description: p.description?.substring(0, 160) || 'منتج من CapKit Co.',
     image: p.images?.[0] || 'https://capkitco.com/icon-512.png',
     url: `https://capkitco.com/product?id=${p.id}`
   });
-    // ✨ تحميل التعليقات
+    
   initComments('product', p.id);
-  // ✨ تحميل التقييمات
   initRating('product', p.id);
 }
+
 // ═══ Badges ═══
 function renderBadges() {
   const p = currentProduct;
@@ -226,13 +265,9 @@ function renderSeller() {
 
   const box = document.getElementById('sellerBox');
   const icon = currentSeller.type === 'workshop' ? '🏭' : '👤';
-  const roleText = currentSeller.type === 'workshop' 
-    ? 'ورشة / شركة' 
-    : 'بائع حر';
+  const roleText = currentSeller.type === 'workshop' ? 'ورشة / شركة' : 'بائع حر';
 
-  const sellerLink = currentSeller.id 
-    ? `user?id=${currentSeller.id}` 
-    : '#';
+  const sellerLink = currentSeller.id ? `user?id=${currentSeller.id}` : '#';
 
   box.innerHTML = `
     <a href="${sellerLink}" class="seller-avatar" style="text-decoration:none;">${icon}</a>
@@ -247,12 +282,11 @@ function renderSeller() {
   `;
 }
 
-// ═══ WhatsApp (Updated for Guests) ═══
+// ═══ WhatsApp (Guests) ═══
 function renderWhatsApp() {
   const btn = document.getElementById('whatsappBtn');
   const p = currentProduct;
 
-  // إذا كان زائراً، أخفِ الرقم واطلب التسجيل
   if (isGuest) {
     btn.href = 'javascript:void(0)';
     btn.innerHTML = '<span>🔒</span><span>سجل دخول لرؤية رقم التواصل</span>';
@@ -269,14 +303,7 @@ function renderWhatsApp() {
   }
 
   const productUrl = `https://capkitco.com/product?id=${p.id}`;
-
-  const message = `مرحباً، أنا مهتم بالمنتج:
-
-${p.title}
-${p.price} ${p.currency}
-
-${productUrl}`;
-
+  const message = `مرحباً، أنا مهتم بالمنتج:\n\n${p.title}\n${p.price} ${p.currency}\n\n${productUrl}`;
   const encodedMsg = encodeURIComponent(message);
 
   if (phone) {
@@ -285,18 +312,6 @@ ${productUrl}`;
     btn.href = `https://wa.me/?text=${encodedMsg}`;
   }
 }
-
-// ═══ Copy Link ═══
-window.copyLink = function() {
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const btn = event.target.closest('button');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<span>✅</span><span>تم النسخ!</span>';
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-    }, 1500);
-  });
-};
 
 // ═══ Helpers ═══
 function showNotFound() {
@@ -324,37 +339,28 @@ if (document.readyState === 'loading') {
 } else {
   initProduct();
 }
-// ═══ Render Product Like ═══
+
 async function renderProductLike(productId) {
   const container = document.getElementById('likeContainer');
   if (!container) return;
-
   container.innerHTML = renderLikeButton('product', productId);
   await refreshLikeButton('product', productId);
 }
-// ═══ Update Open Graph Meta Tags ═══
+
 function updateOpenGraph({ title, description, image, url }) {
   const fullTitle = `${title} — CapKit Co.`;
-  
-  // OG
   const ogTitle = document.getElementById('ogTitle');
   const ogDesc = document.getElementById('ogDescription');
   const ogImage = document.getElementById('ogImage');
   const ogUrl = document.getElementById('ogUrl');
-  
   if (ogTitle) ogTitle.setAttribute('content', fullTitle);
   if (ogDesc) ogDesc.setAttribute('content', description);
   if (ogImage) ogImage.setAttribute('content', image);
   if (ogUrl) ogUrl.setAttribute('content', url);
-  
-  // Twitter
   const tTitle = document.getElementById('twitterTitle');
   const tDesc = document.getElementById('twitterDescription');
   const tImage = document.getElementById('twitterImage');
-  
   if (tTitle) tTitle.setAttribute('content', fullTitle);
   if (tDesc) tDesc.setAttribute('content', description);
   if (tImage) tImage.setAttribute('content', image);
-  
-  console.log('✅ Open Graph updated:', fullTitle);
 }
