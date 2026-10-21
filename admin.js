@@ -195,6 +195,7 @@ window.suspendContent = async function(type, id) {
     alert('⛔ تم تعليق المحتوى بنجاح');
     await initAdmin(); // Refresh everything
   } catch (err) { alert('❌ خطأ: ' + err.message); }
+  };
   // ═══ دالة الحذف النهائي للمحتوى ═══
 window.deleteContentPermanently = async function(type, id) {
   if (!confirm('⚠️ هل أنت متأكد من الحذف النهائي؟ لا يمكن التراجع عن هذه الخطوة!')) return;
@@ -222,7 +223,6 @@ window.deleteContentPermanently = async function(type, id) {
     console.error('Delete Error:', err);
     alert('❌ فشل الحذف: ' + err.message);
   }
-};
 };
 
 // ═══ Main Tabs Switcher ═══
