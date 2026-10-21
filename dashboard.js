@@ -493,7 +493,7 @@ console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
       stock: stock,
       images: imageUrls,
       seller_type: sellerType,
-      seller_id: currentUser.id,
+       seller_id: currentUser.id, 
       moderation_status: 'pending_review'
     };
 
@@ -801,7 +801,7 @@ window.saveService = async function() {
       currency: currency,
       negotiable: negotiable,
       service_type: type,
-      status: 'published'
+      status: 'published',
       moderation_status: 'pending_review' 
     };
 
