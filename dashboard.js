@@ -44,6 +44,7 @@ async function initDashboard() {
   await loadStats();
   await loadMyProducts();
   await loadMyServices();
+  await loadSellerAlerts();
   await handleUrlTab();
 
   document.getElementById('loadingScreen').style.display = 'none';
@@ -493,6 +494,7 @@ console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
       images: imageUrls,
       seller_type: sellerType,
       seller_id: currentUser.id
+      moderation_status: 'pending_review'
     };
 
     if (sellerType === 'workshop') {
@@ -800,6 +802,7 @@ window.saveService = async function() {
       negotiable: negotiable,
       service_type: type,
       status: 'published'
+      moderation_status: 'pending_review' 
     };
 
     let result;
