@@ -802,7 +802,7 @@ window.saveService = async function() {
       negotiable: negotiable,
       service_type: type,
       status: 'published',
-      moderation_status: 'pending_review' 
+      moderation_status: 'pending_review',
     };
 
     let result;
