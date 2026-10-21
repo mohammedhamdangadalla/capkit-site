@@ -493,7 +493,7 @@ console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
       stock: stock,
       images: imageUrls,
       seller_type: sellerType,
-      seller_id: currentUser.id
+      seller_id: currentUser.id,
       moderation_status: 'pending_review'
     };
 
