@@ -1085,13 +1085,12 @@ function buildAlertHtml(type, item) {
     `;
 }
 // ==========================================
-// كود ربط تليجرام - CapKit (نسخة التحديث التلقائي)
+// كود ربط وإلغاء ربط تليجرام - CapKit (النسخة النهائية الشاملة)
 // ==========================================
 const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"; 
-
-// متغير لحفظ حالة الفحص التلقائي
 let pollingInterval = null;
 
+// 1. دالة فحص حالة الربط
 async function checkTelegramStatus() {
     if (typeof supabaseClient === 'undefined') return false;
 
@@ -1124,6 +1123,7 @@ async function checkTelegramStatus() {
 // تشغيل الفحص أول مرة عند تحميل الصفحة
 checkTelegramStatus();
 
+// 2. زر "ربط الحساب الآن"
 const btnLink = document.getElementById('btn-link-telegram');
 if (btnLink) {
     btnLink.addEventListener('click', async () => {
@@ -1152,13 +1152,12 @@ if (btnLink) {
             const data = await response.json();
             
             if (response.ok && data.token) {
-                // فتح تليجرام
+                // فتح بوت التليجرام
                 window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
                 
-                // تغيير حالة الزر
                 btnLink.textContent = 'بانتظار الربط...';
                 
-                // بدء الفحص التلقائي كل 3 ثواني (لمدة دقيقتين كحد أقصى)
+                // بدء الفحص التلقائي كل 3 ثواني
                 let attempts = 0;
                 if(pollingInterval) clearInterval(pollingInterval);
                 
@@ -1166,14 +1165,12 @@ if (btnLink) {
                     attempts++;
                     const isLinked = await checkTelegramStatus();
                     
-                    // إذا تم الربط، أوقف الفحص وأعد الزر لحالته الطبيعية
                     if (isLinked) {
                         clearInterval(pollingInterval);
                         btnLink.textContent = '🔗 ربط الحساب الآن';
                         btnLink.disabled = false;
                     } 
-                    // إذا مرت دقيقتان ولم يتم الربط، أوقف الفحص
-                    else if (attempts >= 40) {
+                    else if (attempts >= 40) { // إيقاف الفحص بعد دقيقتين
                         clearInterval(pollingInterval);
                         btnLink.textContent = '🔗 ربط الحساب الآن';
                         btnLink.disabled = false;
@@ -1194,11 +1191,44 @@ if (btnLink) {
     });
 }
 
-// 🌟 الخدعة السحرية: عندما يعود المستخدم من تليجرام إلى المتصفح، يتم الفحص فوراً
+// 3. زر "إلغاء الربط"
+const btnUnlink = document.getElementById('btn-unlink-telegram');
+if (btnUnlink) {
+    btnUnlink.addEventListener('click', async () => {
+        if (!confirm('هل أنت متأكد من إلغاء ربط حسابك بتليجرام؟\nلن تتمكن من استعادة كلمة المرور عبره حتى تعيد الربط.')) return;
+
+        try {
+            btnUnlink.textContent = 'جاري الإلغاء...';
+            btnUnlink.disabled = true;
+
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            
+            const response = await fetch(`${TG_WORKER_URL}/api/telegram/unlink`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${session.access_token}` }
+            });
+            
+            if (response.ok) {
+                alert('✅ تم إلغاء الربط بنجاح');
+                window.location.reload(); // إعادة تحميل الصفحة لتحديث الواجهة
+            } else {
+                alert('حدث خطأ أثناء إلغاء الربط');
+                btnUnlink.textContent = '❌ إلغاء الربط';
+                btnUnlink.disabled = false;
+            }
+        } catch (err) {
+            console.error("Fetch Error:", err);
+            alert('حدث خطأ في الاتصال');
+            btnUnlink.textContent = '❌ إلغاء الربط';
+            btnUnlink.disabled = false;
+        }
+    });
+}
+
+// 4. 🌟 الخدعة السحرية: التحديث التلقائي عند العودة من تليجرام
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
         checkTelegramStatus().then(isLinked => {
-            // إذا كان مربوطاً، نوقف المؤقت ونعيد الزر لحالته
             if (isLinked && pollingInterval) {
                 clearInterval(pollingInterval);
                 if (btnLink) {
@@ -1208,4 +1238,5 @@ document.addEventListener('visibilitychange', () => {
             }
         });
     }
+
 });
