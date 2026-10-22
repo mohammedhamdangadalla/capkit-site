@@ -1085,20 +1085,19 @@ function buildAlertHtml(type, item) {
     `;
 }
 // ==========================================
-// كود ربط تليجرام - CapKit (النسخة النهائية)
+// كود ربط تليجرام - CapKit (نسخة التحديث التلقائي)
 // ==========================================
 const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"; 
 
+// متغير لحفظ حالة الفحص التلقائي
+let pollingInterval = null;
+
 async function checkTelegramStatus() {
-    // استخدام الاسم الصحيح للمتغير من ملف الإعدادات
-    if (typeof supabaseClient === 'undefined') {
-        console.error("Supabase client is not defined. Check supabase-config.js");
-        return;
-    }
+    if (typeof supabaseClient === 'undefined') return false;
 
     try {
         const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
-        if (userError || !user) return;
+        if (userError || !user) return false;
 
         const { data: profile } = await supabaseClient.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
         
@@ -1110,15 +1109,19 @@ async function checkTelegramStatus() {
             if(unlinkedView) unlinkedView.style.display = 'none';
             if(linkedView) linkedView.style.display = 'block';
             if(tgUsername) tgUsername.textContent = profile.telegram_username ? `@${profile.telegram_username}` : profile.telegram_chat_id;
+            return true; // الحساب مربوط
         } else {
             if(unlinkedView) unlinkedView.style.display = 'block';
             if(linkedView) linkedView.style.display = 'none';
+            return false; // الحساب غير مربوط
         }
     } catch (err) {
         console.error("Error checking telegram status:", err);
+        return false;
     }
 }
 
+// تشغيل الفحص أول مرة عند تحميل الصفحة
 checkTelegramStatus();
 
 const btnLink = document.getElementById('btn-link-telegram');
@@ -1149,17 +1152,60 @@ if (btnLink) {
             const data = await response.json();
             
             if (response.ok && data.token) {
+                // فتح تليجرام
                 window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
+                
+                // تغيير حالة الزر
+                btnLink.textContent = 'بانتظار الربط...';
+                
+                // بدء الفحص التلقائي كل 3 ثواني (لمدة دقيقتين كحد أقصى)
+                let attempts = 0;
+                if(pollingInterval) clearInterval(pollingInterval);
+                
+                pollingInterval = setInterval(async () => {
+                    attempts++;
+                    const isLinked = await checkTelegramStatus();
+                    
+                    // إذا تم الربط، أوقف الفحص وأعد الزر لحالته الطبيعية
+                    if (isLinked) {
+                        clearInterval(pollingInterval);
+                        btnLink.textContent = '🔗 ربط الحساب الآن';
+                        btnLink.disabled = false;
+                    } 
+                    // إذا مرت دقيقتان ولم يتم الربط، أوقف الفحص
+                    else if (attempts >= 40) {
+                        clearInterval(pollingInterval);
+                        btnLink.textContent = '🔗 ربط الحساب الآن';
+                        btnLink.disabled = false;
+                    }
+                }, 3000);
+
             } else {
-                // إظهار تفاصيل الخطأ الحقيقية
                 alert(`خطأ: ${data.details || data.error || 'غير معروف'}`);
+                btnLink.textContent = '🔗 ربط الحساب الآن';
+                btnLink.disabled = false;
             }
         } catch (err) {
             console.error("Fetch Error:", err);
             alert('حدث خطأ في الاتصال بالخادم. تأكد من اتصالك بالإنترنت.');
-        } finally {
             btnLink.textContent = '🔗 ربط الحساب الآن';
             btnLink.disabled = false;
         }
     });
 }
+
+// 🌟 الخدعة السحرية: عندما يعود المستخدم من تليجرام إلى المتصفح، يتم الفحص فوراً
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        checkTelegramStatus().then(isLinked => {
+            // إذا كان مربوطاً، نوقف المؤقت ونعيد الزر لحالته
+            if (isLinked && pollingInterval) {
+                clearInterval(pollingInterval);
+                if (btnLink) {
+                    btnLink.textContent = '🔗 ربط الحساب الآن';
+                    btnLink.disabled = false;
+                }
+            }
+        });
+    }
+});
