@@ -657,6 +657,113 @@
 .pwd-msg.error { display: block; background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
 .pwd-msg.success { display: block; background: rgba(34, 197, 94, 0.1); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3);
     }
+
+/* ═══ Orders & Chat UI (NEW) ═══ */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.order-card {
+  background: var(--obsidian-3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.order-card:hover {
+  border-color: var(--gold);
+}
+
+.order-info h4 {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.order-info p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.order-status {
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.status-pending { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+.status-accepted { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+.status-completed { background: rgba(201, 169, 97, 0.2); color: var(--gold); }
+.status-rejected { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+.order-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Chat Modal */
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--obsidian);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.msg-bubble {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.msg-sent {
+  align-self: flex-end;
+  background: var(--gold);
+  color: var(--obsidian);
+  border-bottom-right-radius: 2px;
+}
+
+.msg-received {
+  align-self: flex-start;
+  background: var(--obsidian-3);
+  color: var(--text-primary);
+  border-bottom-left-radius: 2px;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input-area input {
+  flex: 1;
+  background: var(--obsidian-3);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--text-primary);
+  outline: none;
+}
 </style>
   <link rel="icon" href="/icon-192.png">
 <link rel="shortcut icon" href="/icon-192.png">
@@ -823,17 +930,38 @@
   </div>
 </section>
 
-      <!-- Orders -->
+      <!-- Orders (NEW) -->
       <section class="dash-section" id="tab-orders">
         <h2>الطلبات</h2>
-        <p class="dash-section-desc">تابع طلبات العملاء</p>
+        <p class="dash-section-desc">تابع طلباتك ومحادثاتك</p>
         
-        <div class="empty-state">
-          <div class="empty-state-icon">📋</div>
-          <h3>لا توجد طلبات بعد</h3>
-          <p>لما يوصلك طلب، هيظهر هنا</p>
+        <div id="ordersContainer">
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <h3>لا توجد طلبات بعد</h3>
+            <p>عندما يصلك أو تقوم بإنشاء طلب، سيظهر هنا.</p>
+          </div>
         </div>
       </section>
+
+      <!-- ═══ Modal: Chat (NEW) ═══ -->
+      <div class="modal-overlay" id="chatModal">
+        <div class="modal-box" style="max-width: 600px; height: 80vh;">
+          <div class="modal-header">
+            <h2>💬 محادثة الطلب</h2>
+            <button class="modal-close" onclick="closeChatModal()">✕</button>
+          </div>
+          <div class="modal-body chat-box">
+            <div class="chat-messages" id="chatMessages">
+              <!-- Messages will load here -->
+            </div>
+            <div class="chat-input-area">
+              <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
+              <button class="btn-action" onclick="sendChatMessage()">إرسال</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
      <!-- Settings -->
 <section class="dash-section" id="tab-settings">
