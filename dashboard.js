@@ -338,9 +338,13 @@ document.querySelectorAll('.dash-tab').forEach(tab => {
   });
 });
 
+// ═══ 🔧 تعديل: يفتح تبويب الطلبات تلقائياً إذا كان ?order=xxx موجوداً ═══
 function handleUrlTab() {
   const params = new URLSearchParams(window.location.search);
-  const tab = params.get('tab');
+  let tab = params.get('tab');
+  // إذا كان هناك order=xxx بدون tab، نفتح تبويب الطلبات تلقائياً
+  if (!tab && params.get('order')) tab = 'orders';
+  
   if (tab) {
     const tabBtn = document.querySelector(`.dash-tab[data-tab="${tab}"]`);
     if (tabBtn) tabBtn.click();
@@ -374,11 +378,9 @@ window.closeProductModal = function() {
   if (el('pImages')) el('pImages').value = '';
   if (el('pStock')) el('pStock').value = '1';
 
-  // إعادة تعيين نوع البائع
   const sellerInput = document.querySelector('input[name="sellerType"][value="individual"]');
   if (sellerInput) sellerInput.checked = true;
 
-  // إعادة تعيين الزر
   const btn = document.getElementById('saveProductBtn');
   if (btn) {
     btn.textContent = '💾 حفظ المنتج';
@@ -425,10 +427,8 @@ window.saveProduct = async function() {
   hideModalMessage();
 
   try {
-        // ═══ رفع صور جديدة ═══
     let imageUrls = [];
 
-    // في التعديل: نجيب الصور القديمة
     if (editId) {
       const { data: oldProduct } = await window.supabaseClient
         .from('products')
@@ -439,17 +439,14 @@ window.saveProduct = async function() {
       imageUrls = oldProduct?.images || [];
     }
 
-    // ═══ رفع الصور الجديدة ═══
     if (imageInput.files && imageInput.files.length > 0) {
       const maxImages = navigator.userAgent.includes('Brave') ? 2 : 4;
-const files = Array.from(imageInput.files).slice(0, maxImages);
-console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
-      console.log('📤 Uploading', files.length, 'images...');
+      const files = Array.from(imageInput.files).slice(0, maxImages);
+      console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         
-        // ═══ تحقق من الحجم (2 MB) ═══
         if (file.size > 2 * 1024 * 1024) {
           console.warn('⚠️ Image too large, skipping:', file.name);
           continue;
@@ -465,7 +462,6 @@ console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
             upsert: false
           });
 
-        // ═══ لو فشلت صورة، نكمل بدونها ═══
         if (uploadError) {
           console.warn('⚠️ Upload failed, skipping:', uploadError.message);
           continue;
@@ -493,7 +489,7 @@ console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
       stock: stock,
       images: imageUrls,
       seller_type: sellerType,
-       seller_id: currentUser.id, 
+      seller_id: currentUser.id, 
       moderation_status: 'pending_review'
     };
 
@@ -502,7 +498,6 @@ console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
       productData.workshop_id = workshop.id;
     }
 
-    // ═══ INSERT أو UPDATE ═══
     let result;
     if (editId) {
       console.log('🔄 UPDATE:', editId);
@@ -544,6 +539,7 @@ console.log('📤 Uploading', files.length, 'images (max:', maxImages, ')...');
     btn.textContent = editId ? '💾 تحديث المنتج' : '💾 حفظ المنتج';
   }
 };
+
 // ═══════════════════════════════════════════════
 // SERVICE MODAL — Open/Close/Messages
 // ═══════════════════════════════════════════════
@@ -559,7 +555,6 @@ window.closeServiceModal = function() {
   const modal = document.getElementById('serviceModal');
   if (modal) modal.classList.remove('active');
 
-  // إعادة تعيين الحقول
   const el = (id) => document.getElementById(id);
   if (el('sName')) el('sName').value = '';
   if (el('sDescription')) el('sDescription').value = '';
@@ -656,7 +651,6 @@ async function loadMyServices() {
   container.appendChild(grid);
 }
 
-// ═══ Delete Service ═══
 window.deleteService = async function(id) {
   console.log('🗑️ Delete:', id);
 
@@ -682,7 +676,6 @@ window.deleteService = async function(id) {
   }
 };
 
-// ═══ Edit Service ═══
 window.editService = async function(id) {
   console.log('✏️ Edit:', id);
 
@@ -698,7 +691,6 @@ window.editService = async function(id) {
       return;
     }
 
-    // فتح الـ Modal
     document.getElementById('serviceModal').classList.add('active');
     hideServiceModalMessage();
     await ensureCategoriesLoaded();
@@ -740,7 +732,6 @@ window.editService = async function(id) {
   }
 };
 
-// ═══ Save / Update Service ═══
 window.saveService = async function() {
   const btn = document.getElementById('saveServiceBtn');
   const editId = btn.getAttribute('data-edit-id');
@@ -821,8 +812,6 @@ window.saveService = async function() {
         .select();
     }
 
-    console.log('Result:', result);
-
     if (result.error) throw new Error(result.error.message);
     if (!result.data || result.data.length === 0) throw new Error('لم يتم الحفظ');
 
@@ -845,6 +834,7 @@ window.saveService = async function() {
     btn.textContent = editId ? '💾 تحديث الخدمة' : '💾 حفظ الخدمة';
   }
 };
+
 // ═══ Delete Product ═══
 window.deleteProduct = async function(id) {
   console.log('🗑️ Delete product:', id);
@@ -886,7 +876,6 @@ window.editProduct = async function(id) {
       return;
     }
 
-    // فتح الـ Modal
     document.getElementById('productModal').classList.add('active');
     hideModalMessage();
     await ensureCategoriesLoaded();
@@ -900,7 +889,6 @@ window.editProduct = async function(id) {
       el('pCurrency').value = data.currency || 'EGP';
       el('pStock').value = data.stock || 1;
 
-      // التصنيف
       const catSelect = el('pCategory');
       if (catSelect && data.category_id) {
         const trySet = (n = 0) => {
@@ -911,13 +899,11 @@ window.editProduct = async function(id) {
         trySet();
       }
 
-      // نوع البائع
       if (data.seller_type) {
         const sellerInput = document.querySelector(`input[name="sellerType"][value="${data.seller_type}"]`);
         if (sellerInput) sellerInput.checked = true;
       }
 
-      // تحويل الزر
       const btn = document.getElementById('saveProductBtn');
       btn.textContent = '💾 تحديث المنتج';
       btn.setAttribute('data-edit-id', id);
@@ -989,6 +975,7 @@ if (document.readyState === 'loading') {
 } else {
   initDashboard();
 }
+
 // ═══════════════════════════════════════════════════════════
 // ═══ نظام تنبيهات المحتوى المعلق للبائع (Moderation Alerts) ═══
 // ═══════════════════════════════════════════════════════════
@@ -997,20 +984,17 @@ async function loadSellerAlerts() {
     const container = document.getElementById('sellerAlertsContainer');
     if (!container || !currentUser) return;
 
-    // تفريغ الحاوية في كل مرة يتم التحديث
     container.innerHTML = '';
     container.style.display = 'none';
     let alertsHtml = '';
 
     try {
-        // 1. جلب المنتجات المعلقة أو التي تحتاج مراجعة
         const { data: products } = await window.supabaseClient
             .from('products')
             .select('id, title, moderation_status, suspension_reason, recommendation')
             .eq('seller_id', currentUser.id)
             .in('moderation_status', ['suspended', 'pending_review']);
 
-        // 2. جلب الخدمات المعلقة أو التي تحتاج مراجعة
         let services = [];
         const { data: freelancer } = await window.supabaseClient
             .from('freelancers')
@@ -1027,21 +1011,18 @@ async function loadSellerAlerts() {
             services = srv || [];
         }
 
-        // 3. بناء التنبيهات للمنتجات
         if (products && products.length > 0) {
             products.forEach(prod => {
                 alertsHtml += buildAlertHtml('product', prod);
             });
         }
 
-        // 4. بناء التنبيهات للخدمات
         if (services.length > 0) {
             services.forEach(serv => {
                 alertsHtml += buildAlertHtml('service', serv);
             });
         }
 
-        // 5. عرض التنبيهات إذا وجدت
         if (alertsHtml) {
             container.innerHTML = alertsHtml;
             container.style.display = 'block';
@@ -1052,14 +1033,12 @@ async function loadSellerAlerts() {
     }
 }
 
-// دالة مساعدة لإنشاء شكل التنبيه (HTML)
 function buildAlertHtml(type, item) {
     const isSuspended = item.moderation_status === 'suspended';
     const statusText = isSuspended ? '⛔ تم تعليق المحتوى' : '⏳ المحتوى قيد المراجعة';
     const color = isSuspended ? '#ef4444' : '#f59e0b';
     const bgColor = isSuspended ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)';
     const typeLabel = type === 'product' ? 'المنتج' : 'الخدمة';
-    // استدعاء دالة التعديل المناسبة
     const editFunction = type === 'product' ? 'editProduct' : 'editService';
 
     return `
@@ -1084,13 +1063,13 @@ function buildAlertHtml(type, item) {
         </div>
     `;
 }
+
 // ==========================================
-// كود ربط وإلغاء ربط تليجرام - CapKit (النسخة النهائية الشاملة)
+// كود ربط وإلغاء ربط تليجرام - CapKit
 // ==========================================
 const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"; 
 let pollingInterval = null;
 
-// 1. دالة فحص حالة الربط
 async function checkTelegramStatus() {
     if (typeof supabaseClient === 'undefined') return false;
 
@@ -1108,11 +1087,11 @@ async function checkTelegramStatus() {
             if(unlinkedView) unlinkedView.style.display = 'none';
             if(linkedView) linkedView.style.display = 'block';
             if(tgUsername) tgUsername.textContent = profile.telegram_username ? `@${profile.telegram_username}` : profile.telegram_chat_id;
-            return true; // الحساب مربوط
+            return true;
         } else {
             if(unlinkedView) unlinkedView.style.display = 'block';
             if(linkedView) linkedView.style.display = 'none';
-            return false; // الحساب غير مربوط
+            return false;
         }
     } catch (err) {
         console.error("Error checking telegram status:", err);
@@ -1120,10 +1099,8 @@ async function checkTelegramStatus() {
     }
 }
 
-// تشغيل الفحص أول مرة عند تحميل الصفحة
 checkTelegramStatus();
 
-// 2. زر "ربط الحساب الآن"
 const btnLink = document.getElementById('btn-link-telegram');
 if (btnLink) {
     btnLink.addEventListener('click', async () => {
@@ -1152,12 +1129,10 @@ if (btnLink) {
             const data = await response.json();
             
             if (response.ok && data.token) {
-                // فتح بوت التليجرام
                 window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
                 
                 btnLink.textContent = 'بانتظار الربط...';
                 
-                // بدء الفحص التلقائي كل 3 ثواني
                 let attempts = 0;
                 if(pollingInterval) clearInterval(pollingInterval);
                 
@@ -1170,7 +1145,7 @@ if (btnLink) {
                         btnLink.textContent = '🔗 ربط الحساب الآن';
                         btnLink.disabled = false;
                     } 
-                    else if (attempts >= 40) { // إيقاف الفحص بعد دقيقتين
+                    else if (attempts >= 40) {
                         clearInterval(pollingInterval);
                         btnLink.textContent = '🔗 ربط الحساب الآن';
                         btnLink.disabled = false;
@@ -1191,7 +1166,6 @@ if (btnLink) {
     });
 }
 
-// 3. زر "إلغاء الربط"
 const btnUnlink = document.getElementById('btn-unlink-telegram');
 if (btnUnlink) {
     btnUnlink.addEventListener('click', async () => {
@@ -1210,7 +1184,7 @@ if (btnUnlink) {
             
             if (response.ok) {
                 alert('✅ تم إلغاء الربط بنجاح');
-                window.location.reload(); // إعادة تحميل الصفحة لتحديث الواجهة
+                window.location.reload();
             } else {
                 alert('حدث خطأ أثناء إلغاء الربط');
                 btnUnlink.textContent = '❌ إلغاء الربط';
@@ -1225,7 +1199,6 @@ if (btnUnlink) {
     });
 }
 
-// 4. 🌟 الخدعة السحرية: التحديث التلقائي عند العودة من تليجرام
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
         checkTelegramStatus().then(isLinked => {
@@ -1238,13 +1211,12 @@ document.addEventListener('visibilitychange', () => {
             }
         });
     }
-
 });
+
 // ═══════════════════════════════════════════════════════════
 // ═══ نظام الإعدادات (تغيير الدور + كلمة المرور) ═══
 // ═══════════════════════════════════════════════════════════
 
-// تحديث واجهة الأدوار
 function updateRoleUI() {
   document.querySelectorAll('.role-option').forEach(el => {
     el.classList.remove('active');
@@ -1254,7 +1226,6 @@ function updateRoleUI() {
   });
 }
 
-// تغيير الدور
 window.updateRole = async function(newRole) {
   if (currentProfile.role === newRole) return;
   
@@ -1269,8 +1240,8 @@ window.updateRole = async function(newRole) {
     if (error) throw error;
 
     currentProfile.role = newRole;
-    renderUserInfo(); // تحديث البادج والاسم
-    updateRoleUI();   // تحديث الأزرار
+    renderUserInfo();
+    updateRoleUI();
     
     alert('✅ تم تحديث نوع الحساب بنجاح! قد تحتاج لتحديث الصفحة لرؤية التغييرات في التبويبات.');
 
@@ -1280,7 +1251,6 @@ window.updateRole = async function(newRole) {
   }
 };
 
-// تغيير كلمة المرور
 window.changePassword = async function(e) {
   e.preventDefault();
   
@@ -1293,7 +1263,6 @@ window.changePassword = async function(e) {
   msg.className = 'pwd-msg';
   msg.textContent = '';
 
-  // 1. التحقق من تطابق كلمتي المرور
   if (newPwd !== confirmPwd) {
     msg.textContent = '⚠️ كلمتا المرور الجديدتان غير متطابقتين';
     msg.classList.add('error');
@@ -1304,7 +1273,6 @@ window.changePassword = async function(e) {
   btn.textContent = '⏳ جارٍ التحديث...';
 
   try {
-    // 2. التحقق من كلمة المرور الحالية (إن وجدت)
     if (currentPwd) {
       const { error: signInError } = await window.supabaseClient.auth.signInWithPassword({
         email: currentUser.email,
@@ -1315,7 +1283,6 @@ window.changePassword = async function(e) {
       }
     }
 
-    // 3. تحديث كلمة المرور
     const { error } = await window.supabaseClient.auth.updateUser({ password: newPwd });
     if (error) throw error;
 
@@ -1332,3 +1299,277 @@ window.changePassword = async function(e) {
     btn.textContent = '🔒 تحديث كلمة المرور';
   }
 };
+
+// ═══════════════════════════════════════════════════════════
+// ═══ 🆕 نظام الطلبات والمحادثة (Orders & Chat) ═══
+// ═══════════════════════════════════════════════════════════
+
+let currentChatOrderId = null;
+let chatSubscription = null;
+
+// ═══ تحميل الطلبات ═══
+async function loadOrders() {
+  const container = document.getElementById('ordersContainer');
+  if (!container) return;
+  if (!currentUser) {
+    console.warn('⚠️ loadOrders: currentUser not ready');
+    return;
+  }
+
+  console.log('📋 Loading orders for:', currentUser.id);
+
+  const { data: orders, error } = await window.supabaseClient
+    .from('orders')
+    .select(`
+      id, status, created_at, subtotal, buyer_id, vendor_id,
+      buyer:profiles!orders_buyer_id_fkey(full_name),
+      vendor:profiles!orders_vendor_id_fkey(full_name)
+    `)
+    .or(`buyer_id.eq.${currentUser.id},vendor_id.eq.${currentUser.id}`)
+    .neq('status', 'cart')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('❌ Error loading orders:', error);
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">⚠️</div>
+        <h3>تعذّر تحميل الطلبات</h3>
+        <p>${escapeHtml(error.message || 'حدث خطأ غير متوقع')}</p>
+      </div>`;
+    return;
+  }
+
+  if (!orders || orders.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📋</div>
+        <h3>لا توجد طلبات بعد</h3>
+        <p>عندما يصلك أو تقوم بإنشاء طلب، سيظهر هنا.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  const list = document.createElement('div');
+  list.className = 'orders-list';
+
+  orders.forEach(order => {
+    const isBuyer = order.buyer_id === currentUser.id;
+    const otherParty = isBuyer ? order.vendor?.full_name : order.buyer?.full_name;
+    const safeName = escapeHtml(otherParty || 'مستخدم');
+
+    // تنسيق الحالة
+    let statusText = order.status;
+    let statusClass = '';
+    if (order.status === 'pending')   { statusText = '⏳ قيد الانتظار'; statusClass = 'status-pending'; }
+    if (order.status === 'accepted')  { statusText = '✅ مقبول';        statusClass = 'status-accepted'; }
+    if (order.status === 'completed') { statusText = '🎉 مكتمل';        statusClass = 'status-completed'; }
+    if (order.status === 'rejected')  { statusText = '❌ مرفوض';         statusClass = 'status-rejected'; }
+
+    // بناء الكارت
+    const card = document.createElement('div');
+    card.className = 'order-card';
+    card.innerHTML = `
+      <div class="order-info">
+        <h4>طلب ${isBuyer ? 'إلى' : 'من'}: ${safeName}</h4>
+        <p>التاريخ: ${new Date(order.created_at).toLocaleDateString('ar-EG')}</p>
+        <div class="order-status-row" style="margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span class="order-status ${statusClass}">${statusText}</span>
+        </div>
+      </div>
+      <div class="order-actions">
+        <button class="btn-action btn-outline" data-action="chat" type="button">💬 محادثة</button>
+      </div>
+    `;
+
+    // زر المحادثة (event listener برمجي - آمن ضد XSS)
+    card.querySelector('[data-action="chat"]').addEventListener('click', () => {
+      openChatModal(order.id, otherParty || 'مستخدم');
+    });
+
+    // أزرار البائع (قبول/رفض) — فقط إذا كان الطلب معلقاً وكان المستخدم هو البائع
+    if (!isBuyer && order.status === 'pending') {
+      const statusRow = card.querySelector('.order-status-row');
+
+      const acceptBtn = document.createElement('button');
+      acceptBtn.className = 'btn-card-edit';
+      acceptBtn.type = 'button';
+      acceptBtn.textContent = '✅ قبول';
+      acceptBtn.addEventListener('click', () => updateOrderStatus(order.id, 'accepted'));
+
+      const rejectBtn = document.createElement('button');
+      rejectBtn.className = 'btn-card-delete';
+      rejectBtn.type = 'button';
+      rejectBtn.textContent = '❌ رفض';
+      rejectBtn.addEventListener('click', () => updateOrderStatus(order.id, 'rejected'));
+
+      statusRow.appendChild(acceptBtn);
+      statusRow.appendChild(rejectBtn);
+    }
+
+    list.appendChild(card);
+  });
+
+  container.appendChild(list);
+
+  // 🆕 فتح المحادثة تلقائياً إذا كان ?order=xxx موجوداً (مرة واحدة)
+  const orderParam = new URLSearchParams(window.location.search).get('order');
+  if (orderParam) {
+    const target = orders.find(o => o.id === orderParam);
+    if (target) {
+      const isBuyer = target.buyer_id === currentUser.id;
+      const otherParty = isBuyer ? target.vendor?.full_name : target.buyer?.full_name;
+      // إزالة الـ param من الـ URL حتى لا يُعاد الفتح في كل تحديث
+      const url = new URL(window.location);
+      url.searchParams.delete('order');
+      window.history.replaceState({}, '', url);
+      openChatModal(orderParam, otherParty || 'مستخدم');
+    }
+  }
+}
+
+// ═══ تحديث حالة الطلب (للبائع) ═══
+window.updateOrderStatus = async function(orderId, newStatus) {
+  const isAccepted = newStatus === 'accepted';
+  if (!confirm(`هل أنت متأكد من ${isAccepted ? 'قبول' : 'رفض'} هذا الطلب؟`)) return;
+
+  const { error } = await window.supabaseClient
+    .from('orders')
+    .update({ status: newStatus })
+    .eq('id', orderId);
+
+  if (error) {
+    alert('خطأ: ' + error.message);
+    return;
+  }
+  
+  alert('✅ تم تحديث الطلب بنجاح');
+  loadOrders();
+};
+
+// ═══ فتح نافذة الشات ═══
+window.openChatModal = async function(orderId, otherPartyName) {
+  currentChatOrderId = orderId;
+  document.getElementById('chatModal').classList.add('active');
+  document.querySelector('#chatModal .modal-header h2').textContent = `💬 محادثة مع ${otherPartyName}`;
+  
+  await loadChatMessages(orderId);
+  subscribeToChat(orderId);
+};
+
+window.closeChatModal = function() {
+  document.getElementById('chatModal').classList.remove('active');
+  currentChatOrderId = null;
+  if (chatSubscription) {
+    window.supabaseClient.removeChannel(chatSubscription);
+    chatSubscription = null;
+  }
+};
+
+// ═══ تحميل الرسائل ═══
+async function loadChatMessages(orderId) {
+  const container = document.getElementById('chatMessages');
+  if (!container) return;
+  container.innerHTML = '<p style="text-align:center;color:var(--text-muted);">جاري تحميل الرسائل...</p>';
+
+  const { data: messages, error } = await window.supabaseClient
+    .from('messages')
+    .select('*')
+    .eq('order_id', orderId)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    container.innerHTML = '<p style="color:#fca5a5;text-align:center;">خطأ في تحميل الرسائل</p>';
+    console.error('Chat load error:', error);
+    return;
+  }
+
+  container.innerHTML = '';
+  if (!messages || messages.length === 0) {
+    container.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:0.9rem;">لا توجد رسائل بعد. ابدأ المحادثة!</p>';
+  } else {
+    messages.forEach(msg => renderMessage(msg));
+  }
+  scrollToBottom();
+}
+
+function renderMessage(msg) {
+  const container = document.getElementById('chatMessages');
+  if (!container) return;
+  const isMe = msg.from_user_id === currentUser.id;
+  
+  const div = document.createElement('div');
+  div.className = `msg-bubble ${isMe ? 'msg-sent' : 'msg-received'}`;
+  div.textContent = msg.content;
+  container.appendChild(div);
+}
+
+function scrollToBottom() {
+  const container = document.getElementById('chatMessages');
+  if (container) container.scrollTop = container.scrollHeight;
+}
+
+// ═══ إرسال رسالة ═══
+window.sendChatMessage = async function() {
+  const input = document.getElementById('chatInput');
+  const content = input.value.trim();
+  if (!content || !currentChatOrderId) return;
+
+  input.disabled = true;
+  const originalValue = input.value;
+  input.value = '';
+
+  try {
+    // نحتاج لمعرفة من هو الطرف الآخر لإرسال الرسالة
+    const { data: order, error: orderErr } = await window.supabaseClient
+      .from('orders')
+      .select('buyer_id, vendor_id')
+      .eq('id', currentChatOrderId)
+      .single();
+
+    if (orderErr || !order) throw new Error('فشل تحديد الطرف الآخر');
+
+    const toUserId = order.buyer_id === currentUser.id ? order.vendor_id : order.buyer_id;
+
+    const { error } = await window.supabaseClient.from('messages').insert({
+      order_id: currentChatOrderId,
+      from_user_id: currentUser.id,
+      to_user_id: toUserId,
+      content: content
+    });
+
+    if (error) throw error;
+
+  } catch (err) {
+    input.value = originalValue; // استرجاع النص عند الفشل
+    alert('فشل إرسال الرسالة: ' + err.message);
+  } finally {
+    input.disabled = false;
+    input.focus();
+    scrollToBottom();
+  }
+};
+
+// ═══ الاستماع للرسائل الجديدة (Realtime) ═══
+function subscribeToChat(orderId) {
+  if (chatSubscription) window.supabaseClient.removeChannel(chatSubscription);
+
+  chatSubscription = window.supabaseClient
+    .channel(`chat-${orderId}`)
+    .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'messages',
+        filter: `order_id=eq.${orderId}`
+    }, payload => {
+        // تجاهل الرسائل التي أرسلتها أنا (لأنها ظاهرة بالفعل)
+        if (payload.new.from_user_id === currentUser.id) return;
+        renderMessage(payload.new);
+        scrollToBottom();
+    })
+    .subscribe();
+}
+
+// ═══ استدعاء تحميل الطلبات عند فتح التبويب ═══
+document.querySelector('[data-tab="orders"]')?.addEventListener('click', loadOrders);
