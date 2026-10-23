@@ -126,6 +126,12 @@
           </div>
 
           <div class="service-actions-main">
+            <!-- ✅ زر الطلب الجديد (مضاف هنا) -->
+            <button class="btn-whatsapp" id="orderServiceBtn" style="background: var(--gold); color: var(--obsidian);" onclick="triggerCreateOrder('service')">
+              <span>🛠️</span>
+              <span>اطلب الخدمة الآن (عبر المنصة)</span>
+            </button>
+
             <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
               <span>💬</span>
               <span>اطلب الخدمة عبر واتساب</span>
@@ -181,7 +187,89 @@
 <script src="comment.js"></script>
 <script src="rating.js"></script>
 <script src="service.js"></script>
+
 <!-- ═══ Footer ═══ -->
 <script src="footer.js"></script>
+
+<!-- ═══ كود نظام الطلبات (مضاف هنا ليعمل مباشرة) ═══ -->
+<script>
+window.triggerCreateOrder = async function(type) {
+  if (!window.supabaseClient) return alert('يجب تسجيل الدخول أولاً');
+  
+  const { data: { user } } = await window.supabaseClient.auth.getUser();
+  if (!user) return window.location.href = 'auth.html';
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceId = urlParams.get('id') || urlParams.get('slug'); 
+  
+  if (!serviceId) return alert('خطأ: لم يتم العثور على معرف الخدمة في الرابط.');
+
+  try {
+    // جلب بيانات الخدمة من قاعدة البيانات مباشرة
+    const { data: service, error } = await window.supabaseClient
+      .from('services')
+      .select('*, workshops(owner_id), freelancers(user_id)')
+      .or(`id.eq.${serviceId},slug.eq.${serviceId}`)
+      .single();
+
+    if (error || !service) throw new Error('لم يتم العثور على الخدمة');
+
+    // تحديد مقدم الخدمة
+    let vendorId = service.freelancers?.user_id;
+    if (service.workshop_id && service.workshops?.owner_id) {
+      vendorId = service.workshops.owner_id;
+    }
+
+    if (!vendorId) throw new Error('تعذر تحديد مقدم الخدمة');
+    if (user.id === vendorId) return alert('لا يمكنك طلب خدمتك الخاصة!');
+
+    const btn = document.getElementById('orderServiceBtn');
+    btn.innerHTML = '⏳ جارٍ إنشاء الطلب...';
+    btn.disabled = true;
+
+    const price = service.price_start || 0;
+
+    // 1. إنشاء الطلب
+    const { data: order, error: orderErr } = await window.supabaseClient
+      .from('orders')
+      .insert({
+        buyer_id: user.id,
+        vendor_id: vendorId,
+        workshop_id: service.workshop_id || null,
+        status: 'pending',
+        subtotal: price
+      })
+      .select().single();
+
+    if (orderErr) throw new Error('فشل إنشاء الطلب: ' + orderErr.message);
+
+    // 2. إضافة الخدمة للطلب
+    const imageUrl = service.images && service.images.length > 0 ? service.images[0] : null;
+    const { error: itemErr } = await window.supabaseClient
+      .from('order_items')
+      .insert({
+        order_id: order.id,
+        item_type: 'service',
+        service_id: service.id,
+        title_snapshot: service.title,
+        image_snapshot: imageUrl,
+        unit_price: price,
+        quantity: 1
+      });
+
+    if (itemErr) throw new Error('فشل إضافة الخدمة للطلب: ' + itemErr.message);
+
+    // 3. التحويل للوحة التحكم وفتح المحادثة
+    window.location.href = `dashboard.html?tab=orders&order=${order.id}`;
+
+  } catch (err) {
+    console.error(err);
+    alert('❌ ' + err.message);
+    const btn = document.getElementById('orderServiceBtn');
+    if(btn) { btn.innerHTML = '<span>🛠️</span><span>اطلب الخدمة الآن (عبر المنصة)</span>'; btn.disabled = false; }
+  }
+};
+</script>
+
 </body>
 </html>
