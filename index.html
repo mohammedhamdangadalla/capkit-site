@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CapKit Souq — منصة الصنّاع والخدمات</title>
-<meta name="description" content="منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. عرض مجاني، تواصل مباشر، بلا وسطاء.">
+<title>CapKit Souq — منصة المهندسين والفنيين والصنّاع</title>
+<meta name="description" content="منصة تجمع المهندسين والفنيين والورش ومقدمي الخدمات في العالم العربي. عرض مجاني، تواصل مباشر، بلا وسطاء.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,7 +104,8 @@
   <div class="search-tabs">
     <button class="search-tab active" data-search="product">🔍 منتج</button>
     <button class="search-tab" data-search="workshop">🏭 ورشة</button>
-    <button class="search-tab" data-search="worker">🔨 صنايعي</button>
+    <!-- تعديل تبويب البحث -->
+    <button class="search-tab" data-search="worker">👷‍♂️ فني / مهندس</button>
   </div>
 
   <div class="search-body">
@@ -138,20 +139,22 @@
     <div class="hero-inner">
       <div class="hero-badge">
         <span>✨</span>
-        <span>منصة الصنّاع — بدون وسطاء، بدون استغلال</span>
+        <span>منصة المهندسين والفنيين — بدون وسطاء، بدون استغلال</span>
       </div>
       <h1>
         هنا، كل ورشة عندها <em>مكان.</em><br>
         هنا، الصنعة بتلاقي <em>جمهورها.</em>
       </h1>
+      <!-- تعديل النص التعريفي -->
       <p>
-        منصة تجمع الورش والحرفيين ومقدمي الخدمات في العالم العربي. اعرض شغلك مجاناً، تواصل مع عملائك مباشرة، وبلا وسطاء.
+        منصة تجمع المهندسين، الفنيين، الورش، والحرفيين في العالم العربي. اعرض خدماتك أو منتجاتك مجاناً، تواصل مع عملائك مباشرة، وبلا وسطاء.
       </p>
       <div class="hero-actions">
         <button class="btn-primary" onclick="openDrawer('categoriesDrawer')" style="padding: 12px 24px;">
           تصفح المنصة
         </button>
-        <a href="#join" class="btn-ghost" style="padding: 12px 20px;">اعرض شغلك مجاناً</a>
+        <!-- تعديل نص الزر -->
+        <a href="#join" class="btn-ghost" style="padding: 12px 20px;">انضم كمقدم خدمة</a>
       </div>
     </div>
   </section>
@@ -340,8 +343,8 @@
   <div class="services-inner">
     <div class="services-header">
       <span class="badge">🔧 خدمات الصيانة</span>
-      <h2>ابحث عن فني قريب منك</h2>
-      <p>من الصيانة المنزلية إلى صيانة السيارات والمعدات — كل الفنيين في مكان واحد.</p>
+      <h2>ابحث عن فني أو مهندس قريب منك</h2>
+      <p>من الصيانة المنزلية إلى صيانة السيارات والمعدات — كل الفنيين والمهندسين في مكان واحد.</p>
     </div>
 
     <div class="products-grid" id="homepageServicesGrid">
@@ -561,17 +564,19 @@
     <!-- ═══ CTA ═══ -->
   <section class="cta-section" id="join">
     <div class="cta-inner">
+      <!-- تعديل نص الدعوة للانضمام -->
       <h2>
-        عندك ورشة أو خدمة؟ <em>انضم إلينا.</em><br>
+        عندك ورشة، أو أنت مهندس/فني؟ <em>انضم إلينا.</em><br>
         بدون رسوم، بدون عمولة، بدون وسطاء.
       </h2>
       <p>
         اعرض منتجاتك أو خدماتك أمام آلاف العملاء، وتواصل معهم مباشرة عبر واتساب.<br>
-        نحن نؤمن أن الصنعة الحقيقية تستحق منصة حقيقية.
+        نحن نؤمن أن الصنعة والمهنة الحقيقية تستحق منصة حقيقية.
       </p>
       <div class="cta-actions">
         <a href="auth.html" class="btn-primary" style="padding: 14px 28px; font-size: 0.95rem;">سجّل ورشتك — مجاناً</a>
-        <a href="auth.html" class="btn-ghost" style="padding: 14px 24px; border: 1px solid var(--border-light);">قدّم خدمة</a>
+        <!-- تعديل الزر الثاني -->
+        <a href="auth.html" class="btn-ghost" style="padding: 14px 24px; border: 1px solid var(--border-light);">سجّل كمهندس / فني</a>
       </div>
     </div>
   </section>
@@ -661,5 +666,4 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 </body>
-          </html>
-  
+</html>
