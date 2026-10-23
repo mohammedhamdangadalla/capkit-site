@@ -490,7 +490,7 @@ window.saveProduct = async function() {
       images: imageUrls,
       seller_type: sellerType,
       seller_id: currentUser.id, 
-      moderation_status: 'pending_review'
+       moderation_status: 'approved' ,
     };
 
     if (sellerType === 'workshop') {
@@ -793,7 +793,7 @@ window.saveService = async function() {
       negotiable: negotiable,
       service_type: type,
       status: 'published',
-      moderation_status: 'pending_review',
+      moderation_status: 'approved',
     };
 
     let result;
