@@ -498,8 +498,9 @@ async function loadOrders() {
   const container = document.getElementById('ordersContainer');
   if (!container) return;
   
+  // ✅ أضفنا أعمدة الأرشفة للجلب
   const { data: orders } = await window.supabaseClient.from('orders')
-    .select(`id, status, created_at, buyer_id, vendor_id, buyer:profiles!orders_buyer_id_fkey(full_name), vendor:profiles!orders_vendor_id_fkey(full_name)`)
+    .select(`id, status, created_at, buyer_id, vendor_id, archived_by_buyer, archived_by_vendor, buyer:profiles!orders_buyer_id_fkey(full_name), vendor:profiles!orders_vendor_id_fkey(full_name)`)
     .or(`buyer_id.eq.${currentUser.id},vendor_id.eq.${currentUser.id}`).neq('status', 'cart').order('created_at', { ascending: false });
     
   if (!orders || orders.length === 0) { 
@@ -507,16 +508,29 @@ async function loadOrders() {
     return; 
   }
 
+  // ✅ تصفية الطلبات التي قام المستخدم بأرشفتها
+  const visibleOrders = orders.filter(o => {
+    const isBuyer = o.buyer_id === currentUser.id;
+    if (isBuyer && o.archived_by_buyer) return false; 
+    if (!isBuyer && o.archived_by_vendor) return false; 
+    return true;
+  });
+
+  if (visibleOrders.length === 0) {
+    container.innerHTML = '<div class="empty-state"><h3>لا توجد طلبات</h3></div>'; 
+    return; 
+  }
+
   container.innerHTML = '<div class="orders-list"></div>';
   const list = container.querySelector('.orders-list');
   
-  orders.forEach(o => {
+  visibleOrders.forEach(o => {
     const isBuyer = o.buyer_id === currentUser.id;
     const other = isBuyer ? o.vendor?.full_name : o.buyer?.full_name;
     const card = document.createElement('div'); 
     card.className = 'order-card';
     
-    // ✅ إضافة أزرار القبول والرفض للبائع
+    // أزرار القبول والرفض للبائع
     let actionButtons = '';
     if (!isBuyer && o.status === 'pending') {
       actionButtons = `
@@ -525,6 +539,7 @@ async function loadOrders() {
       `;
     }
 
+    // ✅ إضافة زر مسح الطلب (الأرشفة)
     card.innerHTML = `
       <div class="order-info">
         <h4>طلب ${isBuyer ? 'إلى' : 'من'}: ${escapeHtml(other || 'مستخدم')}</h4>
@@ -534,8 +549,9 @@ async function loadOrders() {
           ${actionButtons}
         </div>
       </div>
-      <div class="order-actions">
+      <div class="order-actions" style="display: flex; flex-direction: column; gap: 8px;">
         <button class="btn-action btn-outline" data-action="chat">💬 محادثة</button>
+        <button class="btn-card-delete" style="font-size: 0.7rem; padding: 4px;" onclick="archiveOrder('${o.id}', ${isBuyer})" title="مسح الطلب من قائمتك فقط">🗑️ مسح الطلب</button>
       </div>`;
       
     card.querySelector('[data-action="chat"]').onclick = () => openChatModal(o.id, other || 'مستخدم');
@@ -544,7 +560,7 @@ async function loadOrders() {
 
   const orderParam = new URLSearchParams(window.location.search).get('order');
   if (orderParam) {
-    const target = orders.find(o => o.id === orderParam);
+    const target = visibleOrders.find(o => o.id === orderParam);
     if (target) { 
       const url = new URL(window.location); 
       url.searchParams.delete('order'); 
@@ -553,6 +569,20 @@ async function loadOrders() {
     }
   }
 }
+
+// ✅ دالة مسح الطلب (أرشفة خاصة بالمستخدم)
+window.archiveOrder = async function(orderId, isBuyer) {
+  if (!confirm('هل أنت متأكد من مسح هذا الطلب من قائمتك؟\n(لن يؤثر هذا على الطرف الآخر أو على سجل المحادثة).')) return;
+
+  try {
+    const updateData = isBuyer ? { archived_by_buyer: true } : { archived_by_vendor: true };
+    const { error } = await window.supabaseClient.from('orders').update(updateData).eq('id', orderId);
+    if (error) throw error;
+    loadOrders(); // تحديث القائمة لإخفاء الطلب
+  } catch (err) {
+    alert('❌ حدث خطأ أثناء مسح الطلب: ' + err.message);
+  }
+};
 
 // ✅ دالة تحديث حالة الطلب (ضرورية لعمل الأزرار)
 window.updateOrderStatus = async function(orderId, newStatus) {
@@ -568,7 +598,7 @@ window.updateOrderStatus = async function(orderId, newStatus) {
     if (error) throw error;
     
     alert(`✅ تم ${isAccepted ? 'قبول' : 'رفض'} الطلب بنجاح`);
-    loadOrders(); // تحديث القائمة فوراً
+    loadOrders();
   } catch (err) {
     alert('❌ حدث خطأ: ' + err.message);
   }
