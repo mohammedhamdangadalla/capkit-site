@@ -224,10 +224,27 @@ window.triggerCreateOrder = async function(type) {
     if (user.id === vendorId) return alert('لا يمكنك طلب خدمتك الخاصة!');
 
     const btn = document.getElementById('orderServiceBtn');
-    btn.innerHTML = '⏳ جارٍ إنشاء الطلب...';
+    btn.innerHTML = '⏳ جارٍ التحقق...';
     btn.disabled = true;
 
     const price = service.price_start || 0;
+
+    // ✅ (جديد) فحص وجود طلب مفتوح مسبقاً لنفس الخدمة لمنع التكرار
+    const { data: existingOrders } = await window.supabaseClient
+      .from('orders')
+      .select('id, order_items!inner(service_id)')
+      .eq('buyer_id', user.id)
+      .eq('vendor_id', vendorId)
+      .in('status', ['pending', 'accepted', 'cart'])
+      .eq('order_items.service_id', service.id);
+
+    if (existingOrders && existingOrders.length > 0) {
+      alert('⚠️ لديك طلب مفتوح بالفعل لهذه الخدمة. سيتم تحويلك للمحادثة.');
+      window.location.href = `dashboard.html?tab=orders&order=${existingOrders[0].id}`;
+      return;
+    }
+
+    btn.innerHTML = '⏳ جارٍ إنشاء الطلب...';
 
     // 1. إنشاء الطلب
     const { data: order, error: orderErr } = await window.supabaseClient
