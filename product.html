@@ -131,6 +131,12 @@
           </div>
 
           <div class="product-actions-main">
+            <!-- ✅ زر الطلب الجديد (مضاف هنا) -->
+            <button class="btn-whatsapp" id="orderProductBtn" style="background: var(--gold); color: var(--obsidian);" onclick="triggerCreateOrder('product')">
+              <span>🛒</span>
+              <span>اطلب المنتج الآن (عبر المنصة)</span>
+            </button>
+
             <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
               <span>💬</span>
               <span>اطلب عبر واتساب</span>
@@ -188,5 +194,86 @@
 
 <!-- ═══ Footer ═══ -->
 <script src="footer.js"></script>
+
+<!-- ═══ كود نظام الطلبات (مضاف هنا ليعمل مباشرة) ═══ -->
+<script>
+window.triggerCreateOrder = async function(type) {
+  if (!window.supabaseClient) return alert('يجب تسجيل الدخول أولاً');
+  
+  const { data: { user } } = await window.supabaseClient.auth.getUser();
+  if (!user) return window.location.href = 'auth.html';
+
+  // استخراج معرف المنتج من الرابط (يفترض أن الرابط يحتوي على ?id=xxx)
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id') || urlParams.get('slug'); 
+  
+  if (!productId) return alert('خطأ: لم يتم العثور على معرف المنتج في الرابط.');
+
+  try {
+    // جلب بيانات المنتج من قاعدة البيانات مباشرة
+    const { data: product, error } = await window.supabaseClient
+      .from('products')
+      .select('*, workshops(owner_id)')
+      .or(`id.eq.${productId},slug.eq.${productId}`)
+      .single();
+
+    if (error || !product) throw new Error('لم يتم العثور على المنتج');
+
+    // تحديد البائع
+    let vendorId = product.seller_id;
+    if (product.seller_type === 'workshop' && product.workshops?.owner_id) {
+      vendorId = product.workshops.owner_id;
+    }
+
+    if (!vendorId) throw new Error('تعذر تحديد البائع');
+    if (user.id === vendorId) return alert('لا يمكنك شراء منتجك الخاص!');
+
+    // إظهار حالة التحميل على الزر
+    const btn = document.getElementById('orderProductBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ جارٍ إنشاء الطلب...';
+    btn.disabled = true;
+
+    // 1. إنشاء الطلب
+    const { data: order, error: orderErr } = await window.supabaseClient
+      .from('orders')
+      .insert({
+        buyer_id: user.id,
+        vendor_id: vendorId,
+        status: 'pending',
+        subtotal: product.price || 0
+      })
+      .select().single();
+
+    if (orderErr) throw new Error('فشل إنشاء الطلب: ' + orderErr.message);
+
+    // 2. إضافة المنتج للطلب
+    const imageUrl = product.images && product.images.length > 0 ? product.images[0] : null;
+    const { error: itemErr } = await window.supabaseClient
+      .from('order_items')
+      .insert({
+        order_id: order.id,
+        item_type: 'product',
+        product_id: product.id,
+        title_snapshot: product.title,
+        image_snapshot: imageUrl,
+        unit_price: product.price || 0,
+        quantity: 1
+      });
+
+    if (itemErr) throw new Error('فشل إضافة المنتج للطلب: ' + itemErr.message);
+
+    // 3. التحويل للوحة التحكم وفتح المحادثة
+    window.location.href = `dashboard.html?tab=orders&order=${order.id}`;
+
+  } catch (err) {
+    console.error(err);
+    alert('❌ ' + err.message);
+    const btn = document.getElementById('orderProductBtn');
+    if(btn) { btn.innerHTML = '<span>🛒</span><span>اطلب المنتج الآن (عبر المنصة)</span>'; btn.disabled = false; }
+  }
+};
+</script>
+
 </body>
 </html>
