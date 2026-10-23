@@ -120,14 +120,16 @@ function fillCategorySelect(select, categories) {
 // ═══ Stats ═══
 async function loadStats() {
   try {
+    // 1. عدد المنتجات
     const { count: productsCount } = await window.supabaseClient
       .from('products').select('*', { count: 'exact', head: true }).eq('seller_id', currentUser.id);
     document.getElementById('statProducts').textContent = productsCount || 0;
 
+    // 2. عدد الخدمات
     let servicesCount = 0;
     const { data: freelancer } = await window.supabaseClient
       .from('freelancers').select('id').eq('user_id', currentUser.id).maybeSingle();
-
+      
     if (freelancer?.id) {
       const { count } = await window.supabaseClient
         .from('services').select('*', { count: 'exact', head: true }).eq('freelancer_id', freelancer.id);
@@ -135,20 +137,59 @@ async function loadStats() {
     }
     document.getElementById('statServices').textContent = servicesCount;
 
+    // 3. المشاهدات
     const { count: viewsCount } = await window.supabaseClient
       .from('profile_views').select('*', { count: 'exact', head: true }).eq('profile_id', currentUser.id);
     document.getElementById('statViews').textContent = viewsCount || 0;
 
-    const { data: ratings } = await window.supabaseClient
-      .from('ratings').select('rating').eq('workshop_id', currentUser.id);
+    // 4. حساب التقييمات (الورشة + المنتجات + الخدمات) ✅
+    const wsIds = [];
+    const prodIds = [];
+    const srvIds = [];
 
-    if (ratings && ratings.length > 0) {
-      const avg = (ratings.reduce((s, r) => s + r.rating, 0) / ratings.length).toFixed(1);
-      document.getElementById('statRating').textContent = avg;
-    } else {
-      document.getElementById('statRating').textContent = '—';
+    // جلب معرفات الورش
+    const { data: ws } = await window.supabaseClient.from('workshops').select('id').eq('owner_id', currentUser.id);
+    if (ws) ws.forEach(w => wsIds.push(w.id));
+
+    // جلب معرفات المنتجات
+    const { data: prods } = await window.supabaseClient.from('products').select('id').eq('seller_id', currentUser.id);
+    if (prods) prods.forEach(p => prodIds.push(p.id));
+
+    // جلب معرفات الخدمات (من الصانع ومن الورشة)
+    if (freelancer?.id) {
+      const { data: srvs } = await window.supabaseClient.from('services').select('id').eq('freelancer_id', freelancer.id);
+      if (srvs) srvs.forEach(s => srvIds.push(s.id));
     }
-  } catch (err) { console.warn('Stats error:', err); }
+    if (wsIds.length > 0) {
+      const { data: wsSrvs } = await window.supabaseClient.from('services').select('id').in('workshop_id', wsIds);
+      if (wsSrvs) wsSrvs.forEach(s => srvIds.push(s.id));
+    }
+
+    // بناء شرط البحث لجلب كل التقييمات مرة واحدة
+    let ratingConditions = [];
+    if (wsIds.length > 0) ratingConditions.push(`workshop_id.in.(${wsIds.join(',')})`);
+    if (prodIds.length > 0) ratingConditions.push(`product_id.in.(${prodIds.join(',')})`);
+    if (srvIds.length > 0) ratingConditions.push(`service_id.in.(${srvIds.join(',')})`);
+
+    if (ratingConditions.length > 0) {
+      const { data: ratings } = await window.supabaseClient
+        .from('ratings')
+        .select('rating')
+        .or(ratingConditions.join(','));
+
+      if (ratings && ratings.length > 0) {
+        const avg = (ratings.reduce((s, r) => s + r.rating, 0) / ratings.length).toFixed(1);
+        document.getElementById('statRating').textContent = avg;
+      } else {
+        document.getElementById('statRating').textContent = '—'; // لا توجد تقييمات
+      }
+    } else {
+      document.getElementById('statRating').textContent = '—'; // لا توجد منتجات أو خدمات لتقييمها
+    }
+
+  } catch (err) { 
+    console.warn('Stats error:', err); 
+  }
 }
 
 // ═══ My Products ═══
