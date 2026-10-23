@@ -153,6 +153,23 @@
   .form-row { grid-template-columns: 1fr; }
   .seller-type-picker { grid-template-columns: 1fr; }
 }
+  /* ═══ إصلاح الإشعارات على الموبايل ═══ */
+@media (max-width: 600px) {
+  .notif-dropdown {
+    position: fixed !important;
+    top: 80px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 90vw !important;
+    max-width: 350px !important;
+    z-index: 9999 !important;
+  }
+  
+  .notif-item h4, .notif-item p {
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+}
 </style>
   <link rel="icon" href="/icon-192.png">
 <link rel="shortcut icon" href="/icon-192.png">
