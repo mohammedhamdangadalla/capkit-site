@@ -424,10 +424,57 @@ window.deleteProduct = async function(id) {
 async function loadMyServices() {
   const container = document.getElementById('myServicesList');
   if (!container) return;
-  const { data: freelancer } = await window.supabaseClient.from('freelancers').select('id').eq('user_id', currentUser.id).maybeSingle();
-  if (!freelancer?.id) return;
-  const { data } = await window.supabaseClient.from('services').select('*').eq('freelancer_id', freelancer.id).order('created_at', { ascending: false });
-  if (data && data.length > 0) { /* نفس منطق المنتجات */ }
+
+  // جلب معرف الصانع (Freelancer)
+  const { data: freelancer } = await window.supabaseClient
+    .from('freelancers').select('id').eq('user_id', currentUser.id).maybeSingle();
+
+  if (!freelancer?.id) {
+    container.innerHTML = '<div class="empty-state"><h3>ليس لديك ملف صانع بعد</h3></div>';
+    return;
+  }
+
+  // جلب الخدمات
+  const { data, error } = await window.supabaseClient
+    .from('services').select('*').eq('freelancer_id', freelancer.id).order('created_at', { ascending: false });
+
+  if (error || !data || data.length === 0) {
+    container.innerHTML = '<div class="empty-state"><h3>لم تضف أي خدمة بعد</h3></div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  const grid = document.createElement('div');
+  grid.className = 'my-products-grid';
+
+  data.forEach(service => {
+    const card = document.createElement('div');
+    card.className = 'my-product-card';
+
+    const priceText = service.price_start
+      ? `${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'} ${service.currency}`
+      : 'اتصل للسعر';
+
+    card.innerHTML = `
+      <div class="my-product-img" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), transparent);">
+        <span>🔧</span>
+      </div>
+      <div class="my-product-info">
+        <h4>${escapeHtml(service.title)}</h4>
+        <div class="my-product-price">${priceText}</div>
+        <div class="my-product-status status-${service.status}">
+          ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
+        </div>
+        <div class="my-product-actions">
+          <button class="btn-card-edit" onclick="editService('${service.id}')">✏️ تعديل</button>
+          <button class="btn-card-delete" onclick="deleteService('${service.id}')">🗑️ حذف</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  container.appendChild(grid);
 }
 
 window.openServiceModal = function() { document.getElementById('serviceModal').classList.add('active'); };
