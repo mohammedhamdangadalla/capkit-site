@@ -835,48 +835,112 @@
         </div>
       </section>
 
-      <!-- Settings -->
-      <section class="dash-section" id="tab-settings">
-        <h2>الإعدادات</h2>
-        <p class="dash-section-desc">إعدادات الحساب والأمان</p>
-        
-        <!-- كارت ربط تليجرام -->
-        <div id="telegram-link-card" style="background: var(--obsidian-3); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
-            <h3 style="color: var(--gold); font-family: 'Amiri', serif; font-size: 1.3rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                <span>🤖</span> ربط حساب تليجرام
-            </h3>
-            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6;">
-                اربط حسابك بالبوت الرسمي لتتمكن من استعادة كلمة المرور بسهولة، واستقبال إشعارات المبيعات والمشتريات والتنبيهات الهامة فور حدوثها.
-            </p>
-            
-            <div id="telegram-unlinked-view">
-                <button id="btn-link-telegram" class="btn-action" style="background: #0088cc; color: white; border: none;">
-                    🔗 ربط الحساب الآن
-                </button>
-            </div>
-
-            <div id="telegram-linked-view" style="display: none; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 16px;">
-                <p style="color: #86efac; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                    <span>✅</span> حسابك مربوط بنجاح!
-                </p>
-                <p style="color: var(--text-primary); font-size: 0.9rem;">
-                    الحساب: <span id="tg-username" style="color: #0088cc; direction: ltr; display: inline-block; font-family: sans-serif;" dir="ltr"></span>
-                </p>
-                <button id="btn-unlink-telegram" class="btn-action btn-outline" style="margin-top: 12px; border-color: #ef4444; color: #ef4444;">
-                    ❌ إلغاء الربط
-                </button>
-            </div>
+     <!-- Settings -->
+<section class="dash-section" id="tab-settings">
+  <h2>الإعدادات</h2>
+  <p class="dash-section-desc">إعدادات الحساب والأمان</p>
+  
+  <div class="settings-grid">
+    
+    <!-- كارت نوع الحساب (تغيير الدور) -->
+    <div class="settings-card">
+      <h3>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        نوع الحساب
+      </h3>
+      <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;">
+        يمكنك التبديل بين الأدوار. (ملاحظة: لبيع المنتجات تحتاج لاختيار "بائع"، ولتقديم الخدمات اختر "صنايعي").
+      </p>
+      
+      <div class="role-switcher" id="roleSwitcher">
+        <div class="role-option" data-role="buyer" onclick="updateRole('buyer')">
+          <div class="role-option-icon">👤</div>
+          <div class="role-option-info">
+            <h4>مشتري</h4>
+            <p>تصفح وشراء المنتجات والخدمات</p>
+          </div>
         </div>
+        <div class="role-option" data-role="vendor" onclick="updateRole('vendor')">
+          <div class="role-option-icon">🏪</div>
+          <div class="role-option-info">
+            <h4>بائع / ورشة</h4>
+            <p>بيع المنتجات وإدارة الأنشطة التجارية</p>
+          </div>
+        </div>
+        <div class="role-option" data-role="freelancer" onclick="updateRole('freelancer')">
+          <div class="role-option-icon">🛠️</div>
+          <div class="role-option-info">
+            <h4>صنايعي / حرفي</h4>
+            <p>تقديم الخدمات والمهن الحرة</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <!-- تسجيل الخروج -->
-        <div class="empty-state" style="padding: 20px 0; border-top: 1px solid var(--border);">
-          <h3 style="font-size: 1.1rem; margin-bottom: 10px;">الخروج من الحساب</h3>
-          <button class="btn-action btn-outline" id="logoutFromDash">
-            🚪 تسجيل الخروج
+    <!-- كارت كلمة المرور -->
+    <div class="settings-card">
+      <h3>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        الأمان وكلمة المرور
+      </h3>
+      <form class="pwd-form" id="pwdForm" onsubmit="changePassword(event)">
+        <div class="form-field">
+          <label>كلمة المرور الحالية (اتركها فارغة إذا سجلت بـ Google)</label>
+          <input type="password" id="pwdCurrent" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <div class="form-field">
+          <label>كلمة المرور الجديدة *</label>
+          <input type="password" id="pwdNew" placeholder="8 أحرف على الأقل" required minlength="8" autocomplete="new-password">
+        </div>
+        <div class="form-field">
+          <label>تأكيد كلمة المرور الجديدة *</label>
+          <input type="password" id="pwdConfirm" placeholder="أعد كتابة كلمة المرور" required minlength="8" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-action" style="margin-top: 10px; justify-content: center;">
+          🔒 تحديث كلمة المرور
+        </button>
+        <div class="pwd-msg" id="pwdMsg"></div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- كارت ربط تليجرام (الموجود مسبقاً) -->
+  <div id="telegram-link-card" style="background: var(--obsidian-3); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+      <h3 style="color: var(--gold); font-family: 'Amiri', serif; font-size: 1.3rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+          <span>🤖</span> ربط حساب تليجرام
+      </h3>
+      <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6;">
+          اربط حسابك بالبوت الرسمي لتتمكن من استعادة كلمة المرور بسهولة، واستقبال إشعارات المبيعات والمشتريات.
+      </p>
+      
+      <div id="telegram-unlinked-view">
+          <button id="btn-link-telegram" class="btn-action" style="background: #0088cc; color: white; border: none;">
+              🔗 ربط الحساب الآن
           </button>
-        </div>
-      </section>
+      </div>
 
+      <div id="telegram-linked-view" style="display: none; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 16px;">
+          <p style="color: #86efac; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+              <span>✅</span> حسابك مربوط بنجاح!
+          </p>
+          <p style="color: var(--text-primary); font-size: 0.9rem;">
+              الحساب: <span id="tg-username" style="color: #0088cc; direction: ltr; display: inline-block; font-family: sans-serif;" dir="ltr"></span>
+          </p>
+          <button id="btn-unlink-telegram" class="btn-action btn-outline" style="margin-top: 12px; border-color: #ef4444; color: #ef4444;">
+              ❌ إلغاء الربط
+          </button>
+      </div>
+  </div>
+
+  <!-- تسجيل الخروج -->
+  <div class="empty-state" style="padding: 20px 0; border-top: 1px solid var(--border);">
+    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">الخروج من الحساب</h3>
+    <button class="btn-action btn-outline" id="logoutFromDash">
+      🚪 تسجيل الخروج
+    </button>
+  </div>
+</section>
     </div>
   </div>
 </div>
