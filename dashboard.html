@@ -888,14 +888,25 @@
           <label>كلمة المرور الحالية (اتركها فارغة إذا سجلت بـ Google)</label>
           <input type="password" id="pwdCurrent" placeholder="••••••••" autocomplete="current-password">
         </div>
-        <div class="form-field">
-          <label>كلمة المرور الجديدة *</label>
-          <input type="password" id="pwdNew" placeholder="8 أحرف على الأقل" required minlength="8" autocomplete="new-password">
-        </div>
-        <div class="form-field">
-          <label>تأكيد كلمة المرور الجديدة *</label>
-          <input type="password" id="pwdConfirm" placeholder="أعد كتابة كلمة المرور" required minlength="8" autocomplete="new-password">
-        </div>
+        <!-- حقل كلمة المرور الجديدة -->
+<div class="form-field">
+    <label>كلمة المرور الجديدة *</label>
+    <div style="position: relative;">
+        <input type="password" id="pwdNew" placeholder="8 أحرف على الأقل" required minlength="8" autocomplete="new-password">
+        <!-- أضفنا id للأيقونة -->
+        <span id="icon-pwdNew" onclick="togglePassword('pwdNew', 'icon-pwdNew')" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--gold);">👁️</span>
+    </div>
+</div>
+
+<!-- حقل تأكيد كلمة المرور (ينصح بشدة إضافته) -->
+<div class="form-field">
+    <label>تأكيد كلمة المرور الجديدة *</label>
+    <div style="position: relative;">
+        <input type="password" id="pwdConfirm" placeholder="أعد كتابة كلمة المرور" required minlength="8" autocomplete="new-password">
+        <span id="icon-pwdConfirm" onclick="togglePassword('pwdConfirm', 'icon-pwdConfirm')" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--gold);">👁️</span>
+    </div>
+</div>
+        
         <button type="submit" class="btn-action" style="margin-top: 10px; justify-content: center;">
           🔒 تحديث كلمة المرور
         </button>
@@ -1152,6 +1163,21 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="dashboard.js"></script>
+<script>
+function togglePassword(inputId, iconId) {
+    // جلب حقل الإدخال والأيقونة
+    const inputField = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
 
+    // التحقق من نوع الحقل الحالي وتبديله
+    if (inputField.type === "password") {
+        inputField.type = "text";      // إظهار كلمة المرور
+        icon.innerHTML = "🙈";         // تغيير الأيقونة
+    } else {
+        inputField.type = "password";  // إخفاء كلمة المرور
+        icon.innerHTML = "👁️";         // إعادة الأيقونة الأصلية
+    }
+}
+</script>
 </body>
 </html>
