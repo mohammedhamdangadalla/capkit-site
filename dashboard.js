@@ -46,10 +46,10 @@ async function initDashboard() {
   await loadMyServices();
   await loadSellerAlerts();
   await handleUrlTab();
-
+  
   document.getElementById('loadingScreen').style.display = 'none';
   document.getElementById('dashboardPage').style.display = 'block';
-
+  updateRoleUI();
   ensureCategoriesLoaded();
 }
 
@@ -1240,3 +1240,95 @@ document.addEventListener('visibilitychange', () => {
     }
 
 });
+// ═══════════════════════════════════════════════════════════
+// ═══ نظام الإعدادات (تغيير الدور + كلمة المرور) ═══
+// ═══════════════════════════════════════════════════════════
+
+// تحديث واجهة الأدوار
+function updateRoleUI() {
+  document.querySelectorAll('.role-option').forEach(el => {
+    el.classList.remove('active');
+    if (el.dataset.role === currentProfile.role) {
+      el.classList.add('active');
+    }
+  });
+}
+
+// تغيير الدور
+window.updateRole = async function(newRole) {
+  if (currentProfile.role === newRole) return;
+  
+  if (!confirm(`هل أنت متأكد من تغيير نوع الحساب إلى "${ROLE_META[newRole].name}"؟`)) return;
+
+  try {
+    const { error } = await window.supabaseClient
+      .from('profiles')
+      .update({ role: newRole })
+      .eq('id', currentUser.id);
+
+    if (error) throw error;
+
+    currentProfile.role = newRole;
+    renderUserInfo(); // تحديث البادج والاسم
+    updateRoleUI();   // تحديث الأزرار
+    
+    alert('✅ تم تحديث نوع الحساب بنجاح! قد تحتاج لتحديث الصفحة لرؤية التغييرات في التبويبات.');
+
+  } catch (err) {
+    console.error('Role update error:', err);
+    alert('❌ فشل تغيير الدور: ' + err.message);
+  }
+};
+
+// تغيير كلمة المرور
+window.changePassword = async function(e) {
+  e.preventDefault();
+  
+  const currentPwd = document.getElementById('pwdCurrent').value;
+  const newPwd = document.getElementById('pwdNew').value;
+  const confirmPwd = document.getElementById('pwdConfirm').value;
+  const msg = document.getElementById('pwdMsg');
+  const btn = e.target.querySelector('button[type="submit"]');
+
+  msg.className = 'pwd-msg';
+  msg.textContent = '';
+
+  // 1. التحقق من تطابق كلمتي المرور
+  if (newPwd !== confirmPwd) {
+    msg.textContent = '⚠️ كلمتا المرور الجديدتان غير متطابقتين';
+    msg.classList.add('error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ جارٍ التحديث...';
+
+  try {
+    // 2. التحقق من كلمة المرور الحالية (إن وجدت)
+    if (currentPwd) {
+      const { error: signInError } = await window.supabaseClient.auth.signInWithPassword({
+        email: currentUser.email,
+        password: currentPwd
+      });
+      if (signInError) {
+        throw new Error('كلمة المرور الحالية غير صحيحة.');
+      }
+    }
+
+    // 3. تحديث كلمة المرور
+    const { error } = await window.supabaseClient.auth.updateUser({ password: newPwd });
+    if (error) throw error;
+
+    msg.textContent = '✅ تم تحديث كلمة المرور بنجاح!';
+    msg.classList.add('success');
+    e.target.reset();
+
+  } catch (err) {
+    console.error('Password update error:', err);
+    msg.textContent = '❌ ' + err.message;
+    msg.classList.add('error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔒 تحديث كلمة المرور';
+  }
+};
