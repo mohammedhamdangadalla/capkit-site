@@ -1494,13 +1494,19 @@ async function loadChatMessages(orderId) {
   scrollToBottom();
 }
 
+// ═══ رسم الرسالة (تم التعديل لمنع التكرار) ═══
 function renderMessage(msg) {
   const container = document.getElementById('chatMessages');
   if (!container) return;
+
+  // منع رسم نفس الرسالة مرتين (إذا وصلت من الـ Realtime وكانت مرسومة بالفعل)
+  if (document.querySelector(`[data-msg-id="${msg.id}"]`)) return;
+
   const isMe = msg.from_user_id === currentUser.id;
   
   const div = document.createElement('div');
   div.className = `msg-bubble ${isMe ? 'msg-sent' : 'msg-received'}`;
+  div.dataset.msgId = msg.id; // إضافة المعرف لمنع التكرار
   div.textContent = msg.content;
   container.appendChild(div);
 }
@@ -1510,7 +1516,7 @@ function scrollToBottom() {
   if (container) container.scrollTop = container.scrollHeight;
 }
 
-// ═══ إرسال رسالة ═══
+// ═══ إرسال رسالة (تم التعديل للظهور الفوري) ═══
 window.sendChatMessage = async function() {
   const input = document.getElementById('chatInput');
   const content = input.value.trim();
@@ -1532,14 +1538,19 @@ window.sendChatMessage = async function() {
 
     const toUserId = order.buyer_id === currentUser.id ? order.vendor_id : order.buyer_id;
 
-    const { error } = await window.supabaseClient.from('messages').insert({
+    // إضافة .select().single() لاسترجاع الرسالة فوراً
+    const { data: newMsg, error } = await window.supabaseClient.from('messages').insert({
       order_id: currentChatOrderId,
       from_user_id: currentUser.id,
       to_user_id: toUserId,
       content: content
-    });
+    }).select().single();
 
     if (error) throw error;
+
+    // رسم الرسالة فوراً للمستخدم الذي أرسلها
+    renderMessage(newMsg);
+    scrollToBottom();
 
   } catch (err) {
     input.value = originalValue; // استرجاع النص عند الفشل
@@ -1547,24 +1558,22 @@ window.sendChatMessage = async function() {
   } finally {
     input.disabled = false;
     input.focus();
-    scrollToBottom();
   }
 };
 
-// ═══ الاستماع للرسائل الجديدة (Realtime) ═══
+// ═══ الاستماع للرسائل الجديدة (تم التعديل لإصلاح القناة) ═══
 function subscribeToChat(orderId) {
   if (chatSubscription) window.supabaseClient.removeChannel(chatSubscription);
 
   chatSubscription = window.supabaseClient
-    .channel(`chat-${orderId}`)
+    .channel(`chat_${orderId}`) // اسم قناة فريد لكل طلب
     .on('postgres_changes', { 
         event: 'INSERT', 
         schema: 'public', 
         table: 'messages',
         filter: `order_id=eq.${orderId}`
     }, payload => {
-        // تجاهل الرسائل التي أرسلتها أنا (لأنها ظاهرة بالفعل)
-        if (payload.new.from_user_id === currentUser.id) return;
+        // سنقوم برسمها فوراً، دالة renderMessage ستمنع التكرار إذا كانت موجودة
         renderMessage(payload.new);
         scrollToBottom();
     })
