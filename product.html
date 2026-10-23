@@ -203,7 +203,7 @@ window.triggerCreateOrder = async function(type) {
   const { data: { user } } = await window.supabaseClient.auth.getUser();
   if (!user) return window.location.href = 'auth.html';
 
-  // استخراج معرف المنتج من الرابط (يفترض أن الرابط يحتوي على ?id=xxx)
+  // استخراج معرف المنتج من الرابط
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get('id') || urlParams.get('slug'); 
   
@@ -230,9 +230,25 @@ window.triggerCreateOrder = async function(type) {
 
     // إظهار حالة التحميل على الزر
     const btn = document.getElementById('orderProductBtn');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '⏳ جارٍ إنشاء الطلب...';
+    btn.innerHTML = '⏳ جارٍ التحقق...';
     btn.disabled = true;
+
+    // ✅ (جديد) فحص وجود طلب مفتوح مسبقاً لنفس المنتج لمنع التكرار
+    const { data: existingOrders } = await window.supabaseClient
+      .from('orders')
+      .select('id, order_items!inner(product_id)')
+      .eq('buyer_id', user.id)
+      .eq('vendor_id', vendorId)
+      .in('status', ['pending', 'accepted', 'cart'])
+      .eq('order_items.product_id', product.id);
+
+    if (existingOrders && existingOrders.length > 0) {
+      alert('⚠️ لديك طلب مفتوح بالفعل لهذا المنتج. سيتم تحويلك للمحادثة.');
+      window.location.href = `dashboard.html?tab=orders&order=${existingOrders[0].id}`;
+      return;
+    }
+
+    btn.innerHTML = '⏳ جارٍ إنشاء الطلب...';
 
     // 1. إنشاء الطلب
     const { data: order, error: orderErr } = await window.supabaseClient
