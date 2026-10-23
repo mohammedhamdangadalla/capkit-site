@@ -497,21 +497,47 @@ document.addEventListener('click', (e) => { const d = document.getElementById('n
 async function loadOrders() {
   const container = document.getElementById('ordersContainer');
   if (!container) return;
+  
   const { data: orders } = await window.supabaseClient.from('orders')
     .select(`id, status, created_at, buyer_id, vendor_id, buyer:profiles!orders_buyer_id_fkey(full_name), vendor:profiles!orders_vendor_id_fkey(full_name)`)
     .or(`buyer_id.eq.${currentUser.id},vendor_id.eq.${currentUser.id}`).neq('status', 'cart').order('created_at', { ascending: false });
     
-  if (!orders || orders.length === 0) { container.innerHTML = '<div class="empty-state"><h3>لا توجد طلبات</h3></div>'; return; }
+  if (!orders || orders.length === 0) { 
+    container.innerHTML = '<div class="empty-state"><h3>لا توجد طلبات</h3></div>'; 
+    return; 
+  }
 
   container.innerHTML = '<div class="orders-list"></div>';
   const list = container.querySelector('.orders-list');
+  
   orders.forEach(o => {
     const isBuyer = o.buyer_id === currentUser.id;
     const other = isBuyer ? o.vendor?.full_name : o.buyer?.full_name;
-    const card = document.createElement('div'); card.className = 'order-card';
+    const card = document.createElement('div'); 
+    card.className = 'order-card';
+    
+    // ✅ إضافة أزرار القبول والرفض للبائع
+    let actionButtons = '';
+    if (!isBuyer && o.status === 'pending') {
+      actionButtons = `
+        <button class="btn-card-edit" onclick="updateOrderStatus('${o.id}', 'accepted')">✅ قبول</button>
+        <button class="btn-card-delete" onclick="updateOrderStatus('${o.id}', 'rejected')">❌ رفض</button>
+      `;
+    }
+
     card.innerHTML = `
-      <div class="order-info"><h4>طلب ${isBuyer ? 'إلى' : 'من'}: ${escapeHtml(other || 'مستخدم')}</h4><p>${new Date(o.created_at).toLocaleDateString('ar-EG')}</p><div style="margin-top:8px;"><span class="order-status status-${o.status}">${o.status === 'pending' ? '⏳ انتظار' : o.status}</span></div></div>
-      <div class="order-actions"><button class="btn-action btn-outline" data-action="chat">💬 محادثة</button></div>`;
+      <div class="order-info">
+        <h4>طلب ${isBuyer ? 'إلى' : 'من'}: ${escapeHtml(other || 'مستخدم')}</h4>
+        <p>${new Date(o.created_at).toLocaleDateString('ar-EG')}</p>
+        <div style="margin-top:8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span class="order-status status-${o.status}">${o.status === 'pending' ? '⏳ انتظار' : o.status}</span>
+          ${actionButtons}
+        </div>
+      </div>
+      <div class="order-actions">
+        <button class="btn-action btn-outline" data-action="chat">💬 محادثة</button>
+      </div>`;
+      
     card.querySelector('[data-action="chat"]').onclick = () => openChatModal(o.id, other || 'مستخدم');
     list.appendChild(card);
   });
@@ -519,9 +545,34 @@ async function loadOrders() {
   const orderParam = new URLSearchParams(window.location.search).get('order');
   if (orderParam) {
     const target = orders.find(o => o.id === orderParam);
-    if (target) { const url = new URL(window.location); url.searchParams.delete('order'); window.history.replaceState({}, '', url); openChatModal(orderParam, target.vendor?.full_name || target.buyer?.full_name || 'مستخدم'); }
+    if (target) { 
+      const url = new URL(window.location); 
+      url.searchParams.delete('order'); 
+      window.history.replaceState({}, '', url); 
+      openChatModal(orderParam, target.vendor?.full_name || target.buyer?.full_name || 'مستخدم'); 
+    }
   }
 }
+
+// ✅ دالة تحديث حالة الطلب (ضرورية لعمل الأزرار)
+window.updateOrderStatus = async function(orderId, newStatus) {
+  const isAccepted = newStatus === 'accepted';
+  if (!confirm(`هل أنت متأكد من ${isAccepted ? 'قبول' : 'رفض'} هذا الطلب؟`)) return;
+
+  try {
+    const { error } = await window.supabaseClient
+      .from('orders')
+      .update({ status: newStatus })
+      .eq('id', orderId);
+
+    if (error) throw error;
+    
+    alert(`✅ تم ${isAccepted ? 'قبول' : 'رفض'} الطلب بنجاح`);
+    loadOrders(); // تحديث القائمة فوراً
+  } catch (err) {
+    alert('❌ حدث خطأ: ' + err.message);
+  }
+};
 
 window.openChatModal = async function(orderId, name) {
   currentChatOrderId = orderId;
@@ -535,24 +586,35 @@ window.openChatModal = async function(orderId, name) {
     }).subscribe();
 };
 
-window.closeChatModal = function() { document.getElementById('chatModal').classList.remove('active'); currentChatOrderId = null; if (chatSubscription) window.supabaseClient.removeChannel(chatSubscription); };
+window.closeChatModal = function() { 
+  document.getElementById('chatModal').classList.remove('active'); 
+  currentChatOrderId = null; 
+  if (chatSubscription) window.supabaseClient.removeChannel(chatSubscription); 
+};
 
 async function loadChatMessages(orderId) {
-  const container = document.getElementById('chatMessages'); container.innerHTML = 'جاري التحميل...';
+  const container = document.getElementById('chatMessages'); 
+  container.innerHTML = 'جاري التحميل...';
   const { data } = await window.supabaseClient.from('messages').select('*').eq('order_id', orderId).order('created_at', { ascending: true });
-  container.innerHTML = ''; if (data && data.length > 0) data.forEach(renderMessage); scrollToBottom();
+  container.innerHTML = ''; 
+  if (data && data.length > 0) data.forEach(renderMessage); 
+  scrollToBottom();
 }
 
 function renderMessage(msg) {
   const container = document.getElementById('chatMessages');
   if (document.querySelector(`[data-msg-id="${msg.id}"]`)) return;
   const isMe = msg.from_user_id === currentUser.id;
-  const div = document.createElement('div'); div.className = `msg-bubble ${isMe ? 'msg-sent' : 'msg-received'}`;
-  div.dataset.msgId = msg.id; div.textContent = msg.content; container.appendChild(div);
+  const div = document.createElement('div'); 
+  div.className = `msg-bubble ${isMe ? 'msg-sent' : 'msg-received'}`;
+  div.dataset.msgId = msg.id; 
+  div.textContent = msg.content; 
+  container.appendChild(div);
 }
 
 window.sendChatMessage = async function() {
-  const input = document.getElementById('chatInput'); const content = input.value.trim();
+  const input = document.getElementById('chatInput'); 
+  const content = input.value.trim();
   if (!content || !currentChatOrderId) return;
   input.value = '';
   const { data: o } = await window.supabaseClient.from('orders').select('buyer_id, vendor_id').eq('id', currentChatOrderId).single();
@@ -561,8 +623,10 @@ window.sendChatMessage = async function() {
   if (newMsg) { renderMessage(newMsg); scrollToBottom(); }
 };
 
-function scrollToBottom() { const c = document.getElementById('chatMessages'); if (c) c.scrollTop = c.scrollHeight; }
-
+function scrollToBottom() { 
+  const c = document.getElementById('chatMessages'); 
+  if (c) c.scrollTop = c.scrollHeight; 
+}
 // ═══ تنبيهات المحتوى المعلق ═══
 async function loadSellerAlerts() {
     const container = document.getElementById('sellerAlertsContainer');
