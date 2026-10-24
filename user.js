@@ -6,21 +6,23 @@ let isFollowing = false;
 let currentUserId = null;
 
 // ═══ Init ═══async function initUserPage() {
+async function initUserPage() {
   if (!window.supabaseClient) {
     showNotFound();
     return;
   }
 
-  // 1. جلب المستخدم الحالي
+  // 1. جلب المستخدم الحالي (للتحقق من المتابعة)
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   currentUserId = session?.user?.id || null;
 
-  // ✅ التعديل الأول: إذا كان زائراً، يتم تحويله فوراً لصفحة الدخول
+  // ✅ التعديل الأول: إذا كان زائراً (غير مسجل)، يتم تحويله لصفحة الدخول
   if (!currentUserId) {
     window.location.href = 'auth.html';
     return;
   }
 
+  // 2. جلب ID من URL
   const params = new URLSearchParams(window.location.search);
   const userId = params.get('id');
 
@@ -30,25 +32,26 @@ let currentUserId = null;
   }
 
   try {
-    // ✅ التعديل الثاني: استخدام maybeSingle بدلاً من single لتجنب خطأ 406 إذا كان المعرف خاطئاً
+    // 3. جلب البروفايل (استخدمنا maybeSingle لتجنب خطأ 406)
     const { data: profile, error } = await window.supabaseClient
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .maybeSingle();
 
+    // إذا لم نجد الملف الشخصي أو كان هناك خطأ
     if (error || !profile) {
       console.error('Profile error:', error);
       showNotFound();
       return;
     }
-    
+
     currentProfile = profile;
 
-    // ═══ تسجيل الزيارة ═══
+    // 4. تسجيل الزيارة
     await logView(userId);
 
-    // ═══ جلب الإحصائيات ═══
+    // 5. جلب الإحصائيات
     const [stats, isFollow] = await Promise.all([
       getSellerStats(userId),
       checkFollowStatus(userId)
@@ -56,7 +59,7 @@ let currentUserId = null;
 
     isFollowing = isFollow;
 
-    // ═══ عرض كل حاجة ═══
+    // 6. عرض كل حاجة
     renderHeader(profile, stats);
     renderActions(profile);
     renderBio(profile);
@@ -76,6 +79,7 @@ let currentUserId = null;
     // عنوان الصفحة
     document.title = `${profile.full_name} — CapKit Co.`;
 
+    // 7. إخفاء شاشة التحميل وإظهار المحتوى
     showContent();
 
   } catch (err) {
