@@ -559,7 +559,14 @@ async function initNotifications() {
 }
 
 async function loadNotifications() {
-  const { data } = await window.supabaseClient.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(10);
+  // ✅ التعديل 1: جلب الإشعارات غير المقروءة فقط
+  const { data } = await window.supabaseClient.from('notifications')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .eq('is_read', false) // هذا السطر يخفي المقروء
+    .order('created_at', { ascending: false })
+    .limit(10);
+    
   const badge = document.getElementById('notifBadge');
   const list = document.getElementById('notifList');
   if (!data || data.length === 0) { if(badge) badge.style.display = 'none'; if(list) list.innerHTML = '<div class="notif-empty">لا توجد إشعارات</div>'; return; }
@@ -627,11 +634,16 @@ async function loadOrders() {
       `;
     }
 
+    // ✅ التعديل 2: إضافة الوقت للتاريخ
+    const dateObj = new Date(o.created_at);
+    const dateStr = dateObj.toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
+    const timeStr = dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
     // ✅ إضافة زر مسح الطلب (الأرشفة)
     card.innerHTML = `
       <div class="order-info">
         <h4>طلب ${isBuyer ? 'إلى' : 'من'}: ${escapeHtml(other || 'مستخدم')}</h4>
-        <p>${new Date(o.created_at).toLocaleDateString('ar-EG')}</p>
+        <p>${dateStr} - ${timeStr}</p>
         <div style="margin-top:8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
           <span class="order-status status-${o.status}">${o.status === 'pending' ? '⏳ انتظار' : o.status}</span>
           ${actionButtons}
@@ -908,3 +920,22 @@ function escapeHtml(text) {
   div.textContent = text;
   return div.innerHTML;
 }
+
+// ✅ التعديل 3: دالة الوضع الليلي والنهاري
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  const btn = document.getElementById('themeToggleBtn');
+  if (btn) {
+    btn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+    btn.onclick = () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      btn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    };
+  }
+}
+document.addEventListener('DOMContentLoaded', initTheme);
