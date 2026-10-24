@@ -91,10 +91,11 @@
 .btn-card-edit:hover { border-color: var(--gold); color: var(--gold); background: rgba(201, 169, 97, 0.08); }
 .btn-card-delete:hover { border-color: #ef4444; color: #ef4444; background: rgba(239, 68, 68, 0.08); }
 
-/* Notification Bell */
+/* Notification Bell & Theme Toggle */
 .notif-container { position: relative; display: inline-block; }
-.notif-btn { background: var(--obsidian-2); border: 1px solid var(--border); color: var(--text-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: all 0.3s; font-size: 1.2rem; }
-.notif-btn:hover { border-color: var(--gold); color: var(--gold); }
+.notif-btn, .theme-toggle-btn { background: var(--obsidian-2); border: 1px solid var(--border); color: var(--text-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: all 0.3s; font-size: 1.2rem; }
+.notif-btn:hover, .theme-toggle-btn:hover { border-color: var(--gold); color: var(--gold); transform: scale(1.05); }
+.theme-toggle-btn { margin-left: 10px; }
 .notif-badge { position: absolute; top: -2px; right: -2px; background: #ef4444; color: white; font-size: 0.65rem; font-weight: bold; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--obsidian); display: none; }
 .notif-dropdown { position: absolute; top: 55px; left: 0; width: 320px; background: var(--obsidian-2); border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; z-index: 1000; flex-direction: column; overflow: hidden; text-align: right; }
 .notif-dropdown.active { display: flex; }
@@ -152,6 +153,7 @@
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .form-row { grid-template-columns: 1fr; }
   .seller-type-picker { grid-template-columns: 1fr; }
+  .theme-toggle-btn { margin: 10px auto 0; }
 }
   /* ═══ إصلاح الإشعارات على الموبايل ═══ */
 @media (max-width: 600px) {
@@ -169,6 +171,25 @@
     white-space: normal !important;
     word-break: break-word !important;
   }
+}
+
+/* ═══ ألوان الوضع النهاري الفاخر ═══ */
+[data-theme="light"] {
+  --obsidian: #f4f4f5;       /* خلفية الصفحة */
+  --obsidian-2: #ffffff;     /* خلفية الكروت */
+  --obsidian-3: #e4e4e7;     /* خلفية الحقول */
+  --text-primary: #18181b;   /* النص الأساسي */
+  --text-secondary: #52525b; /* النص الفرعي */
+  --text-muted: #71717a;     /* النص الباهت */
+  --border: #e4e4e7;         /* حدود الكروت */
+  --border-light: #d4d4d8;   /* حدود أفتح */
+  --gold: #9a7b32;           /* لون ذهبي أغمق قليلاً للقراءة */
+  --gold-light: #c9a961;
+}
+
+[data-theme="light"] .dash-header {
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.15), rgba(255, 255, 255, 0.5));
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 </style>
   <link rel="icon" href="/icon-192.png">
@@ -210,6 +231,9 @@
           </div>
         </div>
       </div>
+
+      <!-- ✅ زر الوضع الليلي/النهاري -->
+      <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">☀️</button>
 
       <a href="/" class="btn-action btn-outline">← الرئيسية</a>
     </div>
