@@ -211,17 +211,16 @@ async function loadMyProducts() {
     card.className = 'my-product-card';
     const imageUrl = product.images && product.images.length > 0 ? product.images[0] : '';
 
-    card.innerHTML = `
+        card.innerHTML = `
       <div class="my-product-img" ${imageUrl ? `style="background-image: url('${imageUrl}')"` : ''}>
         ${!imageUrl ? '<span>📦</span>' : ''}
       </div>
       <div class="my-product-info">
         <h4>${escapeHtml(product.title || 'بدون اسم')}</h4>
+        <!-- ✅ السطر الجديد للنجوم -->
+        ${product.rating_count ? `<div style="color: var(--gold); font-size: 0.8rem; margin: 4px 0;">⭐ ${Number(product.rating_avg).toFixed(1)} (${product.rating_count})</div>` : ''}
         <div class="my-product-price">${product.price || 0} ${product.currency || 'EGP'}</div>
-        <div class="my-product-status status-${product.status}">${getStatusLabel(product.status)}</div>
-        <div class="my-product-actions">
-          <button class="btn-card-edit" onclick="editProduct('${product.id}')">✏️ تعديل</button>
-          <button class="btn-card-delete" onclick="deleteProduct('${product.id}')">🗑️ حذف</button>
+        <div class="my-product-status status-${product.status}">${getStatusLabel(product.status)}
         </div>
       </div>`;
     grid.appendChild(card);
@@ -496,15 +495,16 @@ async function loadMyServices() {
       ? `${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'} ${service.currency}`
       : 'اتصل للسعر';
 
-    card.innerHTML = `
+       card.innerHTML = `
       <div class="my-product-img" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), transparent);">
         <span>🔧</span>
       </div>
       <div class="my-product-info">
         <h4>${escapeHtml(service.title)}</h4>
+        <!-- ✅ السطر الجديد للنجوم -->
+        ${service.rating_count ? `<div style="color: var(--gold); font-size: 0.8rem; margin: 4px 0;">⭐ ${Number(service.rating_avg).toFixed(1)} (${service.rating_count})</div>` : ''}
         <div class="my-product-price">${priceText}</div>
         <div class="my-product-status status-${service.status}">
-          ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
         </div>
         <div class="my-product-actions">
           <button class="btn-card-edit" onclick="editService('${service.id}')">✏️ تعديل</button>
