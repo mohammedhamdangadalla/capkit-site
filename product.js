@@ -148,7 +148,7 @@ async function loadSeller(product) {
       }
     }
 
-    if (product.workshop_id) {
+      if (product.workshop_id) {
       const { data: workshop } = await window.supabaseClient
         .from('workshops')
         .select('*')
@@ -159,14 +159,13 @@ async function loadSeller(product) {
         currentSeller = {
           name: workshop.name || 'ورشة',
           type: 'workshop',
-          id: workshop.id,
+          id: workshop.owner_id, // ✅ التعديل هنا: استخدم owner_id وليس id
           whatsapp: workshop.whatsapp,
-          avatar_url: workshop.logo_url // ✅ حفظ شعار الورشة
+          avatar_url: workshop.logo_url
         };
         return;
       }
     }
-
     currentSeller = { name: 'بائع', type: 'individual', id: product.seller_id };
 
   } catch (err) {
