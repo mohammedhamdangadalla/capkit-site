@@ -193,12 +193,9 @@
 
 <!-- ═══ كود نظام الطلبات (مضاف هنا ليعمل مباشرة) ═══ -->
 <script>
-window.triggerCreateOrder = async function(type) {
-  if (!window.supabaseClient) return alert('يجب تسجيل الدخول أولاً');
-  
-  const { data: { user } } = await window.supabaseClient.auth.getUser();
-  if (!user) return window.location.href = 'auth.html';
-
+const { data: { session } } = await window.supabaseClient.auth.getSession();
+const user = session?.user;
+if (!user) return window.location.href = 'auth.html';
   const urlParams = new URLSearchParams(window.location.search);
   const serviceId = urlParams.get('id') || urlParams.get('slug'); 
   
