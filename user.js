@@ -5,18 +5,22 @@ let currentUser = null;
 let isFollowing = false;
 let currentUserId = null;
 
-// ═══ Init ═══
-async function initUserPage() {
+// ═══ Init ═══async function initUserPage() {
   if (!window.supabaseClient) {
     showNotFound();
     return;
   }
 
-  // جلب المستخدم الحالي (للتحقق من المتابعة)
+  // 1. جلب المستخدم الحالي
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   currentUserId = session?.user?.id || null;
 
-  // جلب ID من URL
+  // ✅ التعديل الأول: إذا كان زائراً، يتم تحويله فوراً لصفحة الدخول
+  if (!currentUserId) {
+    window.location.href = 'auth.html';
+    return;
+  }
+
   const params = new URLSearchParams(window.location.search);
   const userId = params.get('id');
 
@@ -26,19 +30,19 @@ async function initUserPage() {
   }
 
   try {
-    // ═══ جلب البروفايل ═══
+    // ✅ التعديل الثاني: استخدام maybeSingle بدلاً من single لتجنب خطأ 406 إذا كان المعرف خاطئاً
     const { data: profile, error } = await window.supabaseClient
       .from('profiles')
       .select('*')
       .eq('id', userId)
-      .single();
+      .maybeSingle();
 
     if (error || !profile) {
       console.error('Profile error:', error);
       showNotFound();
       return;
     }
-
+    
     currentProfile = profile;
 
     // ═══ تسجيل الزيارة ═══
