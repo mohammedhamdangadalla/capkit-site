@@ -41,6 +41,9 @@ async function initProduct() {
     currentProduct = product;
     currentImages = product.images || [];
 
+    // ✅ تسجيل المشاهدة هنا (يتم استدعاؤها في الخلفية دون تعطيل تحميل الصفحة)
+    logProductView(product);
+
     await loadSeller(product);
     renderProduct();
     showContent();
@@ -51,6 +54,28 @@ async function initProduct() {
   } catch (err) {
     console.error(err);
     showNotFound();
+  }
+}
+
+// ✅ دالة تسجيل المشاهدات الجديدة
+async function logProductView(product) {
+  try {
+    // 1. تسجيل الزيارة لصاحب المنتج في جدول profile_views
+    await window.supabaseClient
+      .from('profile_views')
+      .insert([{ profile_id: product.seller_id }]);
+  } catch (err) {
+    console.warn('Profile view log failed:', err);
+  }
+
+  try {
+    // 2. تحديث عداد مشاهدات المنتج نفسه
+    await window.supabaseClient
+      .from('products')
+      .update({ views_count: (product.views_count || 0) + 1 })
+      .eq('id', product.id);
+  } catch (err) {
+    // نتجاهل الخطأ إذا كان الزائر غير مسجل (لأن صلاحيات التعديل قد تمنعه)
   }
 }
 
