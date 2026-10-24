@@ -120,12 +120,10 @@ function fillCategorySelect(select, categories) {
 // ═══ Stats ═══
 async function loadStats() {
   try {
-    // 1. عدد المنتجات
     const { count: productsCount } = await window.supabaseClient
       .from('products').select('*', { count: 'exact', head: true }).eq('seller_id', currentUser.id);
     document.getElementById('statProducts').textContent = productsCount || 0;
 
-    // 2. عدد الخدمات
     let servicesCount = 0;
     const { data: freelancer } = await window.supabaseClient
       .from('freelancers').select('id').eq('user_id', currentUser.id).maybeSingle();
@@ -137,25 +135,20 @@ async function loadStats() {
     }
     document.getElementById('statServices').textContent = servicesCount;
 
-    // 3. المشاهدات
     const { count: viewsCount } = await window.supabaseClient
       .from('profile_views').select('*', { count: 'exact', head: true }).eq('profile_id', currentUser.id);
     document.getElementById('statViews').textContent = viewsCount || 0;
 
-    // 4. حساب التقييمات (الورشة + المنتجات + الخدمات) ✅
     const wsIds = [];
     const prodIds = [];
     const srvIds = [];
 
-    // جلب معرفات الورش
     const { data: ws } = await window.supabaseClient.from('workshops').select('id').eq('owner_id', currentUser.id);
     if (ws) ws.forEach(w => wsIds.push(w.id));
 
-    // جلب معرفات المنتجات
     const { data: prods } = await window.supabaseClient.from('products').select('id').eq('seller_id', currentUser.id);
     if (prods) prods.forEach(p => prodIds.push(p.id));
 
-    // جلب معرفات الخدمات (من الصانع ومن الورشة)
     if (freelancer?.id) {
       const { data: srvs } = await window.supabaseClient.from('services').select('id').eq('freelancer_id', freelancer.id);
       if (srvs) srvs.forEach(s => srvIds.push(s.id));
@@ -165,7 +158,6 @@ async function loadStats() {
       if (wsSrvs) wsSrvs.forEach(s => srvIds.push(s.id));
     }
 
-    // بناء شرط البحث لجلب كل التقييمات مرة واحدة
     let ratingConditions = [];
     if (wsIds.length > 0) ratingConditions.push(`workshop_id.in.(${wsIds.join(',')})`);
     if (prodIds.length > 0) ratingConditions.push(`product_id.in.(${prodIds.join(',')})`);
@@ -181,10 +173,10 @@ async function loadStats() {
         const avg = (ratings.reduce((s, r) => s + r.rating, 0) / ratings.length).toFixed(1);
         document.getElementById('statRating').textContent = avg;
       } else {
-        document.getElementById('statRating').textContent = '—'; // لا توجد تقييمات
+        document.getElementById('statRating').textContent = '—';
       }
     } else {
-      document.getElementById('statRating').textContent = '—'; // لا توجد منتجات أو خدمات لتقييمها
+      document.getElementById('statRating').textContent = '—';
     }
 
   } catch (err) { 
@@ -211,16 +203,20 @@ async function loadMyProducts() {
     card.className = 'my-product-card';
     const imageUrl = product.images && product.images.length > 0 ? product.images[0] : '';
 
-        card.innerHTML = `
+    card.innerHTML = `
       <div class="my-product-img" ${imageUrl ? `style="background-image: url('${imageUrl}')"` : ''}>
         ${!imageUrl ? '<span>📦</span>' : ''}
       </div>
       <div class="my-product-info">
         <h4>${escapeHtml(product.title || 'بدون اسم')}</h4>
-        <!-- ✅ السطر الجديد للنجوم -->
+        <!-- ✅ سطر النجوم -->
         ${product.rating_count ? `<div style="color: var(--gold); font-size: 0.8rem; margin: 4px 0;">⭐ ${Number(product.rating_avg).toFixed(1)} (${product.rating_count})</div>` : ''}
         <div class="my-product-price">${product.price || 0} ${product.currency || 'EGP'}</div>
-        <div class="my-product-status status-${product.status}">${getStatusLabel(product.status)}
+        <div class="my-product-status status-${product.status}">${getStatusLabel(product.status)}</div>
+        <!-- ✅ أزرار التعديل والحذف -->
+        <div class="my-product-actions">
+          <button class="btn-card-edit" onclick="editProduct('${product.id}')">✏️ تعديل</button>
+          <button class="btn-card-delete" onclick="deleteProduct('${product.id}')">🗑️ حذف</button>
         </div>
       </div>`;
     grid.appendChild(card);
@@ -465,7 +461,6 @@ async function loadMyServices() {
   const container = document.getElementById('myServicesList');
   if (!container) return;
 
-  // جلب معرف الصانع (Freelancer)
   const { data: freelancer } = await window.supabaseClient
     .from('freelancers').select('id').eq('user_id', currentUser.id).maybeSingle();
 
@@ -474,7 +469,6 @@ async function loadMyServices() {
     return;
   }
 
-  // جلب الخدمات
   const { data, error } = await window.supabaseClient
     .from('services').select('*').eq('freelancer_id', freelancer.id).order('created_at', { ascending: false });
 
@@ -495,17 +489,19 @@ async function loadMyServices() {
       ? `${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'} ${service.currency}`
       : 'اتصل للسعر';
 
-       card.innerHTML = `
+    card.innerHTML = `
       <div class="my-product-img" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), transparent);">
         <span>🔧</span>
       </div>
       <div class="my-product-info">
         <h4>${escapeHtml(service.title)}</h4>
-        <!-- ✅ السطر الجديد للنجوم -->
+        <!-- ✅ سطر النجوم -->
         ${service.rating_count ? `<div style="color: var(--gold); font-size: 0.8rem; margin: 4px 0;">⭐ ${Number(service.rating_avg).toFixed(1)} (${service.rating_count})</div>` : ''}
         <div class="my-product-price">${priceText}</div>
         <div class="my-product-status status-${service.status}">
+          ${service.status === 'published' ? '✅ منشور' : '📝 مسودة'}
         </div>
+        <!-- ✅ أزرار التعديل والحذف -->
         <div class="my-product-actions">
           <button class="btn-card-edit" onclick="editService('${service.id}')">✏️ تعديل</button>
           <button class="btn-card-delete" onclick="deleteService('${service.id}')">🗑️ حذف</button>
@@ -559,11 +555,10 @@ async function initNotifications() {
 }
 
 async function loadNotifications() {
-  // ✅ التعديل 1: جلب الإشعارات غير المقروءة فقط
   const { data } = await window.supabaseClient.from('notifications')
     .select('*')
     .eq('user_id', currentUser.id)
-    .eq('is_read', false) // هذا السطر يخفي المقروء
+    .eq('is_read', false)
     .order('created_at', { ascending: false })
     .limit(10);
     
@@ -593,7 +588,6 @@ async function loadOrders() {
   const container = document.getElementById('ordersContainer');
   if (!container) return;
   
-  // ✅ أضفنا أعمدة الأرشفة للجلب
   const { data: orders } = await window.supabaseClient.from('orders')
     .select(`id, status, created_at, buyer_id, vendor_id, archived_by_buyer, archived_by_vendor, buyer:profiles!orders_buyer_id_fkey(full_name), vendor:profiles!orders_vendor_id_fkey(full_name)`)
     .or(`buyer_id.eq.${currentUser.id},vendor_id.eq.${currentUser.id}`).neq('status', 'cart').order('created_at', { ascending: false });
@@ -603,7 +597,6 @@ async function loadOrders() {
     return; 
   }
 
-  // ✅ تصفية الطلبات التي قام المستخدم بأرشفتها
   const visibleOrders = orders.filter(o => {
     const isBuyer = o.buyer_id === currentUser.id;
     if (isBuyer && o.archived_by_buyer) return false; 
@@ -625,7 +618,6 @@ async function loadOrders() {
     const card = document.createElement('div'); 
     card.className = 'order-card';
     
-    // أزرار القبول والرفض للبائع
     let actionButtons = '';
     if (!isBuyer && o.status === 'pending') {
       actionButtons = `
@@ -634,12 +626,10 @@ async function loadOrders() {
       `;
     }
 
-    // ✅ التعديل 2: إضافة الوقت للتاريخ
     const dateObj = new Date(o.created_at);
     const dateStr = dateObj.toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
     const timeStr = dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
 
-    // ✅ إضافة زر مسح الطلب (الأرشفة)
     card.innerHTML = `
       <div class="order-info">
         <h4>طلب ${isBuyer ? 'إلى' : 'من'}: ${escapeHtml(other || 'مستخدم')}</h4>
@@ -670,7 +660,6 @@ async function loadOrders() {
   }
 }
 
-// ✅ دالة مسح الطلب (أرشفة خاصة بالمستخدم)
 window.archiveOrder = async function(orderId, isBuyer) {
   if (!confirm('هل أنت متأكد من مسح هذا الطلب من قائمتك؟\n(لن يؤثر هذا على الطرف الآخر أو على سجل المحادثة).')) return;
 
@@ -678,13 +667,12 @@ window.archiveOrder = async function(orderId, isBuyer) {
     const updateData = isBuyer ? { archived_by_buyer: true } : { archived_by_vendor: true };
     const { error } = await window.supabaseClient.from('orders').update(updateData).eq('id', orderId);
     if (error) throw error;
-    loadOrders(); // تحديث القائمة لإخفاء الطلب
+    loadOrders();
   } catch (err) {
     alert('❌ حدث خطأ أثناء مسح الطلب: ' + err.message);
   }
 };
 
-// ✅ دالة تحديث حالة الطلب (ضرورية لعمل الأزرار)
 window.updateOrderStatus = async function(orderId, newStatus) {
   const isAccepted = newStatus === 'accepted';
   if (!confirm(`هل أنت متأكد من ${isAccepted ? 'قبول' : 'رفض'} هذا الطلب؟`)) return;
@@ -757,6 +745,7 @@ function scrollToBottom() {
   const c = document.getElementById('chatMessages'); 
   if (c) c.scrollTop = c.scrollHeight; 
 }
+
 // ═══ تنبيهات المحتوى المعلق ═══
 async function loadSellerAlerts() {
     const container = document.getElementById('sellerAlertsContainer');
@@ -921,7 +910,7 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// ✅ التعديل 3: دالة الوضع الليلي والنهاري
+// ✅ الوضع الليلي والنهاري
 function initTheme() {
   const savedTheme = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
