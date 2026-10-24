@@ -193,7 +193,7 @@ function renderSeller() {
   const box = document.getElementById('sellerBox');
   const avatar = document.getElementById('sellerAvatar');
   const icon = currentSeller.type === 'workshop' ? '🏭' : '👤';
-  const roleText = currentSeller.type === 'workshop' ? 'ورشة / شركة' : 'صانع / مقدّم خدمة';
+ const roleText = currentSeller.type === 'workshop' ? 'ورشة / شركة' : 'مهندس / فني / صانع / حرفي';
   
   // ✅ إظهار الصورة إذا وجدت
   if (currentSeller.avatar_url) {
