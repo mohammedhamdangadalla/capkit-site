@@ -5,24 +5,23 @@ let currentUser = null;
 let isFollowing = false;
 let currentUserId = null;
 
-// ═══ Init ═══async function initUserPage() {
+// ═══ Init ═══
 async function initUserPage() {
   if (!window.supabaseClient) {
     showNotFound();
     return;
   }
 
-  // 1. جلب المستخدم الحالي (للتحقق من المتابعة)
+  // 1. جلب المستخدم الحالي
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   currentUserId = session?.user?.id || null;
 
-  // ✅ التعديل الأول: إذا كان زائراً (غير مسجل)، يتم تحويله لصفحة الدخول
+  // ✅ التعديل: إذا كان زائراً، يتم تحويله لصفحة الدخول
   if (!currentUserId) {
     window.location.href = 'auth.html';
     return;
   }
 
-  // 2. جلب ID من URL
   const params = new URLSearchParams(window.location.search);
   const userId = params.get('id');
 
@@ -32,14 +31,13 @@ async function initUserPage() {
   }
 
   try {
-    // 3. جلب البروفايل (استخدمنا maybeSingle لتجنب خطأ 406)
+    // ✅ التعديل: استخدام maybeSingle بدلاً من single
     const { data: profile, error } = await window.supabaseClient
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .maybeSingle();
 
-    // إذا لم نجد الملف الشخصي أو كان هناك خطأ
     if (error || !profile) {
       console.error('Profile error:', error);
       showNotFound();
@@ -48,10 +46,10 @@ async function initUserPage() {
 
     currentProfile = profile;
 
-    // 4. تسجيل الزيارة
+    // ═══ تسجيل الزيارة ═══
     await logView(userId);
 
-    // 5. جلب الإحصائيات
+    // ═══ جلب الإحصائيات ═══
     const [stats, isFollow] = await Promise.all([
       getSellerStats(userId),
       checkFollowStatus(userId)
@@ -59,7 +57,7 @@ async function initUserPage() {
 
     isFollowing = isFollow;
 
-    // 6. عرض كل حاجة
+    // ═══ عرض كل حاجة ═══
     renderHeader(profile, stats);
     renderActions(profile);
     renderBio(profile);
@@ -79,7 +77,6 @@ async function initUserPage() {
     // عنوان الصفحة
     document.title = `${profile.full_name} — CapKit Co.`;
 
-    // 7. إخفاء شاشة التحميل وإظهار المحتوى
     showContent();
 
   } catch (err) {
@@ -188,7 +185,7 @@ function renderHeader(profile, stats) {
   const roleMeta = {
     vendor: { icon: '🛒', name: 'بائع / ورشة' },
     service: { icon: '🔧', name: 'مقدّم خدمة' },
-    freelancer: { icon: '🔨', name: 'صنايعي / مقاول / عامل' },
+    freelancer: { icon: '💼', name: 'مهندس / فني / صانع / حرفي' },
     buyer: { icon: '👤', name: 'مشتري' },
     admin: { icon: '⭐', name: 'مدير' }
   };
