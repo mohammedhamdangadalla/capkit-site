@@ -800,8 +800,9 @@ const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"
 async function checkTelegramStatus() {
     if (typeof supabaseClient === 'undefined') return false;
     try {
-        const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
-        if (userError || !user) return false;
+        const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+const user = session?.user;
+if (sessionError || !user) return false;
         const { data: profile } = await supabaseClient.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
         const unlinkedView = document.getElementById('telegram-unlinked-view');
         const linkedView = document.getElementById('telegram-linked-view');
