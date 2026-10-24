@@ -103,11 +103,12 @@ async function loadSeller(service) {
         .from('freelancers').select('id, user_id').eq('id', service.freelancer_id).maybeSingle();
       if (freelancer?.user_id) {
         const { data: profile } = await window.supabaseClient
-          .from('profiles').select('id, full_name, role, whatsapp, phone, city, verified').eq('id', freelancer.user_id).single();
+          .from('profiles').select('id, full_name, role, whatsapp, phone, city, verified, avatar_url').eq('id', freelancer.user_id).single();
         if (profile) {
           currentSeller = {
             id: profile.id, name: profile.full_name || 'صانع', type: 'individual',
-            role: profile.role, whatsapp: profile.whatsapp || profile.phone, city: profile.city, verified: profile.verified
+            role: profile.role, whatsapp: profile.whatsapp || profile.phone, city: profile.city, verified: profile.verified,
+            avatar_url: profile.avatar_url // ✅ حفظ صورة الصانع
           };
           return;
         }
@@ -118,7 +119,8 @@ async function loadSeller(service) {
       if (workshop) {
         currentSeller = {
           id: workshop.owner_id, name: workshop.name || 'ورشة', type: 'workshop',
-          whatsapp: workshop.whatsapp, verified: workshop.verified_badge
+          whatsapp: workshop.whatsapp, verified: workshop.verified_badge,
+          avatar_url: workshop.logo_url // ✅ حفظ شعار الورشة
         };
         return;
       }
@@ -192,7 +194,18 @@ function renderSeller() {
   const avatar = document.getElementById('sellerAvatar');
   const icon = currentSeller.type === 'workshop' ? '🏭' : '👤';
   const roleText = currentSeller.type === 'workshop' ? 'ورشة / شركة' : 'صانع / مقدّم خدمة';
-  avatar.textContent = icon;
+  
+  // ✅ إظهار الصورة إذا وجدت
+  if (currentSeller.avatar_url) {
+    avatar.textContent = '';
+    avatar.style.backgroundImage = `url('${currentSeller.avatar_url}')`;
+    avatar.style.backgroundSize = 'cover';
+    avatar.style.backgroundPosition = 'center';
+  } else {
+    avatar.textContent = icon;
+    avatar.style.backgroundImage = 'none';
+  }
+
   const verifiedBadge = currentSeller.verified ? ' · <span style="color: #22c55e;">✓ موثّق</span>' : '';
   box.querySelector('.seller-info').innerHTML = `
     <h4>${escapeHtml(currentSeller.name)}</h4>
