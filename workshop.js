@@ -39,8 +39,8 @@ async function initWorkshopPage() {
 
     currentWorkshop = workshop;
 
-    // ═══ تسجيل مشاهدة ═══
-    await logWorkshopView(workshopId, workshop.views_count || 0);
+    // ✅ تسجيل مشاهدة (تم تعديلها لتسجل في profile_views أيضاً)
+    await logWorkshopView(workshop);
 
     // ═══ جلب المتابعة ═══
     isFollowing = await checkFollowStatus(workshop.owner_id);
@@ -84,13 +84,20 @@ async function initWorkshopPage() {
   }
 }
 
-// ═══ Log View ═══
-async function logWorkshopView(workshopId, currentCount) {
+// ✅ دالة تسجيل المشاهدات المحدثة
+async function logWorkshopView(workshop) {
   try {
+    // 1. تسجيل الزيارة في الجدول الذي تقرأ منه لوحة التحكم
+    await window.supabaseClient
+      .from('profile_views')
+      .insert([{ profile_id: workshop.owner_id }]);
+
+    // 2. تحديث العداد الخاص بالورشة
     await window.supabaseClient
       .from('workshops')
-      .update({ views_count: (currentCount || 0) + 1 })
-      .eq('id', workshopId);
+      .update({ views_count: (workshop.views_count || 0) + 1 })
+      .eq('id', workshop.id);
+
   } catch (err) {
     console.warn('View log failed:', err);
   }
@@ -99,32 +106,27 @@ async function logWorkshopView(workshopId, currentCount) {
 // ═══ Get Workshop Stats ═══
 async function getWorkshopStats(workshop) {
   try {
-    // ═══ المنتجات ═══
     const { data: products } = await window.supabaseClient
       .from('products')
       .select('id, rating_avg, rating_count')
       .or(`workshop_id.eq.${workshop.id},seller_id.eq.${workshop.owner_id}`)
       .eq('status', 'published');
 
-    // ═══ الخدمات ═══
     const { data: services } = await window.supabaseClient
       .from('services')
       .select('id, rating_avg, rating_count')
       .eq('workshop_id', workshop.id)
       .eq('status', 'published');
 
-    // ═══ المتابعين (نتبع owner_id) ═══
     const { count: followersCount } = await window.supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
       .eq('following_id', workshop.owner_id);
 
-    // ═══ حساب المتوسط الموزون ═══
     const allItems = [...(products || []), ...(services || [])];
     const totalCount = allItems.reduce((s, i) => s + (i.rating_count || 0), 0);
     const weightedSum = allItems.reduce(
-      (s, i) => s + (Number(i.rating_avg) || 0) * (i.rating_count || 0),
-      0
+      (s, i) => s + (Number(i.rating_avg) || 0) * (i.rating_count || 0), 0
     );
     const avgRating = totalCount > 0 ? (weightedSum / totalCount).toFixed(1) : null;
 
@@ -138,13 +140,7 @@ async function getWorkshopStats(workshop) {
 
   } catch (err) {
     console.warn('Stats error:', err);
-    return {
-      products_count: 0,
-      services_count: 0,
-      followers_count: 0,
-      ratings_count: 0,
-      avg_rating: null
-    };
+    return { products_count: 0, services_count: 0, followers_count: 0, ratings_count: 0, avg_rating: null };
   }
 }
 
@@ -176,14 +172,13 @@ function renderCoverAndLogo(workshop) {
     logo.textContent = '';
     logo.style.backgroundImage = `url('${workshop.logo_url}')`;
   } else {
-    // أول حرف من اسم الورشة
     logo.textContent = (workshop.name || 'و').charAt(0);
   }
 }
+
 // ═══ Load Governorate Name ═══
 async function loadGovernorateName(govId) {
   if (!govId) return;
-  
   try {
     const { data } = await window.supabaseClient
       .from('governorates')
@@ -193,30 +188,26 @@ async function loadGovernorateName(govId) {
     
     if (data?.name_ar) {
       const govEl = document.getElementById('workshopGov');
-      if (govEl) {
-        govEl.textContent = `📍 ${data.name_ar}`;
-      }
+      if (govEl) govEl.textContent = `📍 ${data.name_ar}`;
     }
   } catch (err) {
     console.warn('Governorate load error:', err);
   }
 }
+
 // ═══ Render Header ═══
 function renderHeader(workshop) {
-  // Name
   const nameEl = document.getElementById('workshopName');
   nameEl.innerHTML = `
     ${escapeHtmlW(workshop.name || 'ورشة')}
     ${workshop.verified_badge ? '<span class="verified-badge">✓ موثّق</span>' : ''}
   `;
 
-  // Type
   const typeEl = document.getElementById('workshopType');
   if (workshop.workshop_type) {
     typeEl.innerHTML = `<span class="workshop-type-badge">🏭 ${escapeHtmlW(workshop.workshop_type)}</span>`;
   }
 
-  // Meta
   const metaEl = document.getElementById('workshopMeta');
   const metaParts = [];
 
@@ -225,8 +216,8 @@ function renderHeader(workshop) {
   }
 
   if (workshop.governorate_id) {
-  metaParts.push(`<span id="workshopGov">📍 ...</span>`);
-}
+    metaParts.push(`<span id="workshopGov">📍 ...</span>`);
+  }
 
   if (workshop.status === 'active') {
     metaParts.push(`<span style="color: #22c55e;">● نشطة</span>`);
@@ -235,14 +226,12 @@ function renderHeader(workshop) {
   metaEl.innerHTML = metaParts.join('<span class="dot">·</span>');
 }
 
-// ═══ Render Actions (Updated for Guests) ═══
+// ═══ Render Actions ═══
 function renderActions(workshop) {
   const waBtn = document.getElementById('whatsappContact');
   const igBtn = document.getElementById('instagramContact');
 
-  // 1. إذا كان زائراً (غير مسجل)
   if (!currentUserId) {
-    // قفل زر الواتساب
     waBtn.href = 'javascript:void(0)';
     waBtn.innerHTML = '<span>🔒</span><span>سجل لرؤية الواتساب</span>';
     waBtn.style.background = 'var(--obsidian-3)';
@@ -250,7 +239,6 @@ function renderActions(workshop) {
     waBtn.style.border = '1px solid var(--gold)';
     waBtn.onclick = () => window.location.href = 'auth.html';
 
-    // قفل زر إنستجرام (إن وجد)
     if (workshop.instagram) {
       igBtn.style.display = 'flex';
       igBtn.href = 'javascript:void(0)';
@@ -261,7 +249,6 @@ function renderActions(workshop) {
       igBtn.onclick = () => window.location.href = 'auth.html';
     }
 
-    // قفل زر المتابعة
     const followBtn = document.getElementById('followBtn');
     followBtn.innerHTML = '<span>♡</span><span>متابعة</span>';
     followBtn.onclick = () => {
@@ -272,7 +259,6 @@ function renderActions(workshop) {
     return;
   }
 
-  // 2. إذا كان مسجلاً (المنطق الأصلي)
   const phone = (workshop.whatsapp || workshop.phone || '').replace(/\D/g, '');
 
   if (phone) {
@@ -303,7 +289,6 @@ function renderActions(workshop) {
 // ═══ Update Follow Button ═══
 function updateFollowButton() {
   const btn = document.getElementById('followBtn');
-  
   if (isFollowing) {
     btn.classList.add('following');
     btn.innerHTML = '<span>✓</span><span>تتابع</span>';
@@ -319,12 +304,9 @@ window.toggleFollow = async function() {
     window.location.href = 'auth.html';
     return;
   }
-
   if (!currentWorkshop) return;
-
   const btn = document.getElementById('followBtn');
   btn.disabled = true;
-
   try {
     if (isFollowing) {
       await window.supabaseClient
@@ -332,28 +314,19 @@ window.toggleFollow = async function() {
         .delete()
         .eq('follower_id', currentUserId)
         .eq('following_id', currentWorkshop.owner_id);
-
       isFollowing = false;
     } else {
       await window.supabaseClient
         .from('follows')
-        .insert({
-          follower_id: currentUserId,
-          following_id: currentWorkshop.owner_id
-        });
-
+        .insert({ follower_id: currentUserId, following_id: currentWorkshop.owner_id });
       isFollowing = true;
     }
-
     updateFollowButton();
-
     const { count } = await window.supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
       .eq('following_id', currentWorkshop.owner_id);
-
     document.getElementById('statFollowers').textContent = count || 0;
-
   } catch (err) {
     console.error('Follow error:', err);
     alert('حدث خطأ، حاول تاني');
@@ -365,7 +338,6 @@ window.toggleFollow = async function() {
 // ═══ Render Description ═══
 function renderDescription(workshop) {
   const el = document.getElementById('workshopDescription');
-
   if (workshop.description && workshop.description.trim()) {
     el.textContent = workshop.description;
   } else {
@@ -387,15 +359,11 @@ async function loadProducts(workshop) {
     .limit(20);
 
   if (error || !products || products.length === 0) return;
-
   document.getElementById('productsCount').textContent = products.length;
-
   const container = document.getElementById('productsContainer');
   container.innerHTML = '';
-
   const grid = document.createElement('div');
   grid.className = 'workshop-products-grid';
-
   products.forEach(p => grid.appendChild(createProductCard(p)));
   container.appendChild(grid);
 }
@@ -412,19 +380,14 @@ async function loadServices(workshop) {
       .limit(12);
 
     if (error || !services || services.length === 0) return;
-
     document.getElementById('servicesSection').style.display = 'block';
     document.getElementById('servicesCount').textContent = services.length;
-
     const container = document.getElementById('servicesContainer');
     container.innerHTML = '';
-
     const grid = document.createElement('div');
     grid.className = 'workshop-products-grid';
-
     services.forEach(s => grid.appendChild(createServiceCard(s)));
     container.appendChild(grid);
-
   } catch (err) {
     console.warn('Services error:', err);
   }
@@ -445,7 +408,6 @@ async function loadRatings(workshop, stats) {
     .eq('workshop_id', workshop.id);
 
   const servIds = (servs || []).map(s => s.id);
-
   if (prodIds.length === 0 && servIds.length === 0) return;
 
   const orConds = [];
@@ -463,7 +425,6 @@ async function loadRatings(workshop, stats) {
 
   document.getElementById('ratingsSection').style.display = 'block';
   document.getElementById('ratingsCount').textContent = ratings.length;
-
   const container = document.getElementById('ratingsContainer');
   container.innerHTML = '';
 
@@ -482,7 +443,6 @@ async function loadRatings(workshop, stats) {
 
   const list = document.createElement('div');
   list.className = 'ratings-list';
-
   ratings.forEach(r => list.appendChild(createRatingCard(r)));
   container.appendChild(list);
 }
@@ -492,9 +452,7 @@ function createProductCard(product) {
   const a = document.createElement('a');
   a.href = `product?id=${product.id}`;
   a.className = 'product-card';
-
   const img = product.images && product.images[0] ? product.images[0] : '';
-
   a.innerHTML = `
     <div class="product-image">
       ${img 
@@ -510,7 +468,6 @@ function createProductCard(product) {
       </div>
     </div>
   `;
-
   return a;
 }
 
@@ -518,17 +475,11 @@ function createServiceCard(service) {
   const a = document.createElement('a');
   a.href = `service?id=${service.id}`;
   a.className = 'product-card';
-
-  const iconMap = {
-    repair: '🔧', installation: '🔨', maintenance: '⚙️',
-    consultation: '💬', custom: '✨'
-  };
+  const iconMap = { repair: '🔧', installation: '🔨', maintenance: '⚙️', consultation: '💬', custom: '✨' };
   const icon = iconMap[service.service_type] || '🔧';
-
   const priceText = service.price_start
     ? `${service.price_start}${service.price_end ? ' - ' + service.price_end : '+'} ${service.currency || 'EGP'}`
     : 'اتصل للسعر';
-
   a.innerHTML = `
     <div class="product-image">
       <span class="badge-service">خدمة</span>
@@ -542,20 +493,15 @@ function createServiceCard(service) {
       </div>
     </div>
   `;
-
   return a;
 }
 
 function createRatingCard(rating) {
   const card = document.createElement('div');
   card.className = 'rating-card';
-
   const userName = rating.profiles?.full_name || 'مستخدم';
   const initial = userName.charAt(0).toUpperCase();
-  const date = new Date(rating.created_at).toLocaleDateString('ar-EG', { 
-    month: 'short', day: 'numeric' 
-  });
-
+  const date = new Date(rating.created_at).toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
   card.innerHTML = `
     <div class="rating-card-header">
       <div class="rating-avatar">${initial}</div>
@@ -567,7 +513,6 @@ function createRatingCard(rating) {
     </div>
     ${rating.comment ? `<div class="rating-text">${escapeHtmlW(rating.comment)}</div>` : ''}
   `;
-
   return card;
 }
 
@@ -576,7 +521,6 @@ function getStars(rating) {
   return '★'.repeat(r) + '☆'.repeat(5 - r);
 }
 
-// ═══ Render Card Rating ═══
 function renderCardRating(avg, count) {
   if (!count || count === 0) return '';
   const avgNum = Number(avg) || 0;
@@ -593,7 +537,6 @@ function renderCardRating(avg, count) {
 window.shareWorkshop = function() {
   const url = window.location.href;
   const name = currentWorkshop?.name || 'ورشة';
-  
   if (navigator.share) {
     navigator.share({ title: name, url });
   } else {
