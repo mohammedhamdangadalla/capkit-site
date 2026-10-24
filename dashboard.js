@@ -3,7 +3,7 @@
 const ROLE_META = {
   vendor: { name: 'بائع / ورشة', icon: '🛒' },
   service: { name: 'مقدّم خدمة', icon: '🔧' },
-  freelancer: { name: 'صنايعي / مقاول / عامل', icon: '🔨' },
+  freelancer: { name: 'مهندس / فني / صانع / حرفي', icon: '💼' }, // ✅ التعديل النصي فقط
   buyer: { name: 'مشتري', icon: '👤' },
   admin: { name: 'مدير', icon: '⭐' }
 };
