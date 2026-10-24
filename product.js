@@ -130,7 +130,7 @@ async function loadSeller(product) {
     if (product.seller_id) {
       const { data: profile } = await window.supabaseClient
         .from('profiles')
-        .select('full_name, role, whatsapp, phone, city')
+        .select('full_name, role, whatsapp, phone, city, avatar_url') // ✅ أضفنا avatar_url
         .eq('id', product.seller_id)
         .single();
 
@@ -141,7 +141,8 @@ async function loadSeller(product) {
           role: profile.role,
           id: product.seller_id,
           whatsapp: profile.whatsapp || profile.phone,
-          city: profile.city
+          city: profile.city,
+          avatar_url: profile.avatar_url // ✅ حفظ الصورة
         };
         return;
       }
@@ -159,7 +160,8 @@ async function loadSeller(product) {
           name: workshop.name || 'ورشة',
           type: 'workshop',
           id: workshop.id,
-          whatsapp: workshop.whatsapp
+          whatsapp: workshop.whatsapp,
+          avatar_url: workshop.logo_url // ✅ حفظ شعار الورشة
         };
         return;
       }
@@ -294,8 +296,16 @@ function renderSeller() {
 
   const sellerLink = currentSeller.id ? `user?id=${currentSeller.id}` : '#';
 
+  // ✅ التحقق من وجود صورة للبائع أو شعار للورشة
+  let avatarHTML = '';
+  if (currentSeller.avatar_url) {
+    avatarHTML = `<a href="${sellerLink}" class="seller-avatar" style="text-decoration:none; background-image: url('${currentSeller.avatar_url}'); background-size: cover; background-position: center; color: transparent;"></a>`;
+  } else {
+    avatarHTML = `<a href="${sellerLink}" class="seller-avatar" style="text-decoration:none;">${icon}</a>`;
+  }
+
   box.innerHTML = `
-    <a href="${sellerLink}" class="seller-avatar" style="text-decoration:none;">${icon}</a>
+    ${avatarHTML}
     <div class="seller-info">
       <h4>
         <a href="${sellerLink}" style="color: inherit; text-decoration: none;">
