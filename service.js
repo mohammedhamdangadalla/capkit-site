@@ -114,13 +114,14 @@ async function loadSeller(service) {
         }
       }
     }
-    if (service.workshop_id) {
+       if (service.workshop_id) {
       const { data: workshop } = await window.supabaseClient.from('workshops').select('*').eq('id', service.workshop_id).single();
       if (workshop) {
         currentSeller = {
-          id: workshop.owner_id, name: workshop.name || 'ورشة', type: 'workshop',
+          id: workshop.owner_id, // ✅ تأكد أن هذا هو owner_id
+          name: workshop.name || 'ورشة', type: 'workshop',
           whatsapp: workshop.whatsapp, verified: workshop.verified_badge,
-          avatar_url: workshop.logo_url // ✅ حفظ شعار الورشة
+          avatar_url: workshop.logo_url
         };
         return;
       }
