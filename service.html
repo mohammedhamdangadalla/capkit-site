@@ -193,9 +193,27 @@
 
 <!-- ═══ كود نظام الطلبات (مضاف هنا ليعمل مباشرة) ═══ -->
 <script>
-const { data: { session } } = await window.supabaseClient.auth.getSession();
-const user = session?.user;
-if (!user) return window.location.href = 'auth.html';
+window.triggerCreateOrder = async function(type) {
+  if (!window.supabaseClient) return alert('يجب تسجيل الدخول أولاً');
+
+  // 1. القراءة الفورية من ذاكرة المتصفح
+  let { data: { session } } = await window.supabaseClient.auth.getSession();
+  let user = session?.user;
+
+  // 2. إذا لم يجدها، ينتظر ثانية ويحاول مرة أخرى (للشبكات الضعيفة)
+  if (!user) {
+    await new Promise(r => setTimeout(r, 1000));
+    const retry = await window.supabaseClient.auth.getSession();
+    user = retry.data.session?.user;
+  }
+
+  // 3. الطرد فقط إذا كان زائراً حقيقياً (لم يسجل دخول من الأصل)
+  if (!user) {
+    alert('⚠️ يرجى تسجيل الدخول لإتمام الطلب.');
+    window.location.href = 'auth.html'; 
+    return;
+  }
+
   const urlParams = new URLSearchParams(window.location.search);
   const serviceId = urlParams.get('id') || urlParams.get('slug'); 
   
@@ -226,7 +244,7 @@ if (!user) return window.location.href = 'auth.html';
 
     const price = service.price_start || 0;
 
-    // ✅ (جديد) فحص وجود طلب مفتوح مسبقاً لنفس الخدمة لمنع التكرار
+    // ✅ فحص وجود طلب مفتوح مسبقاً لنفس الخدمة لمنع التكرار
     const { data: existingOrders } = await window.supabaseClient
       .from('orders')
       .select('id, order_items!inner(service_id)')
