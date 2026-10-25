@@ -494,13 +494,25 @@ window.editProduct = async function(id) {
   }, 400);
 };
 
+// ✅ تم تعديل هذه الدالة (إزالة .select) لحل مشكلة الحذف
 window.deleteProduct = async function(id) {
   if (!confirm('هل أنت متأكد من حذف هذا المنتج؟\nلا يمكن التراجع.')) return;
+  
   try {
-    const { error } = await window.supabaseClient.from('products').delete().eq('id', id).select();
+    const { error } = await window.supabaseClient
+      .from('products')
+      .delete()
+      .eq('id', id);
+
     if (error) throw new Error(error.message);
-    await loadMyProducts(); await loadStats();
-  } catch (err) { alert('❌ فشل الحذف: ' + err.message); }
+    
+    await loadMyProducts(); 
+    await loadStats();
+    
+  } catch (err) { 
+    console.error("Delete error:", err);
+    alert('❌ فشل الحذف: ' + err.message); 
+  }
 };
 
 // ═══ Services ═══
