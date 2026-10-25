@@ -190,7 +190,8 @@ window.handleGoogleClick = async function() {
       provider: 'google',
       options: {
         redirectTo: window.location.origin + '/dashboard.html',
-        queryParams: { access_type: 'offline', prompt: 'consent' }
+       //____ queryParams: { access_type: 'offline', prompt: 'consent' }__// ✅ تم حذف queryParams: { access_type: 'offline', prompt: 'consent' }
+        // حتى لا يطلب الموافقة في كل مرة__
       }
     });
 
