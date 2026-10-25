@@ -202,8 +202,17 @@ window.triggerCreateOrder = async function(type) {
   
   const { data: { session } } = await window.supabaseClient.auth.getSession();
 const user = session?.user;
-if (!user) return window.location.href = 'auth.html';
-
+  // ✅ التحقق الذكي: ننتظر قليلاً إذا لم نجد الجلسة فوراً
+  if (!user) {
+    // محاولة ثانية بعد نصف ثانية (للمتصفحات البطيئة أو الانتقال السريع)
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const retry = await window.supabaseClient.auth.getSession();
+    
+    if (!retry.data.session) {
+      return window.location.href = 'auth.html';
+    }
+    user = retry.data.session.user;
+  }
   // استخراج معرف المنتج من الرابط
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get('id') || urlParams.get('slug'); 
