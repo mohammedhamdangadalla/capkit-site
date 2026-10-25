@@ -17,7 +17,9 @@ async function initUserPage() {
   currentUserId = session?.user?.id || null;
 
   // ✅ التعديل: إذا كان زائراً، يتم تحويله لصفحة الدخول
+  // إذا كان زائراً، نعرض له صفحة "غير موجود" أو نطلب منه الدخول بلطف
   if (!currentUserId) {
+    alert('⚠️ يرجى تسجيل الدخول لعرض ملفات البائعين.');
     window.location.href = 'auth.html';
     return;
   }
@@ -276,7 +278,9 @@ function updateFollowButton() {
 
 // ═══ Toggle Follow ═══
 window.toggleFollow = async function() {
+  // إذا كان زائراً، نعرض له صفحة "غير موجود" أو نطلب منه الدخول بلطف
   if (!currentUserId) {
+    alert('⚠️ يرجى تسجيل الدخول لعرض ملفات البائعين.');
     window.location.href = 'auth.html';
     return;
   }
