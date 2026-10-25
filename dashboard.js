@@ -947,7 +947,12 @@ document.addEventListener('visibilitychange', () => {
 // ═══ Start ═══
 document.addEventListener('click', async (e) => {
   if (e.target.closest('#logoutFromDash')) {
+    if (!confirm('هل أنت متأكد من تسجيل الخروج؟')) return;
+    
     await window.supabaseClient.auth.signOut();
+    
+    // ✅ رسالة الوداع
+    alert('ننتظر عودتك قريباً! 👋');
     window.location.href = '/';
   }
 });
