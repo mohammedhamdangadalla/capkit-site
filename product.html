@@ -200,17 +200,23 @@
 window.triggerCreateOrder = async function(type) {
   if (!window.supabaseClient) return alert('يجب تسجيل الدخول أولاً');
   
-  const { data: { session } } = await window.supabaseClient.auth.getSession();
-const user = session?.user;
-  // ✅ التحقق الذكي: ننتظر قليلاً إذا لم نجد الجلسة فوراً
+  // 1. القراءة الفورية من ذاكرة المتصفح
+  let { data: { session } } = await window.supabaseClient.auth.getSession();
+  let user = session?.user;
+
+  // 2. إذا لم يجدها، ينتظر ثانية ويحاول مرة أخرى (للشبكات الضعيفة)
   if (!user) {
-    // محاولة ثانية بعد نصف ثانية (للمتصفحات البطيئة أو الانتقال السريع)
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(r => setTimeout(r, 1000));
     const retry = await window.supabaseClient.auth.getSession();
-    
-    if (!retry.data.session) {
-      return window.location.href = 'auth.html';
-    }
+    user = retry.data.session?.user;
+  }
+
+  // 3. الطرد فقط إذا كان زائراً حقيقياً (لم يسجل دخول من الأصل)
+  if (!user) {
+    alert('⚠️ يرجى تسجيل الدخول لإتمام الطلب.');
+    window.location.href = 'auth.html'; // تحويله للتسجيل فقط لأنه زائر
+    return;
+  }
     user = retry.data.session.user;
   }
   // استخراج معرف المنتج من الرابط
