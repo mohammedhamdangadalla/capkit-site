@@ -41,7 +41,7 @@ async function initProduct() {
     currentProduct = product;
     currentImages = product.images || [];
 
-    // ✅ تسجيل المشاهدة هنا (يتم استدعاؤها في الخلفية دون تعطيل تحميل الصفحة)
+    // ✅ تسجيل المشاهدة
     logProductView(product);
 
     await loadSeller(product);
@@ -57,10 +57,9 @@ async function initProduct() {
   }
 }
 
-// ✅ دالة تسجيل المشاهدات الجديدة
+// ✅ دالة تسجيل المشاهدات
 async function logProductView(product) {
   try {
-    // 1. تسجيل الزيارة لصاحب المنتج في جدول profile_views
     await window.supabaseClient
       .from('profile_views')
       .insert([{ profile_id: product.seller_id }]);
@@ -69,14 +68,11 @@ async function logProductView(product) {
   }
 
   try {
-    // 2. تحديث عداد مشاهدات المنتج نفسه
     await window.supabaseClient
       .from('products')
       .update({ views_count: (product.views_count || 0) + 1 })
       .eq('id', product.id);
-  } catch (err) {
-    // نتجاهل الخطأ إذا كان الزائر غير مسجل (لأن صلاحيات التعديل قد تمنعه)
-  }
+  } catch (err) {}
 }
 
 // ═══ Admin Suspend Button Logic ═══
@@ -130,7 +126,7 @@ async function loadSeller(product) {
     if (product.seller_id) {
       const { data: profile } = await window.supabaseClient
         .from('profiles')
-        .select('full_name, role, whatsapp, phone, city, avatar_url') // ✅ أضفنا avatar_url
+        .select('full_name, role, whatsapp, phone, city, avatar_url')
         .eq('id', product.seller_id)
         .single();
 
@@ -142,13 +138,13 @@ async function loadSeller(product) {
           id: product.seller_id,
           whatsapp: profile.whatsapp || profile.phone,
           city: profile.city,
-          avatar_url: profile.avatar_url // ✅ حفظ الصورة
+          avatar_url: profile.avatar_url
         };
         return;
       }
     }
 
-      if (product.workshop_id) {
+    if (product.workshop_id) {
       const { data: workshop } = await window.supabaseClient
         .from('workshops')
         .select('*')
@@ -159,7 +155,7 @@ async function loadSeller(product) {
         currentSeller = {
           name: workshop.name || 'ورشة',
           type: 'workshop',
-          id: workshop.owner_id, // ✅ التعديل هنا: استخدم owner_id وليس id
+          id: workshop.id, // ✅ هنا نستخدم id الورشة
           whatsapp: workshop.whatsapp,
           avatar_url: workshop.logo_url
         };
@@ -293,7 +289,13 @@ function renderSeller() {
   const icon = currentSeller.type === 'workshop' ? '🏭' : '👤';
   const roleText = currentSeller.type === 'workshop' ? 'ورشة / شركة' : 'بائع حر';
 
-  const sellerLink = currentSeller.id ? `user?id=${currentSeller.id}` : '#';
+  // ✅ التوجيه الذكي: إذا كان ورشة نفتح صفحة الورشة، وإذا كان بائعاً حراً نفتح صفحة المستخدم
+  let sellerLink = '#';
+  if (currentSeller.id) {
+    sellerLink = currentSeller.type === 'workshop' 
+      ? `workshop.html?id=${currentSeller.id}` 
+      : `user.html?id=${currentSeller.id}`;
+  }
 
   // ✅ التحقق من وجود صورة للبائع أو شعار للورشة
   let avatarHTML = '';
