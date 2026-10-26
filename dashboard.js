@@ -290,7 +290,29 @@ window.saveProfile = async function() {
 
 function showMsg(el, text, type) { el.textContent = text; el.className = 'modal-message ' + type; }
 function getStatusLabel(status) { const labels = { draft: '📝 مسودة', published: '✅ منشور', sold: '💰 مبيع', archived: '📦 مؤرشف' }; return labels[status] || '📝 مسودة'; }
+async function ensureWorkshop() {
+  let { data: existing } = await window.supabaseClient
+    .from('workshops')
+    .select('id')
+    .eq('owner_id', currentUser.id)
+    .maybeSingle();
 
+  if (existing) return existing;
+
+  let { data: created, error } = await window.supabaseClient
+    .from('workshops')
+    .insert({
+      owner_id: currentUser.id,
+      name: currentProfile.full_name || 'ورشتك',
+      slug: 'w-' + currentUser.id.slice(0, 8) + '-' + Date.now().toString(36),
+      status: 'active'
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return created;
+}
 // ═══ Tabs ═══
 document.querySelectorAll('.dash-tab').forEach(tab => {
   tab.addEventListener('click', () => {
