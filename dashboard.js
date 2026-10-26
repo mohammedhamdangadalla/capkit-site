@@ -243,23 +243,11 @@ function updateBioCounter() {
 window.saveProfile = async function() {
   const btn = document.getElementById('saveProfileBtn');
   const msg = document.getElementById('profileMsg');
-  const fullName = document.getElementById('pfFullName')?.value.trim();
-  const whatsapp = document.getElementById('pfWhatsapp')?.value.trim();
-  const city = document.getElementById('pfCity')?.value.trim();
-  const bio = document.getElementById('pfBio')?.value.trim();
-
-  if (!fullName || fullName.length < 3) return showMsg(msg, 'الاسم قصير جداً', 'error');
-  if (!whatsapp || whatsapp.replace(/\D/g, '').length < 10) return showMsg(msg, 'رقم الواتساب غير صحيح', 'error');
-
-  btn.disabled = true; btn.textContent = '⏳ جارٍ الحفظ...'; msg.className = 'modal-message';
-window.saveProfile = async function() {
-  const btn = document.getElementById('saveProfileBtn');
-  const msg = document.getElementById('profileMsg');
   
   const fullName = document.getElementById('pfFullName')?.value.trim();
   const rawWhatsapp = document.getElementById('pfWhatsapp')?.value.trim() || '';
   
-  // ✅ التعديل الجوهري: إزالة أي مسافات أو رموز، والاحتفاظ بالأرقام فقط
+  // تنظيف الرقم من المسافات والرموز
   const cleanWhatsapp = rawWhatsapp.replace(/\D/g, ''); 
 
   const city = document.getElementById('pfCity')?.value.trim();
@@ -273,8 +261,8 @@ window.saveProfile = async function() {
   try {
     const { error } = await window.supabaseClient.from('profiles').update({
       full_name: fullName, 
-      whatsapp: cleanWhatsapp, // ✅ نحفظ الرقم النظيف
-      phone: cleanWhatsapp,    // ✅ نحفظ الرقم النظيف
+      whatsapp: cleanWhatsapp,
+      phone: cleanWhatsapp,
       city: city || null, 
       bio: bio || null, 
       updated_at: new Date().toISOString()
@@ -288,7 +276,6 @@ window.saveProfile = async function() {
     currentProfile.city = city;
     currentProfile.bio = bio;
     
-    // تحديث الحقل في الواجهة ليعرض الرقم النظيف
     if (document.getElementById('pfWhatsapp')) {
         document.getElementById('pfWhatsapp').value = cleanWhatsapp;
     }
@@ -298,22 +285,6 @@ window.saveProfile = async function() {
   } catch (err) { 
     showMsg(msg, '❌ ' + (err.message || 'فشل الحفظ'), 'error'); 
   }
-  finally { btn.disabled = false; btn.textContent = '💾 حفظ التغييرات'; }
-};
-  try {
-    const { error } = await window.supabaseClient.from('profiles').update({
-      full_name: fullName, whatsapp: whatsapp, phone: whatsapp, city: city || null, bio: bio || null, updated_at: new Date().toISOString()
-    }).eq('id', currentUser.id);
-    if (error) throw error;
-
-    currentProfile.full_name = fullName;
-    currentProfile.whatsapp = whatsapp;
-    currentProfile.phone = whatsapp;
-    currentProfile.city = city;
-    currentProfile.bio = bio;
-    renderUserInfo();
-    showMsg(msg, '✅ تم حفظ التغييرات بنجاح!', 'success');
-  } catch (err) { showMsg(msg, '❌ ' + (err.message || 'فشل الحفظ'), 'error'); }
   finally { btn.disabled = false; btn.textContent = '💾 حفظ التغييرات'; }
 };
 
