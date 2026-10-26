@@ -16,13 +16,7 @@ async function initUserPage() {
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   currentUserId = session?.user?.id || null;
 
-  // ✅ التعديل: إذا كان زائراً، يتم تحويله لصفحة الدخول
-  // إذا كان زائراً، نعرض له صفحة "غير موجود" أو نطلب منه الدخول بلطف
-  if (!currentUserId) {
-    alert('⚠️ يرجى تسجيل الدخول لعرض ملفات البائعين.');
-    window.location.href = 'auth.html';
-    return;
-  }
+  // ملاحظة: تم إزالة الإجبار على تسجيل الدخول لكي يتمكن الزوار من تصفح ملفات البائعين والمنتجات بحرية
 
   const params = new URLSearchParams(window.location.search);
   const userId = params.get('id');
@@ -33,7 +27,7 @@ async function initUserPage() {
   }
 
   try {
-    // ✅ التعديل: استخدام maybeSingle بدلاً من single
+    // ✅ استخدام maybeSingle بدلاً من single لتجنب أخطاء الاستعلام
     const { data: profile, error } = await window.supabaseClient
       .from('profiles')
       .select('*')
@@ -89,8 +83,8 @@ async function initUserPage() {
 
 // ═══ Log View ═══
 async function logView(profileId) {
-  // متسجلش الزيارة لو المستخدم بيزور بروفايله
-  if (currentUserId === profileId) return;
+  // متسجلش الزيارة لو المستخدم بيزور بروفايله أو غير مسجل
+  if (!currentUserId || currentUserId === profileId) return;
 
   try {
     await window.supabaseClient
@@ -278,9 +272,9 @@ function updateFollowButton() {
 
 // ═══ Toggle Follow ═══
 window.toggleFollow = async function() {
-  // إذا كان زائراً، نعرض له صفحة "غير موجود" أو نطلب منه الدخول بلطف
+  // إذا كان زائراً، نطلب منه تسجيل الدخول
   if (!currentUserId) {
-    alert('⚠️ يرجى تسجيل الدخول لعرض ملفات البائعين.');
+    alert('⚠️ يرجى تسجيل الدخول لمتابعة البائعين والمستقلين.');
     window.location.href = 'auth.html';
     return;
   }
@@ -375,7 +369,7 @@ async function loadServices(userId) {
       .eq('user_id', userId)
       .maybeSingle();
 
-      if (!freelancer?.id) {
+    if (!freelancer?.id) {
       console.log('ℹ️ No freelancer profile found');
       return;
     }
@@ -577,7 +571,7 @@ window.shareProfile = function() {
   const url = window.location.href;
   
   if (navigator.share) {
-    navigator.share({ title: currentProfile.full_name, url });
+    navigator.share({ title: currentProfile?.full_name || 'CapKit', url });
   } else {
     navigator.clipboard.writeText(url).then(() => {
       alert('✅ تم نسخ الرابط');
