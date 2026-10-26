@@ -114,11 +114,12 @@ async function loadSeller(service) {
         }
       }
     }
-       if (service.workshop_id) {
+    
+    if (service.workshop_id) {
       const { data: workshop } = await window.supabaseClient.from('workshops').select('*').eq('id', service.workshop_id).single();
       if (workshop) {
         currentSeller = {
-          id: workshop.owner_id, // ✅ تأكد أن هذا هو owner_id
+          id: workshop.id, // ✅ التعديل: استخدام id الورشة وليس owner_id
           name: workshop.name || 'ورشة', type: 'workshop',
           whatsapp: workshop.whatsapp, verified: workshop.verified_badge,
           avatar_url: workshop.logo_url
@@ -194,7 +195,7 @@ function renderSeller() {
   const box = document.getElementById('sellerBox');
   const avatar = document.getElementById('sellerAvatar');
   const icon = currentSeller.type === 'workshop' ? '🏭' : '👤';
- const roleText = currentSeller.type === 'workshop' ? 'ورشة / شركة' : 'مهندس / فني / صانع / حرفي';
+  const roleText = currentSeller.type === 'workshop' ? 'ورشة / شركة' : 'مهندس / فني / صانع / حرفي';
   
   // ✅ إظهار الصورة إذا وجدت
   if (currentSeller.avatar_url) {
@@ -214,8 +215,15 @@ function renderSeller() {
   `;
 }
 
+// ✅ التعديل: التوجيه الذكي لصفحة الورشة أو المستخدم
 window.goToSeller = function() {
-  if (currentSeller?.id) window.location.href = `user?id=${currentSeller.id}`;
+  if (!currentSeller?.id) return;
+  
+  if (currentSeller.type === 'workshop') {
+    window.location.href = `workshop.html?id=${currentSeller.id}`;
+  } else {
+    window.location.href = `user.html?id=${currentSeller.id}`;
+  }
 };
 
 // ═══ WhatsApp (Guests) ═══
