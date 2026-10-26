@@ -573,11 +573,139 @@ async function loadMyServices() {
   container.appendChild(grid);
 }
 
-window.openServiceModal = function() { document.getElementById('serviceModal').classList.add('active'); };
-window.closeServiceModal = function() { document.getElementById('serviceModal').classList.remove('active'); };
-window.saveService = function() { alert('سيتم تفعيلها قريباً'); };
-window.editService = function() { /* ... */ };
-window.deleteService = function() { /* ... */ };
+// ═══ Services ═══
+window.openServiceModal = function() {
+  document.getElementById('serviceModal').classList.add('active');
+  hideServiceModalMessage();
+  document.getElementById('saveServiceBtn').removeAttribute('data-edit-id');
+  document.getElementById('saveServiceBtn').textContent = '💾 حفظ الخدمة';
+  
+  document.getElementById('sName').value = '';
+  document.getElementById('sDescription').value = '';
+  document.getElementById('sPriceStart').value = '';
+  document.getElementById('sPriceEnd').value = '';
+  document.getElementById('sCategory').value = '';
+  const negInput = document.querySelector('input[name="sNegotiable"][value="true"]');
+  if (negInput) negInput.checked = true;
+};
+
+window.closeServiceModal = function() {
+  document.getElementById('serviceModal').classList.remove('active');
+};
+
+function showServiceModalMessage(text, type = 'error') {
+  const msg = document.getElementById('serviceModalMsg');
+  if (msg) { msg.textContent = text; msg.className = 'modal-message ' + type; }
+}
+function hideServiceModalMessage() {
+  const msg = document.getElementById('serviceModalMsg');
+  if (msg) { msg.className = 'modal-message'; msg.textContent = ''; }
+}
+
+window.saveService = async function() {
+  const btn = document.getElementById('saveServiceBtn');
+  const editId = btn.getAttribute('data-edit-id');
+
+  const title = document.getElementById('sName').value.trim();
+  const description = document.getElementById('sDescription').value.trim();
+  const priceStart = parseFloat(document.getElementById('sPriceStart').value) || 0;
+  const priceEnd = parseFloat(document.getElementById('sPriceEnd').value) || null;
+  const currency = document.getElementById('sCurrency').value;
+  const serviceType = document.getElementById('sType').value;
+  const categoryId = document.getElementById('sCategory').value;
+  const negotiable = document.querySelector('input[name="sNegotiable"]:checked').value === 'true';
+
+  if (!title || title.length < 3) return showServiceModalMessage('اسم الخدمة قصير جداً');
+  if (!description || description.length < 20) return showServiceModalMessage('الوصف قصير جداً');
+  if (!categoryId) return showServiceModalMessage('اختر التصنيف');
+
+  btn.disabled = true; btn.textContent = '⏳ جارٍ الحفظ...'; hideServiceModalMessage();
+
+  try {
+    let freelancerId = null;
+    let workshopId = null;
+
+    const { data: freelancer } = await window.supabaseClient
+      .from('freelancers').select('id').eq('user_id', currentUser.id).maybeSingle();
+
+    if (freelancer?.id) {
+      freelancerId = freelancer.id;
+    } else {
+      const workshop = await ensureWorkshop(); 
+      workshopId = workshop.id;
+    }
+
+    const serviceData = {
+      title: title,
+      description: description,
+      price_start: priceStart,
+      price_end: priceEnd,
+      currency: currency,
+      service_type: serviceType,
+      category_id: parseInt(categoryId),
+      negotiable: negotiable,
+      status: 'published',
+      moderation_status: 'approved'
+    };
+
+    if (freelancerId) serviceData.freelancer_id = freelancerId;
+    if (workshopId) serviceData.workshop_id = workshopId;
+
+    let result;
+    if (editId) {
+      result = await window.supabaseClient.from('services').update(serviceData).eq('id', editId);
+    } else {
+      result = await window.supabaseClient.from('services').insert(serviceData);
+    }
+
+    if (result.error) throw result.error;
+
+    showServiceModalMessage(editId ? '✅ تم تحديث الخدمة!' : '✅ تم حفظ الخدمة!', 'success');
+    setTimeout(async () => { closeServiceModal(); await loadMyServices(); await loadStats(); }, 1000);
+
+  } catch (err) {
+    showServiceModalMessage('❌ ' + (err.message || 'فشل الحفظ'));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = editId ? '💾 تحديث الخدمة' : '💾 حفظ الخدمة';
+  }
+};
+
+window.editService = async function(id) {
+  const { data, error } = await window.supabaseClient.from('services').select('*').eq('id', id).single();
+  if (error || !data) return alert('❌ فشل تحميل الخدمة');
+
+  document.getElementById('serviceModal').classList.add('active');
+  hideServiceModalMessage();
+
+  document.getElementById('sName').value = data.title || '';
+  document.getElementById('sDescription').value = data.description || '';
+  document.getElementById('sPriceStart').value = data.price_start || '';
+  document.getElementById('sPriceEnd').value = data.price_end || '';
+  document.getElementById('sCurrency').value = data.currency || 'EGP';
+  document.getElementById('sType').value = data.service_type || 'repair';
+  document.getElementById('sCategory').value = data.category_id || '';
+
+  const negInput = document.querySelector(`input[name="sNegotiable"][value="${data.negotiable ? 'true' : 'false'}"]`);
+  if (negInput) negInput.checked = true;
+
+  const btn = document.getElementById('saveServiceBtn');
+  btn.textContent = '💾 تحديث الخدمة';
+  btn.setAttribute('data-edit-id', id);
+};
+
+window.deleteService = async function(id) {
+  if (!confirm('هل أنت متأكد من حذف هذه الخدمة؟\nلا يمكن التراجع.')) return;
+  try {
+    const { error } = await window.supabaseClient.from('services').delete().eq('id', id);
+    if (error) throw new Error(error.message);
+    
+    await loadMyServices();
+    await loadStats();
+  } catch (err) {
+    alert('❌ فشل الحذف: ' + err.message);
+  }
+};
 
 // ═══ Settings ═══
 function updateRoleUI() {
