@@ -217,8 +217,7 @@ window.triggerCreateOrder = async function(type) {
     window.location.href = 'auth.html'; // تحويله للتسجيل فقط لأنه زائر
     return;
   }
-    user = retry.data.session.user;
-  }
+
   // استخراج معرف المنتج من الرابط
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get('id') || urlParams.get('slug'); 
