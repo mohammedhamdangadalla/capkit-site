@@ -976,95 +976,121 @@ function buildAlertHtml(type, item) {
 }
 
 // ═══ Telegram ═══
-const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev"; 
+const TG_WORKER_URL = "https://capkit-telegram-bot.mohammed-hamdan0.workers.dev";
 
 async function checkTelegramStatus() {
-    if (typeof supabaseClient === 'undefined') return false;
-    try {
-        const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
-const user = session?.user;
-if (sessionError || !user) return false;
-        const { data: profile } = await supabaseClient.from('profiles').select('telegram_chat_id, telegram_username').eq('id', user.id).single();
-        const unlinkedView = document.getElementById('telegram-unlinked-view');
-        const linkedView = document.getElementById('telegram-linked-view');
-        const tgUsername = document.getElementById('tg-username');
+  if (!window.supabaseClient) return false;
+  try {
+    const { data: { session }, error: sessionError } =
+      await window.supabaseClient.auth.getSession();
+    const user = session?.user;
+    if (sessionError || !user) return false;
 
-        if (profile && profile.telegram_chat_id) {
-            if(unlinkedView) unlinkedView.style.display = 'none';
-            if(linkedView) linkedView.style.display = 'block';
-            if(tgUsername) tgUsername.textContent = profile.telegram_username ? `@${profile.telegram_username}` : profile.telegram_chat_id;
-            return true;
-        } else {
-            if(unlinkedView) unlinkedView.style.display = 'block';
-            if(linkedView) linkedView.style.display = 'none';
-            return false;
-        }
-    } catch (err) { return false; }
+    const { data: profile } = await window.supabaseClient
+      .from('profiles')
+      .select('telegram_chat_id, telegram_username')
+      .eq('id', user.id)
+      .single();
+
+    const unlinkedView = document.getElementById('telegram-unlinked-view');
+    const linkedView   = document.getElementById('telegram-linked-view');
+    const tgUsername   = document.getElementById('tg-username');
+
+    if (profile?.telegram_chat_id) {
+      if (unlinkedView) unlinkedView.style.display = 'none';
+      if (linkedView)   linkedView.style.display   = 'block';
+      if (tgUsername)   tgUsername.textContent =
+        profile.telegram_username ? `@${profile.telegram_username}` : profile.telegram_chat_id;
+      return true;
+    } else {
+      if (unlinkedView) unlinkedView.style.display = 'block';
+      if (linkedView)   linkedView.style.display   = 'none';
+      return false;
+    }
+  } catch (err) {
+    console.warn('checkTelegramStatus error:', err);
+    return false;
+  }
 }
 
 checkTelegramStatus();
 
 const btnLink = document.getElementById('btn-link-telegram');
 if (btnLink) {
-    btnLink.addEventListener('click', async () => {
-        if (typeof supabaseClient === 'undefined') return alert('خطأ في تحميل النظام.');
-        try {
-            btnLink.textContent = 'جاري التحضير...'; btnLink.disabled = true;
-            const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
-            if (sessionError || !session) return window.location.href = 'auth.html';
-            const response = await fetch(`${TG_WORKER_URL}/api/telegram/link-token`, { method: 'POST', headers: { 'Authorization': `Bearer ${session.access_token}` } });
-            const data = await response.json();
-            if (response.ok && data.token) {
-                window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
-                btnLink.textContent = 'بانتظار الربط...';
-                let attempts = 0;
-                if(pollingInterval) clearInterval(pollingInterval);
-                pollingInterval = setInterval(async () => {
-                    attempts++;
-                    const isLinked = await checkTelegramStatus();
-                    if (isLinked || attempts >= 40) {
-                        clearInterval(pollingInterval);
-                        btnLink.textContent = '🔗 ربط الحساب الآن';
-                        btnLink.disabled = false;
-                    }
-                }, 3000);
-            } else {
-                alert(`خطأ: ${data.details || data.error || 'غير معروف'}`);
-                btnLink.textContent = '🔗 ربط الحساب الآن'; btnLink.disabled = false;
-            }
-        } catch (err) {
-            alert('حدث خطأ في الاتصال بالخادم.'); btnLink.textContent = '🔗 ربط الحساب الآن'; btnLink.disabled = false;
-        }
-    });
+  btnLink.addEventListener('click', async () => {
+    if (!window.supabaseClient) return alert('خطأ في تحميل النظام.');
+    try {
+      btnLink.textContent = 'جاري التحضير...';
+      btnLink.disabled = true;
+
+      const { data: { session }, error: sessionError } =
+        await window.supabaseClient.auth.getSession();
+      if (sessionError || !session) return window.location.href = 'auth.html';
+
+      const response = await fetch(`${TG_WORKER_URL}/api/telegram/link-token`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      const data = await response.json();
+
+      if (response.ok && data.token) {
+        window.open(`https://t.me/CapKitMarketBot?start=${data.token}`, '_blank');
+        btnLink.textContent = 'بانتظار الربط...';
+
+        let attempts = 0;
+        if (pollingInterval) clearInterval(pollingInterval);
+        pollingInterval = setInterval(async () => {
+          attempts++;
+          const isLinked = await checkTelegramStatus();
+          if (isLinked || attempts >= 40) {
+            clearInterval(pollingInterval);
+            btnLink.textContent = '🔗 ربط الحساب الآن';
+            btnLink.disabled = false;
+          }
+        }, 3000);
+      } else {
+        alert(`خطأ: ${data.details || data.error || 'غير معروف'}`);
+        btnLink.textContent = '🔗 ربط الحساب الآن';
+        btnLink.disabled = false;
+      }
+    } catch (err) {
+      alert('حدث خطأ في الاتصال بالخادم.');
+      btnLink.textContent = '🔗 ربط الحساب الآن';
+      btnLink.disabled = false;
+    }
+  });
 }
 
 const btnUnlink = document.getElementById('btn-unlink-telegram');
 if (btnUnlink) {
-    btnUnlink.addEventListener('click', async () => {
-        if (!confirm('هل أنت متأكد من إلغاء الربط؟')) return;
-        try {
-            btnUnlink.textContent = 'جاري الإلغاء...'; btnUnlink.disabled = true;
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            const response = await fetch(`${TG_WORKER_URL}/api/telegram/unlink`, { method: 'POST', headers: { 'Authorization': `Bearer ${session.access_token}` } });
-            if (response.ok) { alert('✅ تم إلغاء الربط بنجاح'); window.location.reload(); } 
-            else { alert('حدث خطأ'); btnUnlink.textContent = '❌ إلغاء الربط'; btnUnlink.disabled = false; }
-        } catch (err) {
-            alert('حدث خطأ في الاتصال'); btnUnlink.textContent = '❌ إلغاء الربط'; btnUnlink.disabled = false;
-        }
-    });
-}
+  btnUnlink.addEventListener('click', async () => {
+    if (!confirm('هل أنت متأكد من إلغاء الربط؟')) return;
+    if (!window.supabaseClient) return alert('خطأ في تحميل النظام.');
+    try {
+      btnUnlink.textContent = 'جاري الإلغاء...';
+      btnUnlink.disabled = true;
 
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-        checkTelegramStatus().then(isLinked => {
-            if (isLinked && pollingInterval) {
-                clearInterval(pollingInterval);
-                if (btnLink) { btnLink.textContent = '🔗 ربط الحساب الآن'; btnLink.disabled = false; }
-            }
-        });
+      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      const response = await fetch(`${TG_WORKER_URL}/api/telegram/unlink`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+
+      if (response.ok) {
+        alert('✅ تم إلغاء الربط بنجاح');
+        window.location.reload();
+      } else {
+        alert('حدث خطأ');
+        btnUnlink.textContent = '❌ إلغاء الربط';
+        btnUnlink.disabled = false;
+      }
+    } catch (err) {
+      alert('حدث خطأ في الاتصال');
+      btnUnlink.textContent = '❌ إلغاء الربط';
+      btnUnlink.disabled = false;
     }
-});
-
+  });
+}
 // ═══ Start ═══
 document.addEventListener('click', async (e) => {
   if (e.target.closest('#logoutFromDash')) {
