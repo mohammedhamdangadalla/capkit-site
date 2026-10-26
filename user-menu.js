@@ -1,4 +1,4 @@
-// ═══ User Menu — Navbar Auth State ═══
+// ═══ User Menu — Navbar Auth State (Updated) ═══
 
 async function initUserMenu() {
   if (!window.supabaseClient) {
@@ -11,7 +11,11 @@ async function initUserMenu() {
   const navActions = document.querySelector('.nav-actions');
   if (!navActions) return;
 
-  // احذف الأزرار القديمة
+  // 1. مسح أي قائمة قديمة (لمنع التكرار عند تحديث الجلسة)
+  const existingMenu = navActions.querySelector('.user-menu');
+  if (existingMenu) existingMenu.remove();
+
+  // 2. مسح أزرار الزوار القديمة
   const oldJoin = navActions.querySelector('a[href="auth.html"]');
   const oldLogin = navActions.querySelector('.btn-ghost');
   
@@ -67,8 +71,12 @@ async function initUserMenu() {
       document.getElementById('userDropdown').classList.toggle('active');
     });
     
+    // ✅ رسالة الوداع عند الخروج
     document.getElementById('logoutBtn').addEventListener('click', async () => {
+      if (!confirm('هل أنت متأكد من تسجيل الخروج؟')) return;
+      
       await window.supabaseClient.auth.signOut();
+      alert('ننتظر عودتك قريباً! 👋');
       window.location.href = '/';
     });
     
@@ -79,7 +87,21 @@ async function initUserMenu() {
     
   } else {
     // ❌ المستخدم مش مسجل دخول
-    // نترك الأزرار زي ما هي
+    // إعادة أزرار الزوار إذا تم مسحها
+    if (!oldJoin) {
+      const joinBtn = document.createElement('a');
+      joinBtn.href = 'auth.html';
+      joinBtn.className = 'btn-primary';
+      joinBtn.textContent = 'انضم';
+      navActions.insertBefore(joinBtn, navActions.firstChild);
+    }
+    if (!oldLogin) {
+      const loginBtn = document.createElement('a');
+      loginBtn.href = 'auth.html';
+      loginBtn.className = 'btn-ghost';
+      loginBtn.textContent = 'دخول';
+      navActions.insertBefore(loginBtn, navActions.firstChild);
+    }
   }
 }
 
@@ -87,10 +109,20 @@ function getRoleIcon(role) {
   switch(role) {
     case 'vendor': return '🛒';
     case 'service': return '🔧';
-    case 'freelancer': return '🔨';
+    case 'freelancer': return '💼';
     case 'admin': return '⭐';
     default: return '👤';
   }
+}
+
+// ═══ الاستماع لتغييرات الجلسة (السحر الذي يحل مشكلة فقدان الجلسة) ═══
+if (window.supabaseClient) {
+  window.supabaseClient.auth.onAuthStateChange((event, session) => {
+    console.log('Auth Event:', event);
+    if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') {
+      initUserMenu();
+    }
+  });
 }
 
 // تشغيل عند جاهزية DOM
