@@ -226,15 +226,21 @@ function renderHeader(profile, stats) {
 function renderActions(profile) {
   // زر الواتساب
   const waBtn = document.getElementById('whatsappContact');
-  const phone = (profile.whatsapp || '').replace(/\D/g, '');
+  const rawPhone = profile.whatsapp || '';
+  const phone = typeof window.normalizeWhatsApp === 'function'
+    ? window.normalizeWhatsApp(rawPhone)
+    : String(rawPhone).replace(/\D/g, '');
 
   if (phone) {
     const msg = encodeURIComponent(`مرحباً، شفت صفحتك على CapKit وأرغب في التواصل.`);
     waBtn.href = `https://wa.me/${phone}?text=${msg}`;
   } else {
-    waBtn.href = '#';
+    waBtn.href = 'javascript:void(0)';
     waBtn.style.opacity = '0.5';
-    waBtn.style.pointerEvents = 'none';
+    waBtn.onclick = (e) => {
+      e.preventDefault();
+      alert('رقم التواصل غير متاح لهذا المستخدم.');
+    };
   }
 
   // زر المتابعة

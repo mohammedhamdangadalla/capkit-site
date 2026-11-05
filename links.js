@@ -19,6 +19,21 @@
     return `https://capkitco.com${itemUrl(type, item)}`;
   }
 
+  /**
+   * يطبّع رقم واتساب إلى الصيغة الدولية.
+   * الأرقام المخزّنة محلياً مثل 01116549311 تنتج رابطاً غير صالح،
+   * فيفتح واتساب الشاشة الرئيسية بدل المحادثة.
+   */
+  function normalizeWhatsApp(value) {
+    let d = String(value || '').replace(/\D/g, '');
+    if (!d) return '';
+    if (d.startsWith('00')) d = d.slice(2);
+    if (d.startsWith('0')) d = '20' + d.slice(1);
+    else if (/^1\d{9}$/.test(d)) d = '20' + d; // موبايل مصري بلا صفر
+    return d.length >= 8 && d.length <= 15 ? d : '';
+  }
+
+  window.normalizeWhatsApp = normalizeWhatsApp;
   window.itemUrl = itemUrl;
   window.itemUrlAbsolute = itemUrlAbsolute;
 })();

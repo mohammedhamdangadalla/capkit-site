@@ -268,15 +268,23 @@ function renderActions(workshop) {
     return;
   }
 
-  const phone = (workshop.whatsapp || workshop.phone || '').replace(/\D/g, '');
+  const rawPhone = workshop.whatsapp || workshop.phone || '';
+  const phone = typeof window.normalizeWhatsApp === 'function'
+    ? window.normalizeWhatsApp(rawPhone)
+    : String(rawPhone).replace(/\D/g, '');
 
   if (phone) {
     const msg = encodeURIComponent(`مرحباً، شفت ورشتكم على CapKit وأرغب في التواصل.`);
     waBtn.href = `https://wa.me/${phone}?text=${msg}`;
+    waBtn.style.opacity = '1';
+    waBtn.style.pointerEvents = 'auto';
   } else {
-    waBtn.href = '#';
+    waBtn.href = 'javascript:void(0)';
     waBtn.style.opacity = '0.5';
-    waBtn.style.pointerEvents = 'none';
+    waBtn.onclick = (e) => {
+      e.preventDefault();
+      alert('رقم التواصل غير متاح لهذه الورشة.');
+    };
   }
 
   if (workshop.instagram) {

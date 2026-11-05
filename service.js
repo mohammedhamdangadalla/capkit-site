@@ -272,14 +272,25 @@ function renderWhatsApp() {
     return;
   }
 
-  let phone = '';
-  if (currentSeller?.whatsapp) phone = currentSeller.whatsapp.replace(/\D/g, '');
+  const rawPhone = currentSeller?.whatsapp || currentSeller?.phone || '';
+  const phone = typeof window.normalizeWhatsApp === 'function'
+    ? window.normalizeWhatsApp(rawPhone)
+    : String(rawPhone).replace(/\D/g, '');
   const serviceUrl = itemUrlAbsolute('service', s);
   const message = `مرحباً، أنا مهتم بالخدمة:\n\n${s.title}\n${s.price_start ? `يبدأ من ${s.price_start} ${s.currency || 'EGP'}` : 'السعر بالتفاوض'}\n\n${serviceUrl}`;
   const encodedMsg = encodeURIComponent(message);
 
-  if (phone) btn.href = `https://wa.me/${phone}?text=${encodedMsg}`;
-  else btn.href = `https://wa.me/?text=${encodedMsg}`;
+  if (!phone) {
+    btn.href = 'javascript:void(0)';
+    btn.innerHTML = '<span>⚠️</span><span>رقم مقدم الخدمة غير متاح</span>';
+    btn.onclick = (e) => {
+      e.preventDefault();
+      alert('رقم مقدم الخدمة غير متاح حالياً.\nحدّث الصفحة، أو تواصل عبر المنصة.');
+    };
+    return;
+  }
+
+  btn.href = `https://wa.me/${phone}?text=${encodedMsg}`;
 }
 
 function renderServiceLike(serviceId) {

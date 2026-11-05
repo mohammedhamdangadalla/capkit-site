@@ -365,20 +365,27 @@ function renderWhatsApp() {
     return;
   }
 
-  let phone = '';
-  if (currentSeller?.whatsapp) {
-    phone = currentSeller.whatsapp.replace(/\D/g, '');
-  }
+  const rawPhone = currentSeller?.whatsapp || currentSeller?.phone || '';
+  const phone = typeof window.normalizeWhatsApp === 'function'
+    ? window.normalizeWhatsApp(rawPhone)
+    : String(rawPhone).replace(/\D/g, '');
 
   const productUrl = itemUrlAbsolute('product', p);
   const message = `مرحباً، أنا مهتم بالمنتج:\n\n${p.title}\n${p.price} ${p.currency}\n\n${productUrl}`;
   const encodedMsg = encodeURIComponent(message);
 
-  if (phone) {
-    btn.href = `https://wa.me/${phone}?text=${encodedMsg}`;
-  } else {
-    btn.href = `https://wa.me/?text=${encodedMsg}`;
+  if (!phone) {
+    // لا نفتح واتساب فارغاً: رسالة واضحة بدل شاشة اختيار جهة اتصال
+    btn.href = 'javascript:void(0)';
+    btn.innerHTML = '<span>⚠️</span><span>رقم البائع غير متاح</span>';
+    btn.onclick = (e) => {
+      e.preventDefault();
+      alert('رقم البائع غير متاح حالياً.\nحدّث الصفحة، أو تواصل عبر المنصة من لوحة التحكم.');
+    };
+    return;
   }
+
+  btn.href = `https://wa.me/${phone}?text=${encodedMsg}`;
 }
 
 // ═══ Helpers ═══
