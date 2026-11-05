@@ -143,6 +143,27 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
 <!-- SEO-META:END -->`;
 }
 
+/**
+ * يحوّل كل مسار نسبي في وسوم الصفحة إلى مسار جذري.
+ * السبب: الصفحة المولّدة تعيش في /product/{slug}/، فأي مسار مثل styles.css
+ * أو product.js يُبحث عنه داخل المجلد الفرعي ويفشل بـ404.
+ * نعالج الوسوم فقط (لا نلمس محتوى <script>) لتجنّب إفساد JSON المضمّن.
+ */
+function absolutize(html) {
+  return html.replace(/<[a-zA-Z][^>]*>/g, (tag) =>
+    tag.replace(/\s(src|href)="([^"]*)"/gi, (match, attr, value) => {
+      const v = value.trim();
+      const isAbsolute =
+        !v ||
+        v.startsWith('#') ||
+        v.startsWith('/') ||
+        v.startsWith('//') ||
+        /^(https?:|mailto:|tel:|data:|javascript:|blob:)/i.test(v);
+      return isAbsolute ? match : ` ${attr}="/${v}"`;
+    }),
+  );
+}
+
 /** يحقن الحمولة (بيانات جاهزة) + كتلة الـhead في القالب */
 function assemble(template, head, payload, title) {
   let html = stripHead(template);
@@ -152,7 +173,7 @@ function assemble(template, head, payload, title) {
   // الحمولة تُنفَّذ أثناء تحليل الصفحة، قبل أي حدث DOMContentLoaded
   const payloadTag = `<script>window.__PRERENDER__ = ${JSON.stringify(payload).replace(/</g, '\\u003c')};</script>`;
   html = html.replace(/<body([^>]*)>/i, `<body$1>\n${payloadTag}`);
-  return html;
+  return absolutize(html);
 }
 
 // ─────────────────────────────── Supabase ───────────────────────────────

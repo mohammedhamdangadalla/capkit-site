@@ -310,8 +310,8 @@ function renderSeller() {
   let sellerLink = '#';
   if (currentSeller.id) {
     sellerLink = currentSeller.type === 'workshop' 
-      ? `workshop.html?id=${currentSeller.id}` 
-      : `user.html?id=${currentSeller.id}`;
+      ? `/workshop.html?id=${currentSeller.id}` 
+      : `/user.html?id=${currentSeller.id}`;
   }
 
   // ✅ التحقق من وجود صورة للبائع أو شعار للورشة
@@ -346,7 +346,7 @@ function renderWhatsApp() {
     btn.style.background = 'var(--obsidian-3)';
     btn.style.color = 'var(--gold)';
     btn.style.border = '1px solid var(--gold)';
-    btn.onclick = () => window.location.href = 'auth.html';
+    btn.onclick = () => window.location.href = '/auth.html';
     return;
   }
 

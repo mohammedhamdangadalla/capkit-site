@@ -237,9 +237,9 @@ window.goToSeller = function() {
   if (!currentSeller?.id) return;
   
   if (currentSeller.type === 'workshop') {
-    window.location.href = `workshop.html?id=${currentSeller.id}`;
+    window.location.href = `/workshop.html?id=${currentSeller.id}`;
   } else {
-    window.location.href = `user.html?id=${currentSeller.id}`;
+    window.location.href = `/user.html?id=${currentSeller.id}`;
   }
 };
 
@@ -254,7 +254,7 @@ function renderWhatsApp() {
     btn.style.background = 'var(--obsidian-3)';
     btn.style.color = 'var(--gold)';
     btn.style.border = '1px solid var(--gold)';
-    btn.onclick = () => window.location.href = 'auth.html';
+    btn.onclick = () => window.location.href = '/auth.html';
     return;
   }
 

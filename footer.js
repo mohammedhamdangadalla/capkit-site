@@ -13,7 +13,7 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="capkit-co.html" class="logo">
+      <a href="/capkit-co.html" class="logo">
         <span class="logo-mark">C</span>
         <span>CAPKIT CO.<span class="logo-sub">كاب كيت كو</span></span>
       </a>
@@ -45,8 +45,8 @@
       <h4>تواصل</h4>
       <ul>
         <li><a href="https://wa.me/201116549311" target="_blank">واتساب مباشر</a></li>
-        <li><a href="contact.html">الطلبات الخاصة (Bespoke)</a></li>
-        <li><a href="about.html">دار كاب كيت كو — مصر</a></li>
+        <li><a href="/contact.html">الطلبات الخاصة (Bespoke)</a></li>
+        <li><a href="/about.html">دار كاب كيت كو — مصر</a></li>
       </ul>
     </div>
   </div>
@@ -56,11 +56,11 @@
     <div class="footer-legal">
       <a href="/">← العودة لـ Souq</a>
       <span>·</span>
-      <a href="manifesto.html">الميثاق</a>
+      <a href="/manifesto.html">الميثاق</a>
       <span>·</span>
-      <a href="terms.html">الشروط</a>
+      <a href="/terms.html">الشروط</a>
       <span>·</span>
-      <a href="privacy.html">الخصوصية</a>
+      <a href="/privacy.html">الخصوصية</a>
       <span>·</span>
       <span>صُنع في مصر</span>
     </div>
@@ -86,20 +86,20 @@
     <div class="footer-col">
       <h4>المنصة</h4>
       <ul>
-        <li><a href="search.html">تصفح المنتجات</a></li>
-        <li><a href="search.html">الخدمات</a></li>
-        <li><a href="search.html">الورش</a></li>
-        <li><a href="capkit-co.html">CapKit Originals ✨</a></li>
+        <li><a href="/search.html">تصفح المنتجات</a></li>
+        <li><a href="/search.html">الخدمات</a></li>
+        <li><a href="/search.html">الورش</a></li>
+        <li><a href="/capkit-co.html">CapKit Originals ✨</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
       <h4>الصنّاع</h4>
       <ul>
-        <li><a href="auth.html">انضم كصانع</a></li>
-        <li><a href="auth.html">قدّم خدمة</a></li>
-        <li><a href="manifesto.html">الميثاق</a></li>
-        <li><a href="about.html">من نحن</a></li>
+        <li><a href="/auth.html">انضم كصانع</a></li>
+        <li><a href="/auth.html">قدّم خدمة</a></li>
+        <li><a href="/manifesto.html">الميثاق</a></li>
+        <li><a href="/about.html">من نحن</a></li>
       </ul>
     </div>
 
@@ -107,9 +107,9 @@
       <h4>تواصل</h4>
       <ul>
         <li><a href="https://wa.me/201116549311" target="_blank">واتساب</a></li>
-        <li><a href="contact.html">تواصل معنا</a></li>
+        <li><a href="/contact.html">تواصل معنا</a></li>
         <li><a href="mailto:hello@capkitco.com">البريد</a></li>
-        <li><a href="about.html">عن CapKit Co.</a></li>
+        <li><a href="/about.html">عن CapKit Co.</a></li>
       </ul>
     </div>
   </div>
@@ -117,11 +117,11 @@
   <div class="footer-bottom">
     <div>© 2026 CapKit Co. — جميع الحقوق محفوظة · صُنع في مصر</div>
     <div class="footer-legal">
-      <a href="terms.html">الشروط والأحكام</a>
+      <a href="/terms.html">الشروط والأحكام</a>
       <span>·</span>
-      <a href="privacy.html">سياسة الخصوصية</a>
+      <a href="/privacy.html">سياسة الخصوصية</a>
       <span>·</span>
-      <a href="manifesto.html">الميثاق</a>
+      <a href="/manifesto.html">الميثاق</a>
     </div>
   </div>
 </footer>

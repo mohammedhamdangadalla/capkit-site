@@ -124,6 +124,14 @@ prerender-manifest.json         فهرس المولّد (يغذّي sitemap.xml)
 
 حُدّثت روابط البطاقات في: `homepage-loader.js` · `search.js` · `user.js` · `workshop.js` · `admin.js` · `product.js` · `service.js`.
 
+### المسارات داخل الصفحات المولّدة
+
+الصفحة تعيش في `/product/{slug}/`، فأي مسار نسبي (`product.js`، `styles.css`) يُطلب من المجلد الفرعي ويفشل بـ404. لذلك:
+
+- `absolutize()` في المولّد يحوّل كل `src`/`href` نسبي إلى جذري (`/product.js`) في كل الصفحات المولّدة (منتجات، خدمات، ورش، بطاقات).
+- لا يلمس محتوى `<script>` حتى لا يُفسد JSON المضمّن، ويتجاهل `#` و`https:` و`mailto:` و`data:`.
+- أُصلحت أيضاً الروابط التي تُبنى وقت التشغيل: `footer.js` وروابط البائع في `product.js`/`service.js` وتحويلات الدخول في `comment.js`/`rating.js`/`likes.js` — لأنها كانت ستُكسر على الصفحات المولّدة رغم سلامة HTML.
+
 ### التشغيل (قبل كل نشر)
 ```bash
 node scripts/prerender.mjs    # يولّد الصفحات + المانيفست

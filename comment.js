@@ -28,7 +28,7 @@ function renderCommentForm() {
     container.innerHTML = `
       <div class="comment-login-prompt">
         <p>سجّل دخولك عشان تقدر تعلّق وتشارك رأيك</p>
-        <a href="auth.html">تسجيل الدخول</a>
+        <a href="/auth.html">تسجيل الدخول</a>
       </div>
     `;
     return;
@@ -69,7 +69,7 @@ function renderCommentForm() {
 // ═══ Submit Comment ═══
 window.submitComment = async function() {
   if (!commentsUser) {
-    window.location.href = 'auth.html';
+    window.location.href = '/auth.html';
     return;
   }
 

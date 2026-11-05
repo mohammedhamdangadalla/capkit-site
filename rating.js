@@ -53,7 +53,7 @@ function renderRatingForm() {
       
        <h3 class="rating-section-title">⭐ قيّم ${ratingTargetType === 'product' ? 'هذا المنتج' : 'هذه الخدمة'}</h3>
         <p class="rating-prompt">سجّل دخولك عشان تقدر تقيّم</p>
-        <a href="auth.html" class="rating-submit-btn" style="text-decoration: none; display: inline-block;">تسجيل الدخول</a>
+        <a href="/auth.html" class="rating-submit-btn" style="text-decoration: none; display: inline-block;">تسجيل الدخول</a>
       </div>
     `;
     return;
@@ -128,7 +128,7 @@ function updateStarsDisplay() {
 // ═══ Submit Rating ═══
 window.submitRating = async function() {
   if (!ratingUser) {
-    window.location.href = 'auth.html';
+    window.location.href = '/auth.html';
     return;
   }
 

@@ -109,7 +109,7 @@ async function refreshLikeButton(type, id) {
 // ═══ Show Login Dialog ═══
 function showLoginDialog() {
   if (confirm('سجّل دخولك عشان تقدر تعمل إعجاب. تروح لصفحة التسجيل؟')) {
-    window.location.href = 'auth.html';
+    window.location.href = '/auth.html';
   }
 }
 

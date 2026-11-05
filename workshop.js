@@ -246,7 +246,7 @@ function renderActions(workshop) {
     waBtn.style.background = 'var(--obsidian-3)';
     waBtn.style.color = 'var(--gold)';
     waBtn.style.border = '1px solid var(--gold)';
-    waBtn.onclick = () => window.location.href = 'auth.html';
+    waBtn.onclick = () => window.location.href = '/auth.html';
 
     if (workshop.instagram) {
       igBtn.style.display = 'flex';
@@ -255,14 +255,14 @@ function renderActions(workshop) {
       igBtn.style.background = 'var(--obsidian-3)';
       igBtn.style.color = 'var(--gold)';
       igBtn.style.border = '1px solid var(--gold)';
-      igBtn.onclick = () => window.location.href = 'auth.html';
+      igBtn.onclick = () => window.location.href = '/auth.html';
     }
 
     const followBtn = document.getElementById('followBtn');
     followBtn.innerHTML = '<span>♡</span><span>متابعة</span>';
     followBtn.onclick = () => {
       if (confirm('لازم تسجل دخول للمتابعة. تروح لصفحة التسجيل؟')) {
-        window.location.href = 'auth.html';
+        window.location.href = '/auth.html';
       }
     };
     return;
@@ -310,7 +310,7 @@ function updateFollowButton() {
 // ═══ Toggle Follow ═══
 window.toggleFollow = async function() {
   if (!currentUserId) {
-    window.location.href = 'auth.html';
+    window.location.href = '/auth.html';
     return;
   }
   if (!currentWorkshop) return;
