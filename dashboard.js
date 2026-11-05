@@ -45,6 +45,7 @@ async function initDashboard() {
 
   renderUserInfo();
   loadProfileForm();
+  initCardSection();
   
   await loadStats().catch(console.error);
   await loadMyProducts().catch(console.error);
@@ -1139,3 +1140,76 @@ function initTheme() {
   }
 }
 document.addEventListener('DOMContentLoaded', initTheme);
+
+
+// ═══ بطاقة المشاركة (Public Card) ═══
+
+function updateCardStatus() {
+  const text = document.getElementById('cardStatusText');
+  const link = document.getElementById('cardOpenLink');
+  if (!text) return;
+
+  const p = currentProfile || {};
+  if (!p.username) {
+    text.textContent = '—';
+    if (link) link.hidden = true;
+    return;
+  }
+
+  if (p.profile_public) {
+    text.innerHTML = '✅ منشورة — <span dir="ltr">/u/' + p.username + '/</span>';
+    if (link) {
+      link.href = '/u/' + p.username + '/';
+      link.hidden = false;
+    }
+  } else {
+    text.textContent = '🔒 غير منشورة — فعّل النشر لكي تظهر بطاقتك للآخرين';
+    if (link) link.hidden = true;
+  }
+}
+
+function initCardSection() {
+  const btn = document.getElementById('editCardBtnDash');
+  if (!btn || btn.dataset.wired) return;
+  btn.dataset.wired = '1';
+
+  updateCardStatus();
+
+  btn.addEventListener('click', () => {
+    const msg = document.getElementById('profileMsg');
+    if (!window.CardEditor) {
+      if (msg) showMsg(msg, 'تعذّر تحميل محرر البطاقة', 'error');
+      return;
+    }
+    window.CardEditor.open({
+      user: currentUser,
+      profile: currentProfile,
+      onSaved: (updated) => {
+        currentProfile = { ...currentProfile, ...updated };
+        loadProfileForm();
+        updateCardStatus();
+        if (msg) showMsg(msg, '✅ تم حفظ بطاقة المشاركة', 'success');
+      },
+    });
+  });
+
+  const copyBtn = document.getElementById('copyCardLinkBtn');
+  if (copyBtn && !copyBtn.dataset.wired) {
+    copyBtn.dataset.wired = '1';
+    copyBtn.addEventListener('click', async () => {
+      const msg = document.getElementById('profileMsg');
+      const p = currentProfile || {};
+      if (!p.username || !p.profile_public) {
+        if (msg) showMsg(msg, 'انشر البطاقة أولاً للحصول على رابط', 'error');
+        return;
+      }
+      const url = `${location.origin}/u/${p.username}/`;
+      try {
+        await navigator.clipboard.writeText(url);
+        if (msg) showMsg(msg, '✅ تم نسخ رابط البطاقة', 'success');
+      } catch {
+        window.prompt('انسخ الرابط:', url);
+      }
+    });
+  }
+}

@@ -33,6 +33,7 @@
   let dialog = null;
   let pendingFile = null;
   let previewUrl = null;
+  let onSaved = null;
 
   // ───────────── أدوات ─────────────
 
@@ -373,6 +374,7 @@
       fillForm();
 
       toast('تم حفظ البطاقة بنجاح');
+      if (typeof onSaved === 'function') onSaved(profile);
       closeDialog();
     } catch (err) {
       toast(err.message || 'تعذّر الحفظ', 'error');
@@ -382,8 +384,15 @@
     }
   }
 
+  function ensureDialog() {
+    if (dialog) return dialog;
+    dialog = buildDialog();
+    wireEvents();
+    return dialog;
+  }
+
   function openDialog() {
-    if (!dialog) dialog = buildDialog();
+    ensureDialog();
     fillForm();
     dialog.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -443,11 +452,27 @@
       user = session.user;
       profile = loaded;
       injectStyles();
-      dialog = buildDialog();
-      wireEvents();
+      ensureDialog();
       injectButton();
     } catch (err) {
       console.warn('Card edit init failed:', err);
     }
   });
+  // ═══ واجهة برمجية للاستخدام خارج user.html (لوحة التحكم مثلاً) ═══
+  window.CardEditor = {
+    open({ profile: nextProfile, user: nextUser, onSaved: callback } = {}) {
+      if (!nextProfile || !nextUser) {
+        console.warn('CardEditor.open: profile و user مطلوبان');
+        return;
+      }
+      user = nextUser;
+      profile = nextProfile;
+      onSaved = typeof callback === 'function' ? callback : null;
+      injectStyles();
+      openDialog();
+    },
+    getProfile() {
+      return profile;
+    }
+  };
 })();
