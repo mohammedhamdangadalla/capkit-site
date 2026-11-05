@@ -364,7 +364,7 @@ window.handleSubmit = async function(event) {
     showAlert('✅ تم الحفظ بنجاح! جارٍ التحويل...', 'success');
 
     setTimeout(() => {
-      window.location.href = `workshop.html?id=${result.data.id}`;
+      window.location.href = `/workshop.html?id=${result.data.id}`;
     }, 1500);
 
   } catch (err) {

@@ -254,7 +254,7 @@ if (btnTgReset) {
             
             if (res.ok) {
                 alert('✅ تم تغيير كلمة المرور بنجاح! يمكنك تسجيل الدخول الآن.');
-                window.location.href = 'auth.html';
+                window.location.href = '/auth.html';
             } else {
                 alert(data.error || 'حدث خطأ أثناء تغيير كلمة المرور');
             }

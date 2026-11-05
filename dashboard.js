@@ -19,13 +19,13 @@ let pollingInterval = null;
 // ═══ Init Dashboard ═══
 async function initDashboard() {
   if (!window.supabaseClient) {
-    window.location.href = 'auth.html';
+    window.location.href = '/auth.html';
     return;
   }
 
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   if (!session?.user) {
-    window.location.href = 'auth.html';
+    window.location.href = '/auth.html';
     return;
   }
 
@@ -1026,7 +1026,7 @@ if (btnLink) {
 
       const { data: { session }, error: sessionError } =
         await window.supabaseClient.auth.getSession();
-      if (sessionError || !session) return window.location.href = 'auth.html';
+      if (sessionError || !session) return window.location.href = '/auth.html';
 
       const response = await fetch(`${TG_WORKER_URL}/api/telegram/link-token`, {
         method: 'POST',

@@ -26,18 +26,18 @@
     <div class="footer-col">
       <h4>المجموعة</h4>
       <ul>
-        <li><a href="capkit-co.html#artifacts">الإصدار الأول</a></li>
-        <li><a href="capkit-co.html#digital">الأرشيف الرقمي</a></li>
-        <li><a href="capkit-co.html#artifacts">الطقم الكامل</a></li>
+        <li><a href="/capkit-co.html#artifacts">الإصدار الأول</a></li>
+        <li><a href="/capkit-co.html#digital">الأرشيف الرقمي</a></li>
+        <li><a href="/capkit-co.html#artifacts">الطقم الكامل</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
       <h4>الدار</h4>
       <ul>
-        <li><a href="capkit-co.html#manifesto">الفلسفة</a></li>
-        <li><a href="capkit-co.html#certificate">الشهادات والتحقق</a></li>
-        <li><a href="capkit-co.html#marketplace">انضم كصانع</a></li>
+        <li><a href="/capkit-co.html#manifesto">الفلسفة</a></li>
+        <li><a href="/capkit-co.html#certificate">الشهادات والتحقق</a></li>
+        <li><a href="/capkit-co.html#marketplace">انضم كصانع</a></li>
       </ul>
     </div>
 

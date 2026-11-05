@@ -268,7 +268,7 @@ window.triggerCreateOrder = async function(type) {
   // 3. الطرد فقط إذا كان زائراً حقيقياً (لم يسجل دخول من الأصل)
   if (!user) {
     alert('⚠️ يرجى تسجيل الدخول لإتمام الطلب.');
-    window.location.href = 'auth.html'; 
+    window.location.href = '/auth.html'; 
     return;
   }
 
@@ -315,7 +315,7 @@ window.triggerCreateOrder = async function(type) {
 
     if (existingOrders && existingOrders.length > 0) {
       alert('⚠️ لديك طلب مفتوح بالفعل لهذه الخدمة. سيتم تحويلك للمحادثة.');
-      window.location.href = `dashboard.html?tab=orders&order=${existingOrders[0].id}`;
+      window.location.href = `/dashboard.html?tab=orders&order=${existingOrders[0].id}`;
       return;
     }
 
@@ -352,7 +352,7 @@ window.triggerCreateOrder = async function(type) {
     if (itemErr) throw new Error('فشل إضافة الخدمة للطلب: ' + itemErr.message);
 
     // 3. التحويل للوحة التحكم وفتح المحادثة
-    window.location.href = `dashboard.html?tab=orders&order=${order.id}`;
+    window.location.href = `/dashboard.html?tab=orders&order=${order.id}`;
 
   } catch (err) {
     console.error(err);

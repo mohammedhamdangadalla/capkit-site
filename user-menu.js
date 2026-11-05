@@ -47,16 +47,16 @@ async function initUserMenu() {
           <span class="user-caret">▾</span>
         </button>
         <div class="user-dropdown" id="userDropdown">
-          <a href="user.html?id=${session.user.id}" class="user-dropdown-item">
+          <a href="/user.html?id=${session.user.id}" class="user-dropdown-item">
             <span>🪪</span> <span>بطاقتي</span>
           </a>
-          <a href="dashboard.html" class="user-dropdown-item">
+          <a href="/dashboard.html" class="user-dropdown-item">
             <span>📊</span> <span>لوحة التحكم</span>
           </a>
-          <a href="dashboard.html?tab=profile" class="user-dropdown-item">
+          <a href="/dashboard.html?tab=profile" class="user-dropdown-item">
             <span>👤</span> <span>ملفي الشخصي</span>
           </a>
-          <a href="dashboard.html?tab=products" class="user-dropdown-item">
+          <a href="/dashboard.html?tab=products" class="user-dropdown-item">
             <span>📦</span> <span>منتجاتي</span>
           </a>
           <div class="user-dropdown-divider"></div>
@@ -90,14 +90,14 @@ async function initUserMenu() {
       // ❌ المستخدم مش مسجل دخول
       if (!oldJoin) {
         const joinBtn = document.createElement('a');
-        joinBtn.href = 'auth.html';
+        joinBtn.href = '/auth.html';
         joinBtn.className = 'btn-primary';
         joinBtn.textContent = 'انضم';
         navActions.insertBefore(joinBtn, navActions.firstChild);
       }
       if (!oldLogin) {
         const loginBtn = document.createElement('a');
-        loginBtn.href = 'auth.html';
+        loginBtn.href = '/auth.html';
         loginBtn.className = 'btn-ghost';
         loginBtn.textContent = 'دخول';
         navActions.insertBefore(loginBtn, navActions.firstChild);

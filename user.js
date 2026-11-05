@@ -251,7 +251,7 @@ function renderActions(profile) {
     followBtn.innerHTML = '<span>♡</span><span>متابعة</span>';
     followBtn.onclick = () => {
       if (confirm('لازم تسجل دخول للمتابعة. تروح لصفحة التسجيل؟')) {
-        window.location.href = 'auth.html';
+        window.location.href = '/auth.html';
       }
     };
     return;
@@ -278,7 +278,7 @@ window.toggleFollow = async function() {
   // إذا كان زائراً، نطلب منه تسجيل الدخول
   if (!currentUserId) {
     alert('⚠️ يرجى تسجيل الدخول لمتابعة البائعين والمستقلين.');
-    window.location.href = 'auth.html';
+    window.location.href = '/auth.html';
     return;
   }
 
