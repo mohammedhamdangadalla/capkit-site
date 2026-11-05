@@ -315,7 +315,7 @@ for (const p of products) {
     'div',
     'galleryMain',
     images.length
-      ? `<img src="${esc(image)}" alt="${esc(p.title)}" width="800" height="800" loading="eager" decoding="async">`
+      ? `<img src="${esc(optImg(image, 900))}" alt="${esc(p.title)}" width="800" height="800" loading="eager" decoding="async">`
       : '<span class="placeholder-icon">📦</span>',
   );
   html = replaceInnerById(html, 'div', 'galleryThumbs', '');
@@ -324,7 +324,7 @@ for (const p of products) {
     'div',
     'sellerBox',
     `<div class="seller-avatar">${p.workshop_id ? '🏭' : '👤'}</div>
-      <div class="seller-info"><h4>${esc(sellerName)}</h4><p>موثّق على ${esc(BRAND)}</p></div>`,
+      <div class="seller-info"><h2>${esc(sellerName)}</h2><p>موثّق على ${esc(BRAND)}</p></div>`,
   );
 
   const outPath = join(ROOT, 'product', slug, 'index.html');
@@ -522,6 +522,24 @@ function normalizeWhatsapp(value) {
   return d.length >= 8 ? d : '';
 }
 
+/** يمرّر صور Supabase Storage عبر نقطة التحويل — WebP + تصغير + ضغط */
+function optImg(url, width, quality) {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    if (!/\.supabase\.co$/.test(u.hostname)) return url;
+    const marker = '/storage/v1/object/public/';
+    if (!u.pathname.includes(marker)) return url;
+    u.pathname = u.pathname.replace(marker, '/storage/v1/render/image/public/');
+    u.searchParams.set('width', String(width || 700));
+    u.searchParams.set('quality', String(quality || 72));
+    u.searchParams.set('format', 'webp');
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 function socialHref(base, value) {
   const raw = String(value == null ? '' : value).trim();
   if (!raw) return null;
@@ -615,7 +633,7 @@ for (const p of sourceProfiles) {
     'div',
     'cardAvatar',
     safeHttp(p.avatar_url)
-      ? `<img src="${esc(image)}" alt="${esc(name)}" width="116" height="116" loading="eager" decoding="async">`
+      ? `<img src="${esc(optImg(image, 400))}" alt="${esc(name)}" width="116" height="116" loading="eager" decoding="async">`
       : `<span id="cardInitial">${esc((name || '•').trim().charAt(0))}</span>`,
   );
   html = replaceInnerById(html, 'h1', 'cardName', esc(name));

@@ -286,14 +286,14 @@ function renderGallery() {
   const thumbs = document.getElementById('galleryThumbs');
 
   if (currentImages.length > 0) {
-    main.innerHTML = `<img src="${currentImages[0]}" alt="${currentProduct?.title || 'صورة المنتج'}" loading="eager" decoding="async" fetchpriority="high" width="800" height="800" onerror="this.parentElement.innerHTML='<span class=\\'placeholder-icon\\'>📦</span>'">`;
+    main.innerHTML = `<img src="${optimizeImage(currentImages[0], 1000)}" alt="${currentProduct?.title || 'صورة المنتج'}" loading="eager" decoding="async" fetchpriority="high" width="800" height="800" onerror="this.parentElement.innerHTML='<span class=\\'placeholder-icon\\'>📦</span>'">`;
   }
 
   thumbs.innerHTML = '';
   currentImages.forEach((url, index) => {
     const t = document.createElement('div');
     t.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
-    t.innerHTML = `<img src="${url}" alt="صورة ${index + 1}" loading="lazy" decoding="async" width="70" height="70" onerror="this.parentElement.innerHTML='<span>📦</span>'">`;
+    t.innerHTML = `<img src="${optimizeImage(url, 160)}" alt="صورة ${index + 1}" loading="lazy" decoding="async" width="70" height="70" onerror="this.parentElement.innerHTML='<span>📦</span>'">`;
     t.addEventListener('click', () => switchImage(index));
     thumbs.appendChild(t);
   });
@@ -306,7 +306,7 @@ function renderGallery() {
 function switchImage(index) {
   activeImageIndex = index;
   const main = document.getElementById('galleryMain');
-  main.innerHTML = `<img src="${currentImages[index]}" alt="صورة المنتج" loading="eager" decoding="async" width="800" height="800">`;
+  main.innerHTML = `<img src="${optimizeImage(currentImages[index], 1000)}" alt="صورة المنتج" loading="eager" decoding="async" width="800" height="800">`;
 
   document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
     t.classList.toggle('active', i === index);

@@ -34,6 +34,30 @@
   }
 
   window.normalizeWhatsApp = normalizeWhatsApp;
+
+  /**
+   * يمرّر صور Supabase Storage عبر نقطة التحويل (WebP + تصغير + ضغط).
+   * الصورة نفسها: 263KB JPEG → 113KB WebP بعرض 600، بلا رفع أي ملف.
+   * يتجاهل الروابط غير التابعة لـStorage أو المحوّلة مسبقاً.
+   */
+  function optimizeImage(url, width, quality) {
+    if (!url) return url;
+    try {
+      const u = new URL(url, location.origin);
+      if (!/\.supabase\.co$/.test(u.hostname)) return url;
+      const marker = '/storage/v1/object/public/';
+      if (!u.pathname.includes(marker)) return url;
+      u.pathname = u.pathname.replace(marker, '/storage/v1/render/image/public/');
+      u.searchParams.set('width', String(width || 700));
+      u.searchParams.set('quality', String(quality || 72));
+      u.searchParams.set('format', 'webp');
+      return u.toString();
+    } catch {
+      return url;
+    }
+  }
+
+  window.optimizeImage = optimizeImage;
   window.itemUrl = itemUrl;
   window.itemUrlAbsolute = itemUrlAbsolute;
 })();
