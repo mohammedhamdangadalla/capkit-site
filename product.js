@@ -6,6 +6,20 @@ let currentImages = [];
 let activeImageIndex = 0;
 let isGuest = true;
 
+// ═══ استخراج معرف المنتج ═══
+// الصفحات المولّدة تعيش على /product/{slug}/ بلا ?id=، والروابط القديمة
+// ما زالت تعمل بـ?id=. الترتيب: بيانات الصفحة ← الاستعلام ← المسار.
+window.getCurrentProductId = function () {
+  const pre = window.__PRERENDER__;
+  if (pre && pre.type === 'product' && pre.data && pre.data.id) return pre.data.id;
+
+  const fromQuery = new URLSearchParams(window.location.search).get('id');
+  if (fromQuery) return fromQuery;
+
+  const match = window.location.pathname.match(/\/product\/([^/]+)\/?$/);
+  return match ? decodeURIComponent(match[1]) : null;
+};
+
 // ═══ Init ═══
 async function initProduct() {
   if (!window.supabaseClient) {
@@ -56,6 +70,7 @@ async function initProduct() {
     logProductView(product);
 
     if (!currentSeller) await loadSeller(product);
+    else if (!currentSeller.whatsapp && !isGuest) await loadSeller(product);
     renderProduct();
     showContent();
 

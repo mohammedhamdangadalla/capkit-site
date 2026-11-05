@@ -296,19 +296,26 @@ window.triggerCreateOrder = async function(type) {
     return;
   }
 
-  // استخراج معرف المنتج من الرابط
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('id') || urlParams.get('slug'); 
-  
+  // استخراج المعرف: بيانات الصفحة المولّدة ← ?id= ← مسار /product/{slug}/
+  const productId =
+    (typeof window.getCurrentProductId === 'function' && window.getCurrentProductId()) ||
+    new URLSearchParams(window.location.search).get('id');
+
   if (!productId) return alert('خطأ: لم يتم العثور على معرف المنتج في الرابط.');
+
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(productId);
 
   try {
     // جلب بيانات المنتج من قاعدة البيانات مباشرة
-    const { data: product, error } = await window.supabaseClient
+    const baseQuery = window.supabaseClient
       .from('products')
-      .select('*, workshops(owner_id)')
-      .or(`id.eq.${productId},slug.eq.${productId}`)
-      .single();
+      .select('*, workshops(owner_id)');
+
+    // أو استعلام واحد على عمود واحد: الخلط بين uuid وslug يُنتج خطأ 22P02
+    const { data: product, error } = await (isUuid
+      ? baseQuery.eq('id', productId)
+      : baseQuery.eq('slug', productId)
+    ).single();
 
     if (error || !product) throw new Error('لم يتم العثور على المنتج');
 

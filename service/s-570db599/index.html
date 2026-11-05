@@ -296,17 +296,19 @@ window.triggerCreateOrder = async function(type) {
     return;
   }
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const serviceId = urlParams.get('id') || urlParams.get('slug'); 
-  
+  const serviceId =
+    (typeof window.getCurrentServiceId === 'function' && window.getCurrentServiceId()) ||
+    new URLSearchParams(window.location.search).get('id');
+
   if (!serviceId) return alert('خطأ: لم يتم العثور على معرف الخدمة في الرابط.');
 
   try {
     // جلب بيانات الخدمة من قاعدة البيانات مباشرة
+    // جدول services لا يملك عمود slug، فالبحث دائماً بالمعرّف
     const { data: service, error } = await window.supabaseClient
       .from('services')
       .select('*, workshops(owner_id), freelancers(user_id)')
-      .or(`id.eq.${serviceId},slug.eq.${serviceId}`)
+      .eq('id', serviceId)
       .single();
 
     if (error || !service) throw new Error('لم يتم العثور على الخدمة');
