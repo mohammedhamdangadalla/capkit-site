@@ -39,17 +39,13 @@ function recordAttempt() {
 // ═══ Logging ═══
 async function logAuthEvent(data) {
   try {
-    const { data: { user } } = await window.supabaseClient.auth.getUser();
-    await window.supabaseClient
-      .from('auth_events')
-      .insert({
-        user_id: user?.id || null,
-        email: data.email || null,
-        event_type: data.event_type,
-        provider: data.provider || 'email',
-        user_agent: navigator.userAgent?.substring(0, 200) || 'unknown',
-        metadata: data.metadata || null
-      });
+    // عبر RPC: يعمل للزائر والمتسجل، ولا يحتاج صلاحية كتابة على الجدول
+    await window.supabaseClient.rpc('log_auth_event', {
+      p_event_type: data.event_type,
+      p_provider: data.provider || 'email',
+      p_user_agent: navigator.userAgent?.substring(0, 200) || 'unknown',
+      p_metadata: data.metadata || null
+    });
   } catch (e) {
     console.warn('Log failed:', e);
   }

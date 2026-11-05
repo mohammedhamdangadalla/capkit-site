@@ -124,15 +124,12 @@ document.getElementById('rpUpdateBtn').addEventListener('click', async () => {
 // ═══ Log Helper ═══
 async function logAuthEvent(data) {
   try {
-    await window.supabaseClient
-      .from('auth_events')
-      .insert({
-        email: data.email || null,
-        event_type: data.event_type,
-        provider: data.provider || 'email',
-        user_agent: navigator.userAgent?.substring(0, 200) || 'unknown',
-        metadata: data.metadata || null
-      });
+    await window.supabaseClient.rpc('log_auth_event', {
+      p_event_type: data.event_type,
+      p_provider: data.provider || 'email',
+      p_user_agent: navigator.userAgent?.substring(0, 200) || 'unknown',
+      p_metadata: data.metadata || null
+    });
   } catch (e) {
     console.warn('Log failed:', e);
   }

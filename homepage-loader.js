@@ -89,22 +89,21 @@ async function loadHomepageContent() {
 async function initLiveCounter() {
   if (!window.supabaseClient) return;
 
-  try {
-    // 1. جلب تسجيلات اليوم من auth_events
-    const today = new Date().toISOString().split('T')[0];
-    const { count, error } = await window.supabaseClient
-      .from('auth_events')
-      .select('*', { count: 'exact', head: true })
-      .gte('created_at', today);
+  const signupsEl = document.getElementById('dailySignupsCount');
 
-    if (!error && count !== null) {
-      const signupsEl = document.getElementById('dailySignupsCount');
-      if (signupsEl) signupsEl.textContent = count;
-    } else {
-      const signupsEl = document.getElementById('dailySignupsCount');
-      if (signupsEl) signupsEl.textContent = '12';
+  try {
+    // RPC مجمّع (SECURITY DEFINER) — لا نقرأ الجدول مباشرة، فلا 401 ولا كشف صفوف
+    const { data, error } = await window.supabaseClient.rpc('public_stats');
+
+    if (!error && data && typeof data.signups_today === 'number') {
+      if (signupsEl) signupsEl.textContent = data.signups_today;
+    } else if (signupsEl) {
+      // لا نعرض رقماً وهمياً: نُخفي الرقم بدل تلفيقه
+      signupsEl.textContent = '—';
+      console.warn('public_stats unavailable:', error?.message || 'no data');
     }
   } catch (err) {
+    if (signupsEl) signupsEl.textContent = '—';
     console.warn('Error fetching daily signups:', err);
   }
 
