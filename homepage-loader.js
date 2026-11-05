@@ -149,7 +149,7 @@ function createProductCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${imageUrl 
-        ? `<img src="${imageUrl}" alt="${escapeHtml(product.title)}" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${imageUrl}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;>`
         : `<div class="product-emblem">📦</div>`}
       ${product.is_capkit_original ? '<span class="badge-original">✨ أصلي</span>' : ''}
     </div>
@@ -184,7 +184,7 @@ function createOriginalCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${imageUrl 
-        ? `<img src="${imageUrl}" alt="${escapeHtml(product.title)}" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${imageUrl}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;>`
         : `<div class="product-emblem">✦</div>`}
       ${serial ? `<span class="badge-original">N° ${serial}</span>` : ''}
     </div>

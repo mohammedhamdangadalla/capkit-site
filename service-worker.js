@@ -1,22 +1,24 @@
-// ═══ CapKit Souq — Service Worker v3 ═══
+// ═══ CapKit Souq — Service Worker v4 ═══
+// v4: الأصول الثابتة (CSS/JS/صور/خطوط) تُخدم من الكاش فوراً مع تحديث في الخلفية
+//     (stale-while-revalidate)، بينما تبقى صفحات HTML على Network-First
+//     حتى لا يرى المستخدم محتوى قديماً.
 
-const CACHE_NAME = 'capkit-v3';
+const CACHE_NAME = 'capkit-v4';
+
+// أصول لا تتغيّر كثيراً — الكاش أولاً
+const STATIC_DESTINATIONS = new Set(['style', 'script', 'image', 'font']);
 
 // ═══ Install ═══
 self.addEventListener('install', (event) => {
-  console.log('📦 SW Install v3');
   self.skipWaiting();
 });
 
 // ═══ Activate ═══
 self.addEventListener('activate', (event) => {
-  console.log('🚀 SW Activate v3');
   event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-      );
-    }).then(() => self.clients.claim())
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
 });
 
@@ -31,47 +33,60 @@ self.addEventListener('fetch', (event) => {
   if (url.hostname.includes('jsdelivr')) return;
   if (url.hostname.includes('cloudflareinsights')) return;
 
-  // تجاهل non-GET
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(handleFetch(event.request));
+  if (STATIC_DESTINATIONS.has(event.request.destination)) {
+    event.respondWith(staleWhileRevalidate(event.request));
+    return;
+  }
+
+  event.respondWith(networkFirst(event.request));
 });
 
-// ═══ Handle Fetch — Network First ═══
-async function handleFetch(request) {
+// ═══ الأصول: من الكاش فوراً + تحديث بالخلفية ═══
+async function staleWhileRevalidate(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request);
+
+  const network = fetch(request)
+    .then((response) => {
+      if (response && response.status === 200) cache.put(request, response.clone());
+      return response;
+    })
+    .catch(() => null);
+
+  if (cached) return cached;
+
+  const fresh = await network;
+  if (fresh) return fresh;
+
+  return new Response('', { status: 504, statusText: 'Offline' });
+}
+
+// ═══ الصفحات: الشبكة أولاً ثم الكاش ═══
+async function networkFirst(request) {
   try {
-    // 1. جرب الشبكة
-    const networkResponse = await fetch(request);
+    const response = await fetch(request);
 
-    // حفظ في الكاش
-    if (networkResponse && networkResponse.status === 200) {
+    if (response && response.status === 200) {
       const cache = await caches.open(CACHE_NAME);
-      cache.put(request, networkResponse.clone());
+      cache.put(request, response.clone());
     }
 
-    return networkResponse;
-
+    return response;
   } catch (err) {
-    // 2. الشبكة فشلت → جرب الكاش
-    const cachedResponse = await caches.match(request);
-    
-    if (cachedResponse) {
-      return cachedResponse;
-    }
+    const cached = await caches.match(request);
+    if (cached) return cached;
 
-    // 3. للصفحات، رجّع index.html
     if (request.destination === 'document') {
       const homeResponse = await caches.match('/index.html');
       if (homeResponse) return homeResponse;
     }
 
-    // 4. Fallback: Response فاضي (مهم جدًا)
     return new Response('Offline', {
       status: 503,
       statusText: 'Service Unavailable',
-      headers: new Headers({
-        'Content-Type': 'text/plain; charset=utf-8'
-      })
+      headers: new Headers({ 'Content-Type': 'text/plain; charset=utf-8' }),
     });
   }
 }

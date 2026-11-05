@@ -4,3 +4,30 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://*.analytics.google.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.resend.com https://capkit-telegram-bot.mohammed-hamdan0.workers.dev https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com https://static.cloudflareinsights.com; frame-src 'self' https://www.googletagmanager.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'
+
+# ═══ الأصول الثابتة: كاش طويل (تُحدَّث عبر تغيير محتوى الملف) ═══
+/*.css
+  Cache-Control: public, max-age=604800
+
+/*.js
+  Cache-Control: public, max-age=604800
+
+/*.png
+  Cache-Control: public, max-age=2592000
+
+/*.jpg
+  Cache-Control: public, max-age=2592000
+
+/*.webp
+  Cache-Control: public, max-age=2592000
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# ═══ HTML: تحقق دائم لأن المحتوى يتغيّر ═══
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# ═══ خريطة الموقع ═══
+/sitemap.xml
+  Cache-Control: public, max-age=3600
