@@ -15,28 +15,37 @@ async function initWorkshopPage() {
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   currentUserId = session?.user?.id || null; // إذا كان null يعني زائر
 
+  const pre = window.__PRERENDER__;
   const params = new URLSearchParams(window.location.search);
-  const workshopId = params.get('id');
-
-  if (!workshopId) {
-    showNotFound();
-    return;
-  }
+  let workshopId = params.get('id');
 
   try {
-    // ═══ جلب الورشة ═══
-    const { data: workshop, error } = await window.supabaseClient
-      .from('workshops')
-      .select('*')
-      .eq('id', workshopId)
-      .single();
+    // ═══ جلب الورشة (أو قراءتها من الصفحة المولّدة مسبقاً) ═══
+    let workshop;
 
-    if (error || !workshop) {
-      console.error('Workshop error:', error);
-      showNotFound();
-      return;
+    if (pre && pre.type === 'workshop' && pre.data) {
+      workshop = pre.data;
+    } else {
+      if (!workshopId) {
+        showNotFound();
+        return;
+      }
+
+      const { data, error } = await window.supabaseClient
+        .from('workshops')
+        .select('*')
+        .eq('id', workshopId)
+        .single();
+
+      if (error || !data) {
+        console.error('Workshop error:', error);
+        showNotFound();
+        return;
+      }
+      workshop = data;
     }
 
+    workshopId = workshop.id;
     currentWorkshop = workshop;
 
     // ✅ تسجيل مشاهدة (تم تعديلها لتسجل في profile_views أيضاً)
@@ -74,7 +83,7 @@ async function initWorkshopPage() {
       await loadRatings(workshop, stats);
     }
 
-    document.title = `${workshop.name} — CapKit Co.`;
+    document.title = `${workshop.name} — Capkitco`;
 
     showContent();
 
@@ -450,7 +459,7 @@ async function loadRatings(workshop, stats) {
 // ═══ Card Builders ═══
 function createProductCard(product) {
   const a = document.createElement('a');
-  a.href = `product?id=${product.id}`;
+  a.href = itemUrl('product', product);
   a.className = 'product-card';
   const img = product.images && product.images[0] ? product.images[0] : '';
   a.innerHTML = `
@@ -473,7 +482,7 @@ function createProductCard(product) {
 
 function createServiceCard(service) {
   const a = document.createElement('a');
-  a.href = `service?id=${service.id}`;
+  a.href = itemUrl('service', service);
   a.className = 'product-card';
   const iconMap = { repair: '🔧', installation: '🔨', maintenance: '⚙️', consultation: '💬', custom: '✨' };
   const icon = iconMap[service.service_type] || '🔧';

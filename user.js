@@ -27,9 +27,9 @@ async function initUserPage() {
   }
 
   try {
-    // ✅ استخدام maybeSingle بدلاً من single لتجنب أخطاء الاستعلام
+    // ✅ القراءة من العرض العام: لا يكشف email/phone/telegram حتى للزوار
     const { data: profile, error } = await window.supabaseClient
-      .from('profiles')
+      .from('public_profiles')
       .select('*')
       .eq('id', userId)
       .maybeSingle();
@@ -74,6 +74,9 @@ async function initUserPage() {
     document.title = `${profile.full_name} — CapKit Co.`;
 
     showContent();
+
+    // يُستخدم من profile-card-edit.js لإظهار زر التعديل للمالك
+    window.dispatchEvent(new CustomEvent('profile:loaded', { detail: { profile } }));
 
   } catch (err) {
     console.error(err);
@@ -481,7 +484,7 @@ async function loadRatings(userId, stats) {
 // ═══ Card Builders ═══
 function createProductCard(product) {
   const a = document.createElement('a');
-  a.href = `product?id=${product.id}`;
+  a.href = itemUrl('product', product);
   a.className = 'product-card';
 
   const img = product.images && product.images[0] ? product.images[0] : '';
@@ -506,7 +509,7 @@ function createProductCard(product) {
 
 function createServiceCard(service) {
   const a = document.createElement('a');
-  a.href = `service?id=${service.id}`;
+  a.href = itemUrl('service', service);
   a.className = 'product-card';
 
   a.innerHTML = `

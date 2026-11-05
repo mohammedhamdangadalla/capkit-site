@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مفصله سامت تركى — Capkitco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.product-page { min-height: 100vh; padding: 80px 16px 40px; background: var(--obsidian); }
+.product-container { max-width: 1200px; margin: 0 auto; }
+.loading-state { text-align: center; padding: 100px 20px; color: var(--gold); font-size: 1.1rem; }
+.not-found { text-align: center; padding: 100px 20px; }
+.not-found-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.4; }
+.not-found h2 { font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--text-primary); margin-bottom: 12px; }
+.not-found p { color: var(--text-secondary); margin-bottom: 24px; }
+.product-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.product-gallery { background: var(--obsidian-2); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: sticky; top: 100px; height: fit-content; }
+.gallery-main { aspect-ratio: 1; background: var(--obsidian-3); border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; position: relative; }
+.gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-main .placeholder-icon { font-size: 5rem; opacity: 0.3; color: var(--text-muted); }
+.gallery-thumbs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.gallery-thumbs::-webkit-scrollbar { display: none; }
+.gallery-thumb { width: 70px; height: 70px; border-radius: 10px; overflow: hidden; cursor: pointer; border: 2px solid transparent; background: var(--obsidian-3); flex-shrink: 0; transition: border-color 0.2s; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--text-muted); }
+.gallery-thumb.active { border-color: var(--gold); }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.product-info-main { display: flex; flex-direction: column; gap: 20px; }
+.product-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge-tag { padding: 5px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; }
+.badge-tag.original { background: var(--gold); color: var(--obsidian); }
+.badge-tag.individual { background: rgba(201, 169, 97, 0.15); color: var(--gold); border: 1px solid var(--border-light); }
+.badge-tag.workshop { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-tag.status { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+.product-title-main { font-family: 'Amiri', serif; font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--text-primary); line-height: 1.3; font-weight: 700; }
+.product-price-main { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; color: var(--gold); display: flex; align-items: baseline; gap: 8px; }
+.product-price-main small { font-size: 1rem; color: var(--text-muted); font-family: 'Tajawal', sans-serif; }
+.product-description { color: var(--text-secondary); font-size: 1rem; line-height: 1.9; padding: 20px; background: var(--obsidian-2); border: 1px solid var(--border); border-radius: 12px; }
+.seller-box { background: var(--obsidian-2); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; }
+.seller-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+.seller-info h4 { font-family: 'Amiri', serif; font-size: 1.05rem; color: var(--text-primary); margin-bottom: 4px; font-weight: 700; }
+.seller-info p { color: var(--text-muted); font-size: 0.82rem; }
+.product-actions-main { display: flex; gap: 10px; flex-direction: column; }
+.btn-whatsapp { background: #25d366; color: white; padding: 16px 24px; border-radius: 12px; text-decoration: none; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s; border: none; cursor: pointer; }
+.btn-whatsapp:hover { background: #1ebe5a; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(37, 211, 102, 0.25); }
+.btn-secondary-action { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-light); padding: 14px 24px; border-radius: 12px; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: 500; font-size: 0.92rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; }
+.btn-secondary-action:hover { border-color: var(--gold); color: var(--gold); }
+@media (max-width: 800px) {
+  .product-page { padding: 70px 12px 30px; }
+  .product-layout { grid-template-columns: 1fr; gap: 24px; }
+  .product-gallery { position: static; }
+  .product-price-main { font-size: 1.8rem; }
+}
+</style>
+  <link rel="icon" href="/icon-192.png">
+<link rel="shortcut icon" href="/icon-192.png">
+<!-- SEO-META:START -->
+<link rel="canonical" href="https://capkitco.com/product/p-10aa0577/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="عدله عاده عدله سوفت كلوز 1/2 ركبه عاده 1/2 ركبه سوفت كلوز ركبه عاده ركبه سوفت كلوز مفصله عقربه 180 سوفت كلوز مفصله بلاند كورنر سوفت كلوز">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Capkitco">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:title" id="ogTitle" content="مفصله سامت تركى — Capkitco">
+<meta property="og:description" id="ogDescription" content="عدله عاده عدله سوفت كلوز 1/2 ركبه عاده 1/2 ركبه سوفت كلوز ركبه عاده ركبه سوفت كلوز مفصله عقربه 180 سوفت كلوز مفصله بلاند كورنر سوفت كلوز">
+<meta property="og:image" id="ogImage" content="https://capkitco.com/icon-512.png">
+<meta property="og:url" id="ogUrl" content="https://capkitco.com/product/p-10aa0577/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="twitterTitle" content="مفصله سامت تركى — Capkitco">
+<meta name="twitter:description" id="twitterDescription" content="عدله عاده عدله سوفت كلوز 1/2 ركبه عاده 1/2 ركبه سوفت كلوز ركبه عاده ركبه سوفت كلوز مفصله عقربه 180 سوفت كلوز مفصله بلاند كورنر سوفت كلوز">
+<meta name="twitter:image" id="twitterImage" content="https://capkitco.com/icon-512.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://capkitco.com/#organization",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "url": "https://capkitco.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://capkitco.com/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "email": "hello@capkitco.com",
+      "areaServed": {
+        "@type": "Place",
+        "name": "الوطن العربي"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://capkitco.com/#website",
+      "url": "https://capkitco.com/",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "inLanguage": "ar",
+      "publisher": {
+        "@id": "https://capkitco.com/#organization"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://capkitco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "مفصله سامت تركى",
+          "item": "https://capkitco.com/product/p-10aa0577/"
+        }
+      ]
+    },
+    {
+      "@type": "Product",
+      "@id": "https://capkitco.com/product/p-10aa0577/#product",
+      "name": "مفصله سامت تركى",
+      "description": "عدله عاده \nعدله سوفت كلوز\n1/2 ركبه عاده \n1/2 ركبه سوفت كلوز \nركبه عاده \nركبه سوفت كلوز \nمفصله عقربه 180 سوفت كلوز \nمفصله بلاند كورنر  سوفت كلوز",
+      "url": "https://capkitco.com/product/p-10aa0577/",
+      "image": [
+        "https://capkitco.com/icon-512.png"
+      ],
+      "sku": "10aa0577-93f2-4dbe-a789-af479244ec47",
+      "category": "منتجات يدوية",
+      "brand": {
+        "@type": "Brand",
+        "name": "Capkitco"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://capkitco.com/product/p-10aa0577/",
+        "priceCurrency": "EGP",
+        "price": 0,
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "Person",
+          "name": "بائع حر"
+        }
+      }
+    }
+  ]
+}
+</script>
+<!-- SEO-META:END -->
+</head>
+<body>
+<script>window.__PRERENDER__ = {"type":"product","url":"https://capkitco.com/product/p-10aa0577/","slug":"p-10aa0577","data":{"id":"10aa0577-93f2-4dbe-a789-af479244ec47","workshop_id":null,"category_id":1,"title":"مفصله سامت تركى","slug":null,"description":"عدله عاده \nعدله سوفت كلوز\n1/2 ركبه عاده \n1/2 ركبه سوفت كلوز \nركبه عاده \nركبه سوفت كلوز \nمفصله عقربه 180 سوفت كلوز \nمفصله بلاند كورنر  سوفت كلوز","price":0,"currency":"EGP","negotiable":false,"images":[],"specs":{},"is_capkit_original":false,"serial_number":null,"status":"published","stock":100000,"views_count":1,"favorites_count":0,"created_at":"2026-11-02T08:22:03.096893+00:00","published_at":"2026-11-02T08:21:57.831+00:00","seller_id":"4e5365d8-825f-4966-8a38-287cd440f6ec","seller_type":"individual","rating_avg":0,"rating_count":0,"moderation_status":"approved","suspension_reason":null,"recommendation":null,"moderated_at":null,"moderated_by":null},"seller":{"name":"بائع حر","type":"individual","id":"4e5365d8-825f-4966-8a38-287cd440f6ec","whatsapp":null}};</script>
+
+<main class="product-page">
+  <div class="product-container">
+    
+    <!-- Loading -->
+    <div id="loadingState" class="loading-state" style="display: none;">
+      ⏳ جارٍ التحميل...
+    </div>
+
+    <!-- Not Found -->
+    <div id="notFoundState" class="not-found" style="display: none;">
+      <div class="not-found-icon">🔍</div>
+      <h2>المنتج غير موجود</h2>
+      <p>ربما تم حذفه أو الرابط غير صحيح</p>
+      <a href="/" class="btn-secondary-action">← العودة للرئيسية</a>
+    </div>
+
+    <!-- Product -->
+    <div id="productContent" style="display: block;">
+      <div class="product-layout">
+        
+        <!-- Gallery -->
+        <div class="product-gallery">
+          <div class="gallery-main" id="galleryMain"><span class="placeholder-icon">📦</span></div>
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
+        </div>
+
+        <!-- Info -->
+        <div class="product-info-main">
+          
+          <div class="product-badges" id="productBadges"><span class="badge-tag individual">👤 بائع حر</span></div>
+
+          <h1 class="product-title-main" id="productTitle">مفصله سامت تركى</h1>
+
+          <!-- ✅ زر الأدمن لتعليق المنتج (مخفي افتراضياً) -->
+          <div id="adminSuspendContainer" style="display: none; margin: 5px 0;">
+              <button id="btnSuspendProduct" style="background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid #ef4444; padding: 10px 20px; border-radius: 8px; font-family: 'Tajawal', sans-serif; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                  ⛔ تعليق هذا المنتج (للمشرفين)
+              </button>
+          </div>
+
+          <div class="product-price-main" id="productPrice"><span>0</span><small>EGP</small></div>
+
+          <div class="product-description" id="productDescription">عدله عاده 
+عدله سوفت كلوز
+1/2 ركبه عاده 
+1/2 ركبه سوفت كلوز 
+ركبه عاده 
+ركبه سوفت كلوز 
+مفصله عقربه 180 سوفت كلوز 
+مفصله بلاند كورنر  سوفت كلوز</div>
+
+          <div class="seller-box" id="sellerBox"><div class="seller-avatar">👤</div>
+      <div class="seller-info"><h4>بائع حر</h4><p>موثّق على Capkitco</p></div></div>
+
+          <div class="product-actions-main">
+            <!-- ✅ زر الطلب الجديد (مضاف هنا) -->
+            <button class="btn-whatsapp" id="orderProductBtn" style="background: var(--gold); color: var(--obsidian);" onclick="triggerCreateOrder('product')">
+              <span>🛒</span>
+              <span>اطلب المنتج الآن (عبر المنصة)</span>
+            </button>
+
+            <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
+              <span>💬</span>
+              <span>اطلب عبر واتساب</span>
+            </a>
+            
+            <div style="display: flex; gap: 10px;">
+              <div id="likeContainer" style="flex: 1;"></div>
+              <button class="btn-secondary-action" id="shareBtn" style="flex: 1;">
+                <span>🔗</span>
+                <span>مشاركة</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Ratings Section ═══ -->
+    <section class="comments-section" id="ratingsSection">
+      <div class="comments-header">
+        <h3 class="comments-title">⭐ التقييمات</h3>
+      </div>
+      <div id="ratingSummary"></div>
+      <div id="ratingFormContainer"></div>
+      <div id="ratingsList" style="margin-top: 20px;"></div>
+    </section>
+
+    <!-- ═══ Comments Section ═══ -->
+    <section class="comments-section" id="commentsSection">
+      <div class="comments-header">
+        <h3 class="comments-title">
+          💬 التعليقات
+          <span class="count">(<span id="commentsCount">0</span>)</span>
+        </h3>
+      </div>
+      <div id="commentFormContainer"></div>
+      <div class="comments-list" id="commentsList">
+        <div class="comments-loading">⏳ جارٍ التحميل...</div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ═══ Supabase ═══ -->
+<script src="links.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script src="likes.js"></script>
+<script src="share.js"></script>
+<script src="comment.js"></script>
+<script src="rating.js"></script>
+<script src="product.js"></script>
+
+<!-- ═══ Footer ═══ -->
+<script src="footer.js"></script>
+
+<!-- ═══ كود نظام الطلبات (مضاف هنا ليعمل مباشرة) ═══ -->
+<script>
+window.triggerCreateOrder = async function(type) {
+  if (!window.supabaseClient) return alert('يجب تسجيل الدخول أولاً');
+  
+  // 1. القراءة الفورية من ذاكرة المتصفح
+  let { data: { session } } = await window.supabaseClient.auth.getSession();
+  let user = session?.user;
+
+  // 2. إذا لم يجدها، ينتظر ثانية ويحاول مرة أخرى (للشبكات الضعيفة)
+  if (!user) {
+    await new Promise(r => setTimeout(r, 1000));
+    const retry = await window.supabaseClient.auth.getSession();
+    user = retry.data.session?.user;
+  }
+
+  // 3. الطرد فقط إذا كان زائراً حقيقياً (لم يسجل دخول من الأصل)
+  if (!user) {
+    alert('⚠️ يرجى تسجيل الدخول لإتمام الطلب.');
+    window.location.href = 'auth.html'; // تحويله للتسجيل فقط لأنه زائر
+    return;
+  }
+
+  // استخراج معرف المنتج من الرابط
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id') || urlParams.get('slug'); 
+  
+  if (!productId) return alert('خطأ: لم يتم العثور على معرف المنتج في الرابط.');
+
+  try {
+    // جلب بيانات المنتج من قاعدة البيانات مباشرة
+    const { data: product, error } = await window.supabaseClient
+      .from('products')
+      .select('*, workshops(owner_id)')
+      .or(`id.eq.${productId},slug.eq.${productId}`)
+      .single();
+
+    if (error || !product) throw new Error('لم يتم العثور على المنتج');
+
+    // تحديد البائع
+    let vendorId = product.seller_id;
+    if (product.seller_type === 'workshop' && product.workshops?.owner_id) {
+      vendorId = product.workshops.owner_id;
+    }
+
+    if (!vendorId) throw new Error('تعذر تحديد البائع');
+    if (user.id === vendorId) return alert('لا يمكنك شراء منتجك الخاص!');
+
+    // إظهار حالة التحميل على الزر
+    const btn = document.getElementById('orderProductBtn');
+    btn.innerHTML = '⏳ جارٍ التحقق...';
+    btn.disabled = true;
+
+    // ✅ (جديد) فحص وجود طلب مفتوح مسبقاً لنفس المنتج لمنع التكرار
+    const { data: existingOrders } = await window.supabaseClient
+      .from('orders')
+      .select('id, order_items!inner(product_id)')
+      .eq('buyer_id', user.id)
+      .eq('vendor_id', vendorId)
+      .in('status', ['pending', 'accepted', 'cart'])
+      .eq('order_items.product_id', product.id);
+
+    if (existingOrders && existingOrders.length > 0) {
+      alert('⚠️ لديك طلب مفتوح بالفعل لهذا المنتج. سيتم تحويلك للمحادثة.');
+      window.location.href = `dashboard.html?tab=orders&order=${existingOrders[0].id}`;
+      return;
+    }
+
+    btn.innerHTML = '⏳ جارٍ إنشاء الطلب...';
+
+    // 1. إنشاء الطلب
+    const { data: order, error: orderErr } = await window.supabaseClient
+      .from('orders')
+      .insert({
+        buyer_id: user.id,
+        vendor_id: vendorId,
+        status: 'pending',
+        subtotal: product.price || 0
+      })
+      .select().single();
+
+    if (orderErr) throw new Error('فشل إنشاء الطلب: ' + orderErr.message);
+
+    // 2. إضافة المنتج للطلب
+    const imageUrl = product.images && product.images.length > 0 ? product.images[0] : null;
+    const { error: itemErr } = await window.supabaseClient
+      .from('order_items')
+      .insert({
+        order_id: order.id,
+        item_type: 'product',
+        product_id: product.id,
+        title_snapshot: product.title,
+        image_snapshot: imageUrl,
+        unit_price: product.price || 0,
+        quantity: 1
+      });
+
+    if (itemErr) throw new Error('فشل إضافة المنتج للطلب: ' + itemErr.message);
+
+    // 3. التحويل للوحة التحكم وفتح المحادثة
+    window.location.href = `dashboard.html?tab=orders&order=${order.id}`;
+
+  } catch (err) {
+    console.error(err);
+    alert('❌ ' + err.message);
+    const btn = document.getElementById('orderProductBtn');
+    if(btn) { btn.innerHTML = '<span>🛒</span><span>اطلب المنتج الآن (عبر المنصة)</span>'; btn.disabled = false; }
+  }
+};
+</script>
+
+</body>
+</html>

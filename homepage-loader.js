@@ -135,7 +135,7 @@ async function initLiveCounter() {
 
 function createProductCard(product) {
   const a = document.createElement('a');
-  a.href = `product.html?id=${product.id}`;
+  a.href = itemUrl('product', product);
   a.className = 'product-card';
 
   const imageUrl = product.images && product.images.length > 0 
@@ -172,7 +172,7 @@ function createProductCard(product) {
 
 function createOriginalCard(product) {
   const a = document.createElement('a');
-  a.href = `product.html?id=${product.id}`;
+  a.href = itemUrl('product', product);
   a.className = 'product-card';
 
   const imageUrl = product.images && product.images.length > 0 
@@ -203,7 +203,7 @@ function createOriginalCard(product) {
 
 function createWorkshopCard(workshop) {
   const a = document.createElement('a');
-  a.href = `workshop.html?id=${workshop.id}`;
+  a.href = itemUrl('workshop', workshop);
   a.className = 'workshop-card';
 
   const initial = (workshop.name || 'و').charAt(0);
@@ -230,7 +230,7 @@ function escapeHtml(text) {
 
 function createHomeServiceCard(service) {
   const a = document.createElement('a');
-  a.href = `service?id=${service.id}`;
+  a.href = itemUrl('service', service);
   a.className = 'product-card';
 
   const iconMap = {

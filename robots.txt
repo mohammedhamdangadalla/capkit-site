@@ -1,0 +1,9 @@
+# robots.txt — CapKit Souq / CapKit Co.
+# ملاحظة: الصفحات الخاصة (لوحة التحكم، الإدارة، الدخول...) غير محجوبة هنا عن قصد؛
+# فهي تحمل <meta name="robots" content="noindex, follow"> داخلياً.
+# حجبها هنا يمنع جوجل من قراءة الـnoindex ويتركها في الفهرس.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://capkitco.com/sitemap.xml

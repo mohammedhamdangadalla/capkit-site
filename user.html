@@ -434,6 +434,64 @@
 </style>
   <link rel="icon" href="/icon-192.png">
 <link rel="shortcut icon" href="/icon-192.png">
+<!-- SEO-META:START -->
+<!-- canonical: يُولَّد عبر الـprerender، انظر SEO.md (مشكلة 2) -->
+<meta name="robots" content="noindex, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://capkitco.com/#organization",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "url": "https://capkitco.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://capkitco.com/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "description": "منصة عربية تجمع الورش والحرفيين والمهندسين والفنيين ومقدمي الخدمات، مع تواصل مباشر بلا وسطاء.",
+      "email": "hello@capkitco.com",
+      "areaServed": {
+        "@type": "Place",
+        "name": "الوطن العربي"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "telephone": "+201116549311",
+        "email": "hello@capkitco.com",
+        "availableLanguage": [
+          "ar"
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://capkitco.com/#website",
+      "url": "https://capkitco.com/",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "inLanguage": "ar",
+      "publisher": {
+        "@id": "https://capkitco.com/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://capkitco.com/search.html?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+<!-- SEO-META:END -->
 </head>
 <body>
 
@@ -556,9 +614,11 @@
 </main>
 
 <!-- ═══ Supabase ═══ -->
+<script src="links.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="user.js"></script>
+<script src="profile-card-edit.js"></script>
 <!-- ═══ Footer ═══ -->
 <script src="footer.js"></script>
 </body>

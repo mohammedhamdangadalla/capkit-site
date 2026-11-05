@@ -278,7 +278,7 @@ window.performSearch = async function() {
 // ═══ Create Product Card ═══
 function createProductCard(product) {
   const a = document.createElement('a');
-  a.href = `product?id=${product.id}`;
+  a.href = itemUrl('product', product);
   a.className = 'product-card';
 
   const img = product.images && product.images[0] ? product.images[0] : '';
@@ -307,7 +307,7 @@ function createProductCard(product) {
 // ═══ Create Service Card ═══
 function createServiceCard(service) {
   const a = document.createElement('a');
-  a.href = `service?id=${service.id}`;
+  a.href = itemUrl('service', service);
   a.className = 'product-card';
 
   const priceText = service.price_start
@@ -335,7 +335,7 @@ function createServiceCard(service) {
 // ═══ Create Workshop Card ═══
 function createWorkshopCard(workshop) {
   const a = document.createElement('a');
-  a.href = `workshop?id=${workshop.id}`;
+  a.href = itemUrl('workshop', workshop);
   a.className = 'product-card';
 
   const logo = workshop.logo_url;

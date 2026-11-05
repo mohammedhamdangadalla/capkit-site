@@ -1,0 +1,83 @@
+{
+  "generatedAt": "2026-11-05T19:17:12.395Z",
+  "counts": {
+    "product": 6,
+    "service": 1,
+    "workshop": 2,
+    "profile": 0
+  },
+  "pages": [
+    {
+      "url": "https://capkitco.com/product/p-a3175fcd/",
+      "file": "product/p-a3175fcd/index.html",
+      "type": "product",
+      "id": "a3175fcd-6329-405e-a91e-899509b86e78",
+      "slug": "p-a3175fcd",
+      "lastmod": "2026-11-02T08:25:07.945697+00:00"
+    },
+    {
+      "url": "https://capkitco.com/product/p-10aa0577/",
+      "file": "product/p-10aa0577/index.html",
+      "type": "product",
+      "id": "10aa0577-93f2-4dbe-a789-af479244ec47",
+      "slug": "p-10aa0577",
+      "lastmod": "2026-11-02T08:22:03.096893+00:00"
+    },
+    {
+      "url": "https://capkitco.com/product/p-76160ff8/",
+      "file": "product/p-76160ff8/index.html",
+      "type": "product",
+      "id": "76160ff8-ca2c-4c84-8eb2-4a85635a2a47",
+      "slug": "p-76160ff8",
+      "lastmod": "2026-10-30T13:32:39.225227+00:00"
+    },
+    {
+      "url": "https://capkitco.com/product/p-0c2e0dc7/",
+      "file": "product/p-0c2e0dc7/index.html",
+      "type": "product",
+      "id": "0c2e0dc7-e26c-4945-bfb4-778b2709d43c",
+      "slug": "p-0c2e0dc7",
+      "lastmod": "2026-10-13T22:06:28.579658+00:00"
+    },
+    {
+      "url": "https://capkitco.com/product/p-9b8a44d5/",
+      "file": "product/p-9b8a44d5/index.html",
+      "type": "product",
+      "id": "9b8a44d5-e2ad-41ea-87d2-be7212444d49",
+      "slug": "p-9b8a44d5",
+      "lastmod": "2026-10-13T21:16:04.813442+00:00"
+    },
+    {
+      "url": "https://capkitco.com/product/p-40ede4ae/",
+      "file": "product/p-40ede4ae/index.html",
+      "type": "product",
+      "id": "40ede4ae-cbef-44bd-8bb1-268dca5c6a77",
+      "slug": "p-40ede4ae",
+      "lastmod": "2026-10-13T21:05:33.559674+00:00"
+    },
+    {
+      "url": "https://capkitco.com/service/s-570db599/",
+      "file": "service/s-570db599/index.html",
+      "type": "service",
+      "id": "570db599-2fdd-4aa1-a1cf-a030243f4815",
+      "slug": "s-570db599",
+      "lastmod": "2026-10-26T09:33:44.232467+00:00"
+    },
+    {
+      "url": "https://capkitco.com/workshop/w-mvbhhcmv/",
+      "file": "workshop/w-mvbhhcmv/index.html",
+      "type": "workshop",
+      "id": "b0487f8d-5bf4-40b4-9b44-b0a4466bebc6",
+      "slug": "w-mvbhhcmv",
+      "lastmod": "2026-10-16T21:37:59.033522+00:00"
+    },
+    {
+      "url": "https://capkitco.com/workshop/w-bc23116d/",
+      "file": "workshop/w-bc23116d/index.html",
+      "type": "workshop",
+      "id": "375a138c-0cf2-4397-9944-cfd757fbdcbd",
+      "slug": "w-bc23116d",
+      "lastmod": "2026-10-13T21:16:04.533246+00:00"
+    }
+  ]
+}

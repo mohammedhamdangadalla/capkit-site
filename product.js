@@ -17,34 +17,45 @@ async function initProduct() {
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   isGuest = !session;
 
+  const pre = window.__PRERENDER__;
   const params = new URLSearchParams(window.location.search);
-  const productId = params.get('id');
-
-  if (!productId) {
-    showNotFound();
-    return;
-  }
+  let productId = params.get('id');
 
   try {
-    const { data: product, error } = await window.supabaseClient
-      .from('products')
-      .select('*')
-      .eq('id', productId)
-      .single();
+    let product;
 
-    if (error || !product) {
-      console.error('Product fetch error:', error);
-      showNotFound();
-      return;
+    if (pre && pre.type === 'product' && pre.data) {
+      // ✅ صفحة مولّدة مسبقاً: البيانات مضمّنة في الصفحة — لا طلب شبكة ولا انتظار
+      product = pre.data;
+      currentSeller = pre.seller || null;
+    } else {
+      if (!productId) {
+        showNotFound();
+        return;
+      }
+
+      const { data, error } = await window.supabaseClient
+        .from('products')
+        .select('*')
+        .eq('id', productId)
+        .single();
+
+      if (error || !data) {
+        console.error('Product fetch error:', error);
+        showNotFound();
+        return;
+      }
+      product = data;
     }
 
+    productId = product.id;
     currentProduct = product;
     currentImages = product.images || [];
 
     // ✅ تسجيل المشاهدة
     logProductView(product);
 
-    await loadSeller(product);
+    if (!currentSeller) await loadSeller(product);
     renderProduct();
     showContent();
 
@@ -124,9 +135,15 @@ async function initAdminSuspendButton(productId) {
 async function loadSeller(product) {
   try {
     if (product.seller_id) {
+      // الزائر يقرأ من العرض العام (بلا email/phone)، والمتسجل من الجدول كالسابق
+      const table = isGuest ? 'public_profiles' : 'profiles';
+      const columns = isGuest
+        ? 'full_name, role, whatsapp, city, avatar_url'
+        : 'full_name, role, whatsapp, phone, city, avatar_url';
+
       const { data: profile } = await window.supabaseClient
-        .from('profiles')
-        .select('full_name, role, whatsapp, phone, city, avatar_url')
+        .from(table)
+        .select(columns)
         .eq('id', product.seller_id)
         .single();
 
@@ -186,7 +203,7 @@ function renderProduct() {
   renderSeller();
   renderWhatsApp();
   
-  document.title = `${p.title || 'المنتج'} — CapKit Co.`;
+  document.title = `${p.title || 'المنتج'} — Capkitco`;
   
   renderProductLike(p.id);
   
@@ -199,9 +216,9 @@ function renderProduct() {
 
   updateOpenGraph({
     title: p.title || 'منتج',
-    description: p.description?.substring(0, 160) || 'منتج من CapKit Co.',
+    description: p.description?.substring(0, 160) || 'منتج من Capkitco',
     image: p.images?.[0] || 'https://capkitco.com/icon-512.png',
-    url: `https://capkitco.com/product?id=${p.id}`
+    url: window.__PRERENDER__?.url || `https://capkitco.com/product.html?id=${p.id}`
   });
     
   initComments('product', p.id);
@@ -338,7 +355,7 @@ function renderWhatsApp() {
     phone = currentSeller.whatsapp.replace(/\D/g, '');
   }
 
-  const productUrl = `https://capkitco.com/product?id=${p.id}`;
+  const productUrl = itemUrlAbsolute('product', p);
   const message = `مرحباً، أنا مهتم بالمنتج:\n\n${p.title}\n${p.price} ${p.currency}\n\n${productUrl}`;
   const encodedMsg = encodeURIComponent(message);
 

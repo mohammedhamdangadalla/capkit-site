@@ -348,8 +348,8 @@ function renderReports() {
     });
 
     let itemLink = ''; let itemTitle = '';
-    if (comment?.product_id) { itemLink = `product?id=${comment.product_id}`; itemTitle = itemsMap['p_' + comment.product_id]?.title || 'منتج'; } 
-    else if (comment?.service_id) { itemLink = `service?id=${comment.service_id}`; itemTitle = itemsMap['s_' + comment.service_id]?.title || 'خدمة'; }
+    if (comment?.product_id) { itemLink = itemUrl('product', { id: comment.product_id }); itemTitle = itemsMap['p_' + comment.product_id]?.title || 'منتج'; } 
+    else if (comment?.service_id) { itemLink = itemUrl('service', { id: comment.service_id }); itemTitle = itemsMap['s_' + comment.service_id]?.title || 'خدمة'; }
 
     card.innerHTML = `
       <div class="report-header">

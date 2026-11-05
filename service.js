@@ -14,30 +14,41 @@ async function initService() {
   const { data: { session } } = await window.supabaseClient.auth.getSession();
   isGuest = !session;
 
+  const pre = window.__PRERENDER__;
   const params = new URLSearchParams(window.location.search);
-  const serviceId = params.get('id');
-
-  if (!serviceId) {
-    showNotFound();
-    return;
-  }
+  let serviceId = params.get('id');
 
   try {
-    const { data: service, error } = await window.supabaseClient
-      .from('services')
-      .select('*')
-      .eq('id', serviceId)
-      .single();
+    let service;
 
-    if (error || !service) {
-      console.error('Service fetch error:', error);
-      showNotFound();
-      return;
+    if (pre && pre.type === 'service' && pre.data) {
+      // ✅ صفحة مولّدة مسبقاً: لا طلب شبكة
+      service = pre.data;
+      currentSeller = pre.seller || null;
+    } else {
+      if (!serviceId) {
+        showNotFound();
+        return;
+      }
+
+      const { data, error } = await window.supabaseClient
+        .from('services')
+        .select('*')
+        .eq('id', serviceId)
+        .single();
+
+      if (error || !data) {
+        console.error('Service fetch error:', error);
+        showNotFound();
+        return;
+      }
+      service = data;
     }
 
+    serviceId = service.id;
     currentService = service;
 
-    await loadSeller(service);
+    if (!currentSeller) await loadSeller(service);
     renderService();
     showContent();
 
@@ -102,8 +113,14 @@ async function loadSeller(service) {
       const { data: freelancer } = await window.supabaseClient
         .from('freelancers').select('id, user_id').eq('id', service.freelancer_id).maybeSingle();
       if (freelancer?.user_id) {
+        // الزائر يقرأ من العرض العام (بلا email/phone)، والمتسجل من الجدول كالسابق
+        const table = isGuest ? 'public_profiles' : 'profiles';
+        const columns = isGuest
+          ? 'id, full_name, role, whatsapp, city, verified, avatar_url'
+          : 'id, full_name, role, whatsapp, phone, city, verified, avatar_url';
+
         const { data: profile } = await window.supabaseClient
-          .from('profiles').select('id, full_name, role, whatsapp, phone, city, verified, avatar_url').eq('id', freelancer.user_id).single();
+          .from(table).select(columns).eq('id', freelancer.user_id).single();
         if (profile) {
           currentSeller = {
             id: profile.id, name: profile.full_name || 'صانع', type: 'individual',
@@ -155,7 +172,7 @@ function renderService() {
   renderSeller();
   renderWhatsApp();
 
-  document.title = `${s.title || 'الخدمة'} — CapKit Co.`;
+  document.title = `${s.title || 'الخدمة'} — Capkitco`;
   renderServiceLike(s.id);
   
   setTimeout(() => {
@@ -165,7 +182,7 @@ function renderService() {
 
   updateOpenGraph({
     title: s.title || 'خدمة', description: s.description?.substring(0, 160) || 'خدمة من CapKit Co.',
-    image: 'https://capkitco.com/icon-512.png', url: `https://capkitco.com/service?id=${s.id}`
+    image: 'https://capkitco.com/icon-512.png', url: itemUrlAbsolute('service', s)
   });
 
   initComments('service', s.id);
@@ -243,7 +260,7 @@ function renderWhatsApp() {
 
   let phone = '';
   if (currentSeller?.whatsapp) phone = currentSeller.whatsapp.replace(/\D/g, '');
-  const serviceUrl = `https://capkitco.com/service?id=${s.id}`;
+  const serviceUrl = itemUrlAbsolute('service', s);
   const message = `مرحباً، أنا مهتم بالخدمة:\n\n${s.title}\n${s.price_start ? `يبدأ من ${s.price_start} ${s.currency || 'EGP'}` : 'السعر بالتفاوض'}\n\n${serviceUrl}`;
   const encodedMsg = encodeURIComponent(message);
 
