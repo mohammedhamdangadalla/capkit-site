@@ -171,6 +171,78 @@
 }
 </script>
 <!-- SEO-META:END -->
+<style>
+  /* ═══ لوحة الإدارة الموسّعة ═══ */
+  .admin-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .admin-input {
+    flex: 1; min-width: 220px; padding: 10px 14px; border-radius: 10px;
+    border: 1px solid var(--border-light); background: var(--obsidian-2);
+    color: var(--text-primary); font-family: inherit; font-size: 0.9rem;
+  }
+  .admin-input:focus { outline: none; border-color: var(--gold); }
+  .admin-count { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+
+  .admin-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: var(--obsidian-2); }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 640px; }
+  .admin-table th {
+    text-align: right; padding: 12px 14px; font-weight: 700; color: var(--text-secondary);
+    background: var(--obsidian-3); border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  .admin-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text-primary); vertical-align: middle; }
+  .admin-table tr:last-child td { border-bottom: none; }
+  .admin-table tr:hover td { background: rgba(201,169,97,0.04); }
+  .admin-cell-muted { color: var(--text-muted); font-size: 0.8rem; }
+
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; }
+  .pill-ok { background: rgba(34,197,94,0.15); color: #86efac; }
+  .pill-off { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+  .pill-gold { background: rgba(201,169,97,0.18); color: var(--gold); }
+
+  .admin-mini {
+    padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border-light);
+    background: transparent; color: var(--text-primary); font-family: inherit;
+    font-size: 0.78rem; cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .admin-mini:hover { border-color: var(--gold); color: var(--gold); }
+  .admin-mini[disabled] { opacity: .5; cursor: wait; }
+  .admin-mini.gold { background: var(--gold); color: var(--obsidian); border-color: var(--gold); }
+  .admin-mini.danger { color: #fca5a5; border-color: rgba(239,68,68,.4); }
+
+  .admin-select {
+    padding: 6px 10px; border-radius: 8px; background: var(--obsidian-3);
+    border: 1px solid var(--border-light); color: var(--text-primary); font-family: inherit; font-size: 0.8rem;
+  }
+
+  .admin-toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px);
+    background: var(--obsidian-3); border: 1px solid var(--border-light); color: var(--text-primary);
+    padding: 12px 20px; border-radius: 10px; font-size: 0.86rem; z-index: 4000;
+    opacity: 0; transition: all .2s; max-width: 90vw; text-align: center;
+  }
+  .admin-toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .admin-toast.error { border-color: #ef4444; color: #fca5a5; }
+
+  .admin-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.7); backdrop-filter: blur(3px);
+    display: none; align-items: center; justify-content: center; z-index: 3500; padding: 16px;
+  }
+  .admin-modal-overlay.open { display: flex; }
+  .admin-modal {
+    width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+    background: var(--obsidian-2); border: 1px solid var(--border-light);
+    border-radius: 16px; padding: 22px;
+  }
+  .admin-modal h3 { font-family: 'Amiri', serif; margin-bottom: 16px; color: var(--gold); }
+  .admin-field { margin-bottom: 14px; }
+  .admin-field label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px; }
+  .admin-field input, .admin-field textarea, .admin-field select {
+    width: 100%; padding: 10px 12px; border-radius: 9px; background: var(--obsidian);
+    border: 1px solid var(--border-light); color: var(--text-primary);
+    font-family: inherit; font-size: 0.88rem;
+  }
+  .admin-modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+  .admin-modal-actions button { flex: 1; padding: 11px; border-radius: 9px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid transparent; }
+</style>
 </head>
 <body>
 
@@ -240,8 +312,12 @@
 
       <!-- Main Navigation -->
       <div class="main-nav">
-        <button class="main-nav-btn active" onclick="switchMainTab('moderation')">⛔ مراجعة المحتوى</button>
-        <button class="main-nav-btn" onclick="switchMainTab('reports')">🚩 الإبلاغات</button>
+        <button class="main-nav-btn active" data-tab="moderation" onclick="switchMainTab('moderation')">⛔ مراجعة المحتوى</button>
+        <button class="main-nav-btn" data-tab="reports" onclick="switchMainTab('reports')">🚩 الإبلاغات</button>
+        <button class="main-nav-btn" data-tab="users" onclick="switchMainTab('users')">👥 المستخدمون</button>
+        <button class="main-nav-btn" data-tab="workshops" onclick="switchMainTab('workshops')">🏭 الورش</button>
+        <button class="main-nav-btn" data-tab="products" onclick="switchMainTab('products')">📦 المنتجات</button>
+        <button class="main-nav-btn" data-tab="hero" onclick="switchMainTab('hero')">✨ الهيرو</button>
       </div>
 
       <!-- SECTION: Moderation (Content Suspension) -->
@@ -273,6 +349,72 @@
         </div>
       </div>
 
+
+      <!-- SECTION: Users -->
+      <div id="usersSection" style="display: none;">
+        <div class="admin-toolbar">
+          <input class="admin-input" id="userSearch" placeholder="ابحث بالاسم أو البريد…">
+          <span class="admin-count" id="usersCount">—</span>
+        </div>
+        <div class="admin-table-wrap" id="usersTableWrap">
+          <div class="state-message"><div class="state-icon">⏳</div><div class="state-title">جارٍ التحميل…</div></div>
+        </div>
+      </div>
+
+      <!-- SECTION: Workshops -->
+      <div id="workshopsSection" style="display: none;">
+        <div class="admin-toolbar">
+          <input class="admin-input" id="workshopSearch" placeholder="ابحث باسم الورشة أو التخصص…">
+          <span class="admin-count" id="workshopsCount">—</span>
+        </div>
+        <div class="admin-table-wrap" id="workshopsTableWrap">
+          <div class="state-message"><div class="state-icon">⏳</div><div class="state-title">جارٍ التحميل…</div></div>
+        </div>
+      </div>
+
+      <!-- SECTION: Products -->
+      <div id="productsSection" style="display: none;">
+        <div class="admin-toolbar">
+          <input class="admin-input" id="productSearch" placeholder="ابحث باسم المنتج…">
+          <button class="admin-mini gold" onclick="AdminPanels.openProductModal()">＋ منتج جديد</button>
+          <span class="admin-count" id="productsCount">—</span>
+        </div>
+        <div class="admin-table-wrap" id="productsTableWrap">
+          <div class="state-message"><div class="state-icon">⏳</div><div class="state-title">جارٍ التحميل…</div></div>
+        </div>
+      </div>
+
+      <!-- SECTION: Hero -->
+      <div id="heroSection" style="display: none;">
+        <div class="admin-toolbar">
+          <span class="admin-count" style="max-width: 560px;">
+            اختر حتى 4 منتجات تظهر في قسم «CAPKIT ORIGINALS» بالصفحة الرئيسية.
+            إن لم تختر شيئاً، يعرض الموقع المنتجات الأصلية تلقائياً.
+          </span>
+          <span class="admin-count" id="heroCount">—</span>
+        </div>
+        <div class="admin-table-wrap" id="heroTableWrap">
+          <div class="state-message"><div class="state-icon">⏳</div><div class="state-title">جارٍ التحميل…</div></div>
+        </div>
+      </div>
+
+      <!-- Modal: منتج جديد -->
+      <div class="admin-modal-overlay" id="productModal">
+        <div class="admin-modal">
+          <h3>＋ منتج جديد</h3>
+          <div class="admin-field"><label>اسم المنتج *</label><input id="npTitle" maxlength="80" placeholder="مثال: جدارية معدنية"></div>
+          <div class="admin-field"><label>الوصف</label><textarea id="npDesc" rows="3" maxlength="500" placeholder="وصف مختصر…"></textarea></div>
+          <div class="admin-field"><label>السعر (جنيه) *</label><input id="npPrice" type="number" min="0" step="1" placeholder="295"></div>
+          <div class="admin-field"><label>الورشة *</label><select id="npWorkshop"></select></div>
+          <div class="admin-field"><label>التصنيف</label><select id="npCategory"></select></div>
+          <div class="admin-field"><label>رابط الصورة (اختياري)</label><input id="npImage" dir="ltr" placeholder="https://…"></div>
+          <div class="admin-modal-actions">
+            <button class="admin-mini" onclick="AdminPanels.closeProductModal()">إلغاء</button>
+            <button class="admin-mini gold" id="npSave" onclick="AdminPanels.saveProduct()">حفظ ونشر</button>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -282,6 +424,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="supabase-config.js"></script>
 <script defer src="admin.js"></script>
+<script defer src="admin-manage.js"></script>
 <script defer src="footer.js"></script>
 </body>
 </html>

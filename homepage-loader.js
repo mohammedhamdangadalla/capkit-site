@@ -11,12 +11,31 @@ async function loadHomepageContent() {
 
   try {
     // ═══ 1. المنتجات المميزة ═══
-    const { data: products, error: pError } = await window.supabaseClient
+    // المميزة أولاً (is_featured) ثم نُكمل بأحدث المنتجات حتى يمتلئ الصف
+    const { data: featuredRows, error: pError } = await window.supabaseClient
       .from('products')
       .select('*')
       .eq('status', 'published')
+      .eq('is_featured', true)
       .order('created_at', { ascending: false })
       .limit(8);
+
+    let products = featuredRows || [];
+
+    if (!pError && products.length < 8) {
+      const { data: latestRows } = await window.supabaseClient
+        .from('products')
+        .select('*')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+        .limit(8);
+
+      const seen = new Set(products.map((p) => p.id));
+      for (const row of latestRows || []) {
+        if (products.length >= 8) break;
+        if (!seen.has(row.id)) { products.push(row); seen.add(row.id); }
+      }
+    }
 
     if (!pError && products && products.length > 0) {
       const grid = document.getElementById('featuredProductsGrid');
@@ -28,13 +47,27 @@ async function loadHomepageContent() {
     }
 
     // ═══ 2. CapKit Originals ═══
-    const { data: originals, error: oError } = await window.supabaseClient
+    // أولاً: ما اختاره الأدمن لقسم الهيرو (is_hero)
+    let { data: originals, error: oError } = await window.supabaseClient
       .from('products')
       .select('*')
       .eq('status', 'published')
-      .eq('is_capkit_original', true)
+      .eq('is_hero', true)
       .order('created_at', { ascending: false })
       .limit(4);
+
+    // احتياطي: المنتجات الأصلية إن لم يختر الأدمن شيئاً
+    if (!oError && (!originals || originals.length === 0)) {
+      const fallback = await window.supabaseClient
+        .from('products')
+        .select('*')
+        .eq('status', 'published')
+        .eq('is_capkit_original', true)
+        .order('created_at', { ascending: false })
+        .limit(4);
+      originals = fallback.data;
+      oError = fallback.error;
+    }
 
     if (!oError && originals && originals.length > 0) {
       const grid = document.getElementById('originalsProductsGrid');

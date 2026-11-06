@@ -47,6 +47,8 @@ async function initAdmin() {
   await loadAllReportsData();
 
   showState('content');
+  // تُستخدم من admin-manage.js لبناء الأقسام الجديدة
+  window.dispatchEvent(new CustomEvent('admin:ready', { detail: { user: adminUser, profile } }));
   renderReports();
   setupFilterTabs();
 }
@@ -226,16 +228,20 @@ window.deleteContentPermanently = async function(type, id) {
 };
 
 // ═══ Main Tabs Switcher ═══
-window.switchMainTab = function(tabName) {
-  document.querySelectorAll('.main-nav-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+window.switchMainTab = function(tabName, evt) {
+  document.querySelectorAll('.main-nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabName);
+  });
 
-  if (tabName === 'reports') {
-    document.getElementById('reportsSection').style.display = 'block';
-    document.getElementById('moderationSection').style.display = 'none';
-  } else {
-    document.getElementById('reportsSection').style.display = 'none';
-    document.getElementById('moderationSection').style.display = 'block';
+  const sections = ['moderation', 'reports', 'users', 'workshops', 'products', 'hero'];
+  sections.forEach(name => {
+    const el = document.getElementById(name + 'Section');
+    if (el) el.style.display = name === tabName ? 'block' : 'none';
+  });
+
+  // تحميل كسول: لا نجلب البيانات إلا عند فتح التبويب أول مرة
+  if (window.AdminPanels && typeof window.AdminPanels.onTab === 'function') {
+    window.AdminPanels.onTab(tabName);
   }
 };
 
