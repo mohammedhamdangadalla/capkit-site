@@ -62,7 +62,10 @@
 
   async function updateRow(table, id, patch) {
     const { error } = await client().from(table).update(patch).eq('id', id);
-    if (error) throw error;
+    if (error) {
+      console.error('[admin] update failed:', { table, id, patch, error });
+      throw error;
+    }
   }
 
   function emptyState(text) {
@@ -465,6 +468,7 @@
       await loadProducts(true);
       await loadWorkshops(true);
     } catch (err) {
+      console.error('[admin] saveProduct failed:', err);
       toast(explainError(err), 'error');
     } finally {
       btn.disabled = false;
@@ -483,6 +487,34 @@
     },
   };
 
+  async function togglePremium(id, current, btn) {
+    if (btn) btn.disabled = true;
+    try {
+      const next = !current;
+      const { data, error } = await client()
+        .from('profiles')
+        .update({ is_premium: next })
+        .eq('id', id)
+        .select('id, is_premium')
+        .single();
+
+      if (error) {
+        console.error('[admin] togglePremium failed:', error);
+        throw error;
+      }
+
+      const u = state.users.find((x) => x.id === id);
+      if (u) u.is_premium = data.is_premium;
+      renderUsers();
+      toast(next ? 'تم تفعيل البريميوم — يمكنه إنشاء مساحته' : 'تم إلغاء البريميوم');
+    } catch (err) {
+      console.error('[admin] togglePremium error:', err);
+      toast(explainError(err), 'error');
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  }
+
   window.AdminPanels = {
     onTab(tab) {
       if (!state.ready) return;
@@ -490,6 +522,7 @@
       loaders[tab]?.();
     },
     toggleUserVerify,
+    togglePremium,
     changeRole,
     toggleWorkshopVerify,
     toggleFeatured,
