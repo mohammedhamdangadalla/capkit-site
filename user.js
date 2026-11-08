@@ -498,7 +498,7 @@ function createProductCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${img 
-        ? `<img src="${optimizeImage(img, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;>`
+        ? `<img src="${optimizeImage(img, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">📦</div>`}
     </div>
     <div class="product-info">

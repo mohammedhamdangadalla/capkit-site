@@ -287,7 +287,7 @@ function createProductCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${img 
-        ? `<img src="${optimizeImage(img, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;>`
+        ? `<img src="${optimizeImage(img, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">📦</div>`}
       ${product.is_capkit_original ? '<span class="badge-original">✨ أصلي</span>' : ''}
     </div>
@@ -346,7 +346,7 @@ function createWorkshopCard(workshop) {
     <div class="product-image">
       <span class="badge-service" style="background: rgba(201, 169, 97, 0.15); color: var(--gold); border-color: rgba(201, 169, 97, 0.4);">🏭 ورشة</span>
       ${logo 
-        ? `<img src="${optimizeImage(logo, 200)}" alt="${escapeHtml(workshop.name)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;>`
+        ? `<img src="${optimizeImage(logo, 200)}" alt="${escapeHtml(workshop.name)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem" style="background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--obsidian); font-weight: 700;">${escapeHtml(initial)}</div>`}
     </div>
     <div class="product-info">

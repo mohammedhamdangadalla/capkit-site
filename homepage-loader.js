@@ -248,7 +248,7 @@ function createProductCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${imageUrl 
-        ? `<img src="${optimizeImage(imageUrl, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;>`
+        ? `<img src="${optimizeImage(imageUrl, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">📦</div>`}
       ${product.is_capkit_original ? '<span class="badge-original">✨ أصلي</span>' : ''}
     </div>
@@ -283,7 +283,7 @@ function createOriginalCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${imageUrl 
-        ? `<img src="${optimizeImage(imageUrl, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;>`
+        ? `<img src="${optimizeImage(imageUrl, 700)}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">✦</div>`}
       ${serial ? `<span class="badge-original">N° ${serial}</span>` : ''}
     </div>
@@ -361,13 +361,23 @@ function createHomeServiceCard(service) {
       ${renderCardRating(service.rating_avg, service.rating_count)}
       <div class="product-footer">
         <div class="product-price service-price">${priceText} ${service.currency || 'EGP'}</div>
-        <a href="https://wa.me/?text=${encodeURIComponent('مرحباً، أنا مهتم بالخدمة: ' + service.title)}" 
-           class="btn-wa" 
-           target="_blank"
-           onclick="event.stopPropagation()">اتصال</a>
+        <span class="btn-wa" role="link" tabindex="0"
+              data-href="https://wa.me/?text=${encodeURIComponent('مرحباً، أنا مهتم بالخدمة: ' + service.title)}">اتصال</span>
       </div>
     </div>
   `;
+
+  // واتساب داخل كرت قابل للنقر: span بدل <a> (تداخل <a> داخل <a> يفسد HTML)
+  const wa = a.querySelector('.btn-wa');
+  if (wa) {
+    const openWa = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(wa.dataset.href, '_blank', 'noopener');
+    };
+    wa.addEventListener('click', openWa);
+    wa.addEventListener('keydown', (e) => { if (e.key === 'Enter') openWa(e); });
+  }
 
   return a;
 }
