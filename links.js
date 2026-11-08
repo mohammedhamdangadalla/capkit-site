@@ -58,6 +58,16 @@
   }
 
   window.optimizeImage = optimizeImage;
+
+  /** srcset من نفس الرابط بعروض مختلفة — المتصفح يختار الأنسب للشاشة */
+  function imageSrcset(url, widths) {
+    if (!url) return '';
+    return (widths || [400, 700, 1000])
+      .map((w) => optimizeImage(url, w) + ' ' + w + 'w')
+      .join(', ');
+  }
+
+  window.imageSrcset = imageSrcset;
   window.itemUrl = itemUrl;
   window.itemUrlAbsolute = itemUrlAbsolute;
 })();

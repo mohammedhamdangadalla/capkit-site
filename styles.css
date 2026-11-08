@@ -56,7 +56,7 @@ body {
 }
 
 .logo {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -75,7 +75,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
   color: var(--gold);
   font-size: 1rem;
 }
@@ -955,7 +955,7 @@ body {
 }
 
 .product-price {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--gold);
@@ -1158,7 +1158,7 @@ body {
   color: var(--gold);
   display: block;
   font-size: 0.88rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
 }
 
 /* ═══ CTA ═══ */
@@ -1237,7 +1237,7 @@ body {
   gap: 12px;
   text-decoration: none;
   color: var(--text-primary);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
   font-size: 1.4rem;
   letter-spacing: 0.1em;
   margin-bottom: 16px;
@@ -1274,7 +1274,7 @@ body {
 }
 
 .site-footer .footer-col h2 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
   font-size: 0.8rem;
   letter-spacing: 0.3em;
   color: var(--gold);
@@ -1755,7 +1755,7 @@ body {
 }
 
 .like-btn .count {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
   font-size: 1rem;
   font-weight: 700;
 }
@@ -2000,7 +2000,7 @@ body {
 
 .comments-title .count {
   color: var(--gold);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
 }
 
 /* ═══ Comment Form ═══ */
@@ -2369,7 +2369,7 @@ body {
 }
 
 .rating-big {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Tajawal', sans-serif;
   font-size: 3rem;
   font-weight: 700;
   color: var(--gold);
