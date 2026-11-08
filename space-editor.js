@@ -33,6 +33,8 @@
     if (/42P01|does not exist/i.test(m)) return 'جداول المساحات غير موجودة — نفّذ db/008_premium_spaces.sql.';
     if (/42501|permission denied|policy/i.test(m)) return 'لا تملك صلاحية — تأكد من تفعيل البريميوم.';
     if (/duplicate|23505/i.test(m)) return 'لديك مساحة بالفعل.';
+    if (/Bucket not found/i.test(m)) return 'Bucket premium-assets غير موجود — نفّذ db/010_premium_assets_bucket.sql.';
+    if (/new row violates row-level security/i.test(m)) return 'لا يمكنك الرفع في مجلد مستخدم آخر.';
     return m || 'حدث خطأ';
   }
 
@@ -280,6 +282,76 @@
     }
   }
 
+  /* ─────────── رفع الصور ─────────── */
+
+  /** ضغط الصورة في المتصفح قبل الرفع (بلا مكتبات) */
+  async function compressImage(file, maxSize, quality = 0.82) {
+    if (!file.type.startsWith('image/')) throw new Error('الملف ليس صورة');
+    if (file.size > 6 * 1024 * 1024) throw new Error('الصورة أكبر من 6 ميجابايت');
+
+    let bitmap;
+    try {
+      bitmap = await createImageBitmap(file);
+    } catch {
+      throw new Error('صيغة الصورة غير مدعومة في هذا المتصفح');
+    }
+
+    const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
+    const w = Math.max(1, Math.round(bitmap.width * scale));
+    const h = Math.max(1, Math.round(bitmap.height * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+    bitmap.close?.();
+
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+    if (!blob) throw new Error('تعذّر ضغط الصورة');
+    return blob;
+  }
+
+  function bindUpload(fileId, urlId, prefix, maxSize) {
+    const input = $(fileId);
+    if (!input) return;
+
+    input.addEventListener('change', async (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const status = $(fileId.replace('File', 'Status'));
+      if (!state.user) return toast('سجّل الدخول أولاً', 'error');
+
+      input.disabled = true;
+      if (status) status.textContent = 'جارٍ الضغط…';
+
+      try {
+        const blob = await compressImage(file, maxSize);
+        if (status) status.textContent = 'جارٍ الرفع…';
+
+        const path = `${state.user.id}/${prefix}-${Date.now()}.jpg`;
+        const { error } = await client().storage.from('premium-assets').upload(path, blob, {
+          contentType: 'image/jpeg',
+          upsert: true,
+          cacheControl: '31536000',
+        });
+        if (error) throw error;
+
+        const { data } = client().storage.from('premium-assets').getPublicUrl(path);
+        $(urlId).value = data.publicUrl;
+        if (status) status.textContent = `✔ تم الرفع (${Math.round(blob.size / 1024)}KB)`;
+        toast('تم رفع الصورة');
+      } catch (err) {
+        console.error('[space] upload failed:', err);
+        if (status) status.textContent = '✖ فشل الرفع';
+        toast(explain(err), 'error');
+      } finally {
+        input.disabled = false;
+        input.value = '';
+      }
+    });
+  }
+
   /* ─────────── التصدير ─────────── */
 
   window.SpaceEditor = { openProduct, closeProduct, saveProduct, deleteProduct, addSpecRow };
@@ -289,6 +361,12 @@
     $('productModal')?.addEventListener('click', (e) => {
       if (e.target.id === 'productModal') closeProduct();
     });
+
+    // رفع الصور: الشعار · الغلاف · صورة المنتج
+    bindUpload('spLogoFile', 'spLogo', 'logo', 512);
+    bindUpload('spCoverFile', 'spCover', 'cover', 1600);
+    bindUpload('ppImageFile', 'ppImage', 'product', 1000);
+
     init();
   });
 })();

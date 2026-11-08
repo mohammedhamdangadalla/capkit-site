@@ -35,8 +35,22 @@
       </div>
       <div class="sp-field"><label>نبذة عن المساحة</label><textarea id="spAbout" rows="3" maxlength="600" placeholder="من أنتم وماذا تقدمون؟"></textarea></div>
       <div class="sp-row">
-        <div class="sp-field"><label>رابط الشعار</label><input id="spLogo" dir="ltr" placeholder="https://…"></div>
-        <div class="sp-field"><label>رابط الغلاف</label><input id="spCover" dir="ltr" placeholder="https://…"></div>
+        <div class="sp-field">
+          <label>الشعار</label>
+          <input id="spLogo" dir="ltr" placeholder="https://…">
+          <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+            <input type="file" id="spLogoFile" accept="image/*" style="font-size:.78rem;">
+            <span id="spLogoStatus" style="font-size:.75rem; color: var(--sp-muted);"></span>
+          </div>
+        </div>
+        <div class="sp-field">
+          <label>الغلاف</label>
+          <input id="spCover" dir="ltr" placeholder="https://…">
+          <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+            <input type="file" id="spCoverFile" accept="image/*" style="font-size:.78rem;">
+            <span id="spCoverStatus" style="font-size:.75rem; color: var(--sp-muted);"></span>
+          </div>
+        </div>
       </div>
       <div class="sp-row">
         <div class="sp-field"><label>هاتف التواصل</label><input id="spPhone" dir="ltr" placeholder="+20…"></div>
@@ -72,7 +86,14 @@
       <div class="sp-field"><label>السعر (جنيه)</label><input id="ppPrice" type="number" min="0" step="1"></div>
     </div>
     <div class="sp-field"><label>الوصف</label><textarea id="ppDesc" rows="3" maxlength="600"></textarea></div>
-    <div class="sp-field"><label>رابط الصورة</label><input id="ppImage" dir="ltr" placeholder="https://…"></div>
+    <div class="sp-field">
+      <label>صورة المنتج</label>
+      <input id="ppImage" dir="ltr" placeholder="https://…">
+      <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+        <input type="file" id="ppImageFile" accept="image/*" style="font-size:.78rem;">
+        <span id="ppImageStatus" style="font-size:.75rem; color: var(--sp-muted);"></span>
+      </div>
+    </div>
     <div class="sp-field">
       <label>المواصفات التقنية</label>
       <div id="specsRows"></div>

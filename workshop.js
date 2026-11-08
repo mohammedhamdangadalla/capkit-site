@@ -173,13 +173,15 @@ function renderCoverAndLogo(workshop) {
   const cover = document.getElementById('workshopCover');
   const logo = document.getElementById('workshopLogo');
 
-  if (workshop.cover_url) {
-    cover.style.backgroundImage = `url('${workshop.cover_url}')`;
+  // الغلاف: cover وإلا الشعار (بعض الورش ترفع شعاراً فقط)
+  const coverUrl = workshop.cover_url || workshop.logo_url;
+  if (coverUrl) {
+    cover.style.backgroundImage = `url("${String(coverUrl).replace(/"/g, '%22')}")`;
   }
 
   if (workshop.logo_url) {
     logo.textContent = '';
-    logo.style.backgroundImage = `url('${workshop.logo_url}')`;
+    logo.style.backgroundImage = `url("${String(workshop.logo_url).replace(/"/g, '%22')}")`;
   } else {
     logo.textContent = (workshop.name || 'و').charAt(0);
   }

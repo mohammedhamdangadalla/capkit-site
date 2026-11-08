@@ -6,6 +6,10 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
     persistSession: true,      // حفظ الجلسة في المتصفح
     autoRefreshToken: true,    // تجديد التوكن تلقائياً
     detectSessionInUrl: true   // قراءة التوكن عند العودة من جوجل
+  },
+  // كل طلبات البيانات بلا كاش: أي تعديل يظهر عند أول تحديث للصفحة
+  global: {
+    fetch: (input, init = {}) => fetch(input, { ...init, cache: 'no-store' })
   }
 });
 

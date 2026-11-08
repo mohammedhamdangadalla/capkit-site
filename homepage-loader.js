@@ -163,6 +163,73 @@ async function initLiveCounter() {
   }
 }
 
+
+// ═══ منتجات المساحات الاحترافية (تظهر فوراً) ═══
+async function loadPremiumShowcase() {
+  const grid = document.getElementById('featuredProductsGrid');
+  if (!grid) return;
+
+  try {
+    const { data: spaces } = await window.supabaseClient
+      .from('premium_spaces')
+      .select('id, user_id, store_name')
+      .eq('is_active', true)
+      .limit(20);
+
+    if (!spaces || !spaces.length) return;
+
+    const spaceIds = spaces.map((s) => s.id);
+    const { data: items } = await window.supabaseClient
+      .from('premium_products')
+      .select('id, title, price, currency, image_url, space_id')
+      .in('space_id', spaceIds)
+      .order('created_at', { ascending: false })
+      .limit(4);
+
+    if (!items || !items.length) return;
+
+    const userIds = [...new Set(spaces.map((s) => s.user_id))];
+    const { data: profiles } = await window.supabaseClient
+      .from('public_profiles')
+      .select('id, username')
+      .in('id', userIds);
+
+    const usernameById = new Map((profiles || []).map((p) => [p.id, p.username]));
+    const spaceById = new Map(spaces.map((s) => [s.id, s]));
+
+    for (const item of items) {
+      const space = spaceById.get(item.space_id);
+      const username = space ? usernameById.get(space.user_id) : null;
+      if (!username) continue;
+
+      const a = document.createElement('a');
+      a.href = `/space.html?username=${encodeURIComponent(username)}`;
+      a.className = 'product-card';
+
+      const img = item.image_url
+        ? `<img src="${optimizeImage(item.image_url, 700)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
+        : '<div class="product-emblem">🪄</div>';
+
+      a.innerHTML = `
+        <div class="product-image">
+          <span class="badge-service" style="background: rgba(201,169,97,.15); color: var(--gold);">مساحة احترافية</span>
+          ${img}
+        </div>
+        <div class="product-info">
+          <div class="product-title">${escapeHtml(item.title)}</div>
+          <div class="product-desc">${escapeHtml(space ? space.store_name : '')}</div>
+          <div class="product-footer">
+            <div class="product-price">${item.price != null ? item.price : '—'} <small>${item.currency || 'EGP'}</small></div>
+          </div>
+        </div>`;
+
+      grid.appendChild(a);
+    }
+  } catch (err) {
+    console.warn('Premium showcase skipped:', err.message);
+  }
+}
+
 // ═══ Card Builders ═══
 
 function createProductCard(product) {
@@ -239,9 +306,13 @@ function createWorkshopCard(workshop) {
   a.className = 'workshop-card';
 
   const initial = (workshop.name || 'و').charAt(0);
+  const logo = workshop.logo_url || workshop.cover_url || '';
+  const avatarStyle = logo
+    ? 'background-image:url("' + String(logo).replace(/"/g, '%22') + '");background-size:cover;background-position:center;color:transparent;overflow:hidden;'
+    : '';
 
   a.innerHTML = `
-    <div class="workshop-avatar">${escapeHtml(initial)}</div>
+    <div class="workshop-avatar" style="${avatarStyle}">${logo ? '' : escapeHtml(initial)}</div>
     <h3>${escapeHtml(workshop.name || 'ورشة')}</h3>
     <div class="workshop-cat">${escapeHtml(workshop.workshop_type || 'منتجات')}</div>
     <div class="workshop-stats">
@@ -314,7 +385,7 @@ function renderCardRating(avg, count) {
 
 // ═══ Start ═══
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadHomepageContent);
+  document.addEventListener('DOMContentLoaded', () => { loadHomepageContent().then(loadPremiumShowcase); });
 } else {
-  loadHomepageContent();
+  loadHomepageContent().then(loadPremiumShowcase);
 }
