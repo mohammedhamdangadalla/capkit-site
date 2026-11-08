@@ -181,7 +181,7 @@ async function loadPremiumShowcase() {
     const spaceIds = spaces.map((s) => s.id);
     const { data: items } = await window.supabaseClient
       .from('premium_products')
-      .select('id, title, price, currency, image_url, space_id')
+      .select('id, title, price, image_url, space_id')
       .in('space_id', spaceIds)
       .order('created_at', { ascending: false })
       .limit(4);
@@ -219,7 +219,7 @@ async function loadPremiumShowcase() {
           <div class="product-title">${escapeHtml(item.title)}</div>
           <div class="product-desc">${escapeHtml(space ? space.store_name : '')}</div>
           <div class="product-footer">
-            <div class="product-price">${item.price != null ? item.price : '—'} <small>${item.currency || 'EGP'}</small></div>
+            <div class="product-price">${item.price != null ? item.price : '—'} <small>EGP</small></div>
           </div>
         </div>`;
 

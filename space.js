@@ -52,15 +52,37 @@
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', url);
     if (space.cover_url) document.querySelector('meta[property="og:image"]')?.setAttribute('content', space.cover_url);
 
-    // الغلاف والشعار
+    // الغلاف: <img> بدل background-image (ليمكن اكتشاف فشل التحميل)
     if (space.cover_url) {
-      $('spCover').style.backgroundImage = `url("${space.cover_url.replace(/"/g, '%22')}")`;
-      $('spCover').style.backgroundSize = 'cover';
-      $('spCover').style.backgroundPosition = 'center';
+      const coverImg = document.createElement('img');
+      coverImg.src = space.cover_url;
+      coverImg.alt = '';
+      coverImg.referrerPolicy = 'no-referrer';
+      coverImg.addEventListener('error', () => {
+        console.error('[space] cover failed:', space.cover_url);
+        coverImg.remove();
+      });
+      $('spCover').appendChild(coverImg);
     }
-    $('spLogo').innerHTML = space.logo_url
-      ? `<img src="${esc(space.logo_url)}" alt="${esc(space.store_name)}">`
-      : esc((space.store_name || '•').trim().charAt(0));
+
+    // الشعار: صورة وإلا الحرف الأول، مع fallback عند الفشل
+    const logoBox = $('spLogo');
+    const initial = (space.store_name || '•').trim().charAt(0);
+    if (space.logo_url) {
+      const logoImg = document.createElement('img');
+      logoImg.src = space.logo_url;
+      logoImg.alt = space.store_name;
+      logoImg.referrerPolicy = 'no-referrer';
+      logoImg.addEventListener('error', () => {
+        console.error('[space] logo failed:', space.logo_url);
+        logoBox.innerHTML = '';
+        logoBox.textContent = initial;
+      });
+      logoBox.innerHTML = '';
+      logoBox.appendChild(logoImg);
+    } else {
+      logoBox.textContent = initial;
+    }
 
     $('spName').textContent = space.store_name;
     $('spTagline').textContent = space.tagline || '';
@@ -91,7 +113,7 @@
     } else {
       $('spGrid').innerHTML = products.map((p) => `
         <article class="sp-card" data-product="${p.id}" tabindex="0" role="button" aria-label="${esc(p.title)}">
-          <div class="thumb">${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="450">` : '📦'}</div>
+          <div class="thumb">${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="450" referrerpolicy="no-referrer" data-fallback="📦">` : '📦'}</div>
           <div class="body">
             <h3>${esc(p.title)}</h3>
             ${p.description ? `<p class="desc">${esc(p.description.slice(0, 90))}${p.description.length > 90 ? '…' : ''}</p>` : ''}
@@ -99,6 +121,7 @@
           </div>
         </article>`).join('');
 
+      bindImageFallbacks($('spGrid'));
       bindCards();
     }
 
@@ -121,6 +144,18 @@
     });
   }
 
+  /** يستبدل أي صورة فاشلة بعنصر بديل ويسجّل الخطأ في الكونسول */
+  function bindImageFallbacks(root) {
+    root.querySelectorAll('img[data-fallback]').forEach((img) => {
+      img.addEventListener('error', () => {
+        console.error('[space] image failed:', img.currentSrc || img.src);
+        const span = document.createElement('span');
+        span.textContent = img.dataset.fallback || '📦';
+        img.replaceWith(span);
+      });
+    });
+  }
+
   /* ─────────── المودال ─────────── */
 
   function openProduct(id) {
@@ -132,7 +167,7 @@
     const msg = `مرحباً، أرى منتجك «${p.title}» على CapKitco، أرغب في الاستفسار عنه.`;
 
     $('spModalBody').innerHTML = `
-      ${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.title)}">` : ''}
+      ${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.title)}" referrerpolicy="no-referrer">` : ''}
       <h2>${esc(p.title)}</h2>
       <div class="price">${esc(priceText(p))}</div>
       ${p.description ? `<p class="desc">${esc(p.description)}</p>` : ''}
@@ -146,6 +181,13 @@
 
     $('spModal').classList.add('open');
     document.body.style.overflow = 'hidden';
+
+    $('spModalBody').querySelectorAll('img').forEach((img) => {
+      img.addEventListener('error', () => {
+        console.error('[space] modal image failed:', img.src);
+        img.remove();
+      });
+    });
   }
 
   function closeModal() {
