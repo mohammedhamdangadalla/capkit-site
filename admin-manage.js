@@ -55,6 +55,7 @@
       return 'لا تملك صلاحية هذه العملية — نفّذ db/006_admin_features.sql أولاً.';
     }
     if (/42P01|does not exist/i.test(msg)) return 'عمود أو جدول ناقص — نفّذ db/006_admin_features.sql.';
+    if (/42703|column .* does not exist/i.test(msg)) return 'عمود ناقص (is_premium؟) — نفّذ db/008_premium_spaces.sql.';
     if (/guard_admin_role|آخر أدمن/i.test(msg)) return 'لا يمكن إزالة دور الأدمن عن الحساب الأخير.';
     return msg || 'حدث خطأ غير متوقع';
   }
@@ -76,7 +77,7 @@
     try {
       const { data, error } = await client()
         .from('profiles')
-        .select('id, username, full_name, email, role, verified, created_at')
+        .select('id, username, full_name, email, role, verified, is_premium, created_at')
         .order('created_at', { ascending: false })
         .limit(500);
       if (error) throw error;
@@ -105,7 +106,7 @@
     wrap.innerHTML = `
       <table class="admin-table">
         <thead><tr>
-          <th>الاسم</th><th>البريد</th><th>الدور</th><th>الانضمام</th><th>التوثيق</th><th></th>
+          <th>الاسم</th><th>البريد</th><th>الدور</th><th>الانضمام</th><th>بريميوم</th><th>التوثيق</th><th></th>
         </tr></thead>
         <tbody>
           ${rows.map((u) => `
@@ -120,13 +121,22 @@
                 </select>
               </td>
               <td class="admin-cell-muted">${fmtDate(u.created_at)}</td>
+              <td>${u.is_premium
+                ? '<span class="pill pill-gold">⭐ بريميوم</span>'
+                : '<span class="pill pill-off">عادي</span>'}</td>
               <td>${u.verified
                 ? '<span class="pill pill-ok">✓ موثّق</span>'
                 : '<span class="pill pill-off">غير موثّق</span>'}</td>
-              <td><button class="admin-mini ${u.verified ? '' : 'gold'}"
-                    onclick="AdminPanels.toggleUserVerify('${u.id}', ${u.verified ? 'true' : 'false'}, this)">
-                    ${u.verified ? 'إلغاء التوثيق' : 'توثيق'}
-                  </button></td>
+              <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button class="admin-mini ${u.verified ? '' : 'gold'}"
+                  onclick="AdminPanels.toggleUserVerify('${u.id}', ${u.verified ? 'true' : 'false'}, this)">
+                  ${u.verified ? 'إلغاء التوثيق' : 'توثيق'}
+                </button>
+                <button class="admin-mini ${u.is_premium ? '' : 'gold'}"
+                  onclick="AdminPanels.togglePremium('${u.id}', ${u.is_premium ? 'true' : 'false'}, this)">
+                  ${u.is_premium ? 'إلغاء البريميوم' : 'تفعيل البريميوم'}
+                </button>
+              </td>
             </tr>`).join('')}
         </tbody>
       </table>`;

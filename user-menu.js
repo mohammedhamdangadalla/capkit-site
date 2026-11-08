@@ -47,6 +47,9 @@ async function initUserMenu() {
           <span class="user-caret">▾</span>
         </button>
         <div class="user-dropdown" id="userDropdown">
+          <a href="/space-editor.html" class="user-dropdown-item">
+            <span>🪄</span> <span>مساحتي الاحترافية</span>
+          </a>
           <a href="/user.html?id=${session.user.id}" class="user-dropdown-item">
             <span>🪪</span> <span>بطاقتي</span>
           </a>

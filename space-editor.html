@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مساحتي الاحترافية — Capkitco</title>
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/space.css">
+<link rel="icon" href="/icon-192.png">
+</head>
+<body class="space-page">
+
+<div class="sp-wrap">
+  <div class="sp-editor-head">
+    <h1>🪄 مساحتي الاحترافية</h1>
+    <span class="spacer"></span>
+    <a class="sp-btn ghost" id="viewSpaceBtn" href="#" target="_blank" rel="noopener" hidden>عرض المساحة ↗</a>
+    <a class="sp-btn ghost" href="/dashboard.html">← لوحة التحكم</a>
+  </div>
+
+  <div class="sp-state" id="gateState">
+    <div class="icon">⏳</div>
+    <h2>جارٍ التحقق من حسابك…</h2>
+  </div>
+
+  <div id="editorWrap" style="display:none;">
+    <div class="sp-panel">
+      <h2>بيانات المساحة</h2>
+      <div class="sp-row">
+        <div class="sp-field"><label>الاسم التجاري *</label><input id="spName" maxlength="80" placeholder="مثال: ورشة النحاس"></div>
+        <div class="sp-field"><label>العبارة التعريفية</label><input id="spTagline" maxlength="120" placeholder="نصنع المعدن بلمسة فنية"></div>
+      </div>
+      <div class="sp-field"><label>نبذة عن المساحة</label><textarea id="spAbout" rows="3" maxlength="600" placeholder="من أنتم وماذا تقدمون؟"></textarea></div>
+      <div class="sp-row">
+        <div class="sp-field"><label>رابط الشعار</label><input id="spLogo" dir="ltr" placeholder="https://…"></div>
+        <div class="sp-field"><label>رابط الغلاف</label><input id="spCover" dir="ltr" placeholder="https://…"></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-field"><label>هاتف التواصل</label><input id="spPhone" dir="ltr" placeholder="+20…"></div>
+        <div class="sp-field"><label>واتساب *</label><input id="spWhatsapp" dir="ltr" placeholder="01012345678"></div>
+      </div>
+      <label style="display:flex; gap:8px; align-items:center; color: var(--sp-muted); font-size:.86rem;">
+        <input type="checkbox" id="spActive" checked>
+        <span>المساحة منشورة ومرئية للزوار</span>
+      </label>
+      <div style="margin-top:16px;">
+        <button class="sp-btn gold" id="saveSpaceBtn" type="button">💾 حفظ بيانات المساحة</button>
+      </div>
+    </div>
+
+    <div class="sp-panel">
+      <h2>منتجات المساحة</h2>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+        <button class="sp-btn gold" type="button" onclick="SpaceEditor.openProduct()">＋ منتج جديد</button>
+        <span class="sp-count" id="productsCount" style="align-self:center;"></span>
+      </div>
+      <div class="sp-list" id="productsList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal منتج -->
+<div class="sp-modal-overlay" id="productModal">
+  <div class="sp-modal">
+    <button class="close" type="button" onclick="SpaceEditor.closeProduct()">✕</button>
+    <h2 id="productModalTitle">منتج جديد</h2>
+    <div class="sp-row">
+      <div class="sp-field"><label>اسم المنتج *</label><input id="ppTitle" maxlength="90"></div>
+      <div class="sp-field"><label>السعر (جنيه)</label><input id="ppPrice" type="number" min="0" step="1"></div>
+    </div>
+    <div class="sp-field"><label>الوصف</label><textarea id="ppDesc" rows="3" maxlength="600"></textarea></div>
+    <div class="sp-field"><label>رابط الصورة</label><input id="ppImage" dir="ltr" placeholder="https://…"></div>
+    <div class="sp-field">
+      <label>المواصفات التقنية</label>
+      <div id="specsRows"></div>
+      <button class="sp-btn ghost" type="button" style="padding:6px 12px; font-size:.8rem;" onclick="SpaceEditor.addSpecRow()">＋ إضافة مواصفة</button>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:16px;">
+      <button class="sp-btn ghost" type="button" onclick="SpaceEditor.closeProduct()">إلغاء</button>
+      <button class="sp-btn gold" id="saveProductBtn" type="button" onclick="SpaceEditor.saveProduct()">حفظ المنتج</button>
+    </div>
+  </div>
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="/supabase-config.js"></script>
+<script defer src="/links.js"></script>
+<script defer src="/space-editor.js"></script>
+</body>
+</html>
