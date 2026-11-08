@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-06T00:51:11.620Z",
+  "generatedAt": "2026-11-08T11:42:18.199Z",
   "counts": {
     "product": 6,
     "service": 1,
     "workshop": 2,
-    "profile": 0
+    "profile": 1
   },
   "pages": [
     {
@@ -78,6 +78,14 @@
       "id": "375a138c-0cf2-4397-9944-cfd757fbdcbd",
       "slug": "w-bc23116d",
       "lastmod": "2026-10-13T21:16:04.533246+00:00"
+    },
+    {
+      "url": "https://capkitco.com/u/mohammed/",
+      "file": "u/mohammed/index.html",
+      "type": "profile",
+      "id": "01cca51c-0618-49b8-b388-51cc89088b97",
+      "slug": "mohammed",
+      "lastmod": "2026-11-07T04:47:23.040627+00:00"
     }
   ]
 }

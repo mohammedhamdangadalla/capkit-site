@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>العدد — المجلة الهندسية — Capkitco</title>
+<meta name="description" content="اقرأ عدداً من المجلة الهندسية على Capkitco: شروحات عملية للدوائر الإلكترونية والصنعة.">
+<link rel="canonical" href="https://capkitco.com/magazine.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Capkitco">
+<meta property="og:title" content="العدد — المجلة الهندسية">
+<meta property="og:description" content="اقرأ عدداً من المجلة الهندسية على Capkitco.">
+<meta property="og:url" content="https://capkitco.com/magazine.html">
+<meta property="og:image" content="https://capkitco.com/icon-512.png">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json" id="issueLd">{"@context":"https://schema.org","@type":"WebPage","name":"المجلة الهندسية","url":"https://capkitco.com/magazine.html"}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://dsgbnulewdxxftmrqrrr.supabase.co" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/magazine.css">
+<link rel="icon" href="/icon-192.png">
+</head>
+<body>
+
+<header class="mag-top">
+  <a class="brand" href="/">CapKit<span>co</span></a>
+  <a class="mag-btn" href="/magazine.html">كل الأعداد</a>
+  <span class="spacer"></span>
+  <button class="mag-btn no-print" id="printBtn" type="button">🖨️ تحميل كـ PDF</button>
+  <a class="mag-btn no-print" href="/">← الرئيسية</a>
+</header>
+
+<div id="issueState">
+  <div class="mag-state"><div class="icon">⏳</div><h2>جارٍ تحميل العدد…</h2></div>
+</div>
+
+<main class="issue-layout" id="issueLayout" style="display:none;">
+  <aside class="toc" aria-label="فهرس العدد">
+    <h2>فهرس العدد</h2>
+    <ol id="tocList"></ol>
+  </aside>
+
+  <article class="issue-body" id="issueBody"></article>
+</main>
+
+<script src="/magazine-config.js"></script>
+<script src="/issue.js"></script>
+</body>
+</html>

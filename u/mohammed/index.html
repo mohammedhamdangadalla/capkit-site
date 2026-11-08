@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>capkit — مهندس / فني — Capkitco</title>
+<meta name="description" content="بطاقة تعريف تفاعلية على Capkitco — منصة الورش والصنّاع في العالم العربي.">
+<meta name="theme-color" content="#0b0b0d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --obsidian: #0b0b0d;
+    --surface: #141416;
+    --surface-2: #1b1b1f;
+    --gold: #c9a961;
+    --gold-soft: rgba(201, 169, 97, 0.14);
+    --text: #f2efe9;
+    --muted: #9d9a94;
+    --border: rgba(255, 255, 255, 0.08);
+    --whatsapp: #25d366;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px 16px;
+    background:
+      radial-gradient(900px 500px at 50% -10%, rgba(201, 169, 97, 0.12), transparent 65%),
+      var(--obsidian);
+    color: var(--text);
+    font-family: 'Tajawal', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card-shell { width: 100%; max-width: 430px; }
+
+  .card {
+    position: relative;
+    overflow: hidden;
+    padding: 30px 24px 24px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    background: linear-gradient(160deg, var(--surface-2), var(--surface));
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    text-align: center;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -40% -20% auto;
+    height: 260px;
+    background: radial-gradient(circle at 50% 0, var(--gold-soft), transparent 70%);
+    pointer-events: none;
+  }
+
+  .avatar {
+    position: relative;
+    width: 116px;
+    height: 116px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: 'Amiri', serif;
+    font-size: 2.6rem;
+    color: var(--obsidian);
+    background: linear-gradient(140deg, var(--gold), #8f7440);
+    border: 3px solid rgba(201, 169, 97, 0.35);
+    box-shadow: 0 8px 30px rgba(201, 169, 97, 0.25);
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Amiri', serif;
+    font-size: 1.65rem;
+    line-height: 1.35;
+    letter-spacing: 0.2px;
+  }
+
+  .role {
+    margin-top: 6px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.4px;
+  }
+
+  .meta {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .verified {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .bio {
+    margin: 16px auto 0;
+    max-width: 34ch;
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: #cfcbc4;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .socials a:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+
+  .actions { display: grid; gap: 10px; margin-top: 22px; }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 18px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.2s;
+  }
+
+  .btn:active { transform: scale(0.985); }
+
+  .btn-primary { background: var(--whatsapp); color: #06301a; }
+  .btn-gold { background: var(--gold); color: #151006; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  .btn[hidden] { display: none; }
+
+  .brand {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .brand a { color: var(--gold); text-decoration: none; font-weight: 700; }
+
+  .state {
+    display: none;
+    text-align: center;
+    padding: 70px 20px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    background: var(--surface);
+  }
+
+  .state.show { display: block; }
+
+  .state-icon { font-size: 2.6rem; opacity: 0.5; }
+  .state h2 { font-family: 'Amiri', serif; margin: 14px 0 8px; font-size: 1.3rem; }
+  .state p { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
+
+  .loading { display: grid; place-items: center; padding: 90px 0; color: var(--gold); }
+  .loading[hidden] { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+<!-- SEO-META:START -->
+<link rel="canonical" href="https://capkitco.com/u/mohammed/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="capkit — مهندس / فني على Capkitco. بطاقة تعريف للتواصل المباشر.">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Capkitco">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:title" id="ogTitle" content="capkit — مهندس / فني — Capkitco">
+<meta property="og:description" id="ogDescription" content="capkit — مهندس / فني على Capkitco. بطاقة تعريف للتواصل المباشر.">
+<meta property="og:image" id="ogImage" content="https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/avatars/01cca51c-0618-49b8-b388-51cc89088b97/avatar.jpg?v=1793909634377">
+<meta property="og:url" id="ogUrl" content="https://capkitco.com/u/mohammed/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="twitterTitle" content="capkit — مهندس / فني — Capkitco">
+<meta name="twitter:description" id="twitterDescription" content="capkit — مهندس / فني على Capkitco. بطاقة تعريف للتواصل المباشر.">
+<meta name="twitter:image" id="twitterImage" content="https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/avatars/01cca51c-0618-49b8-b388-51cc89088b97/avatar.jpg?v=1793909634377">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://capkitco.com/#organization",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "url": "https://capkitco.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://capkitco.com/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "email": "hello@capkitco.com",
+      "areaServed": {
+        "@type": "Place",
+        "name": "الوطن العربي"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://capkitco.com/#website",
+      "url": "https://capkitco.com/",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "inLanguage": "ar",
+      "publisher": {
+        "@id": "https://capkitco.com/#organization"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://capkitco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "capkit",
+          "item": "https://capkitco.com/u/mohammed/"
+        }
+      ]
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://capkitco.com/u/mohammed/#profilepage",
+      "url": "https://capkitco.com/u/mohammed/",
+      "name": "capkit — مهندس / فني — Capkitco",
+      "description": "capkit — مهندس / فني على Capkitco. بطاقة تعريف للتواصل المباشر.",
+      "inLanguage": "ar",
+      "isPartOf": {
+        "@id": "https://capkitco.com/#website"
+      },
+      "about": {
+        "@id": "https://capkitco.com/#organization"
+      },
+      "mainEntity": {
+        "@type": "Person",
+        "@id": "https://capkitco.com/u/mohammed/#person",
+        "name": "capkit",
+        "alternateName": "mohammed",
+        "url": "https://capkitco.com/u/mohammed/",
+        "image": "https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/avatars/01cca51c-0618-49b8-b388-51cc89088b97/avatar.jpg?v=1793909634377",
+        "jobTitle": "مهندس / فني",
+        "sameAs": [
+          "https://www.facebook.com/profile.php?id=61596042536470"
+        ]
+      }
+    }
+  ]
+}
+</script>
+<!-- SEO-META:END -->
+</head>
+<body>
+<script>window.__PRERENDER__ = {"type":"profile","url":"https://capkitco.com/u/mohammed/","username":"mohammed","data":{"id":"01cca51c-0618-49b8-b388-51cc89088b97","username":"mohammed","full_name":"capkit","avatar_url":"https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/avatars/01cca51c-0618-49b8-b388-51cc89088b97/avatar.jpg?v=1793909634377","bio":null,"role":"freelancer","city":null,"governorate_id":null,"verified":true,"social_links":{"facebook":"https://www.facebook.com/profile.php?id=61596042536470"},"whatsapp":"01116549311","profile_public":true,"username_changed_at":"2026-11-05T20:13:56.330143+00:00","followers_count":0,"views_count":16,"created_at":"2026-10-10T20:55:58.228065+00:00","updated_at":"2026-11-07T04:47:23.040627+00:00"}};</script>
+
+<div class="card-shell">
+  <div class="loading" id="cardLoading" style="display: none;">⏳ جارٍ التحميل…</div>
+
+  <div class="state" id="cardNotFound">
+    <div class="state-icon">🔍</div>
+    <h2>البطاقة غير موجودة</h2>
+    <p>ربما تغيّر اسم المستخدم أو أن البطاقة غير منشورة.</p>
+    <a class="btn btn-gold" href="/">العودة إلى Capkitco</a>
+  </div>
+
+  <article class="card" id="cardContent" aria-labelledby="cardName" style="display: block;">
+    <div class="avatar" id="cardAvatar"><img src="https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/render/image/public/avatars/01cca51c-0618-49b8-b388-51cc89088b97/avatar.jpg?v=1793909634377&amp;width=400&amp;quality=72&amp;format=webp" alt="capkit" width="116" height="116" loading="eager" decoding="async"></div>
+
+    <h1 id="cardName">capkit</h1>
+    <p class="role" id="cardRole">مهندس / فني</p>
+    <p class="meta" id="cardMeta"><span class="verified">✓ موثّق</span></p>
+    <p class="bio" id="cardBio" hidden></p>
+
+    <div class="socials" id="cardSocials"><a href="https://www.facebook.com/profile.php?id=61596042536470" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📘</span><span>فيسبوك</span></a></div>
+
+    <div class="actions" id="cardActions"><a class="btn btn-primary" id="cardWhatsapp" href="https://wa.me/201116549311" target="_blank" rel="noopener noreferrer"><span>💬</span><span>تواصل عبر واتساب</span></a>
+      <button class="btn btn-gold" id="cardShare" type="button"><span>↗</span><span>شارك البطاقة</span></button>
+      <a class="btn btn-ghost" href="/auth.html">أنشئ بطاقتك مجاناً</a></div>
+  </article>
+
+  <p class="brand">بطاقة على <a href="/">Capkitco</a> — منصة الورش والصنّاع</p>
+</div>
+
+<script defer src="/card-config.js"></script>
+<script defer src="/card.js"></script>
+</body>
+</html>

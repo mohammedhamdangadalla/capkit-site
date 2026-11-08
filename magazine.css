@@ -1,0 +1,219 @@
+/* ═══ CapKit Magazine — أنماط القراءة والطباعة ═══ */
+
+:root {
+  --paper: #faf7f0;
+  --paper-2: #f3eee3;
+  --ink: #1b1a17;
+  --ink-soft: #4a463f;
+  --ink-muted: #6f6a61;
+  --line: #ddd6c7;
+  --gold: #a5813c;
+  --gold-soft: rgba(165, 129, 60, 0.12);
+  --radius: 14px;
+  --maxw: 1080px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #14140f;
+    --paper-2: #1b1b15;
+    --ink: #f1ece2;
+    --ink-soft: #cfc9bd;
+    --ink-muted: #9d968a;
+    --line: #2e2c24;
+    --gold: #d0a95c;
+    --gold-soft: rgba(208, 169, 92, 0.12);
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Tajawal', system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; display: block; }
+
+/* ═══ الشريط العلوي ═══ */
+.mag-top {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 20px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.mag-top .brand { font-family: 'Amiri', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+.mag-top .brand span { color: var(--gold); }
+.mag-top .spacer { flex: 1; }
+
+.mag-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: transparent;
+  color: var(--ink); font-family: inherit; font-size: 0.84rem; cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.mag-btn:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; }
+.mag-btn.gold { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+/* ═══ صفحة الأرشيف ═══ */
+.mag-hero {
+  max-width: var(--maxw); margin: 0 auto; padding: 64px 20px 28px; text-align: center;
+}
+.mag-hero h1 { font-family: 'Amiri', serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.25; }
+.mag-hero p { color: var(--ink-soft); max-width: 46ch; margin: 14px auto 0; }
+
+.issues-grid {
+  max-width: var(--maxw); margin: 0 auto; padding: 20px 20px 80px;
+  display: grid; gap: 26px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+.issue-card {
+  display: flex; flex-direction: column;
+  background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; transition: transform .18s, box-shadow .18s;
+  text-decoration: none; color: inherit;
+}
+.issue-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,0,0,.12); text-decoration: none; }
+.issue-card .cover { aspect-ratio: 3 / 4; background: var(--gold-soft); overflow: hidden; }
+.issue-card .cover img { width: 100%; height: 100%; object-fit: cover; }
+.issue-card .cover.empty { display: grid; place-items: center; font-family: 'Amiri', serif; font-size: 3rem; color: var(--gold); }
+.issue-card .body { padding: 14px 16px 18px; }
+.issue-card .num { font-size: .72rem; letter-spacing: .08em; color: var(--gold); font-weight: 700; }
+.issue-card h2 { font-family: 'Amiri', serif; font-size: 1.15rem; margin: 4px 0 6px; line-height: 1.4; }
+.issue-card .date { font-size: .76rem; color: var(--ink-muted); }
+.issue-card .desc { font-size: .84rem; color: var(--ink-soft); margin-top: 8px; }
+
+/* ═══ صفحة العدد ═══ */
+.issue-layout {
+  max-width: var(--maxw); margin: 0 auto; padding: 34px 20px 80px;
+  display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 44px;
+  align-items: start;
+}
+
+.toc {
+  position: sticky; top: 84px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--paper-2); padding: 16px;
+  font-size: .84rem;
+}
+.toc h2 { font-size: .72rem; letter-spacing: .1em; color: var(--ink-muted); margin-bottom: 10px; font-weight: 700; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; margin-bottom: 2px; }
+.toc li a {
+  display: flex; gap: 8px; padding: 7px 8px; border-radius: 8px;
+  color: var(--ink-soft); line-height: 1.5;
+}
+.toc li a::before { content: counter(toc) "."; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+.toc li a:hover, .toc li a.active { background: var(--gold-soft); color: var(--ink); text-decoration: none; }
+
+.issue-head { margin-bottom: 34px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+.issue-head .num { font-size: .78rem; letter-spacing: .12em; color: var(--gold); font-weight: 700; }
+.issue-head h1 { font-family: 'Amiri', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.3; margin: 8px 0 10px; }
+.issue-head .date { color: var(--ink-muted); font-size: .84rem; }
+.issue-head .lead { color: var(--ink-soft); margin-top: 12px; max-width: 60ch; }
+
+.article { margin-bottom: 52px; scroll-margin-top: 90px; }
+.article h2 { font-family: 'Amiri', serif; font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.4; margin-bottom: 6px; }
+.article .cat { display: inline-block; font-size: .7rem; letter-spacing: .06em; color: var(--gold); background: var(--gold-soft); padding: 3px 9px; border-radius: 999px; margin-bottom: 10px; }
+.article .summary { font-size: 1.02rem; color: var(--ink-soft); border-right: 3px solid var(--gold); padding-right: 14px; margin: 12px 0 18px; }
+
+.prose { color: var(--ink); }
+.prose p { margin: 0 0 16px; }
+.prose h3 { font-family: 'Amiri', serif; font-size: 1.25rem; margin: 26px 0 10px; }
+.prose ul, .prose ol { margin: 0 0 16px 0; padding-inline-start: 22px; }
+.prose li { margin-bottom: 8px; }
+.prose img { border-radius: 10px; margin: 18px 0; }
+.prose code { background: var(--paper-2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; font-size: .88em; direction: ltr; display: inline-block; }
+.prose pre { background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px; overflow-x: auto; direction: ltr; text-align: left; margin: 0 0 16px; }
+.prose blockquote { border-right: 3px solid var(--gold); padding-right: 14px; color: var(--ink-soft); margin: 0 0 16px; }
+.prose table { width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: .9rem; }
+.prose th, .prose td { border: 1px solid var(--line); padding: 8px 10px; text-align: right; }
+
+details.tech {
+  margin: 20px 0 8px; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--paper-2); overflow: hidden;
+}
+details.tech summary {
+  cursor: pointer; padding: 14px 16px; font-weight: 700; color: var(--gold);
+  list-style: none; display: flex; align-items: center; gap: 8px;
+}
+details.tech summary::-webkit-details-marker { display: none; }
+details.tech summary::before { content: '＋'; font-weight: 700; }
+details.tech[open] summary::before { content: '−'; }
+details.tech[open] summary { border-bottom: 1px solid var(--line); }
+details.tech .tech-body { padding: 16px; }
+
+.citations { margin-top: 18px; font-size: .85rem; color: var(--ink-muted); }
+.citations h3 { font-size: .78rem; letter-spacing: .08em; margin-bottom: 8px; color: var(--ink-soft); }
+.citations ol { padding-inline-start: 20px; }
+.citations li { margin-bottom: 6px; }
+
+/* ═══ التعليقات ═══ */
+.comments {
+  margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--line);
+}
+.comments-list { margin-top: 12px; display: grid; gap: 10px; }
+.comment {
+  background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px;
+  font-size: .88rem;
+}
+.comment .who { font-weight: 700; font-size: .8rem; color: var(--gold); }
+.comment .when { font-size: .72rem; color: var(--ink-muted); margin-inline-start: 8px; }
+.comment p { margin-top: 4px; color: var(--ink-soft); }
+
+/* ═══ حالات ═══ */
+.mag-state { max-width: 560px; margin: 90px auto; text-align: center; color: var(--ink-muted); }
+.mag-state .icon { font-size: 3rem; opacity: .4; }
+.mag-state h2 { font-family: 'Amiri', serif; color: var(--ink); margin: 12px 0 6px; }
+
+/* ═══ الموبايل ═══ */
+@media (max-width: 860px) {
+  .issue-layout { grid-template-columns: 1fr; gap: 22px; padding-top: 20px; }
+  .toc {
+    position: sticky; top: 56px; z-index: 40;
+    display: flex; gap: 8px; overflow-x: auto; padding: 10px;
+    border-radius: 12px; scrollbar-width: none;
+  }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc h2 { display: none; }
+  .toc ol { display: flex; gap: 8px; }
+  .toc li { margin: 0; }
+  .toc li a { white-space: nowrap; background: var(--paper); border: 1px solid var(--line); }
+  .toc li a::before { display: none; }
+  body { font-size: 16px; }
+}
+
+/* ═══ الطباعة — A4 ═══ */
+@media print {
+  @page { size: A4; margin: 18mm 16mm; }
+
+  body { background: #fff !important; color: #000 !important; font-size: 11.5pt; line-height: 1.7; }
+
+  .mag-top, .toc, .mag-btn, .comments, .no-print { display: none !important; }
+
+  .issue-layout { display: block; max-width: none; padding: 0; }
+  .issue-head { border-bottom: 1px solid #999; }
+
+  a { color: #000 !important; text-decoration: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
+
+  .article { break-inside: avoid-page; page-break-inside: avoid; margin-bottom: 22pt; }
+  .article h2 { break-after: avoid; }
+  details.tech { border: 1px solid #999; background: #fff; }
+  details.tech summary { color: #000; }
+  .prose code, .prose pre { background: #f4f4f4 !important; border-color: #ccc; }
+  img { max-width: 100% !important; }
+}

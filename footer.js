@@ -58,6 +58,8 @@
       <span>·</span>
       <a href="/manifesto.html">الميثاق</a>
       <span>·</span>
+      <a href="/magazine.html">المجلة</a>
+      <span>·</span>
       <a href="/terms.html">الشروط</a>
       <span>·</span>
       <a href="/privacy.html">الخصوصية</a>

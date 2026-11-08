@@ -476,6 +476,7 @@
   window.AdminPanels = {
     onTab(tab) {
       if (!state.ready) return;
+      window.dispatchEvent(new CustomEvent('admin:tab', { detail: { tab } }));
       loaders[tab]?.();
     },
     toggleUserVerify,

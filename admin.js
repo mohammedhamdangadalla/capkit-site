@@ -233,7 +233,7 @@ window.switchMainTab = function(tabName, evt) {
     btn.classList.toggle('active', btn.dataset.tab === tabName);
   });
 
-  const sections = ['moderation', 'reports', 'users', 'workshops', 'products', 'hero'];
+  const sections = ['moderation', 'reports', 'users', 'workshops', 'products', 'hero', 'magazine'];
   sections.forEach(name => {
     const el = document.getElementById(name + 'Section');
     if (el) el.style.display = name === tabName ? 'block' : 'none';
