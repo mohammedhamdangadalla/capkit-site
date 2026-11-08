@@ -231,7 +231,7 @@ function renderSeller() {
   // ✅ إظهار الصورة إذا وجدت
   if (currentSeller.avatar_url) {
     avatar.textContent = '';
-    avatar.style.backgroundImage = `url('${currentSeller.avatar_url}')`;
+    avatar.style.backgroundImage = `url('${optimizeImage(currentSeller.avatar_url, 200)}')`;
     avatar.style.backgroundSize = 'cover';
     avatar.style.backgroundPosition = 'center';
   } else {

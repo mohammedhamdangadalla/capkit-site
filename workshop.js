@@ -176,12 +176,12 @@ function renderCoverAndLogo(workshop) {
   // الغلاف: cover وإلا الشعار (بعض الورش ترفع شعاراً فقط)
   const coverUrl = workshop.cover_url || workshop.logo_url;
   if (coverUrl) {
-    cover.style.backgroundImage = `url("${String(coverUrl).replace(/"/g, '%22')}")`;
+    cover.style.backgroundImage = `url("${optimizeImage(String(coverUrl), 1200).replace(/"/g, '%22')}")`;
   }
 
   if (workshop.logo_url) {
     logo.textContent = '';
-    logo.style.backgroundImage = `url("${String(workshop.logo_url).replace(/"/g, '%22')}")`;
+    logo.style.backgroundImage = `url("${optimizeImage(String(workshop.logo_url), 300).replace(/"/g, '%22')}")`;
   } else {
     logo.textContent = (workshop.name || 'و').charAt(0);
   }

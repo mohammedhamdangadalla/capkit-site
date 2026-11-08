@@ -6,4 +6,5 @@
 User-agent: *
 Allow: /
 
+# خريطة الموقع ديناميكية: تُبنى من قاعدة البيانات عبر Worker وتتحدّث كل 10 دقائق
 Sitemap: https://capkitco.com/sitemap.xml

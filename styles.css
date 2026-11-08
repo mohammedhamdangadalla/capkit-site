@@ -774,8 +774,9 @@ body {
 }
 
 .section-link {
-  color: var(--gold);
+  color: var(--gold-light); /* 13.6:1 على الخلفية الداكنة (كان gold = 8.8 لكن الخلفيات المتدرجة تُربك الفحص) */
   text-decoration: none;
+  font-weight: 600;
   font-size: 0.82rem;
   transition: opacity 0.3s;
   white-space: nowrap;
@@ -1272,7 +1273,7 @@ body {
   margin-top: 12px;
 }
 
-.site-footer .footer-col h4 {
+.site-footer .footer-col h2 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.8rem;
   letter-spacing: 0.3em;

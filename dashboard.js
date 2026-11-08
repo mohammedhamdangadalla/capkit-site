@@ -205,7 +205,7 @@ async function loadMyProducts() {
     const imageUrl = product.images && product.images.length > 0 ? product.images[0] : '';
 
     card.innerHTML = `
-      <div class="my-product-img" ${imageUrl ? `style="background-image: url('${imageUrl}')"` : ''}>
+      <div class="my-product-img" ${imageUrl ? `style="background-image: url('${optimizeImage(imageUrl, 300)}')"` : ''}>
         ${!imageUrl ? '<span>📦</span>' : ''}
       </div>
       <div class="my-product-info">

@@ -332,7 +332,7 @@ function renderSeller() {
   // ✅ التحقق من وجود صورة للبائع أو شعار للورشة
   let avatarHTML = '';
   if (currentSeller.avatar_url) {
-    avatarHTML = `<a href="${sellerLink}" class="seller-avatar" style="text-decoration:none; background-image: url('${currentSeller.avatar_url}'); background-size: cover; background-position: center; color: transparent;"></a>`;
+    avatarHTML = `<a href="${sellerLink}" class="seller-avatar" style="text-decoration:none; background-image: url('${optimizeImage(currentSeller.avatar_url, 200)}'); background-size: cover; background-position: center; color: transparent;"></a>`;
   } else {
     avatarHTML = `<a href="${sellerLink}" class="seller-avatar" style="text-decoration:none;">${icon}</a>`;
   }

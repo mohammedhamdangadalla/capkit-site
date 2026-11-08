@@ -55,7 +55,7 @@
     // الغلاف: <img> بدل background-image (ليمكن اكتشاف فشل التحميل)
     if (space.cover_url) {
       const coverImg = document.createElement('img');
-      coverImg.src = space.cover_url;
+      coverImg.src = optimizeImage(space.cover_url, 1600);
       coverImg.alt = '';
       coverImg.referrerPolicy = 'no-referrer';
       coverImg.addEventListener('error', () => {
@@ -70,7 +70,7 @@
     const initial = (space.store_name || '•').trim().charAt(0);
     if (space.logo_url) {
       const logoImg = document.createElement('img');
-      logoImg.src = space.logo_url;
+      logoImg.src = optimizeImage(space.logo_url, 400);
       logoImg.alt = space.store_name;
       logoImg.referrerPolicy = 'no-referrer';
       logoImg.addEventListener('error', () => {
@@ -113,7 +113,7 @@
     } else {
       $('spGrid').innerHTML = products.map((p) => `
         <article class="sp-card" data-product="${p.id}" tabindex="0" role="button" aria-label="${esc(p.title)}">
-          <div class="thumb">${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="450" referrerpolicy="no-referrer" data-fallback="📦">` : '📦'}</div>
+          <div class="thumb">${p.image_url ? `<img src="${esc(optimizeImage(p.image_url, 700))}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="450" referrerpolicy="no-referrer" data-fallback="📦">` : '📦'}</div>
           <div class="body">
             <h3>${esc(p.title)}</h3>
             ${p.description ? `<p class="desc">${esc(p.description.slice(0, 90))}${p.description.length > 90 ? '…' : ''}</p>` : ''}
@@ -167,7 +167,7 @@
     const msg = `مرحباً، أرى منتجك «${p.title}» على CapKitco، أرغب في الاستفسار عنه.`;
 
     $('spModalBody').innerHTML = `
-      ${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.title)}" referrerpolicy="no-referrer">` : ''}
+      ${p.image_url ? `<img src="${esc(optimizeImage(p.image_url, 1200))}" alt="${esc(p.title)}" referrerpolicy="no-referrer">` : ''}
       <h2>${esc(p.title)}</h2>
       <div class="price">${esc(priceText(p))}</div>
       ${p.description ? `<p class="desc">${esc(p.description)}</p>` : ''}

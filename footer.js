@@ -24,7 +24,7 @@
     </div>
 
     <div class="footer-col">
-      <h4>المجموعة</h4>
+      <h2>المجموعة</h2>
       <ul>
         <li><a href="/capkit-co.html#artifacts">الإصدار الأول</a></li>
         <li><a href="/capkit-co.html#digital">الأرشيف الرقمي</a></li>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="footer-col">
-      <h4>الدار</h4>
+      <h2>الدار</h2>
       <ul>
         <li><a href="/capkit-co.html#manifesto">الفلسفة</a></li>
         <li><a href="/capkit-co.html#certificate">الشهادات والتحقق</a></li>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="footer-col">
-      <h4>تواصل</h4>
+      <h2>تواصل</h2>
       <ul>
         <li><a href="https://wa.me/201116549311" target="_blank">واتساب مباشر</a></li>
         <li><a href="/contact.html">الطلبات الخاصة (Bespoke)</a></li>
@@ -86,7 +86,7 @@
     </div>
 
     <div class="footer-col">
-      <h4>المنصة</h4>
+      <h2>المنصة</h2>
       <ul>
         <li><a href="/search.html">تصفح المنتجات</a></li>
         <li><a href="/search.html">الخدمات</a></li>
@@ -96,7 +96,7 @@
     </div>
 
     <div class="footer-col">
-      <h4>الصنّاع</h4>
+      <h2>الصنّاع</h2>
       <ul>
         <li><a href="/auth.html">انضم كصانع</a></li>
         <li><a href="/auth.html">قدّم خدمة</a></li>
@@ -106,7 +106,7 @@
     </div>
 
     <div class="footer-col">
-      <h4>تواصل</h4>
+      <h2>تواصل</h2>
       <ul>
         <li><a href="https://wa.me/201116549311" target="_blank">واتساب</a></li>
         <li><a href="/contact.html">تواصل معنا</a></li>

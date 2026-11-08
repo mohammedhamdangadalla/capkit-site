@@ -1,0 +1,22 @@
+# ═══════════════════════════════════════════════════════════════════════
+# live-sitemap — Worker يخدم https://capkitco.com/sitemap.xml
+# ═══════════════════════════════════════════════════════════════════════
+# النشر:
+#   npx wrangler deploy --config worker/wrangler.live-sitemap.toml
+#
+# المتغيرات السرية (تُضبط مرة واحدة):
+#   npx wrangler secret put SUPABASE_SERVICE_KEY --config worker/wrangler.live-sitemap.toml
+#   npx wrangler secret put PURGE_SECRET        --config worker/wrangler.live-sitemap.toml
+# ═══════════════════════════════════════════════════════════════════════
+
+name = "live-sitemap"
+main = "live-sitemap.js"
+compatibility_date = "2026-01-01"
+
+# يخدم المسار على النطاق نفسه — يتقدّم على أي ملف ثابت بنفس الاسم
+routes = [
+  { pattern = "capkitco.com/sitemap.xml", zone_name = "capkitco.com" }
+]
+
+[vars]
+SUPABASE_URL = "https://dsgbnulewdxxftmrqrrr.supabase.co"

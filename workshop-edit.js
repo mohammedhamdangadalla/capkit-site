@@ -264,15 +264,42 @@ window.removeImage = function(type) {
   });
 };
 
+// ═══ ضغط الصورة في المتصفح قبل الرفع ═══
+async function compressImage(file, maxSize, quality = 0.82) {
+  if (!file.type.startsWith('image/')) throw new Error('الملف ليس صورة');
+
+  let bitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+  } catch {
+    throw new Error('صيغة الصورة غير مدعومة في هذا المتصفح');
+  }
+
+  const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
+  const w = Math.max(1, Math.round(bitmap.width * scale));
+  const h = Math.max(1, Math.round(bitmap.height * scale));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+  bitmap.close?.();
+
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+  if (!blob) throw new Error('تعذّر ضغط الصورة');
+  return blob;
+}
+
 // ═══ Upload Image ═══
 async function uploadImage(file, type) {
-  const ext = file.name.split('.').pop().toLowerCase();
-  const timestamp = Date.now();
-  const path = `${currentUser.id}/${type}-${timestamp}.${ext}`;
+  // الغلاف 1600px، الشعار 512px — JPEG 0.82 (كان يُرفع الملف الأصلي كما هو)
+  const maxSize = type === 'cover' ? 1600 : 512;
+  const blob = await compressImage(file, maxSize);
+  const path = `${currentUser.id}/${type}-${Date.now()}.jpg`;
 
   const { error } = await window.supabaseClient.storage
     .from('workshop-images')
-    .upload(path, file, { cacheControl: '3600', upsert: false });
+    .upload(path, blob, { cacheControl: '31536000', upsert: false, contentType: 'image/jpeg' });
 
   if (error) throw error;
 
