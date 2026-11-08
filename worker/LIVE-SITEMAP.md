@@ -75,7 +75,7 @@ routes = [
 ## 5. التحقق
 
 ```bash
-curl -sI https://capkitco.com/sitemap.xml | findstr /i "content-type x-cache"
+curl -sI https://capkitco.com/sitemap.xml | findstr /i "content-type x-cache x-sitemap"
 curl -s  https://capkitco.com/sitemap.xml | findstr "<url>"
 ```
 
@@ -83,8 +83,9 @@ curl -s  https://capkitco.com/sitemap.xml | findstr "<url>"
 
 ```
 Content-Type: application/xml; charset=utf-8
-X-Cache: MISS     ← أول طلب
-X-Cache: HIT      ← خلال 10 دقائق
+X-Sitemap-Total: 23
+X-Sitemap-Dynamic: 9
+X-Cache: MISS
 ```
 
 ثم:
@@ -100,6 +101,51 @@ node scripts/test-live-sitemap.cjs
 ```
 
 يشغّل الـWorker بكاش وهمي، يتحقق من XML، ويطبع عدد الروابط وحالة الكاش.
+
+---
+
+## 5.1 تشخيص «الخريطة تُرجع 8 روابط فقط»
+
+هذه الحالة تعني أن **كل استعلامات Supabase فشلت** (المفتاح أو الرابط)، والباقي هو الصفحات الثابتة.
+
+### الخطوة 1 — endpoint التشخيص
+
+```bash
+curl "https://capkitco.com/sitemap.xml?purge=<PURGE_SECRET>&debug=1"
+```
+
+يعيد JSON مثل:
+
+```json
+{
+  "total": 8,
+  "counts": { "products": 0, "workshops": 0, "issues": 0, "articles": 0 },
+  "errors": ["products?select=…: HTTP 401 — {\"message\":\"Invalid API key\"}"],
+  "keyLength": 0,
+  "degraded": true
+}
+```
+
+| ما يظهر | السبب | الحل |
+|---|---|---|
+| `HTTP 401 Invalid API key` | المفتاح خاطئ/مبتور/لمشروع آخر | أعد `wrangler secret put SUPABASE_SERVICE_KEY` بمفتاح `service_role` الصحيح |
+| `keyLength: 0` | لم يُضبط السر أصلاً | نفس الأمر أعلاه |
+| `HTTP 404` | `SUPABASE_URL` خاطئ | صحّح `[vars]` |
+| `errors: []` و`counts: 0` | الجداول فارغة فعلاً | طبيعي |
+
+### الخطوة 2 — إعادة النشر والإبطال
+
+```bash
+npx wrangler deploy --config worker/wrangler.live-sitemap.toml
+curl "https://capkitco.com/sitemap.xml?purge=<PURGE_SECRET>"
+```
+
+**كاش Cloudflare الطرفي:** قد يحتفظ بالنسخة القديمة (رأينا `max-age=14400` — ترويسة يفرضها إعداد المنطقة). بعد إصلاح المفتاح:
+
+- لوحة Cloudflare → Caching → Purge by URL → `https://capkitco.com/sitemap.xml`، أو
+- انتظر انتهاء TTL المنطقة.
+
+الـWorker الجديد لا يخزّن النتيجة الناقصة إطلاقاً (`Cache-Control: no-store` عند `degraded`)، فبعد أول طلب سليم تعود الخريطة كاملة.
 
 ---
 

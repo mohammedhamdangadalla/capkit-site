@@ -2,17 +2,17 @@
 // live-sitemap — خريطة موقع حيّة من Supabase
 // ═══════════════════════════════════════════════════════════════════════
 // المسار: https://capkitco.com/sitemap.xml
-// الاستراتيجية: تُبنى عند الطلب وتُخزَّن 10 دقائق في Cache API،
-// مع إمكانية إبطال فوري عبر ?purge=SECRET.
 //
-// متغيرات البيئة المطلوبة:
-//   SUPABASE_URL          → https://xxxx.supabase.co
-//   SUPABASE_SERVICE_KEY  → service_role (أو anon إن كانت الصلاحيات تسمح)
-//   PURGE_SECRET          → نص عشوائي لإبطال الكاش
+// تشخيص: أضف ?purge=<PURGE_SECRET>&debug=1 ليعيد JSON بالأعداد والأخطاء
+// (لا يكشف أي مفتاح — فقط أطوال وحالة المتغيرات).
+//
+// متغيرات البيئة:
+//   SUPABASE_URL · SUPABASE_SERVICE_KEY · PURGE_SECRET
 // ═══════════════════════════════════════════════════════════════════════
 
 const SITE = 'https://capkitco.com';
-const TTL_SECONDS = 600; // 10 دقائق
+const TTL_SECONDS = 600;
+const CACHE_KEY_URL = `${SITE}/__sitemap-cache`;
 
 const STATIC_PAGES = [
   { path: '/', changefreq: 'daily', priority: '1.0' },
@@ -25,37 +25,24 @@ const STATIC_PAGES = [
   { path: '/terms.html', changefreq: 'yearly', priority: '0.3' },
 ];
 
-const CACHE_KEY_URL = `${SITE}/__sitemap-cache`;
-
-const xmlEscape = (value) =>
-  String(value == null ? '' : value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+const xmlEscape = (v) =>
+  String(v == null ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
 const pad2 = (n) => String(n).padStart(2, '0');
 const shortId = (id) => String(id).replace(/-/g, '').slice(0, 8);
 const day = (iso) => (iso ? String(iso).slice(0, 10) : new Date().toISOString().slice(0, 10));
 
-/** slug المنتج/الورشة كما في prerender.mjs */
 const productSlug = (p) =>
   /^[a-zA-Z0-9_-]+$/.test(String(p.slug || '')) ? p.slug : `p-${shortId(p.id)}`;
 
 const workshopSlug = (w) =>
   /^[a-zA-Z0-9_-]+$/.test(String(w.slug || '')) ? w.slug : `w-${shortId(w.id)}`;
 
-async function sb(env, path) {
-  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/${path}`, {
-    headers: {
-      apikey: env.SUPABASE_SERVICE_KEY,
-      Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}`,
-    },
-  });
-  if (!res.ok) throw new Error(`${path} → HTTP ${res.status}`);
-  return res.json();
-}
+/** يحذف المسافات/علامات الاقتباس التي قد تدخل مع لصق المفتاح */
+const cleanSecret = (value) =>
+  String(value || '').trim().replace(/^["']|["']$/g, '');
 
 function urlTag({ loc, lastmod, changefreq, priority }) {
   return (
@@ -68,16 +55,45 @@ function urlTag({ loc, lastmod, changefreq, priority }) {
   );
 }
 
+async function sb(env, path, errors) {
+  const key = cleanSecret(env.SUPABASE_SERVICE_KEY);
+  const base = cleanSecret(env.SUPABASE_URL).replace(/\/$/, '');
+
+  if (!key || !base) {
+    errors.push(`${path}: متغيرات البيئة ناقصة (SUPABASE_URL أو SUPABASE_SERVICE_KEY)`);
+    return [];
+  }
+
+  const res = await fetch(`${base}/rest/v1/${path}`, {
+    headers: { apikey: key, Authorization: `Bearer ${key}` },
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    errors.push(`${path}: HTTP ${res.status} — ${body.slice(0, 160)}`);
+    return [];
+  }
+
+  return res.json();
+}
+
 async function buildSitemap(env) {
+  const errors = [];
+  const counts = {};
+
   const entries = STATIC_PAGES.map((p) => ({ ...p, loc: SITE + p.path }));
 
-  // بيانات ديناميكية — فشل مصدر واحد لا يُسقط الخريطة كلها
   const [products, workshops, issues, articles] = await Promise.all([
-    sb(env, 'products?select=id,slug,created_at&status=eq.published&limit=5000').catch(() => []),
-    sb(env, 'workshops?select=id,slug,created_at&status=eq.active&limit=2000').catch(() => []),
-    sb(env, 'issues?select=id,issue_number,publish_date,created_at&is_published=eq.true&limit=1000').catch(() => []),
-    sb(env, 'articles?select=id,issue_id,order_index&limit=10000').catch(() => []),
+    sb(env, 'products?select=id,slug,created_at&status=eq.published&limit=5000', errors),
+    sb(env, 'workshops?select=id,slug,created_at&status=eq.active&limit=2000', errors),
+    sb(env, 'issues?select=id,issue_number,publish_date,created_at&is_published=eq.true&limit=1000', errors),
+    sb(env, 'articles?select=id,issue_id,order_index&limit=10000', errors),
   ]);
+
+  counts.products = products.length;
+  counts.workshops = workshops.length;
+  counts.issues = issues.length;
+  counts.articles = articles.length;
 
   for (const p of products) {
     entries.push({
@@ -100,9 +116,8 @@ async function buildSitemap(env) {
   const issueById = new Map(issues.map((i) => [i.id, i]));
 
   for (const issue of issues) {
-    const issuePath = `/issue/${pad2(issue.issue_number)}/`;
     entries.push({
-      loc: SITE + issuePath,
+      loc: `${SITE}/issue/${pad2(issue.issue_number)}/`,
       lastmod: issue.publish_date || issue.created_at,
       changefreq: 'monthly',
       priority: '0.8',
@@ -111,7 +126,7 @@ async function buildSitemap(env) {
 
   for (const a of articles) {
     const issue = issueById.get(a.issue_id);
-    if (!issue) continue; // مقالات أعداد غير منشورة لا تُدرج
+    if (!issue) continue;
     entries.push({
       loc: `${SITE}/issue/${pad2(issue.issue_number)}/${a.order_index}-${shortId(a.id)}/`,
       lastmod: issue.publish_date || issue.created_at,
@@ -120,14 +135,29 @@ async function buildSitemap(env) {
     });
   }
 
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries
     .map(urlTag)
     .join('\n')}\n</urlset>\n`;
+
+  return { xml, counts, errors, total: entries.length };
 }
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    // فحص صحة الـWorker (لا يكشف أسراراً)
+    if (url.pathname === '/health') {
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          hasUrl: Boolean(cleanSecret(env.SUPABASE_URL)),
+          keyLength: cleanSecret(env.SUPABASE_SERVICE_KEY).length,
+          hasPurge: Boolean(env.PURGE_SECRET),
+        }),
+        { headers: { 'Content-Type': 'application/json' } },
+      );
+    }
 
     if (url.pathname !== '/sitemap.xml') {
       return new Response('Not Found', { status: 404 });
@@ -136,11 +166,12 @@ export default {
     const cache = caches.default;
     const cacheKey = new Request(CACHE_KEY_URL, { method: 'GET' });
     const purgeToken = url.searchParams.get('purge');
-    const shouldPurge = purgeToken && env.PURGE_SECRET && purgeToken === env.PURGE_SECRET;
+    const purgeValid = Boolean(purgeToken && env.PURGE_SECRET && purgeToken === env.PURGE_SECRET);
+    const debug = url.searchParams.get('debug') === '1' && purgeValid;
 
-    if (shouldPurge) await cache.delete(cacheKey);
+    if (purgeValid) await cache.delete(cacheKey);
 
-    if (!shouldPurge) {
+    if (!purgeValid && !debug) {
       const cached = await cache.match(cacheKey);
       if (cached) {
         const res = new Response(cached.body, cached);
@@ -149,26 +180,47 @@ export default {
       }
     }
 
-    let xml;
-    try {
-      xml = await buildSitemap(env);
-    } catch (err) {
-      console.error('[live-sitemap] build failed:', err?.message || err);
-      // لا نُعيد 5xx لتجنّب إسقاط الخريطة من فهرس جوجل
-      xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${STATIC_PAGES.map(
-        (p) => urlTag({ loc: SITE + p.path, lastmod: new Date(), ...p }),
-      ).join('\n')}\n</urlset>\n`;
+    const result = await buildSitemap(env);
+    const degraded = result.counts.products + result.counts.workshops + result.counts.issues === 0;
+
+    if (result.errors.length) {
+      console.error('[live-sitemap] errors:', JSON.stringify(result.errors));
+    }
+    console.log('[live-sitemap] counts:', JSON.stringify(result.counts), 'total:', result.total);
+
+    if (debug) {
+      return new Response(
+        JSON.stringify(
+          {
+            total: result.total,
+            counts: result.counts,
+            errors: result.errors,
+            keyLength: cleanSecret(env.SUPABASE_SERVICE_KEY).length,
+            urlValue: cleanSecret(env.SUPABASE_URL),
+            degraded,
+          },
+          null,
+          2,
+        ),
+        { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } },
+      );
     }
 
-    const response = new Response(xml, {
-      headers: {
-        'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': `public, max-age=${TTL_SECONDS}, s-maxage=${TTL_SECONDS}`,
-        'X-Cache': 'MISS',
-      },
-    });
+    const headers = {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'X-Sitemap-Total': String(result.total),
+      'X-Sitemap-Dynamic': String(result.counts.products + result.counts.workshops + result.counts.issues),
+      // عند الفشل لا نخزّن: نريد إعادة المحاولة فور إصلاح المفتاح
+      'Cache-Control': degraded ? 'no-store' : 'public, max-age=0, s-maxage=600',
+      'CDN-Cache-Control': degraded ? 'no-store' : `max-age=${TTL_SECONDS}`,
+      'X-Cache': purgeValid ? 'PURGE' : 'MISS',
+    };
 
-    if (!shouldPurge) ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    const response = new Response(result.xml, { headers });
+
+    if (!degraded && !purgeValid) {
+      ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    }
 
     return response;
   },
