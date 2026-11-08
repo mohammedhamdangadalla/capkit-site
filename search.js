@@ -248,9 +248,9 @@ window.performSearch = async function() {
       ...workshops.map(w => ({ ...w, _type: 'workshop' }))
     ];
 
-    allResults.forEach(item => {
+    allResults.forEach((item, index) => {
       if (item._type === 'product') {
-        grid.appendChild(createProductCard(item));
+        grid.appendChild(createProductCard(item, index));
       } else if (item._type === 'service') {
         grid.appendChild(createServiceCard(item));
       } else if (item._type === 'workshop') {
@@ -276,18 +276,20 @@ window.performSearch = async function() {
 };
 
 // ═══ Create Product Card ═══
-function createProductCard(product) {
+function createProductCard(product, index = 99) {
   const a = document.createElement('a');
   a.href = itemUrl('product', product);
   a.className = 'product-card';
 
   const img = product.images && product.images[0] ? product.images[0] : '';
+  const leadImage = index === 0;   // الصورة الأولى: fetchpriority=high
+  const eagerImage = index < 2;   // أول كارتين: بلا lazy
   const priceText = product.price ? `${product.price} ${product.currency || 'EGP'}` : 'اتصل للسعر';
 
   a.innerHTML = `
     <div class="product-image">
       ${img 
-        ? `<img src="${optimizeImage(img, 700)}" srcset="${imageSrcset(img, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${optimizeImage(img, 700)}" srcset="${imageSrcset(img, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" ${leadImage ? 'fetchpriority="high"' : (eagerImage ? '' : 'loading="lazy"')} decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">📦</div>`}
       ${product.is_capkit_original ? '<span class="badge-original">✨ أصلي</span>' : ''}
     </div>

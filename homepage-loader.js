@@ -41,7 +41,7 @@ async function loadHomepageContent() {
       const grid = document.getElementById('featuredProductsGrid');
       if (grid) {
         grid.innerHTML = '';
-        products.forEach(p => grid.appendChild(createProductCard(p)));
+        products.forEach((p, i) => grid.appendChild(createProductCard(p, i)));
         console.log('✅ Featured products loaded:', products.length);
       }
     }
@@ -232,7 +232,7 @@ async function loadPremiumShowcase() {
 
 // ═══ Card Builders ═══
 
-function createProductCard(product) {
+function createProductCard(product, index = 99) {
   const a = document.createElement('a');
   a.href = itemUrl('product', product);
   a.className = 'product-card';
@@ -241,6 +241,10 @@ function createProductCard(product) {
     ? product.images[0] 
     : '';
 
+  // أول كارتين فوق الطية: بلا lazy + أولوية عالية (LCP)
+  const leadImage = index === 0;   // الصورة الأولى: fetchpriority=high
+  const eagerImage = index < 2;   // أول كارتين: بلا lazy
+
   const sellerName = product.seller_type === 'workshop' 
     ? '🏭 ورشة' 
     : '👤 بائع';
@@ -248,7 +252,7 @@ function createProductCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${imageUrl 
-        ? `<img src="${optimizeImage(imageUrl, 700)}" srcset="${imageSrcset(imageUrl, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${optimizeImage(imageUrl, 700)}" srcset="${imageSrcset(imageUrl, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" ${leadImage ? 'fetchpriority="high"' : (eagerImage ? '' : 'loading="lazy"')} decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">📦</div>`}
       ${product.is_capkit_original ? '<span class="badge-original">✨ أصلي</span>' : ''}
     </div>
