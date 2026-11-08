@@ -7,6 +7,30 @@
   const cfg = window.MAG_CONFIG || {};
   const grid = document.getElementById('issuesGrid');
 
+  // خريطة روابط الصفحات المولّدة: issue.id → /issue/01/
+  let staticIssueUrls = null;
+
+  async function loadStaticUrls() {
+    try {
+      const res = await fetch('/prerender-manifest.json', { cache: 'no-store' });
+      if (!res.ok) return;
+      const manifest = await res.json();
+      const pages = (manifest.pages || []).filter((p) => p.type === 'issue');
+      if (pages.length) staticIssueUrls = new Map(pages.map((p) => [p.id, p.url]));
+    } catch {
+      /* لا مانيفست بعد — نستخدم الروابط القديمة */
+    }
+  }
+
+  function issueHref(issue) {
+    const staticUrl = staticIssueUrls?.get(issue.id);
+    if (staticUrl) {
+      // نحوّل الرابط المطلق إلى مسار نسبي للجذر
+      try { return new URL(staticUrl).pathname; } catch { return staticUrl; }
+    }
+    return '/issue.html?id=' + encodeURIComponent(issue.id);
+  }
+
   const esc = (v) =>
     String(v == null ? '' : v)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -40,7 +64,7 @@
       }
 
       grid.innerHTML = issues.map((i) => `
-        <a class="issue-card" href="/issue.html?id=${encodeURIComponent(i.id)}">
+        <a class="issue-card" href="${issueHref(i)}">
           <div class="cover ${i.cover_image ? '' : 'empty'}">
             ${i.cover_image
               ? `<img src="${esc(i.cover_image)}" alt="غلاف ${esc(i.title)}" loading="lazy" decoding="async" width="600" height="800">`
@@ -59,5 +83,5 @@
     }
   }
 
-  load();
+  (async () => { await loadStaticUrls(); load(); })();
 })();

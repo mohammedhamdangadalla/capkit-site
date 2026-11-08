@@ -6,6 +6,8 @@
 
   const cfg = window.MAG_CONFIG || {};
   const state = { issue: null, articles: [], client: null };
+  // الصفحة مولّدة مسبقاً: الوسوم والعنوان من السيرفر، ولا نعيد كتابتها
+  const IS_STATIC = Boolean(window.__PRERENDER_STATIC__);
 
   const $ = (id) => document.getElementById(id);
 
@@ -30,6 +32,11 @@
     return res.json();
   }
 
+  /* ─────────── مسارات نظيفة ─────────── */
+
+  const issuePath = (issue) => `/issue/${String(issue.issue_number).padStart(2, '0')}/`;
+  const articlePath = (issue, a) => `${issuePath(issue)}${a.order_index}-${String(a.id).replace(/-/g, '').slice(0, 8)}/`;
+
   /* ─────────── معرّف العدد ─────────── */
 
   function issueId() {
@@ -42,15 +49,17 @@
   /* ─────────── العرض ─────────── */
 
   function renderIssue(issue, articles) {
-    document.title = `العدد ${issue.issue_number} — ${issue.title} | Capkitco`;
+    if (!IS_STATIC) {
+      document.title = `العدد ${issue.issue_number} — ${issue.title} | Capkitco`;
     const desc = (issue.description || '').slice(0, 160);
     document.querySelector('meta[name="description"]')?.setAttribute('content', desc || issue.title);
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', `العدد ${issue.issue_number} — ${issue.title}`);
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', desc || issue.title);
     document.querySelector('meta[property="og:url"]')?.setAttribute('content', `https://capkitco.com/issue.html?id=${issue.id}`);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', `https://capkitco.com/issue.html?id=${issue.id}`);
-    if (issue.cover_image) {
-      document.querySelector('meta[property="og:image"]')?.setAttribute('content', issue.cover_image);
+      if (issue.cover_image) {
+        document.querySelector('meta[property="og:image"]')?.setAttribute('content', issue.cover_image);
+      }
     }
 
     // الفهرس
@@ -71,7 +80,7 @@
     const body = articles.map((a) => `
       <section class="article" id="a-${a.id}" data-article-id="${a.id}">
         ${a.category ? `<span class="cat">${esc(a.category)}</span>` : ''}
-        <h2>${esc(a.title)}</h2>
+        <h2>${esc(a.title)}${IS_STATIC ? ` <a class="art-permalink" href="${articlePath(issue, a)}" title="رابط دائم للمقال" aria-label="رابط دائم للمقال">🔗</a>` : ''}</h2>
         ${a.summary ? `<p class="summary">${esc(a.summary)}</p>` : ''}
         ${a.content_html ? `<div class="prose">${a.content_html}</div>` : ''}
         ${a.technical_details_html ? `
@@ -299,6 +308,14 @@
   /* ─────────── التشغيل ─────────── */
 
   (async function init() {
+    // صفحة مولّدة: البيانات مضمّنة — بلا أي طلب شبكة
+    if (window.__ISSUE__ && window.__ISSUE__.issue) {
+      state.issue = window.__ISSUE__.issue;
+      state.articles = window.__ISSUE__.articles || [];
+      renderIssue(state.issue, state.articles);
+      return;
+    }
+
     const id = issueId();
     if (!cfg.supabaseUrl || !id) return showError();
 

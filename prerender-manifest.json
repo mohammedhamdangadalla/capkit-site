@@ -1,10 +1,12 @@
 {
-  "generatedAt": "2026-11-08T11:42:18.199Z",
+  "generatedAt": "2026-11-08T14:37:10.990Z",
   "counts": {
     "product": 6,
     "service": 1,
     "workshop": 2,
-    "profile": 1
+    "profile": 1,
+    "issue": 1,
+    "article": 6
   },
   "pages": [
     {
@@ -86,6 +88,62 @@
       "id": "01cca51c-0618-49b8-b388-51cc89088b97",
       "slug": "mohammed",
       "lastmod": "2026-11-07T04:47:23.040627+00:00"
+    },
+    {
+      "url": "https://capkitco.com/issue/01/",
+      "file": "issue/01/index.html",
+      "type": "issue",
+      "id": "a31165a8-4111-4c37-85c5-31defdb59800",
+      "slug": "01",
+      "lastmod": "2026-11-08"
+    },
+    {
+      "url": "https://capkitco.com/issue/01/1-8ccfa62d/",
+      "file": "issue/01/1-8ccfa62d/index.html",
+      "type": "article",
+      "id": "8ccfa62d-5bab-4535-bc9a-ca8649f14062",
+      "slug": "1-8ccfa62d",
+      "lastmod": "2026-11-08"
+    },
+    {
+      "url": "https://capkitco.com/issue/01/2-0cdff686/",
+      "file": "issue/01/2-0cdff686/index.html",
+      "type": "article",
+      "id": "0cdff686-7dca-4933-afb1-01707b72b601",
+      "slug": "2-0cdff686",
+      "lastmod": "2026-11-08"
+    },
+    {
+      "url": "https://capkitco.com/issue/01/3-71df3c15/",
+      "file": "issue/01/3-71df3c15/index.html",
+      "type": "article",
+      "id": "71df3c15-561d-4d61-9d6f-af0c90dbd305",
+      "slug": "3-71df3c15",
+      "lastmod": "2026-11-08"
+    },
+    {
+      "url": "https://capkitco.com/issue/01/4-a1c4d90d/",
+      "file": "issue/01/4-a1c4d90d/index.html",
+      "type": "article",
+      "id": "a1c4d90d-34c1-4032-ba75-f619aab0f3f3",
+      "slug": "4-a1c4d90d",
+      "lastmod": "2026-11-08"
+    },
+    {
+      "url": "https://capkitco.com/issue/01/5-d6574ad4/",
+      "file": "issue/01/5-d6574ad4/index.html",
+      "type": "article",
+      "id": "d6574ad4-fccc-4878-a85e-e93f3430fbb6",
+      "slug": "5-d6574ad4",
+      "lastmod": "2026-11-08"
+    },
+    {
+      "url": "https://capkitco.com/issue/01/6-fd9d78fc/",
+      "file": "issue/01/6-fd9d78fc/index.html",
+      "type": "article",
+      "id": "fd9d78fc-e60a-4c93-806c-61af2cf6ac22",
+      "slug": "6-fd9d78fc",
+      "lastmod": "2026-11-08"
     }
   ]
 }

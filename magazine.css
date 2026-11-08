@@ -217,3 +217,15 @@ details.tech .tech-body { padding: 16px; }
   .prose code, .prose pre { background: #f4f4f4 !important; border-color: #ccc; }
   img { max-width: 100% !important; }
 }
+
+/* ═══ الرابط الدائم للمقال ═══ */
+.art-permalink {
+  font-size: .7em;
+  opacity: .45;
+  text-decoration: none;
+  vertical-align: middle;
+  margin-inline-start: 6px;
+  transition: opacity .15s;
+}
+.art-permalink:hover { opacity: 1; text-decoration: none; }
+@media print { .art-permalink { display: none; } }

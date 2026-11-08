@@ -69,12 +69,21 @@ const dynamic = [];
 // 1) المصدر المفضّل: الصفحات المولّدة مسبقاً (روابط نظيفة بلا ?id=)
 try {
   const manifest = JSON.parse(await readFile(join(ROOT, 'prerender-manifest.json'), 'utf8'));
+  const TYPE_META = {
+    product: { changefreq: 'weekly', priority: '0.7' },
+    service: { changefreq: 'weekly', priority: '0.7' },
+    workshop: { changefreq: 'monthly', priority: '0.6' },
+    profile: { changefreq: 'monthly', priority: '0.6' },
+    issue: { changefreq: 'monthly', priority: '0.8' },
+    article: { changefreq: 'monthly', priority: '0.7' },
+  };
+
   for (const p of manifest.pages) {
+    const meta = TYPE_META[p.type] || { changefreq: 'monthly', priority: '0.6' };
     dynamic.push({
       path: p.url.replace(SITE, ''),
       lastmod: p.lastmod,
-      changefreq: p.type === 'product' ? 'weekly' : 'monthly',
-      priority: p.type === 'workshop' ? '0.6' : '0.7',
+      ...meta,
     });
   }
   console.log(`✔ prerender-manifest: ${dynamic.length} صفحة مولّدة.`);

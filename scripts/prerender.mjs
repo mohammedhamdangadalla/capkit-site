@@ -86,7 +86,10 @@ function stripHead(html) {
     .replace(/[ \t]*<meta\s+name="twitter:[^"]*"[^>]*>\s*/g, '')
     // قوالب الصفحات تحمل noindex احتياطياً؛ لو بقي مع index من السيرفر
     // يطبّق جوجل الأكثر تقييداً فتفشل الفهرسة
-    .replace(/[ \t]*<meta\s+name="robots"[^>]*>\s*/g, '');
+    .replace(/[ \t]*<meta\s+name="robots"[^>]*>\s*/g, '')
+    // canonical وdescription من القالب: يُستبدلان بما يبنيه السيرفر لكل صفحة
+    .replace(/[ \t]*<link\s+rel="canonical"[^>]*>\s*/g, '')
+    .replace(/[ \t]*<meta\s+name="description"[^>]*>\s*/g, '');
 }
 
 const orgNode = {
@@ -220,7 +223,7 @@ function slugOf(item, prefix) {
 // ─────────────────────────────── المنتجات ───────────────────────────────
 
 // تنظيف المخرجات القديمة حتى لا تبقى صفحات لمنتجات محذوفة أو معاد تسميتها
-for (const dir of ['product', 'service', 'workshop', 'u']) {
+for (const dir of ['product', 'service', 'workshop', 'u', 'issue']) {
   await rm(join(ROOT, dir), { recursive: true, force: true });
 }
 
@@ -474,7 +477,219 @@ for (const w of workshops) {
   workshopPages.push({ url, file: `workshop/${slug}/index.html`, type: 'workshop', id: w.id, slug, lastmod: w.created_at });
 }
 
+// ─────────────────────────────── المجلة ───────────────────────────────
+// يولّد صفحة ثابتة لكل عدد منشور، وصفحة لكل مقال تحته.
+
+const pad2 = (n) => String(n).padStart(2, '0');
+const issueUrl = (issue) => `${SITE}/issue/${pad2(issue.issue_number)}/`;
+const articleSlug = (a) => `${a.order_index}-${String(a.id).replace(/-/g, '').slice(0, 8)}`;
+const articleUrl = (issue, a) => `${issueUrl(issue)}${articleSlug(a)}/`;
+
+function issueHeaderHtml(issue) {
+  return `<header class="issue-head">
+    ${issue.cover_image ? `<img src="${esc(issue.cover_image)}" alt="غلاف العدد ${esc(issue.issue_number)}" style="border-radius:12px; margin-bottom:18px; max-height:420px; object-fit:cover;" loading="eager" decoding="async">` : ''}
+    <div class="num">العدد ${esc(issue.issue_number)}</div>
+    <h1>${esc(issue.title)}</h1>
+    ${issue.publish_date ? `<div class="date">${esc(issue.publish_date)}</div>` : ''}
+    ${issue.description ? `<p class="lead">${esc(issue.description)}</p>` : ''}
+  </header>`;
+}
+
+function articleHtml(issue, a, opts = {}) {
+  const heading = opts.heading || 'h2';
+  const permalink = opts.permalink
+    ? ` <a class="art-permalink" href="${articleUrl(issue, a)}" title="رابط دائم للمقال">🔗</a>`
+    : '';
+  const citations = a.citations
+    ? `<div class="citations"><h3>المصادر والمراجع</h3><ol>${a.citations
+        .split('\n')
+        .filter(Boolean)
+        .map((line) => `<li>${esc(line.replace(/^\s*\d+[.)]\s*/, ''))}</li>`)
+        .join('')}</ol></div>`
+    : '';
+
+  return `<section class="article" id="a-${a.id}" data-article-id="${a.id}">
+    ${a.category ? `<span class="cat">${esc(a.category)}</span>` : ''}
+    <${heading}>${esc(a.title)}${permalink}</${heading}>
+    ${a.summary ? `<p class="summary">${esc(a.summary)}</p>` : ''}
+    ${a.content_html ? `<div class="prose">${a.content_html}</div>` : ''}
+    ${a.technical_details_html ? `<details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose">${a.technical_details_html}</div></details>` : ''}
+    ${citations}
+    <div class="comments" data-comments-for="${a.id}">
+      <button class="mag-btn no-print" type="button" data-load-comments="${a.id}">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-${a.id}"></div>
+    </div>
+  </section>`;
+}
+
+function fillIssuePage(html, issue, arts, opts = {}) {
+  // حذف JSON-LD الافتراضي من القالب — السيرفر يضيف الصحيح
+  html = html.replace(/<script type="application\/ld\+json" id="issueLd">[\s\S]*?<\/script>/i, '');
+
+  html = replaceInnerById(html, 'div', 'issueState', '');
+  html = setStyle(html, 'issueState', 'display: none;');
+  html = setStyle(html, 'issueLayout', 'display: grid;');
+
+  if (opts.withHeader) {
+    html = replaceInnerById(
+      html,
+      'ol',
+      'tocList',
+      arts
+        .map((a) => `<li><a href="#a-${a.id}" data-target="a-${a.id}">${esc(a.title)}</a></li>`)
+        .join(''),
+    );
+  } else {
+    html = html.replace(/<aside class="toc"[\s\S]*?<\/aside>/i, '');
+  }
+
+  const back = opts.backLink
+    ? `<p class="no-print" style="margin-bottom:18px;"><a href="${opts.backLink}">← العودة إلى العدد كاملاً</a></p>`
+    : '';
+
+  const body = opts.withHeader
+    ? issueHeaderHtml(issue) + arts.map((a) => articleHtml(issue, a, { permalink: true })).join('')
+    : back + arts.map((a) => articleHtml(issue, a, { heading: 'h1' })).join('');
+
+  return replaceInnerById(html, 'article', 'issueBody', body);
+}
+
+function injectIssuePayload(html, data) {
+  const payload =
+    '<script>window.__ISSUE__ = ' +
+    JSON.stringify(data).replace(/</g, '\\u003c') +
+    ';window.__PRERENDER_STATIC__ = true;</script>';
+  return html.replace(/<body([^>]*)>/i, '<body$1>\n' + payload);
+}
+
+const magazinePages = [];
+let issueRows = [];
+let articleRows = [];
+
+try {
+  issueRows = await rest('issues?select=*&is_published=eq.true&order=issue_number.desc');
+  if (issueRows.length) {
+    const ids = issueRows.map((i) => i.id).join(',');
+    articleRows = await rest(`articles?select=*&issue_id=in.(${ids})&order=order_index.asc`);
+  }
+} catch (err) {
+  console.warn('⚠ تعذّر تحميل بيانات المجلة (نفّذ db/007 ثم أعد المحاولة):', err.message);
+}
+
+if (issueRows.length) {
+  const issueTemplate = await readFile(join(ROOT, 'issue.html'), 'utf8');
+
+  for (const issue of issueRows) {
+    const arts = articleRows.filter((a) => a.issue_id === issue.id);
+    const url = issueUrl(issue);
+    const title = `${issue.title} — العدد ${issue.issue_number} | ${BRAND}`;
+    const description = trunc(issue.description || issue.title);
+    const image = issue.cover_image || LOGO;
+
+    const issueGraph = [
+      orgNode,
+      siteNode,
+      breadcrumb(url, `العدد ${issue.issue_number}`),
+      {
+        '@type': 'PublicationIssue',
+        '@id': `${url}#issue`,
+        issueNumber: String(issue.issue_number),
+        name: issue.title,
+        datePublished: issue.publish_date || undefined,
+        description: issue.description || undefined,
+        image,
+        url,
+        isPartOf: {
+          '@type': 'Periodical',
+          name: `المجلة الهندسية — ${BRAND}`,
+          url: `${SITE}/magazine.html`,
+        },
+        hasPart: arts.map((a) => ({
+          '@type': 'Article',
+          '@id': `${articleUrl(issue, a)}#article`,
+          headline: a.title,
+          url: articleUrl(issue, a),
+        })),
+      },
+    ];
+
+    const head = buildHead({ title, description, url, image, ogType: 'article', graph: issueGraph });
+    let html = assemble(issueTemplate, head, { type: 'issue', url }, title);
+    html = injectIssuePayload(html, { issue, articles: arts });
+    html = fillIssuePage(html, issue, arts, { withHeader: true });
+
+    const issueFile = `issue/${pad2(issue.issue_number)}/index.html`;
+    const issueOut = join(ROOT, issueFile);
+    await mkdir(dirname(issueOut), { recursive: true });
+    await writeFile(issueOut, html, 'utf8');
+
+    magazinePages.push({
+      url,
+      file: issueFile,
+      type: 'issue',
+      id: issue.id,
+      slug: pad2(issue.issue_number),
+      lastmod: issue.publish_date,
+    });
+
+    for (const a of arts) {
+      const aUrl = articleUrl(issue, a);
+      const aTitle = `${a.title} — ${issue.title} | ${BRAND}`;
+      const aDesc = trunc(a.summary || a.title);
+
+      const articleGraph = [
+        orgNode,
+        siteNode,
+        breadcrumb(aUrl, a.title),
+        {
+          '@type': 'Article',
+          '@id': `${aUrl}#article`,
+          headline: a.title,
+          abstract: a.summary || undefined,
+          articleSection: a.category || undefined,
+          url: aUrl,
+          image,
+          isPartOf: { '@id': `${url}#issue` },
+          author: { '@type': 'Organization', name: BRAND },
+          publisher: {
+            '@type': 'Organization',
+            name: BRAND,
+            logo: { '@type': 'ImageObject', url: LOGO },
+          },
+        },
+      ];
+
+      const aHead = buildHead({
+        title: aTitle,
+        description: aDesc,
+        url: aUrl,
+        image,
+        ogType: 'article',
+        graph: articleGraph,
+      });
+      let aHtml = assemble(issueTemplate, aHead, { type: 'article', url: aUrl }, aTitle);
+      aHtml = injectIssuePayload(aHtml, { issue, articles: [a] });
+      aHtml = fillIssuePage(aHtml, issue, [a], { withHeader: false, backLink: url });
+
+      const aFile = `issue/${pad2(issue.issue_number)}/${articleSlug(a)}/index.html`;
+      const aOut = join(ROOT, aFile);
+      await mkdir(dirname(aOut), { recursive: true });
+      await writeFile(aOut, aHtml, 'utf8');
+
+      magazinePages.push({
+        url: aUrl,
+        file: aFile,
+        type: 'article',
+        id: a.id,
+        slug: articleSlug(a),
+        lastmod: issue.publish_date,
+      });
+    }
+  }
+}
+
 // ─────────────────────────────── الحصيلة ───────────────────────────────
+
 
 // ─────────────────────────────── البطاقات العامة ───────────────────────────────
 // تُقرأ من public_profiles لأن anon لا يصل إلى جدول profiles بعد تقييد الصلاحيات.
@@ -689,7 +904,7 @@ for (const p of sourceProfiles) {
 
 // ─────────────────────────────── الحصيلة ───────────────────────────────
 
-const pages = [...productPages, ...servicePages, ...workshopPages, ...profilePages];
+const pages = [...productPages, ...servicePages, ...workshopPages, ...profilePages, ...magazinePages];
 const manifest = {
   generatedAt: GENERATED,
   counts: {
@@ -697,6 +912,8 @@ const manifest = {
     service: servicePages.length,
     workshop: workshopPages.length,
     profile: profilePages.length,
+    issue: magazinePages.filter((p) => p.type === 'issue').length,
+    article: magazinePages.filter((p) => p.type === 'article').length,
   },
   pages,
 };
@@ -708,5 +925,6 @@ console.log(`  منتجات:  ${productPages.length}`);
 console.log(`  خدمات:   ${servicePages.length}`);
 console.log(`  ورش:     ${workshopPages.length}`);
 console.log(`  بطاقات:  ${profilePages.length}`);
+console.log(`  مجلة:    ${magazinePages.filter((p) => p.type === 'issue').length} عدد + ${magazinePages.filter((p) => p.type === 'article').length} مقال`);
 console.log('\nأمثلة:');
 for (const page of pages.slice(0, 4)) console.log(`  ${page.url}`);
