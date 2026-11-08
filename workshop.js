@@ -475,7 +475,7 @@ function createProductCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${img 
-        ? `<img src="${optimizeImage(img, 700)}" srcset="${imageSrcset(img, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtmlW(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${optimizeImage(img, 700)}" srcset="${imageSrcset(img, [400, 500, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtmlW(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">📦</div>`}
       ${product.is_capkit_original ? '<span class="badge-original">✨ أصلي</span>' : ''}
     </div>

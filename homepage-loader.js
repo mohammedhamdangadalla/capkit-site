@@ -207,7 +207,7 @@ async function loadPremiumShowcase() {
       a.className = 'product-card';
 
       const img = item.image_url
-        ? `<img src="${optimizeImage(item.image_url, 700)}" srcset="${imageSrcset(item.image_url, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${optimizeImage(item.image_url, 700)}" srcset="${imageSrcset(item.image_url, [400, 500, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : '<div class="product-emblem">🪄</div>';
 
       a.innerHTML = `
@@ -252,7 +252,7 @@ function createProductCard(product, index = 99) {
   a.innerHTML = `
     <div class="product-image">
       ${imageUrl 
-        ? `<img src="${optimizeImage(imageUrl, 700)}" srcset="${imageSrcset(imageUrl, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" ${leadImage ? 'fetchpriority="high"' : (eagerImage ? '' : 'loading="lazy"')} decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${optimizeImage(imageUrl, 700)}" srcset="${imageSrcset(imageUrl, [400, 500, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" ${leadImage ? 'fetchpriority="high"' : (eagerImage ? '' : 'loading="lazy"')} decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">📦</div>`}
       ${product.is_capkit_original ? '<span class="badge-original">✨ أصلي</span>' : ''}
     </div>
@@ -287,7 +287,7 @@ function createOriginalCard(product) {
   a.innerHTML = `
     <div class="product-image">
       ${imageUrl 
-        ? `<img src="${optimizeImage(imageUrl, 700)}" srcset="${imageSrcset(imageUrl, [400, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
+        ? `<img src="${optimizeImage(imageUrl, 700)}" srcset="${imageSrcset(imageUrl, [400, 500, 700, 1000])}" sizes="(max-width: 640px) 45vw, 300px" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" width="600" height="600" style="width:100%;height:100%;object-fit:cover;">`
         : `<div class="product-emblem">✦</div>`}
       ${serial ? `<span class="badge-original">N° ${serial}</span>` : ''}
     </div>

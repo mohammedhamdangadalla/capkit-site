@@ -198,7 +198,16 @@ X-DNS-Prefetch-Control: on
 ## التحقق الآلي
 
 ```bash
-node scripts/lint-paths.mjs     # لا مسارات نسبية
-node scripts/prerender.mjs      # إعادة توليد الصفحات بكل التغييرات
+node scripts/lint-paths.mjs        # لا مسارات نسبية
+node scripts/prerender.mjs         # إعادة توليد الصفحات بكل التغييرات
 node scripts/gen-sitemap.mjs
+node scripts/inject-lcp-preload.mjs  # preload لصورة LCP في index.html
 ```
+
+> **`inject-lcp-preload` مهم:** صورة أول منتج لا تُطلب إلا بعد
+> `supabase-js → REST → ثم الصورة` (~3 ثوانٍ على 4G). السكربت يقرأ أول منتج
+> مميّز بصورة ويكتب `<link rel="preload" as="image" imagesrcset=…>` داخل
+> علامتي `LCP-PRELOAD` في `index.html`، فتبدأ الصورة بالتنزيل من أول بايت.
+>
+> **أعد تشغيله كلما تغيّر أول منتج مميّز**، وإلا بقي الـpreload على صورة قديمة
+> (غير ضار: طلب مهدور فقط، والصورة الفعلية تُحمَّل عادياً).
