@@ -307,8 +307,9 @@ function createWorkshopCard(workshop) {
 
   const initial = (workshop.name || 'و').charAt(0);
   const logo = workshop.logo_url || workshop.cover_url || '';
+  // quotes: نستخدم ' داخل url() لأن السمة نفسها محاطة بـ""
   const avatarStyle = logo
-    ? 'background-image:url("' + String(logo).replace(/"/g, '%22') + '");background-size:cover;background-position:center;color:transparent;overflow:hidden;'
+    ? "background-image:url('" + String(logo).replace(/'/g, '%27') + "');background-size:cover;background-position:center;color:transparent;overflow:hidden;"
     : '';
 
   a.innerHTML = `
