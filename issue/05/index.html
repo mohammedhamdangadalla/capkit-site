@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>من الفوتون إلى الشبكة: هندسة الأنظمة الكهروضوئية — العدد 5 | Capkitco</title>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://dsgbnulewdxxftmrqrrr.supabase.co" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/magazine.css">
+<link rel="icon" href="/icon-192.png">
+<!-- SEO-META:START -->
+<link rel="canonical" href="https://capkitco.com/issue/05/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="مرجع هندسي متكامل للطاقة الشمسية: فيزياء الخلية، الإشعاع والظل، الألواح والعواكس والبطاريات، تصميم السلاسل والحماية، التركيب والاختبارات، المراقبة والصيانة،…">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Capkitco">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:title" id="ogTitle" content="من الفوتون إلى الشبكة: هندسة الأنظمة الكهروضوئية — العدد 5 | Capkitco">
+<meta property="og:description" id="ogDescription" content="مرجع هندسي متكامل للطاقة الشمسية: فيزياء الخلية، الإشعاع والظل، الألواح والعواكس والبطاريات، تصميم السلاسل والحماية، التركيب والاختبارات، المراقبة والصيانة،…">
+<meta property="og:image" id="ogImage" content="https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/magazine-assets/covers/issue-1794341846275.jpg">
+<meta property="og:url" id="ogUrl" content="https://capkitco.com/issue/05/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="twitterTitle" content="من الفوتون إلى الشبكة: هندسة الأنظمة الكهروضوئية — العدد 5 | Capkitco">
+<meta name="twitter:description" id="twitterDescription" content="مرجع هندسي متكامل للطاقة الشمسية: فيزياء الخلية، الإشعاع والظل، الألواح والعواكس والبطاريات، تصميم السلاسل والحماية، التركيب والاختبارات، المراقبة والصيانة،…">
+<meta name="twitter:image" id="twitterImage" content="https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/magazine-assets/covers/issue-1794341846275.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://capkitco.com/#organization",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "url": "https://capkitco.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://capkitco.com/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "email": "hello@capkitco.com",
+      "areaServed": {
+        "@type": "Place",
+        "name": "الوطن العربي"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://capkitco.com/#website",
+      "url": "https://capkitco.com/",
+      "name": "Capkitco",
+      "alternateName": "CapKit Souq",
+      "inLanguage": "ar",
+      "publisher": {
+        "@id": "https://capkitco.com/#organization"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://capkitco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "العدد 5",
+          "item": "https://capkitco.com/issue/05/"
+        }
+      ]
+    },
+    {
+      "@type": "PublicationIssue",
+      "@id": "https://capkitco.com/issue/05/#issue",
+      "issueNumber": "5",
+      "name": "من الفوتون إلى الشبكة: هندسة الأنظمة الكهروضوئية",
+      "datePublished": "2026-11-08",
+      "description": "مرجع هندسي متكامل للطاقة الشمسية: فيزياء الخلية، الإشعاع والظل، الألواح والعواكس والبطاريات، تصميم السلاسل والحماية، التركيب والاختبارات، المراقبة والصيانة، والاقتصاد. منهج 14 أسبوعاً بمختبرات ومشروع 10 كيلوواط محلول بالأرقام.",
+      "image": "https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/magazine-assets/covers/issue-1794341846275.jpg",
+      "url": "https://capkitco.com/issue/05/",
+      "isPartOf": {
+        "@type": "Periodical",
+        "name": "المجلة الهندسية — Capkitco",
+        "url": "https://capkitco.com/magazine.html"
+      },
+      "hasPart": [
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/1-4554cc48/#article",
+          "headline": "الشمس لا تُرسل فاتورة… لكنها لا تسامح",
+          "url": "https://capkitco.com/issue/05/1-4554cc48/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/2-ee806f5c/#article",
+          "headline": "كيف تقرأ هذا العدد؟ منهج 14 أسبوعاً ومخرجات تعلّم",
+          "url": "https://capkitco.com/issue/05/2-ee806f5c/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/3-c27b7ac8/#article",
+          "headline": "من الفوتون إلى الأمبير: كيف تولّد الخلية الكهرباء؟",
+          "url": "https://capkitco.com/issue/05/3-c27b7ac8/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/4-4a6a5438/#article",
+          "headline": "الشمس ليست في مكان واحد: الإشعاع والميل والظل",
+          "url": "https://capkitco.com/issue/05/4-4a6a5438/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/5-6bcacd9e/#article",
+          "headline": "الألواح: أجيال الخلايا وكيف تقرأ ورقة البيانات",
+          "url": "https://capkitco.com/issue/05/5-6bcacd9e/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/6-ff17c91f/#article",
+          "headline": "العاكس: قلب النظام الذي يقرر نجاحه",
+          "url": "https://capkitco.com/issue/05/6-ff17c91f/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/7-f4911a4f/#article",
+          "headline": "البطاريات وBMS: تخزين الطاقة كمسألة سلامة قبل الكفاءة",
+          "url": "https://capkitco.com/issue/05/7-f4911a4f/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/8-ae19ca51/#article",
+          "headline": "الهياكل: حيث تتحول الكهرباء إلى مسؤولية ميكانيكية",
+          "url": "https://capkitco.com/issue/05/8-ae19ca51/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/9-84a98213/#article",
+          "headline": "من الفاتورة إلى القدرة: كيف تُصمّم نظاماً بالأرقام؟",
+          "url": "https://capkitco.com/issue/05/9-84a98213/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/10-1a31f6dd/#article",
+          "headline": "السلاسل: كيف تجمع الألواح دون أن تحرق العاكس؟",
+          "url": "https://capkitco.com/issue/05/10-1a31f6dd/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/11-1089a6a3/#article",
+          "headline": "الحماية: ما يمنع النظام من أن يصبح حريقاً",
+          "url": "https://capkitco.com/issue/05/11-1089a6a3/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/12-c340d035/#article",
+          "headline": "الكابلات: حيث تُفقد الكيلوواطات بصمت",
+          "url": "https://capkitco.com/issue/05/12-c340d035/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/13-440a9bf4/#article",
+          "headline": "من الورقة إلى السطح: تسلسل التركيب واختبارات القبول",
+          "url": "https://capkitco.com/issue/05/13-440a9bf4/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/14-ed746a7f/#article",
+          "headline": "المراقبة: كيف يحوّل المطوّر الألواح إلى بيانات",
+          "url": "https://capkitco.com/issue/05/14-ed746a7f/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/15-7e14911f/#article",
+          "headline": "الصيانة: من العَرَض إلى السبب في عشر دقائق",
+          "url": "https://capkitco.com/issue/05/15-7e14911f/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/16-3e284f22/#article",
+          "headline": "الجدوى: LCOE، الاسترداد، ومتى لا تستحق الشمس؟",
+          "url": "https://capkitco.com/issue/05/16-3e284f22/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/17-778c59e9/#article",
+          "headline": "سبع علامات في العرض التجاري تعني أن النظام لن يصمد",
+          "url": "https://capkitco.com/issue/05/17-778c59e9/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/18-611e27c9/#article",
+          "headline": "طرائف من الورش الشمسية: حين تخون الشمس أصحابها",
+          "url": "https://capkitco.com/issue/05/18-611e27c9/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/19-5a4b6620/#article",
+          "headline": "ورشة العدد: شركات التركيب التي تبيع الثقة",
+          "url": "https://capkitco.com/issue/05/19-5a4b6620/"
+        },
+        {
+          "@type": "Article",
+          "@id": "https://capkitco.com/issue/05/20-3e42d761/#article",
+          "headline": "ملاحق العدد: مشروع 10 كيلوواط، قوائم الفحص، المسرد، المراجع",
+          "url": "https://capkitco.com/issue/05/20-3e42d761/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!-- SEO-META:END -->
+</head>
+<body>
+<script>window.__ISSUE__ = {"issue":{"id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","issue_number":5,"title":"من الفوتون إلى الشبكة: هندسة الأنظمة الكهروضوئية","publish_date":"2026-11-08","cover_image":"https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/magazine-assets/covers/issue-1794341846275.jpg","description":"مرجع هندسي متكامل للطاقة الشمسية: فيزياء الخلية، الإشعاع والظل، الألواح والعواكس والبطاريات، تصميم السلاسل والحماية، التركيب والاختبارات، المراقبة والصيانة، والاقتصاد. منهج 14 أسبوعاً بمختبرات ومشروع 10 كيلوواط محلول بالأرقام.","is_published":true,"created_at":"2026-11-10T20:17:44.48457+00:00"},"articles":[{"id":"4554cc48-055b-41da-995d-3c3ef889c70d","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الشمس لا تُرسل فاتورة… لكنها لا تسامح","summary":"تركيب ألواح على سطح ليس هندسة. الهندسة أن تعرف ماذا يحدث للجهد في يناير، وللتيار في يوليو، وللنظام في اليوم الذي ينقطع فيه التيار.","content_html":"\u003cp>في كل حي عربي تقريباً، ستجد سطحاً عليه ألواح سوداء. بعضها يعمل بامتياز، وبعضها يعمل «تقريباً»، وبعضها توقف بعد سنتين وصاحبه لا يعرف لماذا. والفارق بين الثلاثة لم يكن في اللوح، بل في \u003cstrong>من صمّم النظام\u003c/strong>.\u003c/p>\n\n\u003cp>الطاقة الشمسية تعاني من مشكلة غريبة: مكوناتها سهلة التركيب لدرجة تُوهم أنه لا يحتاج هندسة. تشتري ألواحاً وعاكساً وبطارية، توصل الأسلاك، فيعمل النور. لكن هذا «العمل» هو الحد الأدنى، وليس الهدف. الهدف أن يعمل النظام \u003cstrong>بعد خمسة عشر عاماً\u003c/strong>، وفي أقسى يوم حرّ، وبأقل خسارة، وبأمان.\u003c/p>\n\n\u003cblockquote>النظام الشمسي الذي يعمل في أبريل قد ينهار في أغسطس. الفرق ليس في الجهاز، بل في الحساب.\u003c/blockquote>\n\n\u003cp>هذا العدد مبني على فكرة واحدة: \u003cstrong>كل رقم في النظام له سبب\u003c/strong>. لماذا هذا المقطع؟ لماذا هذا القاطع؟ لماذا هذا الميل؟ لماذا هذا الجهد؟ من يعرف «لماذا» يستطيع أن يصمم، ومن يعرف «كيف» فقط يستطيع أن ينسخ — والنسخ يفشل عند أول اختلاف في الموقع.\u003c/p>\n\n\u003ch3>لماذا هذا العدد مختلف؟\u003c/h3>\n\u003cp>لأن أغلب المحتوى العربي عن الطاقة الشمسية تجاري: «احسب استهلاكك واضرب في 5». وهذا ليس خطأً تماماً، لكنه لا يصلح نظاماً. سنبني من الفيزياء، ثم نمرّ على كل مكوّن، ثم نصمم نظاماً كاملاً بالأرقام — ونختبره ذهنياً قبل أن يُبنى.\u003c/p>\n\n\u003ch3>لمن هذا العدد؟\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>المهندس:\u003c/strong> يجد الحسابات والمواصفات والمعايير، لا الشعارات.\u003c/li>\n  \u003cli>\u003cstrong>الفني:\u003c/strong> يجد إجراءات التركيب والاختبار وجدول الأعطال.\u003c/li>\n  \u003cli>\u003cstrong>المطوّر:\u003c/strong> يجد المراقبة والبيانات وبروتوكولات الاتصال.\u003c/li>\n  \u003cli>\u003cstrong>صاحب المشروع:\u003c/strong> يجد الاقتصاد والمخاطر وكيف يقرأ عرضاً تجارياً.\u003c/li>\n\u003c/ul>\n\n\u003cp>اقرأه بالترتيب أول مرة. ثم عُد إليه عند كل مشروع. هذا ما نعنيه بكلمة «مرجع».\u003c/p>","technical_details_html":null,"citations":null,"category":"افتتاحية","order_index":1,"created_at":"2026-11-10T20:19:30.668917+00:00"},{"id":"ee806f5c-c2dc-4157-a6f2-85eb5705114c","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"كيف تقرأ هذا العدد؟ منهج 14 أسبوعاً ومخرجات تعلّم","summary":"سبع وحدات، تسعة عشر مقالاً، أربعة عشر أسبوعاً، ومشروع كامل في النهاية. اقرأ هذا المقال أولاً، ثم عُد إليه كل أسبوع.","content_html":"\u003cp>هذا العدد ليس للقراءة المتصلة. هو مسار. كل وحدة تبني على سابقتها، وكل أسبوع ينتهي بمخرج يمكن اختباره. من يقرأه كاملاً في ليلة، سيحفظ أرقاماً وينسى منطقها. ومن يتبعه أسبوعاً بأسبوع، سيصمم نظاماً بنفسه.\u003c/p>\n\n\u003ch3>الوحدات السبع\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الوحدة\u003c/th>\u003cth>الأسابيع\u003c/th>\u003cth>المقالات\u003c/th>\u003cth>الناتج\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>1. الفيزياء والإشعاع\u003c/td>\u003ctd>1 – 2\u003c/td>\u003ctd>3، 4\u003c/td>\u003ctd>تفهم من أين يأتي الأمبير، وكيف تحسب الظل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>2. المكونات\u003c/td>\u003ctd>3 – 5\u003c/td>\u003ctd>5، 6، 7\u003c/td>\u003ctd>تقرأ ورقة بيانات لوح وعاكس وبطارية\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>3. الهياكل\u003c/td>\u003ctd>6\u003c/td>\u003ctd>8\u003c/td>\u003ctd>تختار التثبيت وتحسب الأحمال\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>4. التصميم\u003c/td>\u003ctd>7 – 9\u003c/td>\u003ctd>9، 10\u003c/td>\u003ctd>تصمم نظاماً وسلاسل متوافقة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>5. الحماية والكابلات\u003c/td>\u003ctd>10 – 11\u003c/td>\u003ctd>11، 12\u003c/td>\u003ctd>تحمي النظام من الحريق والصعق\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>6. التركيب والتشغيل\u003c/td>\u003ctd>12 – 13\u003c/td>\u003ctd>13، 14، 15\u003c/td>\u003ctd>تركّب وتختبر وتراقب وتصون\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>7. الاقتصاد والسوق\u003c/td>\u003ctd>14\u003c/td>\u003ctd>16، 17\u003c/td>\u003ctd>تحسب الجدوى وتقيّم العروض\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>الجدول الأسبوعي\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الأسبوع\u003c/th>\u003cth>القراءة\u003c/th>\u003cth>المختبر\u003c/th>\u003cth>التسليم\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>1\u003c/td>\u003ctd>فيزياء الخلية\u003c/td>\u003ctd>ارسم منحنى IV من ورقة بيانات\u003c/td>\u003ctd>تحليل لوح واحد\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>2\u003c/td>\u003ctd>الإشعاع والظل\u003c/td>\u003ctd>احسب مسافة الصفوف لسطحك\u003c/td>\u003ctd>مخطط ظل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>3\u003c/td>\u003ctd>الألواح\u003c/td>\u003ctd>قارن لوحين بنفس القدرة\u003c/td>\u003ctd>جدول مقارنة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>4\u003c/td>\u003ctd>العاكس\u003c/td>\u003ctd>استخرج نافذة MPPT\u003c/td>\u003ctd>ورقة توافق\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>5\u003c/td>\u003ctd>البطاريات\u003c/td>\u003ctd>احسب سعة بنظام انقطاع\u003c/td>\u003ctd>حساب بنك\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>6\u003c/td>\u003ctd>الهياكل\u003c/td>\u003ctd>احسب حمل رياح تقريبي\u003c/td>\u003ctd>مخطط تثبيت\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>7\u003c/td>\u003ctd>الأحمال\u003c/td>\u003ctd>سجل استهلاك أسبوع\u003c/td>\u003ctd>ملف أحمال\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>8\u003c/td>\u003ctd>تصميم النظام\u003c/td>\u003ctd>صمّم نظاماً لبيتك\u003c/td>\u003ctd>مذكرة تصميم\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>9\u003c/td>\u003ctd>السلاسل\u003c/td>\u003ctd>تحقق Voc عند أدنى حرارة\u003c/td>\u003ctd>جدول سلاسل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>10\u003c/td>\u003ctd>الحماية\u003c/td>\u003ctd>اختر القواطع والمانعات\u003c/td>\u003ctd>مخطط حماية\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>11\u003c/td>\u003ctd>الكابلات\u003c/td>\u003ctd>احسب هبوط الجهد DC/AC\u003c/td>\u003ctd>جدول كابلات\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>12\u003c/td>\u003ctd>التركيب\u003c/td>\u003ctd>اكتب إجراء تركيب\u003c/td>\u003ctd>SOP\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>13\u003c/td>\u003ctd>الاختبارات\u003c/td>\u003ctd>خطة فحص ما بعد التركيب\u003c/td>\u003ctd>قائمة فحص\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>14\u003c/td>\u003ctd>الاقتصاد\u003c/td>\u003ctd>احسب LCOE لنظامك\u003c/td>\u003ctd>مذكرة جدوى\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>مشروع التخرّج\u003c/h3>\n\u003cp>صمّم نظاماً لسطح حقيقي تعرفه: 10 كيلوواط، متصل بالشبكة، بأرقامك المحلية (أسعار، إشعاع، تعريفة). سلّم: مذكرة حساب، مخططاً أحادياً، جدول كميات، وقائمة فحص تركيb. المشروع الكامل محلولاً في \u003cstrong>ملحق العدد\u003c/strong> في نهايته.\u003c/p>\n\n\u003cblockquote>من صمّم نظاماً واحداً بالأرقام، يستطيع تصميم مئة. ومن ركّب مئة بلا حساب، لا يستطيع تصميم واحد.\u003c/blockquote>","technical_details_html":"\u003ch3>مخرجات التعلّم\u003c/h3>\n\u003col>\n  \u003cli>يشرح منحنى IV ويحدد نقطة القدرة القصوى.\u003c/li>\n  \u003cli>يحسب الإشعاع على سطح مائل ويقدّر الظل.\u003c/li>\n  \u003cli>يقرأ ورقة بيانات لوح ويستخرج معاملات الحرارة.\u003c/li>\n  \u003cli>يتحقق من توافق السلسلة مع نافذة MPPT.\u003c/li>\n  \u003cli>يحسب بنك بطاريات بعمق تفريغ واستقلالية.\u003c/li>\n  \u003cli>يختار القواطع والمانعات ويربط الأرضي.\u003c/li>\n  \u003cli>يحسب هبوط الجهد ويختار المقطع.\u003c/li>\n  \u003cli>ينفّذ اختبارات ما بعد التركيب ويوثّقها.\u003c/li>\n  \u003cli>يحسب LCOE ويقارن عروضاً.\u003c/li>\n  \u003cli>يكتب مذكرة تصميم ومخططاً أحادياً.\u003c/li>\n\u003c/ol>\n\n\u003ch3>المتطلبات المسبقة\u003c/h3>\n\u003cul>\n  \u003cli>أساسيات الكهرباء (فولت/أمبير/واط) — من العدد الثالث.\u003c/li>\n  \u003cli>قراءة مخططات بسيطة.\u003c/li>\n  \u003cli>آلة حاسبة علمية.\u003c/li>\n\u003c/ul>","citations":"IEC 62548 — تصميم الأنظمة الكهروضوئية.\nIEC 60364-7-712 — التركيبات الكهروضوئية في المباني.","category":"منهج","order_index":2,"created_at":"2026-11-10T20:21:41.323055+00:00"},{"id":"c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"من الفوتون إلى الأمبير: كيف تولّد الخلية الكهرباء؟","summary":"لا يوجد شيء يتحرك في اللوح. لا مروحة، لا محرك. فقط سيليكون، وفوتونات، وإلكترونات تُدفع في اتجاه واحد. فهم هذه الرقصة هو أساس كل قرار هندسي بعده.","content_html":"\u003cp>الخلية الكهروضوئية قطعة من السيليكون المشاب (شبه موصل) بسماكة أقل من ملّيمتر. ليست بطارية، ولا مولّداً دوّاراً. هي \u003cstrong>صمام اتجاهي للطاقة\u003c/strong>: تدخلها فوتونات، فتخرج إلكترونات في اتجاه واحد.\u003c/p>\n\n\u003ch3>الفيزياء في ثلاث خطوات\u003c/h3>\n\u003col>\n  \u003cli>\u003cstrong>الفوتون يصل:\u003c/strong> إن كانت طاقته أكبر من «فجوة الطاقة» للمادة (≈1.1 إلكترون-فولت للسيليكون)، يحرّر إلكتروناً من مكانه.\u003c/li>\n  \u003cli>\u003cstrong>المجال الداخلي يفصل:\u003c/strong> في منطقة الوصلة (P-N) يوجد مجال كهربائي يدفع الإلكترون في جهة، والثقب في الجهة الأخرى.\u003c/li>\n  \u003cli>\u003cstrong>الدائرة تكتمل:\u003c/strong> تصلحاطر الأطراف بموصل خارجي، فيمر تيار.\u003c/li>\n\u003c/ol>\n\n\u003cp>لهذا لا يعمل اللوح بالحرارة: الحرارة تزيد الاهتزاز وتقلل الفجوة، فينخفض الجهد قليلاً ويرتفع التيار قليلاً — والنتيجة انخفاض في القدرة.\u003c/p>\n\n\u003ch3>منحنى IV: بطاقة هوية اللوح\u003c/h3>\n\u003cp>لكل لوح منحنى يصف علاقة التيار بالجهد. منه نستخرج أربعة أرقام:\u003c/p>\n\u003cul>\n  \u003cli>\u003cstrong>Voc:\u003c/strong> جهد الدائرة المفتوحة — أعلى جهد يظهر عند البرد.\u003c/li>\n  \u003cli>\u003cstrong>Isc:\u003c/strong> تيار الدائرة القصيرة — أعلى تيار يظهر عند أقوى شمس.\u003c/li>\n  \u003cli>\u003cstrong>Vmp / Imp:\u003c/strong> نقطة القدرة القصوى (أفضل تشغيل).\u003c/li>\n  \u003cli>\u003cstrong>FF:\u003c/strong> معامل الامتلاء — يقيس جودة الخلية.\u003c/li>\n\u003c/ul>\n\n\u003cp style=\"text-align:center; font-size:1.05rem;\">\u003cstrong>P = V × I\u003c/strong> — والقدرة القصوى عند «كوع» المنحنى.\u003c/p>\n\n\u003ch3>الشروط القياسية (STC)\u003c/h3>\n\u003cp>كل ورقة بيانات تقيس عند: إشعاع 1000 واط/م²، حرارة 25°م، طيف AM1.5. هذا ليس واقعاً، بل مرجع للمقارنة. في الحقل، الحرارة 60°م والإشعاع متغيّر — لذلك القدرة الفعلية أقل دائماً.\u003c/p>\n\n\u003ch3>معاملات الحرارة: الرقم الذي ينساه الجميع\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المعامل\u003c/th>\u003cth>القيمة النموذجية\u003c/th>\u003cth>ماذا يعني\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>Pmax\u003c/td>\u003ctd>−0.30 إلى −0.40 %/°م\u003c/td>\u003ctd>كل درجة فوق 25 تُفقد 0.35% من القدرة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Voc\u003c/td>\u003ctd>−0.25 إلى −0.30 %/°م\u003c/td>\u003ctd>الجهد ينخفض بالحرارة — يؤثر على السلاسل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Isc\u003c/td>\u003ctd>+0.04 إلى +0.06 %/°م\u003c/td>\u003ctd>التيار يرتفع قليلاً\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003cblockquote>لوح 550 واط عند 25°م قد يعطي 500 واط عند 60°م. من يصمم على 550 فقط، يبني نظاماً يعمل بأقل من وعده.\u003c/blockquote>\n\n\u003ch3>الكفاءة: لماذا لا نرى 100%؟\u003c/h3>\n\u003cp>لأن الفوتونات ليست كلها بالطاقة المناسبة: بعضها ضعيف (يمر)، وبعضها قوي جداً (تتحول الزيادة إلى حرارة)، وهناك خسائر توصيل وانعكاس. أفضل الألواح التجارية اليوم: 21–24%.\u003c/p>","technical_details_html":"\u003ch3>حساب القدرة عند حرارة أعلى\u003c/h3>\n\u003cp>P(T) = P(STC) × [1 + γ × (T − 25)]\u003c/p>\n\u003cp>مثال: لوح 550 واط، γ = −0.35%/°م، حرارة الخلية 65°م:\u003c/p>\n\u003cp>P = 550 × [1 − 0.0035 × 40] = 550 × 0.86 = \u003cstrong>473 واط\u003c/strong>.\u003c/p>\n\n\u003ch3>حساب Voc عند البرد (مهم للسلاسل)\u003c/h3>\n\u003cp>Voc(T) = Voc(STC) × [1 + β × (T − 25)]\u003c/p>\n\u003cp>مثال: Voc = 49.5V، β = −0.27%/°م، أدنى حرارة 5°م:\u003c/p>\n\u003cp>Voc = 49.5 × [1 + (−0.0027 × −20)] = 49.5 × 1.054 = \u003cstrong>52.2V\u003c/strong>.\u003c/p>\n\u003cp>هذا الرقم هو ما يجب أن يبقى تحت أقصى جهد للعاكس، لا 49.5.\u003c/p>\n\n\u003ch3>قراءة ورقة بيانات (مثال)\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>البند\u003c/th>\u003cth>القيمة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>Pmax\u003c/td>\u003ctd>550 W\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Voc\u003c/td>\u003ctd>49.5 V\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Isc\u003c/td>\u003ctd>14.0 A\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Vmp\u003c/td>\u003ctd>41.8 V\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Imp\u003c/td>\u003ctd>13.2 A\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Efficiency\u003c/td>\u003ctd>21.3%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Temp coeff Pmax\u003c/td>\u003ctd>−0.35 %/°C\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>","citations":"IEC 61215 / IEC 61730 — اختبارات وأمان الألواح.\nIEC 60904 — قياس الأجهزة الكهروضوئية.","category":"أساسيات","order_index":3,"created_at":"2026-11-10T20:23:10.375434+00:00"},{"id":"4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الشمس ليست في مكان واحد: الإشعاع والميل والظل","summary":"لوح واحد في القاهرة لا ينتج مثل نفسه في أسوان أو الإسكندرية. والظل الذي يغطي 5% من اللوح قد يخسر 50% من السلسلة. هذا المقال يحوّل الشمس من كلام إلى أرقام.","content_html":"\u003cp>قبل أن تحسب أي شيء، اعرف ثلاثة أرقام عن موقعك: كم إشعاع يصل؟ بأي زاوية أفضل؟ وما الذي سيظلله؟ هذه الأرقام تحدد 70% من تصميمك.\u003c/p>\n\n\u003ch3>ثلاثة أنواع من الإشعاع\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>GHI:\u003c/strong> الإشعاع الكلي على سطح أفقي — ما يقاس في محطات الأرصاد.\u003c/li>\n  \u003cli>\u003cstrong>DNI:\u003c/strong> الإشعاع المباشر القادم من قرص الشمس.\u003c/li>\n  \u003cli>\u003cstrong>DHI:\u003c/strong> الإشعاع المنتشر من السماء (مهم في الأيام الغائمة).\u003c/li>\n\u003c/ul>\n\n\u003cp>الألواح المائلة تستقبل مزيجاً أكبر من GHI. ولهذا يُستخدم مفهوم \u003cstrong>ساعات الشمس المكافئة (PSH)\u003c/strong>: عدد الساعات التي لو أشرقت الشمس بكثافة 1000 واط/م² لكانت الطاقة نفسها.\u003c/p>\n\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المنطقة\u003c/th>\u003cth>PSH تقريبية (يومي)\u003c/th>\u003cth>ملاحظة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>القاهرة\u003c/td>\u003ctd>5.4 – 5.8\u003c/td>\u003ctd>غبار صحراوي يقلل الإنتاج\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>أسوان\u003c/td>\u003ctd>6.2 – 6.6\u003c/td>\u003ctd>أعلى إشعاع في مصر\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الإسكندرية\u003c/td>\u003ctd>4.9 – 5.3\u003c/td>\u003ctd>رطوبة وبخار ماء\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الرياض\u003c/td>\u003ctd>6.0 – 6.5\u003c/td>\u003ctd>حرارة عالية تُخفّض الجهد\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>دبي\u003c/td>\u003ctd>5.6 – 6.1\u003c/td>\u003ctd>غبار + رطوبة ساحلية\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\u003cp>الأرقام تقديرية للتصميم الأولي — استخدم قاعدة بيانات موقعية عند التصميم النهائي.\u003c/p>\n\n\u003ch3>الميل والاتجاه\u003c/h3>\n\u003cp>القاعدة العامة: \u003cstrong>الميل ≈ خط عرض الموقع\u003c/strong> لأفضل إنتاج سنوي. في القاهرة (30° شمالاً) → 30°. وفي الجنوب أقل قليلاً. والاتجاه: \u003cstrong>الجنوب\u003c/strong> في نصف الكرة الشمالي.\u003c/p>\n\u003cul>\n  \u003cli>ميل أقل (15–20°) يناسب الأحمال الصيفية (تكييف).\u003c/li>\n  \u003cli>ميل أعلى (35–40°) يناسب الأحمال الشتوية ويقلل تراكم الغبار.\u003c/li>\n  \u003cli>انحراف ±15° عن الجنوب يخسر 1–3% فقط.\u003c/li>\n\u003c/ul>\n\n\u003ch3>الظل: القاتل الصامت\u003c/h3>\n\u003cp>الظل على جزء من اللوح يخفض تيار السلسلة كلها، لأن الخلايا على التوالي. الثنائيات (Bypass Diodes) تحمي من الحرارة الزائدة، لكنها لا تستعيد الإنتاج.\u003c/p>\n\n\u003cp>قاعدة عملية: \u003cstrong>لا تظلل لوحاً أبداً\u003c/strong>. وإن كان لا بد، فاجعل الظل على سلسلة منفصلة أو استخدم محسّنات (Optimizers) / عواكس ميكروية.\u003c/p>\n\n\u003ch3>مسافة الصفوف\u003c/h3>\n\u003cp>إذا كان عندك أكثر من صف، يجب أن تترك مسافة كافية حتى لا يظلل الصف الأمامي الخلفي شتاءً. القاعدة تعتمد على ارتفاع الصف وزاوية الشمس في أسوأ يوم (21 ديسمبر).\u003c/p>\n\n\u003cblockquote>الظل في الظهيرة قد لا يهم. الظل الساعة 9 صباحاً في ديسمبر هو الذي يحدد تصميمك.\u003c/blockquote>","technical_details_html":"\u003ch3>حساب مسافة الصفوف\u003c/h3>\n\u003cp>المسافة (D) ≈ ارتفاع الصف (H) ÷ tan(زاوية الشمس في أسوأ يوم)\u003c/p>\n\u003cp>مثال: ارتفاع 1.2 م، زاوية الشمس 35° في ديسمبر → D ≈ 1.2 ÷ 0.70 = \u003cstrong>1.7 م\u003c/strong> (بين نهاية صف وبداية التالي).\u003c/p>\n\n\u003ch3>حساب الإنتاج المتوقع\u003c/h3>\n\u003cp>الإنتاج اليومي (kWh) ≈ قدرة النظام (kW) × PSH × معامل النظام (0.75 – 0.85).\u003c/p>\n\u003cp>مثال: 5 kW × 5.5 × 0.8 ≈ \u003cstrong>22 كيلوواط/ساعة يومياً\u003c/strong> في المتوسط.\u003c/p>\n\n\u003ch3>خسائر يجب طرحها\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الخسارة\u003c/th>\u003cth>النسبة التقريبية\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>حرارة\u003c/td>\u003ctd>8 – 12%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>غبار\u003c/td>\u003ctd>2 – 8%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>كابلات DC/AC\u003c/td>\u003ctd>1 – 3%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>عاكس\u003c/td>\u003ctd>2 – 4%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>ظل جزئي\u003c/td>\u003ctd>0 – 20%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تقادم سنوي\u003c/td>\u003ctd>0.5% / سنة\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>أدوات القياس\u003c/h3>\n\u003cul>\n  \u003cli>مقياس إشعاع (Pyranometer) للمواقع الكبيرة.\u003c/li>\n  \u003cli>تطبيقات مسار الشمس + كاميرا 360 لتوثيق الظل.\u003c/li>\n  \u003cli>قاعدة بيانات إشعاع موقعية (NASA POWER / PVGIS).\u003c/li>\n\u003c/ul>","citations":"IEC 60904-3 — الطيف المرجعي.\nPVGIS / NASA POWER — قواعد بيانات الإشعاع.","category":"أساسيات","order_index":4,"created_at":"2026-11-10T20:24:15.69278+00:00"},{"id":"6bcacd9e-6eff-4b4e-866c-bf671e821121","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الألواح: أجيال الخلايا وكيف تقرأ ورقة البيانات","summary":"كل الألواح سوداء ومستطيلة. الفرق بين لوح وآخر ليس في الشكل، بل في سبعة أرقام على ورقة البيانات، وفي ضمانة لا يقرأها أحد.","content_html":"\u003cp>سوق الألواح مليء بأسماء متشابهة وأسعار متباعدة. والسؤال الحقيقي ليس «أي ماركة؟» بل «أي تقنية، وبأي معاملات حرارة، وبأي ضمان؟». لأن اللوح سيعمل 25 سنة، والماركة قد تتغير.\u003c/p>\n\n\u003ch3>أجيال الخلايا\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>التقنية\u003c/th>\u003cth>الكفاءة التجارية\u003c/th>\u003cth>الميزة\u003c/th>\u003cth>العيب\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>Poly (متعدد التبلور)\u003c/td>\u003ctd>15 – 18%\u003c/td>\u003ctd>رخيص\u003c/td>\u003ctd>كفاءة أقل، مساحة أكبر\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Mono PERC\u003c/td>\u003ctd>20 – 22.5%\u003c/td>\u003ctd>توازن جيد، سعر معقول\u003c/td>\u003ctd>حساسية PID أعلى\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>TOPCon\u003c/td>\u003ctd>21.5 – 24%\u003c/td>\u003ctd>كفاءة عالية، معامل حرارة أفضل\u003c/td>\u003ctd>سعر أعلى قليلاً\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>HJT\u003c/td>\u003ctd>23 – 25.5%\u003c/td>\u003ctd>أفضل معامل حرارة\u003c/td>\u003ctd>تكلفة تصنيع أعلى\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>IBC\u003c/td>\u003ctd>23 – 24.5%\u003c/td>\u003ctd>مظهر نظيف بلا خطوط\u003c/td>\u003ctd>تكلفة عالية\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003cp>القاعدة العملية في 2027: \u003cstrong>TOPCon هي الخيار المتوازن\u003c/strong> لمعظم المشروعات. PERC ما زالت مقبولة إن كان الفرق السعري كبيراً.\u003c/p>\n\n\u003ch3>ثنائي الوجه (Bifacial)\u003c/h3>\n\u003cp>اللوح الشفاف من الخلف ينتج من الضوء المنعكس من الأرض. المكسب: 5–15% حسب الأرض (أسود 5%، رمل 10%، ثلج 25%). لكنه يشترط:\u003c/p>\n\u003cul>\n  \u003cli>تركيب مرتفع عن السطح (≥ 20 سم) ومساحة خلفية مفتوحة.\u003c/li>\n  \u003cli>أرضية فاتحة أو رملية.\u003c/li>\n  \u003cli>عاكس يدعم المدخلين أو ميزان مناسب.\u003c/li>\n\u003c/ul>\n\n\u003ch3>سبعة أرقام في ورقة البيانات\u003c/h3>\n\u003col>\n  \u003cli>\u003cstrong>Pmax:\u003c/strong> القدرة عند STC — ليست ما ستحصل عليه.\u003c/li>\n  \u003cli>\u003cstrong>معامل حرارة Pmax:\u003c/strong> كلما اقترب من −0.30 كان أفضل للحرارة.\u003c/li>\n  \u003cli>\u003cstrong>Voc/Isc:\u003c/strong> لتصميم السلاسل والحماية.\u003c/li>\n  \u003cli>\u003cstrong>Vmp/Imp:\u003c/strong> لتقدير التيار الفعلي.\u003c/li>\n  \u003cli>\u003cstrong>كفاءة:\u003c/strong> تحدد المساحة المطلوبة.\u003c/li>\n  \u003cli>\u003cstrong>الجهد الأقصى للنظام:\u003c/strong> 1000V أو 1500V — قاعدة تصميم.\u003c/li>\n  \u003cli>\u003cstrong>الضمان:\u003c/strong> 25 سنة أداء (عادة 80–87% من القدرة) + 10–15 سنة تصنيع.\u003c/li>\n\u003c/ol>\n\n\u003ch3>التدهور مع الزمن\u003c/h3>\n\u003cp>اللوح يفقد قدرته ببطء: 0.4–0.55% سنوياً للتقنيات الحديثة. في 25 سنة، يكون عند 80–87% من قدرته. لكن هذا مشروط بأن:\u003c/p>\n\u003cul>\n  \u003cli>لم يتعرض لظل دائم أو حرارة خانقة.\u003c/li>\n  \u003cli>لم تتكون فيه بقع ساخنة (Hotspots).\u003c/li>\n  \u003cli>لم يحدث PID (تسرب جهد عبر الطبقات).\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>ضمانة 25 سنة لا تُغني عن التصميم الجيد. الشركة تضمن اللوح، لا أنك ركّبته بشكل يجعله يعيش 25 سنة.\u003c/blockquote>\n\n\u003ch3>علامات الخطر عند الشراء\u003c/h3>\n\u003cul>\n  \u003cli>لوح بلا بطاقة بيانات كاملة أو بلا رقم تسلسلي.\u003c/li>\n  \u003cli>سعر أقل 20% من السوق بلا سبب.\u003c/li>\n  \u003cli>«1500V» مكتوب على لوح صغير مخصص لنظام 1000V.\u003c/li>\n  \u003cli>ضمان شفهي فقط.\u003c/li>\n\u003c/ul>","technical_details_html":"\u003ch3>حساب المساحة المطلوبة\u003c/h3>\n\u003cp>المساحة ≈ القدرة المطلوبة ÷ (إشعاع 1000 × الكفاءة)\u003c/p>\n\u003cp>مثال: 10 كيلوواط بكفاءة 21% → 10,000 ÷ 210 ≈ \u003cstrong>47.6 م²\u003c/strong> من الخلايا، أي نحو 55–65 م² مع الإطارات والمسافات.\u003c/p>\n\n\u003ch3>PID: العدّو الصامت\u003c/h3>\n\u003cp>Potential Induced Degradation: فرق جهد بين الخلايا والإطار يسبب تسرب أيونات، فتقل القدرة. الوقاية:\u003c/p>\n\u003cul>\n  \u003cli>تأريض مناسب للإطار.\u003c/li>\n  \u003cli>استخدام عواكس ذات تأريض سلبي أو تقنيات PID recovery.\u003c/li>\n  \u003cli>التحقق من قيمة PID resistance في ورقة البيانات.\u003c/li>\n\u003c/ul>\n\n\u003ch3>البقع الساخنة (Hotspot)\u003c/h3>\n\u003cp>خلية مظللة تعمل كمقاومة حمل، ترتفع حرارتها. الاختبار: كاميرا حرارية بعد الظهر — فرق أكثر من 10°م بين خلية وجاراتها يستدعي الفحص.\u003c/p>\n\n\u003ch3>معايير الاختيار السريعة\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المعيار\u003c/th>\u003cth>القيمة الجيدة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>معامل حرارة Pmax\u003c/td>\u003ctd>−0.30 %/°م أو أفضل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تدهور السنة الأولى\u003c/td>\u003ctd>≤ 2%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تدهور سنوي\u003c/td>\u003ctd>≤ 0.55%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>ضمان أداء\u003c/td>\u003ctd>≥ 25 سنة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>شهادة\u003c/td>\u003ctd>IEC 61215 + 61730\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>","citations":"IEC 61215 — تأهيل التصميم.\nIEC 61730 — سلامة الألواح.\nIEC 62804 — مقاومة PID.","category":"مكونات","order_index":5,"created_at":"2026-11-10T20:25:01.761433+00:00"},{"id":"ff17c91f-b631-49cf-9798-cd1c91070ad1","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"العاكس: قلب النظام الذي يقرر نجاحه","summary":"الألواح تنتج تياراً مستمراً لا تستخدمه أي جهاز. العاكس هو الذي يحوّله إلى تيار متردد. وهو أيضاً أول من يفشل، وأول من يحدد كفاءة النظام.","content_html":"\u003cp>العاكس ليس «محولاً» فقط. هو كمبيوتر يتابع نقطة القدرة القصوى، ويحمي النظام، ويتصل بالشبكة، ويتوقف عند انقطاعها، ويسجل الإنتاج. اختياره الخاطئ يُفسد نظاماً كاملاً.\u003c/p>\n\n\u003ch3>ثلاثة أنواع\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>النوع\u003c/th>\u003cth>كيف يعمل\u003c/th>\u003cth>الأنسب لـ\u003c/th>\u003cth>العيب\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>String Inverter\u003c/td>\u003ctd>سلسلة ألواح في عاكس مركزي\u003c/td>\u003ctd>أسطح كبيرة، مشروعات\u003c/td>\u003ctd>ظل جزئي يؤثر على السلسلة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Micro Inverter\u003c/td>\u003ctd>عاكس صغير لكل لوح\u003c/td>\u003ctd>أسطح معقدة/مظللة\u003c/td>\u003ctd>تكلفة أعلى، صيانة أصعب\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Hybrid\u003c/td>\u003ctd>عاكس + شحن بطاريات + إدارة\u003c/td>\u003ctd>أنظمة مع تخزين\u003c/td>\u003ctd>تعقيد، تكلفة\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>MPPT: لماذا هو مهم؟\u003c/h3>\n\u003cp>اللوح لا يعطي قدرته القصوى إلا عند جهد معين. مع تغيّر الإشعاع والحرارة، تتغير هذه النقطة. متتبع نقطة القدرة القصوى (MPPT) يبحث عنها باستمرار — كفاءته عادة 99%+.\u003c/p>\n\u003cp>لذلك: نافذة MPPT (مدى الجهد الذي يعمل فيه) هي أهم رقم في ورقة العاكس، وليس قدرته فقط.\u003c/p>\n\n\u003ch3>الأرقام التي تحكم الاختيار\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>أقصى جهد DC:\u003c/strong> 600/1000/1100 فولت — يجب أن يبقى Voc عند البرد تحته.\u003c/li>\n  \u003cli>\u003cstrong>نافذة MPPT:\u003c/strong> مثلاً 120–500 فولت — يجب أن يقع Vmp داخل النطاق صيفاً وشتاءً.\u003c/li>\n  \u003cli>\u003cstrong>أقصى تيار لكل MPPT:\u003c/strong> يحدد عدد السلاسل المتوازية.\u003c/li>\n  \u003cli>\u003cstrong>الكفاءة:\u003c/strong> 96–98% (الأوروبية) — الفرق 2% يظهر في الفاتورة.\u003c/li>\n  \u003cli>\u003cstrong>نسبة DC/AC:\u003c/strong> 1.1–1.3 مقبولة (Clipping بسيط أفضل من عاكس كبير بلا داعٍ).\u003c/li>\n\u003c/ul>\n\n\u003ch3>الحماية المدمجة\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>Anti-islanding:\u003c/strong> يفصل عند انقطاع الشبكة — لحماية الفنيين.\u003c/li>\n  \u003cli>\u003cstrong>حماية الجهد والتردد:\u003c/strong> حسب كود الشبكة المحلي.\u003c/li>\n  \u003cli>\u003cstrong>عزل DC:\u003c/strong> بعض العواكس معزولة، وبعضها لا — مسألة سلامة.\u003c/li>\n  \u003cli>\u003cstrong>AFCI:\u003c/strong> كشف قوس DC (اختياري لكنه مهم على الأسطح الخشبية).\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>العاكس الذي يفتقد ميزة anti-islanding ليس رخيصاً. هو يقتل من يعمل على الشبكة أثناء انقطاعها.\u003c/blockquote>\n\n\u003ch3>Clipping: متى يكون مقبولاً؟\u003c/h3>\n\u003cp>إن كانت الألواح أكبر من العاكس بقليل، سيُقصّ الإنتاج في ساعات الذروة القليلة. هذا مقبول اقتصادياً (1–3% سنوياً) لأنه يوسّع الإنتاج في الصباح والمساء. لكن التجاوز الكبير (1.5×) يعني إهداراً.\u003c/p>","technical_details_html":"\u003ch3>وضع العاكس على السطح أو داخلاً؟\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المعيار\u003c/th>\u003cth>خارجي\u003c/th>\u003cth>داخلي\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>الحرارة\u003c/td>\u003ctd>مرتفعة صيفاً (خفض عمر)\u003c/td>\u003ctd>معتدلة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الغبار\u003c/td>\u003ctd>يحتاج تنظيف\u003c/td>\u003ctd>أقل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>طول كابلات DC\u003c/td>\u003ctd>قصير\u003c/td>\u003ctd>أطول (هبوط جهد)\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الوصول للصيانة\u003c/td>\u003ctd>صعب\u003c/td>\u003ctd>سهل\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>حساب نسبة DC/AC\u003c/h3>\n\u003cp>DC/AC = قدرة الألواح ÷ قدرة العاكس.\u003c/p>\n\u003cp>مثال: 12 كيلوواط ألواح + 10 كيلوواط عاكس = 1.2 — نسبة مقبولة.\u003c/p>\n\n\u003ch3>فقدان الكفاءة الحقيقي\u003c/h3>\n\u003cp>لا تنظر إلى «أقصى كفاءة 98.6%». انظر إلى \u003cstrong>الكفاءة الأوروبية\u003c/strong> (متوسط مرجّح). الفرق بين 96% و98% يعني ~2% من إنتاجك السنوي.\u003c/p>\n\n\u003ch3>علامات عاكس رديء\u003c/h3>\n\u003col>\n  \u003cli>لا يحمل شهادة IEC 62109 أو شهادة شبكة محلية.\u003c/li>\n  \u003cli>نافذة MPPT ضيقة جداً (تبدأ عند 300V مثلاً).\u003c/li>\n  \u003cli>لا يدعم مراقبة أو بيانات.\u003c/li>\n  \u003cli>مروحة تعمل دائماً (تصميم حراري ضعيف).\u003c/li>\n\u003c/ol>","citations":"IEC 62109-1/-2 — سلامة العواكس.\nIEC 62116 — اختبار anti-islanding.\nIEC 61727 — توصيل الشبكة.","category":"مكونات","order_index":6,"created_at":"2026-11-10T20:25:52.585902+00:00"},{"id":"f4911a4f-e8f2-44eb-8358-dc1bee38acea","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"البطاريات وBMS: تخزين الطاقة كمسألة سلامة قبل الكفاءة","summary":"البطارية أكبر خطر في النظام: طاقة كيميائية كثيفة قابلة للانفلات. اختيارها ليس «كم كيلوواط/ساعة»، بل «كم دورة، وبأي عمق، وبأي حماية».","content_html":"\u003cp>البطارية تحوّل نظاماً «يعمل نهاراً» إلى نظام «يعمل دائماً». لكنها أيضاً أغلى مكوّن، وأول ما يتلف إن أُسيء استخدامه. وفهمها يبدأ من ثلاثة أرقام: السعة، عمق التفريغ، وعدد الدورات.\u003c/p>\n\n\u003ch3>المقارنة الأساسية\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المعيار\u003c/th>\u003cth>رصاص-حمض\u003c/th>\u003cth>ليثيوم LFP\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>عمق التفريغ الآمن\u003c/td>\u003ctd>50%\u003c/td>\u003ctd>80 – 90%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>عدد الدورات\u003c/td>\u003ctd>500 – 1200\u003c/td>\u003ctd>3000 – 6000\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الكفاءة (ذهاب/عودة)\u003c/td>\u003ctd>80 – 85%\u003c/td>\u003ctd>90 – 95%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الوزن لكل kWh\u003c/td>\u003ctd>25 – 35 كجم\u003c/td>\u003ctd>8 – 12 كجم\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>السعر الأولي\u003c/td>\u003ctd>أقل\u003c/td>\u003ctd>أعلى\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>السعر على العمر\u003c/td>\u003ctd>أعلى غالباً\u003c/td>\u003ctd>أقل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الصيانة\u003c/td>\u003ctd>ماء + تهوية\u003c/td>\u003ctd>شبه صفر\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003cp>في 2027، الليثيوم LFP هو الخيار الافتراضي للأنظمة السكنية. الرصاص ما زال منطقياً في أنظمة صغيرة منخفضة الميزانية أو تطبيقات الاحتياط القصير.\u003c/p>\n\n\u003ch3>عمق التفريغ (DOD): الرقم الذي يحدد العمر\u003c/h3>\n\u003cp>تفريغ البطارية إلى 100% يستهلك عمرها أسرع. في الرصاص، الحد الآمن 50%. في LFP، 80–90%. لذلك:\u003c/p>\n\u003cp>\u003cstrong>السعة المطلوبة = الطاقة المطلوبة ÷ DOD المسموح.\u003c/strong>\u003c/p>\n\n\u003ch3>معدل الشحن (C-rate)\u003c/h3>\n\u003cp>بطارية 100 أمبير-ساعة تُشحن بتيار 20 أمبير = 0.2C. الشحن السريع يرفع الحرارة ويقصر العمر. الأغلب في الأنظمة السكنية: 0.1–0.3C.\u003c/p>\n\n\u003ch3>BMS: من يحمي البطارية؟\u003c/h3>\n\u003cp>نظام إدارة البطارية يراقب كل خلية: الجهد، الحرارة، التيار. ويقطع عند:\u003c/p>\n\u003cul>\n  \u003cli>ارتفاع/انخفاض جهد خلية عن الحد.\u003c/li>\n  \u003cli>ارتفاع حرارة.\u003c/li>\n  \u003cli>تيار شحن/تفريغ زائد.\u003c/li>\n  \u003cli>قصر داخلي.\u003c/li>\n\u003c/ul>\n\u003cp>بدون BMS، بطارية ليثيوم = خطر حريق. وليس «خياراً».\u003c/p>\n\n\u003cblockquote>البطارية ليست خزاناً سلبياً. هي مفاعل كيميائي يحتاج حراسة إلكترونية دائمة.\u003c/blockquote>\n\n\u003ch3>الحرارة: العدو الأول\u003c/h3>\n\u003cp>كل 10°م فوق 25°م تقصّر عمر الليثيوم إلى النصف تقريباً. لذلك: مكان مظلل، تهوية جيدة، وليس في غرفة مغلقة بلا تكييف.\u003c/p>\n\n\u003ch3>السلامة\u003c/h3>\n\u003cul>\n  \u003cli>LFP أقل عرضة للاحتراق من NMC — ويُفضّل في المنازل.\u003c/li>\n  \u003cli>لا تُركّب البطارية قرب مواد قابلة للاشتعال.\u003c/li>\n  \u003cli>كابلات قصيرة وسماكة كافية، مع قاطع DC.\u003c/li>\n  \u003cli>تهوية للرصاص (غازات) ومراقبة للليثيوم.\u003c/li>\n\u003c/ul>","technical_details_html":"\u003ch3>حساب بنك البطاريات\u003c/h3>\n\u003cp>السعة (Ah) = (الطاقة اليومية Wh × أيام الاستقلالية) ÷ (جهد النظام × DOD × كفاءة العاكس)\u003c/p>\n\u003cp>مثال: 6,000 Wh يومياً، يومان استقلالية، نظام 48V، DOD 80%، كفاءة 90%:\u003c/p>\n\u003cp>السعة = (6,000 × 2) ÷ (48 × 0.8 × 0.9) = 12,000 ÷ 34.6 ≈ \u003cstrong>347 Ah\u003c/strong>.\u003c/p>\n\n\u003ch3>مقارنة العمر والتكلفة\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>البند\u003c/th>\u003cth>رصاص 12V/200Ah\u003c/th>\u003cth>LFP 48V/100Ah\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>الطاقة القابلة للاستخدام\u003c/td>\u003ctd>1.2 kWh\u003c/td>\u003ctd>4.0 kWh\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الدورات\u003c/td>\u003ctd>800\u003c/td>\u003ctd>4000\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>العمر التقريبي (دورة/يوم)\u003c/td>\u003ctd>~2.2 سنة\u003c/td>\u003ctd>~11 سنة\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>أنظمة الجهد\u003c/h3>\n\u003cul>\n  \u003cli>12V: أنظمة صغيرة جداً (أقل من 1 كيلوواط).\u003c/li>\n  \u003cli>24V: أنظمة متوسطة (1–3 كيلوواط).\u003c/li>\n  \u003cli>48V: الأنظمة السكنية الحديثة (3–10 كيلوواط).\u003c/li>\n\u003c/ul>\n\u003cp>رفع الجهد يقلل التيار، فيقل مقطع الكابل والخسائر.\u003c/p>","citations":"IEC 62619 — سلامة بطاريات الليثيوم الصناعية.\nIEC 62620 — اختبار خلايا الليثيوم.\nمراجع BMS وحماية الخلايا.","category":"مكونات","order_index":7,"created_at":"2026-11-10T20:26:57.675802+00:00"},{"id":"ae19ca51-b289-40e6-90b6-af8498658d57","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الهياكل: حيث تتحول الكهرباء إلى مسؤولية ميكانيكية","summary":"لوح 25 كجم على سطح، مع رياح 100 كم/س، يصبح قذيفة. التثبيت ليس «حديداً وأسمنتاً»؛ هو حساب أحمال وعزل ومتانة.","content_html":"\u003cp>في كل نظام شمسي، هناك جزء كهربائي وجزء ميكانيكي. الكهربائي يحسب الفولت، والميكانيكي يحسب ما يحدث حين تهب الريح. إغفال الثاني يعني أن النظام قد يعمل ممتازاً… حتى أول عاصفة.\u003c/p>\n\n\u003ch3>أنواع التثبيت\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>النوع\u003c/th>\u003cth>الوصف\u003c/th>\u003cth>الأنسب لـ\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>مثبت على سطح مائل\u003c/td>\u003ctd>قواعد على السقف القائم\u003c/td>\u003ctd>أسطح قرميد/معدن\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>مثبت على سطح مستوٍ\u003c/td>\u003ctd>هياكل مائلة بقواعد ثقل\u003c/td>\u003ctd>أسطح خرسانية\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>أرضي (Ground Mount)\u003c/td>\u003ctd>هيكل مستقل\u003c/td>\u003ctd>مساحات مفتوحة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>متتبع للشمس\u003c/td>\u003ctd>محور واحد/اثنان\u003c/td>\u003ctd>مشروعات كبيرة\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>الأحمال: ماذا تؤثر على الهيكل؟\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>الوزن الميت:\u003c/strong> ألواح + هيكل + كابلات.\u003c/li>\n  \u003cli>\u003cstrong>الرياح:\u003c/strong> قوة رفع (Uplift) — أخطر من الوزن.\u003c/li>\n  \u003cli>\u003cstrong>الزلازل:\u003c/strong> حسب المنطقة.\u003c/li>\n  \u003cli>\u003cstrong>الثلج:\u003c/strong> في المناطق الباردة.\u003c/li>\n  \u003cli>\u003cstrong>التمدد الحراري:\u003c/strong> تمدد الألومنيوم يسبب انحناءً أو كسراً.\u003c/li>\n\u003c/ul>\n\n\u003ch3>الرفع (Uplift): لماذا تطير الألواح؟\u003c/h3>\n\u003cp>الريح تمر فوق اللوح، فيقل الضغط أعلاه ويرتفع أسفله — قوة رفع. كلما زادت الزاوية والارتفاع، زادت. لذلك:\u003c/p>\n\u003cul>\n  \u003cli>تثبيت كل قاعدة بمسمارين على الأقل، وليس واحداً.\u003c/li>\n  \u003cli>استخدام براغي ستانلس أو مجلفن، لا حديد عادي.\u003c/li>\n  \u003cli>مراعاة المسافة بين نقاط التثبيت حسب توصية الشركة.\u003c/li>\n\u003c/ul>\n\n\u003ch3>عزل السقف: أخطر إهمال\u003c/h3>\n\u003cp>كل ثقب في السقف نقطة تسرب محتملة. القاعدة:\u003c/p>\n\u003col>\n  \u003cli>استخدم قواعد بختم مطاطي (EPDM) وليس سيليكون فقط.\u003c/li>\n  \u003cli>ضع طبقة عزل إضافية حول كل اختراق.\u003c/li>\n  \u003cli>اختبر بالماء بعد التركيب قبل رفع الألواح.\u003c/li>\n\u003c/ol>\n\n\u003cblockquote>النظام الشمسي الذي يسرب الماء سيُزال بعد سنة، مهما كان إنتاجه ممتازاً.\u003c/blockquote>\n\n\u003ch3>التهوية الخلفية\u003c/h3>\n\u003cp>اترك 10–20 سم بين اللوح والسطح. هذا يقلل حرارة الخلية 5–10°م، أي يرفع الإنتاج 2–4%. كما يقلل تراكم الأتربة.\u003c/p>\n\n\u003ch3>التأريض المعدني\u003c/h3>\n\u003cp>الهيكل المعدني يجب أن يُربط بالأرضي الرئيسي، مع وصلات (Bonding) بين القطع، لأن أي عطل كهربائي قد يجعله حاملاً للجهد.\u003c/p>","technical_details_html":"\u003ch3>التمدد الحراري\u003c/h3>\n\u003cp>التمدد = معامل التمدد × الطول × فرق الحرارة.\u003c/p>\n\u003cp>ألومنيوم (23×10⁻⁶/°م): قضيب 6 م بفرق 40°م يتمدد ≈ \u003cstrong>5.5 مم\u003c/strong>. لذلك تُترك فواصل تمدد في المسارات الطويلة.\u003c/p>\n\n\u003ch3>حساب حمل الرياح (تقريبي)\u003c/h3>\n\u003cp>ضغط الرياح q = 0.613 × V² (V بالمتر/ثانية، q بالباسكال).\u003c/p>\n\u003cp>مثال: 30 م/ث → q ≈ 552 Pa. لوح 2 م² → قوة ≈ 1,100 N (≈110 كجم) — وهذا يفوق وزن اللوح بخمسة أضعاف.\u003c/p>\n\n\u003ch3>المسافة بين القواعد\u003c/h3>\n\u003cul>\n  \u003cli>حسب توصية المصنّع (عادة 0.8–1.2 م للعرض).\u003c/li>\n  \u003cli>في المناطق العاصفة: قلّل المسافة وزد عدد المثبتات.\u003c/li>\n  \u003cli>لا تُثبّت في منتصف اللوح — فقط في الإطار.\u003c/li>\n\u003c/ul>\n\n\u003ch3>المواد\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المكوّن\u003c/th>\u003cth>المادة المفضلة\u003c/th>\u003cth>لماذا\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>قضبان\u003c/td>\u003ctd>ألومنيوم مؤكسد\u003c/td>\u003ctd>خفيف ومقاوم للتآكل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>قواعد\u003c/td>\u003ctd>ستانلس 304/316\u003c/td>\u003ctd>لا يصدأ\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>براغي\u003c/td>\u003ctd>ستانلس/مجلفن ساخن\u003c/td>\u003ctd>يمنع التآكل الجلفاني\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>ختم الثقوب\u003c/td>\u003ctd>EPDM\u003c/td>\u003ctd>مقاوم للشمس\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>","citations":"IEC 62548 — متطلبات التركيب.\nمراجع أحمال الرياح (ASCE 7 / Eurocode 1).","category":"هياكل","order_index":8,"created_at":"2026-11-10T20:27:48.33957+00:00"},{"id":"84a98213-0ee0-40b1-a3be-8a38ffb99cb4","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"من الفاتورة إلى القدرة: كيف تُصمّم نظاماً بالأرقام؟","summary":"«احسب استهلاكك واضرب في 5» ليست طريقة تصميم. التصميم يبدأ من ملف أحمال، ويمر بخسائر، وينتهي بقدرة مبررة.","content_html":"\u003cp>أي نظام شمسي يبدأ بسؤال واحد: كم تستهلك فعلاً؟ لا كم تدفع، بل كم كيلوواط/ساعة تستهلك يومياً، ومتى. لأن النظام المصمم على المتوسط سيفشل في أسوأ يوم.\u003c/p>\n\n\u003ch3>الخطوة 1: ملف الأحمال\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الجهاز\u003c/th>\u003cth>القدرة (W)\u003c/th>\u003cth>ساعات/يوم\u003c/th>\u003cth>Wh/يوم\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>إضاءة LED (10)\u003c/td>\u003ctd>100\u003c/td>\u003ctd>5\u003c/td>\u003ctd>500\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>ثلاجة\u003c/td>\u003ctd>150\u003c/td>\u003ctd>8 (دورة)\u003c/td>\u003ctd>1,200\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تكييف 1.5 حصان\u003c/td>\u003ctd>1,200\u003c/td>\u003ctd>6\u003c/td>\u003ctd>7,200\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>غسالة\u003c/td>\u003ctd>500\u003c/td>\u003ctd>1\u003c/td>\u003ctd>500\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>سخان\u003c/td>\u003ctd>2,000\u003c/td>\u003ctd>1\u003c/td>\u003ctd>2,000\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>مضخة ماء\u003c/td>\u003ctd>750\u003c/td>\u003ctd>1\u003c/td>\u003ctd>750\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تلفزيون/راوتر\u003c/td>\u003ctd>150\u003c/td>\u003ctd>6\u003c/td>\u003ctd>900\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\u003cp>المجموع ≈ \u003cstrong>13,050 Wh/يوم\u003c/strong>. هذا رقم كبير — ولاحظ أن التكييف وحده أكثر من نصفه.\u003c/p>\n\n\u003ch3>الخطوة 2: معامل التزامن\u003c/h3>\n\u003cp>لن تعمل كل الأجهزة معاً. اضرب في معامل 0.6–0.8 للحصول على الحمل التصميمي الفعلي:\u003c/p>\n\u003cp>13,050 × 0.7 ≈ \u003cstrong>9,135 Wh/يوم\u003c/strong>.\u003c/p>\n\n\u003ch3>الخطوة 3: القدرة الكهروضوئية\u003c/h3>\n\u003cp>القدرة (kW) = الطاقة اليومية ÷ (PSH × معامل النظام)\u003c/p>\n\u003cp>9,135 ÷ (5.5 × 0.8) ≈ \u003cstrong>2.1 كيلوواط\u003c/strong> — لكن هذا متوسط. لأسوأ شهر، اقسم على PSH في ديسمبر (4.0) → ≈ 2.9 كيلوواط.\u003c/p>\n\n\u003ch3>الخطوة 4: العاكس\u003c/h3>\n\u003cp>اختر عاكساً يقارب القدرة القصوى المتزامنة (لا مجموع الألواح). هنا: 2.1–3 كيلوواط.\u003c/p>\n\n\u003ch3>الخطوة 5: البطارية (إن لزم)\u003c/h3>\n\u003cp>إن أردت استقلالية يوم: 9,135 Wh ÷ (0.8 DOD × 0.9 كفاءة) ≈ 12.7 kWh تخزين.\u003c/p>\n\n\u003ch3>الخطوة 6: الهبوط والخسائر\u003c/h3>\n\u003cp>أضف 10–15% هامشاً للخسائر والتقادم. النظام النهائي: \u003cstrong>3.2 كيلوواط ألواح + عاكس 3 كيلوواط + بطارية 12 kWh\u003c/strong>.\u003c/p>\n\n\u003cblockquote>التصميم ليس رقماً واحداً. هو سلسلة قرارات، كل واحد يقلل عدم اليقين.\u003c/blockquote>\n\n\u003ch3>الخطأ الأشهر: التصميم على المتوسط\u003c/h3>\n\u003cp>نظام صُمم على 5.5 ساعة شمس سيعمل ممتازاً في الصيف، وينقطع في الشتاء. الصحيح: احسب على أسوأ شهر، أو اعتمد على الشبكة كاحتياط.\u003c/p>","technical_details_html":"\u003ch3>صيغ التصميم الأساسية\u003c/h3>\n\u003cpre>E_daily (Wh) = Σ (P_device × hours)\nE_design = E_daily × diversity_factor\nPV_kW = E_design / (PSH_worst × system_efficiency)\nBattery_kWh = E_design × autonomy_days / (DOD × inverter_eff)\nInverter_kW ≈ peak_simultaneous_load\u003c/pre>\n\n\u003ch3>معاملات النظام النموذجية\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المكوّن\u003c/th>\u003cth>الكفاءة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>اللوح (حرارة/غبار)\u003c/td>\u003ctd>0.85 – 0.92\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>كابلات DC\u003c/td>\u003ctd>0.98 – 0.99\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>MPPT\u003c/td>\u003ctd>0.98 – 0.99\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>عاكس\u003c/td>\u003ctd>0.95 – 0.97\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>بطارية (ذهاب/عودة)\u003c/td>\u003ctd>0.85 – 0.95\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\u003cp>حاصل ضرب المعاملات يعطي «معامل النظام» الكلي: 0.70 – 0.85.\u003c/p>\n\n\u003ch3>حمل الذروة\u003c/h3>\n\u003cp>ليس مجموع الأحمال، بل أقصى حمل متزامن. استخدم عداداً أو سجّل أسبوعاً. في المنازل، الذروة تحدث عند تشغيل التكييف + السخان + المطبخ معاً.\u003c/p>","citations":"IEC 62548 — تصميم الأنظمة.\nمراجع تقدير الأحمال السكنية.","category":"تصميم","order_index":9,"created_at":"2026-11-10T20:28:42.290872+00:00"},{"id":"1a31f6dd-0414-4d40-a54a-e4cee0f75d18","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"السلاسل: كيف تجمع الألواح دون أن تحرق العاكس؟","summary":"توصيل الألواح على التوالي يرفع الجهد، والتوازي يرفع التيار. الخطأ في أي منهما يعني عاكساً محروقاً أو إنتاجاً ضائعاً.","content_html":"\u003cp>بعد اختيار الألواح والعاكس، يأتي السؤال العملي: كم لوحاً في السلسلة؟ وكم سلسلة؟ الجواب ليس ذوقاً، بل ثلاثة قيود يجب احترامها كلها.\u003c/p>\n\n\u003ch3>القيد 1: أقصى جهد\u003c/h3>\n\u003cp>جهد السلسلة يصل ذروته في أبرد يوم. لذلك:\u003c/p>\n\u003cp>\u003cstrong>Voc(أبرد يوم) × عدد الألواح &lt; أقصى جهد للعاكس\u003c/strong>\u003c/p>\n\u003cp>اترك هامشاً 5–10% للأمان. لو كان أقصى جهد للعاكس 1000V، فاجعل الحساب لا يتجاوز 950V.\u003c/p>\n\n\u003ch3>القيد 2: نافذة MPPT\u003c/h3>\n\u003cp>في أحرّ يوم، ينخفض Vmp. يجب أن يبقى أعلى من الحد الأدنى لنافذة MPPT:\u003c/p>\n\u003cp>\u003cstrong>Vmp(أحر يوم) × عدد الألواح &gt; أدنى جهد MPPT\u003c/strong>\u003c/p>\n\u003cp>إن انخفض الجهد تحت النافذة، يخرج العاكس من التتبع ويفقد إنتاجاً.\u003c/p>\n\n\u003ch3>القيد 3: التيار\u003c/h3>\n\u003cp>السلاسل المتوازية تجمع التيار. يجب ألا يتجاوز:\u003c/p>\n\u003cul>\n  \u003cli>أقصى تيار للمدخل في العاكس.\u003c/li>\n  \u003cli>تيار القاطع/المانع (بعد هامش 1.25).\u003c/li>\n\u003c/ul>\n\n\u003ch3>مثال عملي\u003c/h3>\n\u003cp>لوح: Voc 49.5V، Vmp 41.8V، Isc 14A. عاكس: أقصى 1000V، نافذة 200–800V، أقصى تيار 26A.\u003c/p>\n\u003col>\n  \u003cli>\u003cstrong>أقصى عدد:\u003c/strong> 950 ÷ (49.5 × 1.05) ≈ 18 لوحاً (نظرياً).\u003c/li>\n  \u003cli>\u003cstrong>أدنى عدد:\u003c/strong> 200 ÷ (41.8 × 0.85) ≈ 6 ألواح.\u003c/li>\n  \u003cli>\u003cstrong>عدد السلاسل:\u003c/strong> 26 ÷ 14 ≈ 1.8 → سلسلتان كحد أقصى.\u003c/li>\n\u003c/ol>\n\u003cp>اختيار عملي: سلسلتان × 10 ألواح (20 لوحاً) إذا كان الجهد يسمح، أو سلسلة واحدة × 14 لوحاً.\u003c/p>\n\n\u003cblockquote>السلسلة القصيرة جداً تخسر الجهد، والطويلة جداً تحرق العاكس في أول موجة برد. الحساب هو ما بينهما.\u003c/blockquote>\n\n\u003ch3>عدم التطابق (Mismatch)\u003c/h3>\n\u003cp>لا تُخلط ألواحاً من ماركات أو قدرات مختلفة في سلسلة واحدة. اختلاف 5% في الجهد يعني خسارة أكبر. وإن اضطررت، استخدم محسّنات.\u003c/p>\n\n\u003ch3>التظليل والثنائيات\u003c/h3>\n\u003cp>الثنائيات تتجاوز الخلايا المظللة، لكن الإنتاج يبقى منخفضاً. الحل الأمثل: تقسيم السلاسل بحيث يكون التظليل في سلسلة واحدة فقط.\u003c/p>","technical_details_html":"\u003ch3>جدول تحقق سريع\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الفحص\u003c/th>\u003cth>المعادلة\u003c/th>\u003cth>النتيجة المطلوبة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>أقصى جهد\u003c/td>\u003ctd>Voc_min × N × 1.05\u003c/td>\u003ctd>&lt; Vmax_inverter\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>أدنى جهد\u003c/td>\u003ctd>Vmp_max × N × 0.85\u003c/td>\u003ctd>&gt; MPPT_min\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>أقصى تيار\u003c/td>\u003ctd>Isc × 1.25 × strings\u003c/td>\u003ctd>≤ fuse/breaker\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>توافق الألواح\u003c/td>\u003ctd>فرق Voc\u003c/td>\u003ctd>≤ 5%\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>مثال حساب Voc عند البرد\u003c/h3>\n\u003cp>Voc 49.5V، β = −0.27%/°م، أدنى حرارة 0°م، 14 لوحاً:\u003c/p>\n\u003cp>Voc_cold = 49.5 × [1 + (−0.0027 × −25)] = 49.5 × 1.0675 ≈ 52.8V\u003c/p>\n\u003cp>× 14 = \u003cstrong>739V\u003c/strong> — آمن لعاكس 1000V بهامش.\u003c/p>\n\n\u003ch3>مثال Vmp عند الحر\u003c/h3>\n\u003cp>Vmp 41.8V، حرارة خلية 70°م، معامل −0.35%/°م:\u003c/p>\n\u003cp>Vmp_hot = 41.8 × [1 − 0.0035 × 45] ≈ 35.2V × 14 = \u003cstrong>493V\u003c/strong> — داخل النافذة.\u003c/p>","citations":"IEC 62548 — تكوين السلاسل.\nأدلة مصنّعي العواكس لنوافذ MPPT.","category":"تصميم","order_index":10,"created_at":"2026-11-10T20:29:37.780334+00:00"},{"id":"1089a6a3-c94e-4b83-a295-ef6fc0fd7803","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الحماية: ما يمنع النظام من أن يصبح حريقاً","summary":"الجانب المستمر (DC) أخطر من المتردد: قوسه لا ينطفئ بسهولة. الحماية ليست «قاطعاً» فقط، بل منظومة قواطع ومانعات وتأريض وتوصيلات.","content_html":"\u003cp>في التيار المتردد، القوس الكهربائي ينطفئ عند مروره بالصفر 50 مرة في الثانية. في التيار المستمر لا يوجد صفر — القوس يستمر ويحرق. لهذا حماية الجانب DC ليست نسخة من حماية المنزل، بل عالم مختلف.\u003c/p>\n\n\u003ch3>طبقات الحماية\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الطبقة\u003c/th>\u003cth>الوظيفة\u003c/th>\u003cth>المكوّن\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>1. الفصل\u003c/td>\u003ctd>عزل السلسلة للصيانة\u003c/td>\u003ctd>مفتاح DC عازل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>2. القصر\u003c/td>\u003ctd>قطع تيار العطل\u003c/td>\u003ctd>مانع gPV\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>3. الحمل الزائد\u003c/td>\u003ctd>حماية الكابل\u003c/td>\u003ctd>قاطع DC\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>4. الصواعق\u003c/td>\u003ctd>تفريغ الزيادة\u003c/td>\u003ctd>مانعة صواعق (SPD)\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>5. التسرب\u003c/td>\u003ctd>حماية الأشخاص\u003c/td>\u003ctd>RCD نوع B أو مراقب عزل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>6. التأريض\u003c/td>\u003ctd>مسار آمن للعطل\u003c/td>\u003ctd>شبكة أرضي + ربط\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>7. القوس\u003c/td>\u003ctd>كشف قوس DC\u003c/td>\u003ctd>AFCI\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>لماذا RCD نوع B؟\u003c/h3>\n\u003cp>العاكس قد يولّد تياراً مستمراً متسرباً. القواطع العادية (AC) لا تراه. النوع B يكتشف التسرب المتردد والمستمر معاً. البديل: عاكس معزول (Galvanic Isolation) + مراقبة عزل.\u003c/p>\n\n\u003ch3>مانعة الصواعق (SPD)\u003c/h3>\n\u003cp>تركّب على جانب DC وجانب AC. وظيفتها تحويل زيادة الجهد إلى الأرض قبل أن تصل للعاكس. اختر:\u003c/p>\n\u003cul>\n  \u003cli>النوع 2 للمباني السكنية (Type 2).\u003c/li>\n  \u003cli>جهد تشغيل مناسب (Ucpv أعلى من Voc الأقصى).\u003c/li>\n  \u003cli>مؤشر حالة مرئي — واستبدلها بعد أي صاعقة قريبة.\u003c/li>\n\u003c/ul>\n\n\u003ch3>التأريض والربط\u003c/h3>\n\u003cp>ثلاثة أشياء منفصلة يجب ألا تُخلط:\u003c/p>\n\u003col>\n  \u003cli>\u003cstrong>تأريض الإطارات:\u003c/strong> كل لوح يُربط بالهيكل، والهيكل بالأرضي.\u003c/li>\n  \u003cli>\u003cstrong>تأريض العاكس:\u003c/strong> حسب دليل المصنّع.\u003c/li>\n  \u003cli>\u003cstrong>ربط الأجزاء المعدنية (Bonding):\u003c/strong> مواسير، هياكل، صناديق — كلها على مسار واحد.\u003c/li>\n\u003c/ol>\n\n\u003cblockquote>سلك الأرضي لا يعمل إلا مرة واحدة. اجعله يعمل صحيحاً في تلك المرة.\u003c/blockquote>\n\n\u003ch3>الوسم والتحذير\u003c/h3>\n\u003cp>كل صندوق DC يجب أن يحمل ملصقاً: «تيار مستمر — خطر»، وجهد النظام، ومصدر الفصل. هذا ليس ترفاً: الفني الذي يفتح صندوقاً بلا ملصق يفترض أنه ميت.\u003c/p>\n\n\u003ch3>أخطاء قاتلة\u003c/h3>\n\u003cul>\n  \u003cli>استخدام قاطع AC على جانب DC («لأنه يعمل»).\u003c/li>\n  \u003cli>وصل الأرضي بالإطار فقط دون ربط بالشبكة الرئيسية.\u003c/li>\n  \u003cli>تجاوز مانعة الصواعق لأنها «تفصل كثيراً».\u003c/li>\n  \u003cli>عدم ترك مسافة عزل كافية حول أطراف DC.\u003c/li>\n\u003c/ul>","technical_details_html":"\u003ch3>اختيار المانع (Fuse) والقاطع\u003c/h3>\n\u003cp>تيار المانع ≥ Isc × 1.25، وبجهد DC ≥ Voc الأقصى للسلسلة.\u003c/p>\n\u003cp>مثال: Isc = 14A → مانع 20A / 1000V DC (gPV).\u003c/p>\n\n\u003ch3>اختيار مقطع الأرضي\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>مقطع الفاز\u003c/th>\u003cth>مقطع الأرضي\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>≤ 16 مم²\u003c/td>\u003ctd>نفس المقطع\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>25 – 35 مم²\u003c/td>\u003ctd>16 مم²\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>&gt; 35 مم²\u003c/td>\u003ctd>نصف المقطع\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>ترتيب الحماية في السلسلة\u003c/h3>\n\u003cpre>لوح → مانع gPV → مفتاح DC عازل → SPD → عاكس\n                                    ↓\n                              أرضي رئيسي\u003c/pre>\n\n\u003ch3>اختبار مانعة الصواعق\u003c/h3>\n\u003cul>\n  \u003cli>فحص مؤشر الحالة (أخضر/أحمر).\u003c/li>\n  \u003cli>قياس مقاومة العزل بعد الفصل.\u003c/li>\n  \u003cli>الاستبدال بعد كل صاعقة قريبة أو 5 سنوات.\u003c/li>\n\u003c/ul>","citations":"IEC 62548 — الحماية والتأريض.\nIEC 61643 — مانعات الصواعق.\nIEC 60364-4-41 — الحماية من الصعق.","category":"حماية","order_index":11,"created_at":"2026-11-10T20:30:32.680688+00:00"},{"id":"c340d035-26a4-47fb-a589-e7d4e1b130a1","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الكابلات: حيث تُفقد الكيلوواطات بصمت","summary":"كابل رفيع لا يحترق فوراً، لكنه يسخن ويفقد جهداً. الخسارة 5% في كابل تعني 5% من إنتاجك تذهب حرارة كل يوم لخمسة وعشرين سنة.","content_html":"\u003cp>الكابل هو أرخص مكوّن في النظام، وأكثر مكوّن يُختصر. والمشكلة أنه لا يفشل فوراً: يعمل، لكنه يسخن ويهبط بالجهد، ويقصر عمر العاكس. الحساب هنا بسيط ويستحق دقائق.\u003c/p>\n\n\u003ch3>ثلاثة معايير للاختيار\u003c/h3>\n\u003col>\n  \u003cli>\u003cstrong>تيار التحمّل:\u003c/strong> يتحمل Isc × 1.25 على الأقل.\u003c/li>\n  \u003cli>\u003cstrong>هبوط الجهد:\u003c/strong> ≤ 1–2% في DC، ≤ 3% في AC.\u003c/li>\n  \u003cli>\u003cstrong>الظروف:\u003c/strong> حرارة، تجميع، تعرض للشمس، دفن.\u003c/li>\n\u003c/ol>\n\n\u003ch3>جدول مقاطع DC (نحاس، عزل PVC، 30°م)\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المقطع (مم²)\u003c/th>\u003cth>تيار التحمّل التقريبي\u003c/th>\u003cth>الاستخدام\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>4\u003c/td>\u003ctd>32 – 37 A\u003c/td>\u003ctd>سلاسل صغيرة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>6\u003c/td>\u003ctd>41 – 47 A\u003c/td>\u003ctd>سلسلة واحدة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>10\u003c/td>\u003ctd>57 – 65 A\u003c/td>\u003ctd>تجميع سلاسل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>16\u003c/td>\u003ctd>76 – 85 A\u003c/td>\u003ctd>رئيسي DC\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>25\u003c/td>\u003ctd>101 – 110 A\u003c/td>\u003ctd>أنظمة كبيرة\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\u003cp>الأرقام تقريبية وتتغير مع طريقة التركيب ودرجة الحرارة — استخدم جداول الكود عند التصميم النهائي.\u003c/p>\n\n\u003ch3>هبوط الجهد\u003c/h3>\n\u003cp>القانون: \u003cstrong>ΔV = (2 × L × I × ρ) ÷ A\u003c/strong>\u003c/p>\n\u003cul>\n  \u003cli>L: طول الكابل (اتجاه واحد) بالمتر.\u003c/li>\n  \u003cli>I: التيار بالأمبير.\u003c/li>\n  \u003cli>ρ: مقاومة النحاس ≈ 0.0175 Ω·mm²/m.\u003c/li>\n  \u003cli>A: المقطع بالمم².\u003c/li>\n\u003c/ul>\n\n\u003cp>مثال: 20 متراً، 14 أمبير، 6 مم²:\u003c/p>\n\u003cp>ΔV = (2 × 20 × 14 × 0.0175) ÷ 6 = \u003cstrong>1.63 فولت\u003c/strong> — أي 0.7% عند 230V. ممتاز.\u003c/p>\n\n\u003ch3>الموصلات MC4\u003c/h3>\n\u003cp>هي نقاط الفشل الأكثر شيوعاً. قواعدها:\u003c/p>\n\u003cul>\n  \u003cli>استخدم ماركة واحدة (خلط الماركات يسبب تسرباً وحرارة).\u003c/li>\n  \u003cli>عصا التجعيد (Crimping Tool) المخصصة، لا الكماشة.\u003c/li>\n  \u003cli>اسحب الكابل بعد التجعيد للتأكد من الثبات.\u003c/li>\n  \u003cli>لا تفك وصلة تحت حمل — افصل أولاً.\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>معظم حرائق الأنظمة الشمسية لا تبدأ من العاكس، بل من وصلة MC4 رخيصة أو كابل غير مثبت.\u003c/blockquote>\n\n\u003ch3>التثبيت\u003c/h3>\n\u003cul>\n  \u003cli>كل 1 متر على الأقل، وبعيداً عن حواف السطح الحادة.\u003c/li>\n  \u003cli>استخدم مثبتات UV-resistant، لا بلاستيك عادي.\u003c/li>\n  \u003cli>تجنّب الانحناء الحاد (نصف قطر ≥ 4 أضعاف القطر).\u003c/li>\n  \u003cli>مرّر الكابلات في مسار محمي من الشمس المباشرة.\u003c/li>\n\u003c/ul>","technical_details_html":"\u003ch3>معاملات تصحيح\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الحالة\u003c/th>\u003cth>المعامل\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>حرارة 40°م\u003c/td>\u003ctd>0.87\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>حرارة 50°م\u003c/td>\u003ctd>0.82\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تجميع 4 كابلات\u003c/td>\u003ctd>0.80\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تعرض للشمس\u003c/td>\u003ctd>0.90\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>دفن\u003c/td>\u003ctd>0.85\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>مثال حساب كامل\u003c/h3>\n\u003cp>سلسلة 14A، كابل 6 مم²، 25 متراً، حرارة 45°م:\u003c/p>\n\u003col>\n  \u003cli>تيار التصميم: 14 × 1.25 = 17.5A.\u003c/li>\n  \u003cli>تيار الكابل بعد التصحيح: 47 × 0.85 ≈ 40A → آمن.\u003c/li>\n  \u003cli>الهبوط: (2×25×14×0.0175) ÷ 6 = 2.04V ≈ 0.9% → مقبول.\u003c/li>\n\u003c/ol>\n\n\u003ch3>هبوط جانب AC\u003c/h3>\n\u003cp>نفس المعادلة لكن بتيار AC. مثال: 5 كيلوواط عند 230V ≈ 22A، طول 15م، مقطع 6:\u003c/p>\n\u003cp>ΔV = (2×15×22×0.0175) ÷ 6 = 1.9V ≈ 0.8% — ممتاز.\u003c/p>\n\n\u003ch3>علامات كابل سيئ\u003c/h3>\n\u003col>\n  \u003cli>سخونة ملموسة عند الوصلات.\u003c/li>\n  \u003cli>تغير لون العزل (اصفرار/اسوداد).\u003c/li>\n  \u003cli>هبوط جهد أكبر من المحسوب.\u003c/li>\n  \u003cli>رائحة بلاستيك عند صندوق التجميع.\u003c/li>\n\u003c/ol>","citations":"IEC 60364-5-52 — اختيار الكابلات.\nIEC 60228 — موصلات الكابلات.","category":"حماية","order_index":12,"created_at":"2026-11-10T20:31:32.304502+00:00"},{"id":"440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"من الورقة إلى السطح: تسلسل التركيب واختبارات القبول","summary":"التركيب ليس «ركّب ثم شغّل». هو تسلسل محكوم، ينتهي باختبارات موثّقة تُثبت أن النظام يعمل كما صُمّم — أو تكشف أنه لا يعمل.","content_html":"\u003cp>أي نظام شمسي يمر بثلاث مراحل لا يجوز خلطها: التجهيز، التركيب، والاختبار. من يختصر الثالثة يسلّم نظاماً «يعمل» لا يعرف أحد إن كان سيصمد.\u003c/p>\n\n\u003ch3>قبل الصعود: التجهيز\u003c/h3>\n\u003cul>\n  \u003cli>مراجعة مخطط النظام ومسار الكابلات.\u003c/li>\n  \u003cli>فحص السطح: قدرة تحمّل، عزل، حالة.\u003c/li>\n  \u003cli>تأمين السلامة: حزام، سقالة، توقّف العمل عند الريح.\u003c/li>\n  \u003cli>ترتيب المواد وتوثيق الأرقام التسلسلية.\u003c/li>\n\u003c/ul>\n\n\u003ch3>تسلسل التركيب\u003c/h3>\n\u003col>\n  \u003cli>\u003cstrong>الهيكل:\u003c/strong> تثبيت القواعد، ثم القضبان، ثم عزل الثقوب.\u003c/li>\n  \u003cli>\u003cstrong>الألواح:\u003c/strong> رفع وتثبيت، مع ترك 10–20 سم تهوية.\u003c/li>\n  \u003cli>\u003cstrong>كابلات DC:\u003c/strong> من الألواح إلى صندوق التجميع، ثم للعاكس.\u003c/li>\n  \u003cli>\u003cstrong>العاكس:\u003c/strong> تثبيت، توصيل DC وAC والأرضي.\u003c/li>\n  \u003cli>\u003cstrong>AC:\u003c/strong> قاطع، SPD، توصيل بالشبكة.\u003c/li>\n  \u003cli>\u003cstrong>الوسم:\u003c/strong> أسماء الدوائر، تحذيرات DC.\u003c/li>\n  \u003cli>\u003cstrong>التشغيل:\u003c/strong> أول إضاءة، ثم قياسات.\u003c/li>\n\u003c/ol>\n\n\u003ch3>اختبارات القبول (لا تسليم بدونها)\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الاختبار\u003c/th>\u003cth>كيف\u003c/th>\u003cth>القيمة المقبولة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>Voc لكل سلسلة\u003c/td>\u003ctd>ملتيمتر DC\u003c/td>\u003ctd>مطابق للمحسوب ±5%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Isc لكل سلسلة\u003c/td>\u003ctd>ملتيمتر DC\u003c/td>\u003ctd>مطابق ±10%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>مقاومة العزل\u003c/td>\u003ctd>Megger 1000V\u003c/td>\u003ctd>≥ 1 MΩ\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الاستمرارية\u003c/td>\u003ctd>أفوميتر\u003c/td>\u003ctd>≈ 0 Ω\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>التأريض\u003c/td>\u003ctd>Earth Tester\u003c/td>\u003ctd>≤ 5 Ω\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>أداء العاكس\u003c/td>\u003ctd>لوحة/تطبيق\u003c/td>\u003ctd>إنتاج متوقع\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>مانعة الصواعق\u003c/td>\u003ctd>مؤشر الحالة\u003c/td>\u003ctd>سليم\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>وثّق كل شيء\u003c/h3>\n\u003cp>ملف التسليم يجب أن يحتوي:\u003c/p>\n\u003cul>\n  \u003cli>صوراً لكل مرحلة (قبل/بعد).\u003c/li>\n  \u003cli>قراءات الاختبار موقّعة.\u003c/li>\n  \u003cli>مخططاً أحادياً (As-Built).\u003c/li>\n  \u003cli>أرقاماً تسلسلية للألواح والعاكس.\u003c/li>\n  \u003cli>إعدادات العاكس (شبكة، جهد، تردد).\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>النظام الذي لا يوجد له ملف، لا يوجد له ضمان. وأي فني سيعمل عليه لاحقاً سيعمل في الظلام.\u003c/blockquote>\n\n\u003ch3>أخطاء تركيب شائعة\u003c/h3>\n\u003col>\n  \u003cli>تثبيت الألواح مباشرة على السطح بلا تهوية.\u003c/li>\n  \u003cli>ترك كابلات DC مكشوفة على السطح.\u003c/li>\n  \u003cli>توصيل AC قبل التأكد من إعدادات الشبكة.\u003c/li>\n  \u003cli>عدم تركيب مفتاح DC عازل.\u003c/li>\n  \u003cli>تسليم بلا قياس Voc — أخطرها.\u003c/li>\n\u003c/ol>","technical_details_html":"\u003ch3>قراءة Voc: كيف تعرف أن السلسلة سليمة؟\u003c/h3>\n\u003cp>Voc المقاس يجب أن يقارب: Voc(STC) × عدد الألواح × معامل الحرارة للحظة.\u003c/p>\n\u003cp>مثال: 14 لوحاً × 49.5V = 693V عند 25°م. في يوم 40°م: ≈ 693 × 0.96 ≈ \u003cstrong>665V\u003c/strong> — النقصان الطبيعي.\u003c/p>\n\u003cp>إن قرأت 0V → سلسلة مفتوحة. إن قرأت أقل بكثير → لوح مفقود أو وصلة سيئة.\u003c/p>\n\n\u003ch3>اختبار العزل\u003c/h3>\n\u003col>\n  \u003cli>افصل السلسلة عن العاكس.\u003c/li>\n  \u003cli>اضبط Megger على 1000V DC.\u003c/li>\n  \u003cli>قِس بين (+) والأرضي، ثم (−) والأرضي.\u003c/li>\n  \u003cli>النتيجة &lt; 1 MΩ → رطوبة أو تلف عزل أو كابل مسحوق.\u003c/li>\n\u003c/ol>\n\n\u003ch3>أدوات لا يستغني عنها الفريق\u003c/h3>\n\u003cul>\n  \u003cli>ملتيمتر DC بمقاسات 1000V.\u003c/li>\n  \u003cli>Megger.\u003c/li>\n  \u003cli>كاميرا حرارية.\u003c/li>\n  \u003cli>جهاز تتبع منحنى IV (للمشروعات الكبيرة).\u003c/li>\n  \u003cli>Earth Tester.\u003c/li>\n\u003c/ul>","citations":"IEC 62446-1 — اختبار وتوثيق الأنظمة الكهروضوئية.\nIEC 62548 — متطلبات التركيب.","category":"تنفيذ","order_index":13,"created_at":"2026-11-10T20:33:06.863668+00:00"},{"id":"ed746a7f-a2a0-4693-bdf4-f8f6070374a0","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"المراقبة: كيف يحوّل المطوّر الألواح إلى بيانات","summary":"النظام الذي لا يُقاس لا يُدار. المراقبة ليست تطبيقاً يفتحه المالك؛ هي طبقة بيانات تحوّل الإنتاج إلى قرارات وصيانة تنبؤية.","content_html":"\u003cp>كل عاكس حديث ينتج بيانات: قدرة، جهد، حرارة، حالة. المشكلة أن هذه البيانات محبوسة في تطبيق المصنّع. المهندس والمطوّر يحتاجان الوصول إليها لبناء لوحة واحدة، وتنبيهات دقيقة، وصيانة مبنية على الأرقام.\u003c/p>\n\n\u003ch3>ثلاث طبقات للمراقبة\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الطبقة\u003c/th>\u003cth>ماذا تعطي\u003c/th>\u003cth>لمن\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>تطبيق المصنّع\u003c/td>\u003ctd>قراءات أساسية\u003c/td>\u003ctd>المالك\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>بوابة محلية (Gateway)\u003c/td>\u003ctd>Modbus/RS485، جمع كل العواكس\u003c/td>\u003ctd>الفني/المشغّل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>منصة بيانات\u003c/td>\u003ctd>تحليلات، تنبؤ، تقارير\u003c/td>\u003ctd>المهندس/المطوّر\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>البروتوكولات\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>Modbus RTU/TCP:\u003c/strong> الأشهر في العواكس.\u003c/li>\n  \u003cli>\u003cstrong>SunSpec:\u003c/strong> نموذج بيانات موحّد فوق Modbus.\u003c/li>\n  \u003cli>\u003cstrong>MQTT:\u003c/strong> للنقل إلى السحابة.\u003c/li>\n  \u003cli>\u003cstrong>API المصنّع:\u003c/strong> حسب التوفر.\u003c/li>\n\u003c/ul>\n\n\u003ch3>مؤشرات يجب حسابها\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المؤشر\u003c/th>\u003cth>المعادلة\u003c/th>\u003cth>القيمة الجيدة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>Performance Ratio (PR)\u003c/td>\u003ctd>الإنتاج الفعلي ÷ الإنتاج النظري\u003c/td>\u003ctd>0.75 – 0.85\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Yield (kWh/kWp)\u003c/td>\u003ctd>الإنتاج ÷ القدرة المركّبة\u003c/td>\u003ctd>حسب الموقع\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Availability\u003c/td>\u003ctd>وقت التشغيل ÷ الوقت الكلي\u003c/td>\u003ctd>&gt; 98%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Specific Yield اليومي\u003c/td>\u003ctd>kWh ÷ kWp\u003c/td>\u003ctd>3 – 6\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>تنبيهات ذكية لا تنبيهات مزعجة\u003c/h3>\n\u003cp>النظام الجيد ينبّه على \u003cstrong>الأحداث\u003c/strong>، لا على كل قراءة:\u003c/p>\n\u003cul>\n  \u003cli>إنتاج صفر في ساعات الشمس.\u003c/li>\n  \u003cli>انخفاض PR أكثر من 10% عن المتوسط.\u003c/li>\n  \u003cli>حرارة عاكس مرتفعة.\u003c/li>\n  \u003cli>جهد سلسلة غير طبيعي.\u003c/li>\n  \u003cli>انقطاع اتصال أطول من ساعة.\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>البيانات التي لا تُنتج إجراءً هي ضجيج. الانضباط الحقيقي أن تعرف أي رقم يستحق أن يوقظك ليلاً.\u003c/blockquote>\n\n\u003ch3>لماذا للمطوّر دور؟\u003c/h3>\n\u003cp>لأن التكامل بين عواكس من ماركات مختلفة، وربط الإنتاج بالطقس، وحساب PR تلقائياً، وتوليد تقرير شهري — كلها تحتاج كوداً. والمطوّر الذي يفهم الكهرباء يبني أدوات أفضل من أي تطبيق جاهز.\u003c/p>","technical_details_html":"\u003ch3>قراءة Modbus نموذجية\u003c/h3>\n\u003cpre>Slave ID: 1\nRead Holding Registers: 30000–30100 (حسب الماركة)\nPower AC: register 0x9C87 (مثال)\nEnergy Total: register 0x9C8B (مثال)\u003c/pre>\n\u003cp>القيم تختلف بين المصنّعين — استخدم خريطة SunSpec أو دليل الجهاز.\u003c/p>\n\n\u003ch3>بنية MQTT مقترحة\u003c/h3>\n\u003cpre>pv/{site}/inverter/{id}/power\npv/{site}/inverter/{id}/energy_today\npv/{site}/inverter/{id}/status\npv/{site}/weather/irradiance\u003c/pre>\n\n\u003ch3>حساب PR\u003c/h3>\n\u003cp>PR = الإنتاج الفعلي (kWh) ÷ (الإشعاع على السطح (kWh/m²) × القدرة المركّبة (kWp))\u003c/p>\n\u003cp>مثال: 40 kWh يومياً، إشعاع 5.5 kWh/m²، نظام 10 kWp → PR = 40 ÷ 55 = \u003cstrong>0.73\u003c/strong> (مقبول في يوم حار).\u003c/p>\n\n\u003ch3>جودة البيانات\u003c/h3>\n\u003cul>\n  \u003cli>تحقق من الطوابع الزمنية (UTC موحّد).\u003c/li>\n  \u003cli>اكشف القيم الشاذة (Spikes) قبل الحساب.\u003c/li>\n  \u003cli>سجّل فواصل الاتصال كبيانات ناقصة، لا كأصفار.\u003c/li>\n\u003c/ul>","citations":"SunSpec Alliance — نماذج بيانات العواكس.\nIEC 61724-1 — قياس أداء الأنظمة الكهروضوئية.","category":"برمجة وبيانات","order_index":14,"created_at":"2026-11-10T20:34:08.188641+00:00"},{"id":"7e14911f-ad45-45fb-8381-de6a4045d7e7","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الصيانة: من العَرَض إلى السبب في عشر دقائق","summary":"معظم أعطال الأنظمة الشمسية ليست غامضة: غبار، وصلة، ظل، أو عاكس. جدول تشخيص جيد يوفّر أياماً من التخمين.","content_html":"\u003cp>النظام الشمسي قليل الحركة، ومنخفض الصيانة — ولهذا يظن الناس أنه بلا صيانة. الحقيقة: قليل الصيانة لا يعني صفرها، والفرق بين نظام يعيش 5 سنوات ونظام يعيش 20 هو الزيارة الدورية.\u003c/p>\n\n\u003ch3>خطة الصيانة\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الدورية\u003c/th>\u003cth>المهام\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>أسبوعية (نظام كبير)\u003c/td>\u003ctd>فحص بصري، قراءة الإنتاج\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>شهرية\u003c/td>\u003ctd>تنظيف حسب الغبار، مراجعة التنبيهات\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>ربع سنوية\u003c/td>\u003ctd>فحص الوصلات، شد البراغي، كاميرا حرارية\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>سنوية\u003c/td>\u003ctd>اختبار عزل، مراجعة PR، تحديث العاكس\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>جدول تشخيص الأعطال\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>العَرَض\u003c/th>\u003cth>الأسباب المحتملة\u003c/th>\u003cth>الفحص\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>إنتاج صفر نهاراً\u003c/td>\u003ctd>فصل DC، عاكس متوقف، شبكة مقطوعة\u003c/td>\u003ctd>Voc، حالة العاكس، قاطع AC\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>إنتاج أقل 20%\u003c/td>\u003ctd>غبار، ظل جديد، سلسلة معطلة\u003c/td>\u003ctd>مقارنة السلاسل، تنظيف، فحص ظل\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>توقف متكرر\u003c/td>\u003ctd>حرارة عاكس، جهد شبكة، إعدادات\u003c/td>\u003ctd>سجل الأعطال، تهوية، قياس جهد\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>عاكس يسخن\u003c/td>\u003ctd>تهوية مسدودة، شمس مباشرة\u003c/td>\u003ctd>تنظيف المراوح، مظلة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>صوت طنين\u003c/td>\u003ctd>اهتزاز هيكل، مروحة\u003c/td>\u003ctd>شد البراغي، فحص المروحة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>رائحة احتراق\u003c/td>\u003ctd>وصلة سيئة، كابل صغير\u003c/td>\u003ctd>فصل فوري + كاميرا حرارية\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>الكاميرا الحرارية: أداة الفني الحديثة\u003c/h3>\n\u003cp>صوّر الألواح والوصلات بعد الظهر. البقع الساخنة (Hotspots) تظهر بفرق 10°م+. هذا يكشف:\u003c/p>\n\u003cul>\n  \u003cli>خلية تالفة.\u003c/li>\n  \u003cli>ثنائي معطوب.\u003c/li>\n  \u003cli>وصلة MC4 سيئة (سخونة موضعية).\u003c/li>\n  \u003cli>سلسلة معطلة (لوح بارد وسط ساخن).\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>الغبار ليس مشكلة جمالية. طبقة رقيقة تقلل الإنتاج 5–15%، وفي المناطق الصحراوية أكثر.\u003c/blockquote>\n\n\u003ch3>التنظيف الصحيح\u003c/h3>\n\u003cul>\n  \u003cli>صباحاً أو مساءً، لا في الظهيرة (صدمة حرارية).\u003c/li>\n  \u003cli>ماء + فرشاة ناعمة، بلا منظفات كاشطة.\u003c/li>\n  \u003cli>بلا ضغط عالٍ على الإطار أو الوصلات.\u003c/li>\n  \u003cli>لا تقف على اللوح.\u003c/li>\n\u003c/ul>","technical_details_html":"\u003ch3>مقارنة سلاسل\u003c/h3>\n\u003cp>قِس Voc لكل سلسلة في نفس اللحظة. الفرق &gt; 5% يشير إلى:\u003c/p>\n\u003cul>\n  \u003cli>لوح مفقود أو مظلل.\u003c/li>\n  \u003cli>وصلة سيئة.\u003c/li>\n  \u003cli>ثنائي مفتوح.\u003c/li>\n\u003c/ul>\n\n\u003ch3>تقدير خسارة الغبار\u003c/h3>\n\u003cp>قارن إنتاج يوم نظيف بإنتاج أسبوع بعده. النسبة هي خسارة الغبار التقريبية. إن تجاوزت 8%، غيّر جدول التنظيف.\u003c/p>\n\n\u003ch3>تحديث العاكس\u003c/h3>\n\u003cul>\n  \u003cli>نزّل التحديث من الموقع الرسمي فقط.\u003c/li>\n  \u003cli>سجّل الإعدادات قبل التحديث.\u003c/li>\n  \u003cli>نفّذه في وقت غير ذروة الإنتاج.\u003c/li>\n\u003c/ul>\n\n\u003ch3>سجل الصيانة\u003c/h3>\n\u003cp>كل زيارة يجب أن تُسجّل: التاريخ، القراءات، الأعمال، القطع المستبدلة. هذا السجل يحمي الضمان ويكشف التدهور التدريجي.\u003c/p>","citations":"IEC 61724-1 — مراقبة الأداء.\nأدلة O&M للمشروعات الكهروضوئية.","category":"صيانة","order_index":15,"created_at":"2026-11-10T20:35:09.05726+00:00"},{"id":"3e284f22-3ad1-4116-85e7-45655e1e7b5e","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"الجدوى: LCOE، الاسترداد، ومتى لا تستحق الشمس؟","summary":"الطاقة الشمسية ليست «توفيراً مضموناً». هي قرار مالي يعتمد على تعريفة الكهرباء، وسعر التركيب، والإشعاع، وسلوك الاستهلاك. ومن لا يحسب LCOE يبيع الوهم.","content_html":"\u003cp>في كل عرض تجاري، ستسمع: «النظام يرجع فلوسه في 4 سنين». وقد يكون صحيحاً، أو لا. الفرق أن أحدهما حُسب، والآخر قيل.\u003c/p>\n\n\u003ch3>ثلاثة أرقام تحكم القرار\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>CAPEX:\u003c/strong> تكلفة التركيب الكاملة (ألواح + عاكس + هيكل + كابلات + تركيب + تراخيص).\u003c/li>\n  \u003cli>\u003cstrong>OPEX:\u003c/strong> الصيانة والتأمين والتنظيف سنوياً (1–2% من CAPEX).\u003c/li>\n  \u003cli>\u003cstrong>الإنتاج:\u003c/strong> كيلوواط/ساعة سنوياً، بعد الخسائر والتدهور.\u003c/li>\n\u003c/ul>\n\n\u003ch3>الاسترداد البسيط\u003c/h3>\n\u003cp>الاسترداد (سنة) = CAPEX ÷ التوفير السنوي.\u003c/p>\n\u003cp>مثال: 250,000 جنيه ÷ 45,000 جنيه توفير = \u003cstrong>5.5 سنة\u003c/strong>.\u003c/p>\n\u003cp>لكن هذا الرقم يتجاهل: التدهور، ارتفاع الأسعار، تكلفة رأس المال. ولهذا يُستخدم LCOE.\u003c/p>\n\n\u003ch3>LCOE: التكلفة الحقيقية للكيلوواط/ساعة\u003c/h3>\n\u003cp>هي متوسط تكلفة إنتاج كيلوواط/ساعة على عمر النظام، بما يشمل رأس المال والصيانة.\u003c/p>\n\u003cp>\u003cstrong>LCOE = (CAPEX + مجموع OPEX المخصوم) ÷ (مجموع الإنتاج المخصوم)\u003c/strong>\u003c/p>\n\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>البند\u003c/th>\u003cth>القيمة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>CAPEX\u003c/td>\u003ctd>250,000\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>OPEX سنوي\u003c/td>\u003ctd>2,500\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>إنتاج السنة الأولى\u003c/td>\u003ctd>16,000 kWh\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تدهور سنوي\u003c/td>\u003ctd>0.5%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>عمر النظام\u003c/td>\u003ctd>25 سنة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>معدل الخصم\u003c/td>\u003ctd>10%\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>\u003cstrong>LCOE تقريبي\u003c/strong>\u003c/td>\u003ctd>\u003cstrong>1.0 – 1.2 جنيه/kWh\u003c/strong>\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\u003cp>إذا كانت تعريفة الكهرباء 1.8 جنيه، فالنظام يوفّر ~0.7 جنيه لكل كيلوواط/ساعة — أي 35% من الفاتورة.\u003c/p>\n\n\u003ch3>متى لا تستحق الشمس؟\u003c/h3>\n\u003cul>\n  \u003cli>تعريفة كهرباء منخفضة جداً (مدعومة).\u003c/li>\n  \u003cli>سطح مظلل معظم اليوم.\u003c/li>\n  \u003cli>استهلاك منخفض جداً (نظام صغير جداً لا يغطي التكلفة الثابتة).\u003c/li>\n  \u003cli>شبكة غير مستقرة تحتاج بطاريات كبيرة ترفع CAPEX.\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>الشمس مجانية، لكن النظام ليس كذلك. الجدوى تُحسب على النظام، لا على الشمس.\u003c/blockquote>\n\n\u003ch3>التمويل والضمانات\u003c/h3>\n\u003cul>\n  \u003cli>ضمان الألواح: 25 سنة أداء + 10–15 تصنيع.\u003c/li>\n  \u003cli>ضمان العاكس: 5–10 سنوات (قابل للتمديد).\u003c/li>\n  \u003cli>ضمان التركيب: 1–5 سنوات.\u003c/li>\n  \u003cli>التأمين: على النظام كجزء من العقار.\u003c/li>\n\u003c/ul>\n\u003cp>اقرأ الضمان: من يغطي النقل؟ من يغطي العمالة؟ ما شروط الإبطال (مثل عدم الصيانة الدورية)؟\u003c/p>\n\n\u003ch3>صافي القياس (Net Metering)\u003c/h3>\n\u003cp>في الأنظمة المتصلة بالشبكة، تُصدّر الفائض وتُحاسب عليه. القواعد تختلف بين الدول والشركات:\u003c/p>\n\u003cul>\n  \u003cli>صافي شهري أم سنوي؟\u003c/li>\n  \u003cli>سعر التصدير مساوٍ للشراء أم أقل؟\u003c/li>\n  \u003cli>هل هناك سقف للتصدير؟\u003c/li>\n\u003c/ul>\n\u003cp>هذه الشروط قد تغيّر التصميم: نظام 10 كيلوواط مع تصدير مجاني أفضل من نظام 6 كيلوواط مع بطارية مكلفة.\u003c/p>","technical_details_html":"\u003ch3>نموذج حساب مبسّط (25 سنة)\u003c/h3>\n\u003cpre>لكل سنة t من 1 إلى 25:\n  إنتاج(t) = 16,000 × (0.995)^(t-1)\n  توفير(t) = إنتاج(t) × تعريفة\n  صافي(t) = توفير(t) − OPEX\nالاسترداد = السنة التي يصبح عندها المجموع التراكمي ≥ 0\u003c/pre>\n\n\u003ch3>حساسية القرار\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المتغير\u003c/th>\u003cth>تأثيره على الجدوى\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>سعر التركيب\u003c/td>\u003ctd>عكسي مباشر\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تعريفة الكهرباء\u003c/td>\u003ctd>طردي\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الإشعاع\u003c/td>\u003ctd>طردي\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>التدهور\u003c/td>\u003ctd>عكسي طفيف\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>سعر الفائدة\u003c/td>\u003ctd>عكسي (للمموّل)\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>مقارنة سيناريوهات\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>السيناريو\u003c/th>\u003cth>الاسترداد\u003c/th>\u003cth>ملاحظة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>سكني 5 kWp بلا بطارية\u003c/td>\u003ctd>5 – 7 سنوات\u003c/td>\u003ctd>الأفضل اقتصادياً\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>سكني 5 kWp + بطارية\u003c/td>\u003ctd>9 – 14 سنة\u003c/td>\u003ctd>قيمة الاستقلالية\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تجاري 50 kWp\u003c/td>\u003ctd>3 – 5 سنوات\u003c/td>\u003ctd>استهلاك نهاري مرتفع\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>","citations":"IEA PVPS — منهجيات LCOE.\nIEC 61724 — قياس الإنتاج.","category":"اقتصاديات","order_index":16,"created_at":"2026-11-10T20:36:08.635809+00:00"},{"id":"778c59e9-6245-42ce-b1cc-d330d7dc7c72","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"سبع علامات في العرض التجاري تعني أن النظام لن يصمد","summary":"أغلى ما في النظام الشمسي ليس اللوح، بل الخطأ. وهذه العلامات تظهر في العرض قبل أن تظهر على السطح.","content_html":"\u003cp>سوق الطاقة الشمسية فيه مهندسون محترمون، وفيه من يبيع «ألواحاً» بلا حساب. والفارق لا يظهر في السعر فقط، بل في سبع علامات يمكنك اكتشافها في العرض نفسه.\u003c/p>\n\n\u003ch3>1) عرض بلا حسابات\u003c/h3>\n\u003cp>عرض يقول «10 كيلوواط تكفي شقة 150 متراً» بلا ملف أحمال ولا حساب إنتاج ولا سلاسل. هذا ليس عرضاً هندسياً، بل رقم.\u003c/p>\n\u003cp>\u003cstrong>اطلب:\u003c/strong> مذكرة حساب، وملف أحمال، وحساب إنتاج شهري.\u003c/p>\n\n\u003ch3>2) ألواح بلا بيانات أو ضمان\u003c/h3>\n\u003cp>لوح بلا بطاقة كاملة، أو بلا رقم تسلسلي، أو بسعر أقل 25% من السوق. غالباً يكون:\u003c/p>\n\u003cul>\n  \u003cli>لوحاً مستعملاً مُعاد تغليفه.\u003c/li>\n  \u003cli>قدرة معلنة غير حقيقية (500W مكتوب على لوح 400).\u003c/li>\n  \u003cli>ضماناً بلا كيان قانوني.\u003c/li>\n\u003c/ul>\n\u003cp>\u003cstrong>اطلب:\u003c/strong> بطاقة البيانات الأصلية + رقم تسلسلي + ضمان مكتوب.\u003c/p>\n\n\u003ch3>3) عاكس بلا شهادة شبكة\u003c/h3>\n\u003cp>عاكس بلا شهادة IEC 62109 أو شهادة ربط شبكة محلية قد:\u003c/p>\n\u003cul>\n  \u003cli>لا يفصل عند انقطاع الشبكة (خطر على الفنيين).\u003c/li>\n  \u003cli>لا يُعتمد من شركة الكهرباء.\u003c/li>\n  \u003cli>يتعطل بعد سنة.\u003c/li>\n\u003c/ul>\n\n\u003ch3>4) كابلات رفيعة ووصلات رخيصة\u003c/h3>\n\u003cp>لا يمكنك رؤية الكابل بعد التركيب. اطلب:\u003c/p>\n\u003cul>\n  \u003cli>مقطعاً موثقاً في العرض.\u003c/li>\n  \u003cli>وصلات MC4 من ماركة معروفة.\u003c/li>\n  \u003cli>صوراً للتمديد قبل التغطية.\u003c/li>\n\u003c/ul>\n\n\u003ch3>5) لا حماية DC ولا تأريض\u003c/h3>\n\u003cp>صندوق بلا مانعات ولا مفتاح عازل ولا SPD = نظام بلا فرامل. هذه ليست «إضافات»، بل أساس.\u003c/p>\n\n\u003ch3>6) لا اختبارات ولا ملف تسليم\u003c/h3>\n\u003cp>تسليم بلا قراءة Voc ولا عزل ولا مخطط = نظام بلا هوية. عند أول عطل، يبدأ التخمين.\u003c/p>\n\n\u003ch3>7) ضمان شامل يغطي «كل شيء»\u003c/h3>\n\u003cp>ضمان مكتوب بعبارة عامة بلا استثناءات واضحة غالباً غير قابل للتنفيذ. اقرأ:\u003c/p>\n\u003cul>\n  \u003cli>مدة كل مكوّن على حدة.\u003c/li>\n  \u003cli>من يتحمل العمالة والنقل.\u003c/li>\n  \u003cli>شروط الإبطال.\u003c/li>\n\u003c/ul>\n\n\u003cblockquote>العرض الجيد يُقرأ كوثيقة هندسية، لا كإعلان. إن لم تجد فيه رقماً واحداً يمكن التحقق منه، فلا توقّع.\u003c/blockquote>\n\n\u003ch3>أسئلة اسألها قبل الدفع\u003c/h3>\n\u003col>\n  \u003cli>ما ملف الأحمال الذي بنيتم عليه التصميم؟\u003c/li>\n  \u003cli>كم لوحاً وكم سلسلة، ولماذا؟\u003c/li>\n  \u003cli>ما أقصى Voc عند أدنى حرارة؟\u003c/li>\n  \u003cli>ما مقطع الكابلات DC وAC؟\u003c/li>\n  \u003cli>ما تجهيزات الحماية على الجانبين؟\u003c/li>\n  \u003cli>هل ستسلّمني تقرير اختبارات موقّعاً؟\u003c/li>\n  \u003cli>من يضمن ماذا، وبأي مدة؟\u003c/li>\n\u003c/ol>","technical_details_html":"\u003ch3>علامات على نظام مركّب حديثاً\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الملاحظة\u003c/th>\u003cth>الدلالة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>كابلات مكشوفة على السطح\u003c/td>\u003ctd>تلف UV خلال سنوات\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>ألواح ملتصقة بلا تهوية\u003c/td>\u003ctd>حرارة + خسارة إنتاج\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>صندوق DC بلا ملصقات\u003c/td>\u003ctd>خطر على الفني\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>لا يوجد مخطط\u003c/td>\u003ctd>صيانة عشوائية مستقبلاً\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>العاكس في الشمس المباشرة\u003c/td>\u003ctd>عمر أقصر\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>","citations":"إرشادات حماية المستهلك في أنظمة الطاقة الشمسية.\nIEC 62446-1 — التوثيق والاختبار.","category":"توعية","order_index":17,"created_at":"2026-11-10T20:37:04.41577+00:00"},{"id":"611e27c9-30ea-402f-8aba-2ccf0d611859","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"طرائف من الورش الشمسية: حين تخون الشمس أصحابها","summary":"ألواح على سطح، حساب خاطئ، ومالك متفائل. هذه ثلاث قصص حقيقية من عالم الطاقة الشمسية، كلها تُضحك وكلها درس.","content_html":"\u003cp>في كل مشروع شمسي، هناك لحظة يظن فيها الجميع أن الحساب «مجرد أرقام على ورق». ثم تأتي أول موجة حر، أو أول شتاء، لتشرح الدرس بطريقتها.\u003c/p>\n\n\u003ch3>1) النظام الذي يعمل… في الظل\u003c/h3>\n\u003cp>ركّب صاحب فيلا ألواحه على سطح بجوار مدخنة. قال له الفني: «الظل شوية في الصبح وخلاص». في الشتاء، ظل المدخنة يغطي سلسلة كاملة حتى العاشرة صباحاً. الإنتاج انخفض 35%، والمفاجأة أن العاكس كان سليماً تماماً.\u003c/p>\n\u003cp>\u003cstrong>الدرس:\u003c/strong> الظل يُحسب في أسوأ يوم، لا في يوم التركيب.\u003c/p>\n\n\u003ch3>2) البطارية التي «تكفي يومين»\u003c/h3>\n\u003cp>اشترى مالك نظاماً ببطارية 200 أمبير/ساعة واثقاً أنها تكفي يومين. لكن الحساب كان على 12 فولت و50% تفريغ، مع حمل تكييف. استمرت ساعتين ونصف.\u003c/p>\n\u003cp>\u003cstrong>الدرس:\u003c/strong> «أمبير ساعة» ليست طاقة. الطاقة = جهد × سعة × عمق تفريغ × كفاءة.\u003c/p>\n\n\u003ch3>3) العاكس الذي صرخ في العيد\u003c/h3>\n\u003cp>في يوم عيد، اجتمع الجميع في البيت، وشُغّل الفرن والتكييف والسخان. العاكس 3 كيلوواط فصل. ظنّ المالك أنه معطوب، والحقيقة أنه كان يعمل بأمان: الحماية فعلت عملها.\u003c/p>\n\u003cp>\u003cstrong>الدرس:\u003c/strong> الفصل ليس عطلاً. هو الحماية. لكن التصميم السيئ هو ما جعله يحدث.\u003c/p>\n\n\u003ch3>4) اللوح الذي غسلوه بالماء والصابون\u003c/h3>\n\u003cp>قرر أحد الملاك تنظيف الألواح بمنظف أرضيات. بعد شهرين، ظهرت بقع بيضاء وخدوش. الطلاء العاكس تضرر، والإنتاج انخفض 8%.\u003c/p>\n\u003cp>\u003cstrong>الدرس:\u003c/strong> الماء والفرشاة الناعمة فقط. اللوح ليس أرضية.\u003c/p>\n\n\u003cblockquote>الأنظمة الشمسية لا تفشل غالباً بسبب الشمس. تفشل بسبب افتراضاتنا عنها.\u003c/blockquote>\n\n\u003cp>ابتسم، ثم افتح مذكرة التصميم. غالباً ستجد فيها افتراضاً واحداً لم تُثبته.\u003c/p>","technical_details_html":null,"citations":"قصص ميدانية متداولة بين فنيي الطاقة الشمسية — أُعيدت صياغتها لأغراض تعليمية.","category":"ترفيه","order_index":18,"created_at":"2026-11-10T20:38:00.840264+00:00"},{"id":"5a4b6620-6c7c-473d-9f12-45e480b06b8b","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"ورشة العدد: شركات التركيب التي تبيع الثقة","summary":"سوق الطاقة الشمسية لا يشتري «ألواحاً»؛ يشتري طمأنينة: أن النظام سيعمل 25 سنة، وأن من ركّبه سيجيب حين يتصل به.","content_html":"\u003cp>في أي سوق شمسية، الأسعار متقاربة. الفرق بين شركة تنجح وأخرى تتعثر ليس في اللوح، بل في \u003cstrong>ما بعد التركيب\u003c/strong>: هل ترد على الهاتف بعد سنة؟ هل تقدم تقريراً؟ هل تعرف نظامك الذي ركبته قبل ثلاث سنوات؟\u003c/p>\n\n\u003ch3>ما يشتريه العميل فعلاً\u003c/h3>\n\u003cul>\n  \u003cli>\u003cstrong>الحساب:\u003c/strong> أن يرى ملف أحمال، لا وعوداً.\u003c/li>\n  \u003cli>\u003cstrong>الوثيقة:\u003c/strong> مخطط وقراءات وضمان مكتوب.\u003c/li>\n  \u003cli>\u003cstrong>الاستمرارية:\u003c/strong> من يصون النظام بعد 5 سنوات.\u003c/li>\n\u003c/ul>\n\n\u003ch3>ما يميز الورشة المحترفة\u003c/h3>\n\u003col>\n  \u003cli>مذكرة تصميم لكل مشروع (loads, strings, protection).\u003c/li>\n  \u003cli>تقرير اختبارات موقّع عند التسليم.\u003c/li>\n  \u003cli>جدول صيانة سنوي — لا زيارة واحدة.\u003c/li>\n  \u003cli>أرشيف صور لكل تركيب.\u003c/li>\n  \u003cli>مراقبة عن بُعد (حتى لو بسيطة).\u003c/li>\n\u003c/ol>\n\n\u003cblockquote>الشركة التي تُظهر قياساتها تبني سمعة لا تُشترى بالإعلانات.\u003c/blockquote>\n\n\u003ch3>لماذا على CapKitco؟\u003c/h3>\n\u003cp>لأن صفحة ورشتك تعرض أعمالك، ويمكن للعميل أن يطلبك مباشرة. أضف:\u003c/p>\n\u003cul>\n  \u003cli>صور مشروعات قبل/بعد.\u003c/li>\n  \u003cli>قراءات إنتاج موثقة (صورة من التطبيق).\u003c/li>\n  \u003cli>قائمة المكونات والضمانات.\u003c/li>\n\u003c/ul>\n\n\u003cp>هذه الثلاثة تحوّل صفحتك من «إعلان» إلى \u003cstrong>ملف اعتماد\u003c/strong>.\u003c/p>\n\n\u003ch3>فرصة محلية\u003c/h3>\n\u003cp>معظم المكونات مستوردة، لكن هناك ما يمكن تصنيعه محلياً بجودة عالية: الهياكل المعدنية، صناديق التجميع، الكابلات المجمّعة، وحوامل التثبيت. الورشة التي تتقن التصنيع المحلي تقلّل التكلفة وتقصّر زمن التسليم — وهذا ميزة تنافسية حقيقية في سوق يتوقّف عند نقص قطعة.\u003c/p>","technical_details_html":null,"citations":null,"category":"ورشة العدد","order_index":19,"created_at":"2026-11-10T20:39:00.399447+00:00"},{"id":"3e42d761-7aaf-42f6-9463-96f33d4097fb","issue_id":"8a026c0e-f6f7-42a5-a33e-3af0fca6e28c","title":"ملاحق العدد: مشروع 10 كيلوواط، قوائم الفحص، المسرد، المراجع","summary":"ملاحق عملية للعدد الخامس: مشروع نظام 10 كيلوواط محلول بالأرقام، ثلاث قوائم فحص للتصميم والتركيب والتشغيل، مسرد المصطلحات، والمراجع القياسية.","content_html":"\u003ch3>ملحق أ — مشروع متكامل: نظام 10 كيلوواط متصل بالشبكة\u003c/h3>\n\u003cp>هذا تمرين كامل: من المعطيات إلى الجدوى. اقرأه كمنهج، لا كسعر نهائي — الأسعار والتعريفات تتغير، لكن تسلسل القرارات لا يتغير.\u003c/p>\n\n\u003ch4>1. المعطيات\u003c/h4>\n\u003cul>\n  \u003cli>الموقع: القاهرة (خط عرض 30°).\u003c/li>\n  \u003cli>الإشعاع: 5.5 ساعة شمس مكافئة (متوسط)، و4.0 في أسوأ شهر (ديسمبر).\u003c/li>\n  \u003cli>الاستهلاك الشهري: 1,400 كيلوواط/ساعة.\u003c/li>\n  \u003cli>تعريفة الكهرباء: 1.8 جنيه/كيلوواط/ساعة.\u003c/li>\n  \u003cli>السطح: خرساني مستوٍ، 70 م² متاحة.\u003c/li>\n\u003c/ul>\n\n\u003ch4>2. حساب الحمل\u003c/h4>\n\u003cul>\n  \u003cli>الاستهلاك اليومي = 1,400 ÷ 30 ≈ \u003cstrong>46.7 كيلوواط/ساعة\u003c/strong>.\u003c/li>\n  \u003cli>الحمل النهاري المقدّر (تكييف/عمل) ≈ 55% = 25.7 كيلوواط/ساعة.\u003c/li>\n  \u003cli>القدرة المطلوبة = 25.7 ÷ (5.5 × 0.8) ≈ \u003cstrong>5.8 كيلوواط\u003c/strong>.\u003c/li>\n  \u003cli>مع استهداف تغطية أعلى وتصدير للشبكة: \u003cstrong>10 كيلوواط ذروة\u003c/strong>.\u003c/li>\n\u003c/ul>\n\n\u003ch4>3. اختيار الألواح\u003c/h4>\n\u003cp>لوح 550 واط، Voc = 49.5 فولت، Vmp = 41.8 فولت، Isc = 14 أمبير، معامل القدرة −0.35%/°م.\u003c/p>\n\u003cp>العدد = 10,000 ÷ 550 ≈ 18.2 → \u003cstrong>20 لوحاً\u003c/strong> (11 كيلوواط ذروة).\u003c/p>\n\n\u003ch4>4. تصميم السلاسل\u003c/h4>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>الفحص\u003c/th>\u003cth>الحساب\u003c/th>\u003cth>النتيجة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>Voc عند 0°م\u003c/td>\u003ctd>49.5 × 1.0675\u003c/td>\u003ctd>52.8 فولت\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>أقصى عدد في السلسلة\u003c/td>\u003ctd>950 ÷ 52.8\u003c/td>\u003ctd>≈ 17 → نختار 10\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Vmp عند 70°م\u003c/td>\u003ctd>35.2 × 10\u003c/td>\u003ctd>352 فولت (داخل النافذة)\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>عدد السلاسل\u003c/td>\u003ctd>20 ÷ 10\u003c/td>\u003ctd>سلسلتان\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>تيار الحماية\u003c/td>\u003ctd>14 × 1.25 × 2\u003c/td>\u003ctd>35 أمبير\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch4>5. العاكس\u003c/h4>\n\u003cp>عاكس 10 كيلوواط، مدخلا MPPT، كفاءة أوروبية ≥ 97%، أقصى جهد DC 1000 فولت، نافذة MPPT 200–850 فولت.\u003c/p>\n\u003cp>نسبة DC/AC = 11 ÷ 10 = 1.1 — ضمن النطاق المقبول.\u003c/p>\n\n\u003ch4>6. الكابلات\u003c/h4>\n\u003cul>\n  \u003cli>\u003cstrong>DC:\u003c/strong> 6 مم²، طول 20 م، تيار 14 أمبير → هبوط ≈ 1.6 فولت (0.7%).\u003c/li>\n  \u003cli>\u003cstrong>AC:\u003c/strong> 6 مم²، تيار 43 أمبير، طول 15 م → هبوط ≈ 1.1 فولت.\u003c/li>\n\u003c/ul>\n\n\u003ch4>7. الحماية\u003c/h4>\n\u003cul>\n  \u003cli>مانع gPV 20 أمبير لكل سلسلة.\u003c/li>\n  \u003cli>مفتاح DC عازل 32 أمبير / 1000 فولت.\u003c/li>\n  \u003cli>مانعة صواعق نوع 2 على الجانبين DC وAC.\u003c/li>\n  \u003cli>قاطع AC 63 أمبير + RCD نوع B 30 ملّي أمبير.\u003c/li>\n  \u003cli>تأريض ≤ 5 أوم + ربط الهيكل والأجزاء المعدنية.\u003c/li>\n\u003c/ul>\n\n\u003ch4>8. الهيكل\u003c/h4>\n\u003cul>\n  \u003cli>ميل 25°، اتجاه جنوب.\u003c/li>\n  \u003cli>مسافة صفوف 1.7 م.\u003c/li>\n  \u003cli>تهوية خلفية 15 سم، قواعد ستانلس، ختم EPDM.\u003c/li>\n\u003c/ul>\n\n\u003ch4>9. الإنتاج المتوقع\u003c/h4>\n\u003cp>سنوي = 11 × 5.5 × 0.8 × 365 ≈ \u003cstrong>17,600 كيلوواط/ساعة\u003c/strong>.\u003c/p>\n\u003cp>بعد التدهور في السنة العاشرة ≈ 16,700 كيلوواط/ساعة.\u003c/p>\n\n\u003ch4>10. الجدوى\u003c/h4>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>البند\u003c/th>\u003cth>القيمة\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>التكلفة الرأسمالية (CAPEX)\u003c/td>\u003ctd>≈ 250,000 جنيه\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>التوفير السنوي (استهلاك كامل)\u003c/td>\u003ctd>≈ 31,700 جنيه\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>الاسترداد البسيط\u003c/td>\u003ctd>≈ 7.9 سنة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>LCOE\u003c/td>\u003ctd>≈ 1.1 جنيه/kWh\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>التعريفة\u003c/td>\u003ctd>1.8 جنيه/kWh\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>صافي التوفير للكيلوواط/ساعة\u003c/td>\u003ctd>≈ 39%\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\u003cp>\u003cstrong>تنبيه:\u003c/strong> الأرقام إرشادية للتمرين. المطلوب هو المنهج، لا الرقم النهائي.\u003c/p>\n\n\u003ch3>ملحق ب — قوائم فحص\u003c/h3>\n\u003ch4>قبل التصميم\u003c/h4>\n\u003cul>\n  \u003cli>☐ ملف أحمال لاثني عشر شهراً.\u003c/li>\n  \u003cli>☐ مساحة السطح الصافية واتجاهه.\u003c/li>\n  \u003cli>☐ دراسة ظل في ديسمبر.\u003c/li>\n  \u003cli>☐ حالة السطح والعزل.\u003c/li>\n  \u003cli>☐ تعريفة الكهرباء وشروط الربط.\u003c/li>\n\u003c/ul>\n\u003ch4>قبل التركيب\u003c/h4>\n\u003cul>\n  \u003cli>☐ مذكرة تصميم معتمدة.\u003c/li>\n  \u003cli>☐ جدول كميات وأرقام تسلسلية.\u003c/li>\n  \u003cli>☐ خطة سلامة (سقالة/حزام).\u003c/li>\n  \u003cli>☐ تصاريح إن لزمت.\u003c/li>\n\u003c/ul>\n\u003ch4>قبل التشغيل\u003c/h4>\n\u003cul>\n  \u003cli>☐ قياس Voc وIsc لكل سلسلة.\u003c/li>\n  \u003cli>☐ مقاومة عزل ≥ 1 ميجا أوم.\u003c/li>\n  \u003cli>☐ تأريض ≤ 5 أوم.\u003c/li>\n  \u003cli>☐ إعدادات العاكس للشبكة.\u003c/li>\n  \u003cli>☐ مانعات الصواعق سليمة.\u003c/li>\n  \u003cli>☐ ملصقات تحذير DC.\u003c/li>\n  \u003cli>☐ مخطط As-Built.\u003c/li>\n\u003c/ul>\n\u003ch4>بعد 30 يوماً\u003c/h4>\n\u003cul>\n  \u003cli>☐ مقارنة الإنتاج بالمتوقع.\u003c/li>\n  \u003cli>☐ فحص حراري للوصلات.\u003c/li>\n  \u003cli>☐ مراجعة تنبيهات المراقبة.\u003c/li>\n\u003c/ul>\n\n\u003ch3>ملحق ج — مسرد المصطلحات\u003c/h3>\n\u003ctable>\n  \u003cthead>\n    \u003ctr>\u003cth>المصطلح\u003c/th>\u003cth>المعنى\u003c/th>\u003c/tr>\n  \u003c/thead>\n  \u003ctbody>\n    \u003ctr>\u003ctd>STC\u003c/td>\u003ctd>الشروط القياسية: 1000 واط/م²، 25°م، AM1.5\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>PSH\u003c/td>\u003ctd>ساعات الشمس المكافئة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Voc\u003c/td>\u003ctd>جهد الدائرة المفتوحة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Isc\u003c/td>\u003ctd>تيار الدائرة القصيرة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>MPPT\u003c/td>\u003ctd>متتبع نقطة القدرة القصوى\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>PR\u003c/td>\u003ctd>نسبة الأداء الفعلية إلى النظرية\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>LCOE\u003c/td>\u003ctd>التكلفة المستوية للكيلوواط/ساعة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>PID\u003c/td>\u003ctd>تدهور بسبب فرق الجهد\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>DOD\u003c/td>\u003ctd>عمق التفريغ\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>BMS\u003c/td>\u003ctd>نظام إدارة البطارية\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>SPD\u003c/td>\u003ctd>مانعة صواعق\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>AFCI\u003c/td>\u003ctd>كاشف قوس كهربائي\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Anti-islanding\u003c/td>\u003ctd>الفصل عند انقطاع الشبكة\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Bifacial\u003c/td>\u003ctd>لوح ينتج من الوجهين\u003c/td>\u003c/tr>\n    \u003ctr>\u003ctd>Clipping\u003c/td>\u003ctd>قصّ الإنتاج الزائد في الذروة\u003c/td>\u003c/tr>\n  \u003c/tbody>\n\u003c/table>\n\n\u003ch3>ملحق د — المراجع القياسية\u003c/h3>\n\u003cul>\n  \u003cli>IEC 62548 — تصميم الأنظمة الكهروضوئية.\u003c/li>\n  \u003cli>IEC 60364-7-712 — التركيبات الكهروضوئية في المباني.\u003c/li>\n  \u003cli>IEC 61215 / IEC 61730 — تأهيل وسلامة الألواح.\u003c/li>\n  \u003cli>IEC 62109-1/-2 — سلامة العواكس.\u003c/li>\n  \u003cli>IEC 62116 — اختبار anti-islanding.\u003c/li>\n  \u003cli>IEC 61727 — توصيل الشبكة.\u003c/li>\n  \u003cli>IEC 62446-1 — التوثيق والاختبار.\u003c/li>\n  \u003cli>IEC 61724-1 — مراقبة الأداء.\u003c/li>\n  \u003cli>IEC 61643 — مانعات الصواعق.\u003c/li>\n  \u003cli>IEC 62619 — سلامة بطاريات الليثيوم.\u003c/li>\n  \u003cli>IEC 60364-5-52 — اختيار الكابلات.\u003c/li>\n\u003c/ul>","technical_details_html":null,"citations":"IEC 62548 · IEC 60364-7-712 · IEC 61215/61730 · IEC 62109 · IEC 62116 · IEC 61727 · IEC 62446-1 · IEC 61724-1.","category":"ملحق","order_index":20,"created_at":"2026-11-10T21:20:45.177581+00:00"}]};window.__PRERENDER_STATIC__ = true;</script>
+<script>window.__PRERENDER__ = {"type":"issue","url":"https://capkitco.com/issue/05/"};</script>
+
+<header class="mag-top">
+  <a class="brand" href="/">CapKit<span>co</span></a>
+  <a class="mag-btn" href="/magazine.html">كل الأعداد</a>
+  <span class="spacer"></span>
+  <button class="mag-btn no-print" id="printBtn" type="button">🖨️ تحميل كـ PDF</button>
+  <a class="mag-btn no-print" href="/">← الرئيسية</a>
+</header>
+
+<div id="issueState" style="display: none;"></div>
+
+<main class="issue-layout" id="issueLayout" style="display: grid;">
+  <aside class="toc" aria-label="فهرس العدد">
+    <h2>فهرس العدد</h2>
+    <ol id="tocList"><li><a href="#a-4554cc48-055b-41da-995d-3c3ef889c70d" data-target="a-4554cc48-055b-41da-995d-3c3ef889c70d">الشمس لا تُرسل فاتورة… لكنها لا تسامح</a></li><li><a href="#a-ee806f5c-c2dc-4157-a6f2-85eb5705114c" data-target="a-ee806f5c-c2dc-4157-a6f2-85eb5705114c">كيف تقرأ هذا العدد؟ منهج 14 أسبوعاً ومخرجات تعلّم</a></li><li><a href="#a-c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef" data-target="a-c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef">من الفوتون إلى الأمبير: كيف تولّد الخلية الكهرباء؟</a></li><li><a href="#a-4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9" data-target="a-4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9">الشمس ليست في مكان واحد: الإشعاع والميل والظل</a></li><li><a href="#a-6bcacd9e-6eff-4b4e-866c-bf671e821121" data-target="a-6bcacd9e-6eff-4b4e-866c-bf671e821121">الألواح: أجيال الخلايا وكيف تقرأ ورقة البيانات</a></li><li><a href="#a-ff17c91f-b631-49cf-9798-cd1c91070ad1" data-target="a-ff17c91f-b631-49cf-9798-cd1c91070ad1">العاكس: قلب النظام الذي يقرر نجاحه</a></li><li><a href="#a-f4911a4f-e8f2-44eb-8358-dc1bee38acea" data-target="a-f4911a4f-e8f2-44eb-8358-dc1bee38acea">البطاريات وBMS: تخزين الطاقة كمسألة سلامة قبل الكفاءة</a></li><li><a href="#a-ae19ca51-b289-40e6-90b6-af8498658d57" data-target="a-ae19ca51-b289-40e6-90b6-af8498658d57">الهياكل: حيث تتحول الكهرباء إلى مسؤولية ميكانيكية</a></li><li><a href="#a-84a98213-0ee0-40b1-a3be-8a38ffb99cb4" data-target="a-84a98213-0ee0-40b1-a3be-8a38ffb99cb4">من الفاتورة إلى القدرة: كيف تُصمّم نظاماً بالأرقام؟</a></li><li><a href="#a-1a31f6dd-0414-4d40-a54a-e4cee0f75d18" data-target="a-1a31f6dd-0414-4d40-a54a-e4cee0f75d18">السلاسل: كيف تجمع الألواح دون أن تحرق العاكس؟</a></li><li><a href="#a-1089a6a3-c94e-4b83-a295-ef6fc0fd7803" data-target="a-1089a6a3-c94e-4b83-a295-ef6fc0fd7803">الحماية: ما يمنع النظام من أن يصبح حريقاً</a></li><li><a href="#a-c340d035-26a4-47fb-a589-e7d4e1b130a1" data-target="a-c340d035-26a4-47fb-a589-e7d4e1b130a1">الكابلات: حيث تُفقد الكيلوواطات بصمت</a></li><li><a href="#a-440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b" data-target="a-440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b">من الورقة إلى السطح: تسلسل التركيب واختبارات القبول</a></li><li><a href="#a-ed746a7f-a2a0-4693-bdf4-f8f6070374a0" data-target="a-ed746a7f-a2a0-4693-bdf4-f8f6070374a0">المراقبة: كيف يحوّل المطوّر الألواح إلى بيانات</a></li><li><a href="#a-7e14911f-ad45-45fb-8381-de6a4045d7e7" data-target="a-7e14911f-ad45-45fb-8381-de6a4045d7e7">الصيانة: من العَرَض إلى السبب في عشر دقائق</a></li><li><a href="#a-3e284f22-3ad1-4116-85e7-45655e1e7b5e" data-target="a-3e284f22-3ad1-4116-85e7-45655e1e7b5e">الجدوى: LCOE، الاسترداد، ومتى لا تستحق الشمس؟</a></li><li><a href="#a-778c59e9-6245-42ce-b1cc-d330d7dc7c72" data-target="a-778c59e9-6245-42ce-b1cc-d330d7dc7c72">سبع علامات في العرض التجاري تعني أن النظام لن يصمد</a></li><li><a href="#a-611e27c9-30ea-402f-8aba-2ccf0d611859" data-target="a-611e27c9-30ea-402f-8aba-2ccf0d611859">طرائف من الورش الشمسية: حين تخون الشمس أصحابها</a></li><li><a href="#a-5a4b6620-6c7c-473d-9f12-45e480b06b8b" data-target="a-5a4b6620-6c7c-473d-9f12-45e480b06b8b">ورشة العدد: شركات التركيب التي تبيع الثقة</a></li><li><a href="#a-3e42d761-7aaf-42f6-9463-96f33d4097fb" data-target="a-3e42d761-7aaf-42f6-9463-96f33d4097fb">ملاحق العدد: مشروع 10 كيلوواط، قوائم الفحص، المسرد، المراجع</a></li></ol>
+  </aside>
+
+  <article class="issue-body" id="issueBody"><header class="issue-head">
+    <img src="https://dsgbnulewdxxftmrqrrr.supabase.co/storage/v1/object/public/magazine-assets/covers/issue-1794341846275.jpg" alt="غلاف العدد 5" style="border-radius:12px; margin-bottom:18px; max-height:420px; object-fit:cover;" loading="eager" decoding="async">
+    <div class="num">العدد 5</div>
+    <h1>من الفوتون إلى الشبكة: هندسة الأنظمة الكهروضوئية</h1>
+    <div class="date">2026-11-08</div>
+    <p class="lead">مرجع هندسي متكامل للطاقة الشمسية: فيزياء الخلية، الإشعاع والظل، الألواح والعواكس والبطاريات، تصميم السلاسل والحماية، التركيب والاختبارات، المراقبة والصيانة، والاقتصاد. منهج 14 أسبوعاً بمختبرات ومشروع 10 كيلوواط محلول بالأرقام.</p>
+  </header><section class="article" id="a-4554cc48-055b-41da-995d-3c3ef889c70d" data-article-id="4554cc48-055b-41da-995d-3c3ef889c70d">
+    <span class="cat">افتتاحية</span>
+    <h2>الشمس لا تُرسل فاتورة… لكنها لا تسامح <a class="art-permalink" href="https://capkitco.com/issue/05/1-4554cc48/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">تركيب ألواح على سطح ليس هندسة. الهندسة أن تعرف ماذا يحدث للجهد في يناير، وللتيار في يوليو، وللنظام في اليوم الذي ينقطع فيه التيار.</p>
+    <div class="prose"><p>في كل حي عربي تقريباً، ستجد سطحاً عليه ألواح سوداء. بعضها يعمل بامتياز، وبعضها يعمل «تقريباً»، وبعضها توقف بعد سنتين وصاحبه لا يعرف لماذا. والفارق بين الثلاثة لم يكن في اللوح، بل في <strong>من صمّم النظام</strong>.</p>
+
+<p>الطاقة الشمسية تعاني من مشكلة غريبة: مكوناتها سهلة التركيب لدرجة تُوهم أنه لا يحتاج هندسة. تشتري ألواحاً وعاكساً وبطارية، توصل الأسلاك، فيعمل النور. لكن هذا «العمل» هو الحد الأدنى، وليس الهدف. الهدف أن يعمل النظام <strong>بعد خمسة عشر عاماً</strong>، وفي أقسى يوم حرّ، وبأقل خسارة، وبأمان.</p>
+
+<blockquote>النظام الشمسي الذي يعمل في أبريل قد ينهار في أغسطس. الفرق ليس في الجهاز، بل في الحساب.</blockquote>
+
+<p>هذا العدد مبني على فكرة واحدة: <strong>كل رقم في النظام له سبب</strong>. لماذا هذا المقطع؟ لماذا هذا القاطع؟ لماذا هذا الميل؟ لماذا هذا الجهد؟ من يعرف «لماذا» يستطيع أن يصمم، ومن يعرف «كيف» فقط يستطيع أن ينسخ — والنسخ يفشل عند أول اختلاف في الموقع.</p>
+
+<h3>لماذا هذا العدد مختلف؟</h3>
+<p>لأن أغلب المحتوى العربي عن الطاقة الشمسية تجاري: «احسب استهلاكك واضرب في 5». وهذا ليس خطأً تماماً، لكنه لا يصلح نظاماً. سنبني من الفيزياء، ثم نمرّ على كل مكوّن، ثم نصمم نظاماً كاملاً بالأرقام — ونختبره ذهنياً قبل أن يُبنى.</p>
+
+<h3>لمن هذا العدد؟</h3>
+<ul>
+  <li><strong>المهندس:</strong> يجد الحسابات والمواصفات والمعايير، لا الشعارات.</li>
+  <li><strong>الفني:</strong> يجد إجراءات التركيب والاختبار وجدول الأعطال.</li>
+  <li><strong>المطوّر:</strong> يجد المراقبة والبيانات وبروتوكولات الاتصال.</li>
+  <li><strong>صاحب المشروع:</strong> يجد الاقتصاد والمخاطر وكيف يقرأ عرضاً تجارياً.</li>
+</ul>
+
+<p>اقرأه بالترتيب أول مرة. ثم عُد إليه عند كل مشروع. هذا ما نعنيه بكلمة «مرجع».</p></div>
+    
+    
+    <div class="comments" data-comments-for="4554cc48-055b-41da-995d-3c3ef889c70d">
+      <button class="mag-btn no-print" type="button" data-load-comments="4554cc48-055b-41da-995d-3c3ef889c70d">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-4554cc48-055b-41da-995d-3c3ef889c70d"></div>
+    </div>
+  </section><section class="article" id="a-ee806f5c-c2dc-4157-a6f2-85eb5705114c" data-article-id="ee806f5c-c2dc-4157-a6f2-85eb5705114c">
+    <span class="cat">منهج</span>
+    <h2>كيف تقرأ هذا العدد؟ منهج 14 أسبوعاً ومخرجات تعلّم <a class="art-permalink" href="https://capkitco.com/issue/05/2-ee806f5c/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">سبع وحدات، تسعة عشر مقالاً، أربعة عشر أسبوعاً، ومشروع كامل في النهاية. اقرأ هذا المقال أولاً، ثم عُد إليه كل أسبوع.</p>
+    <div class="prose"><p>هذا العدد ليس للقراءة المتصلة. هو مسار. كل وحدة تبني على سابقتها، وكل أسبوع ينتهي بمخرج يمكن اختباره. من يقرأه كاملاً في ليلة، سيحفظ أرقاماً وينسى منطقها. ومن يتبعه أسبوعاً بأسبوع، سيصمم نظاماً بنفسه.</p>
+
+<h3>الوحدات السبع</h3>
+<table>
+  <thead>
+    <tr><th>الوحدة</th><th>الأسابيع</th><th>المقالات</th><th>الناتج</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1. الفيزياء والإشعاع</td><td>1 – 2</td><td>3، 4</td><td>تفهم من أين يأتي الأمبير، وكيف تحسب الظل</td></tr>
+    <tr><td>2. المكونات</td><td>3 – 5</td><td>5، 6، 7</td><td>تقرأ ورقة بيانات لوح وعاكس وبطارية</td></tr>
+    <tr><td>3. الهياكل</td><td>6</td><td>8</td><td>تختار التثبيت وتحسب الأحمال</td></tr>
+    <tr><td>4. التصميم</td><td>7 – 9</td><td>9، 10</td><td>تصمم نظاماً وسلاسل متوافقة</td></tr>
+    <tr><td>5. الحماية والكابلات</td><td>10 – 11</td><td>11، 12</td><td>تحمي النظام من الحريق والصعق</td></tr>
+    <tr><td>6. التركيب والتشغيل</td><td>12 – 13</td><td>13، 14، 15</td><td>تركّب وتختبر وتراقب وتصون</td></tr>
+    <tr><td>7. الاقتصاد والسوق</td><td>14</td><td>16، 17</td><td>تحسب الجدوى وتقيّم العروض</td></tr>
+  </tbody>
+</table>
+
+<h3>الجدول الأسبوعي</h3>
+<table>
+  <thead>
+    <tr><th>الأسبوع</th><th>القراءة</th><th>المختبر</th><th>التسليم</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>فيزياء الخلية</td><td>ارسم منحنى IV من ورقة بيانات</td><td>تحليل لوح واحد</td></tr>
+    <tr><td>2</td><td>الإشعاع والظل</td><td>احسب مسافة الصفوف لسطحك</td><td>مخطط ظل</td></tr>
+    <tr><td>3</td><td>الألواح</td><td>قارن لوحين بنفس القدرة</td><td>جدول مقارنة</td></tr>
+    <tr><td>4</td><td>العاكس</td><td>استخرج نافذة MPPT</td><td>ورقة توافق</td></tr>
+    <tr><td>5</td><td>البطاريات</td><td>احسب سعة بنظام انقطاع</td><td>حساب بنك</td></tr>
+    <tr><td>6</td><td>الهياكل</td><td>احسب حمل رياح تقريبي</td><td>مخطط تثبيت</td></tr>
+    <tr><td>7</td><td>الأحمال</td><td>سجل استهلاك أسبوع</td><td>ملف أحمال</td></tr>
+    <tr><td>8</td><td>تصميم النظام</td><td>صمّم نظاماً لبيتك</td><td>مذكرة تصميم</td></tr>
+    <tr><td>9</td><td>السلاسل</td><td>تحقق Voc عند أدنى حرارة</td><td>جدول سلاسل</td></tr>
+    <tr><td>10</td><td>الحماية</td><td>اختر القواطع والمانعات</td><td>مخطط حماية</td></tr>
+    <tr><td>11</td><td>الكابلات</td><td>احسب هبوط الجهد DC/AC</td><td>جدول كابلات</td></tr>
+    <tr><td>12</td><td>التركيب</td><td>اكتب إجراء تركيب</td><td>SOP</td></tr>
+    <tr><td>13</td><td>الاختبارات</td><td>خطة فحص ما بعد التركيب</td><td>قائمة فحص</td></tr>
+    <tr><td>14</td><td>الاقتصاد</td><td>احسب LCOE لنظامك</td><td>مذكرة جدوى</td></tr>
+  </tbody>
+</table>
+
+<h3>مشروع التخرّج</h3>
+<p>صمّم نظاماً لسطح حقيقي تعرفه: 10 كيلوواط، متصل بالشبكة، بأرقامك المحلية (أسعار، إشعاع، تعريفة). سلّم: مذكرة حساب، مخططاً أحادياً، جدول كميات، وقائمة فحص تركيb. المشروع الكامل محلولاً في <strong>ملحق العدد</strong> في نهايته.</p>
+
+<blockquote>من صمّم نظاماً واحداً بالأرقام، يستطيع تصميم مئة. ومن ركّب مئة بلا حساب، لا يستطيع تصميم واحد.</blockquote></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>مخرجات التعلّم</h3>
+<ol>
+  <li>يشرح منحنى IV ويحدد نقطة القدرة القصوى.</li>
+  <li>يحسب الإشعاع على سطح مائل ويقدّر الظل.</li>
+  <li>يقرأ ورقة بيانات لوح ويستخرج معاملات الحرارة.</li>
+  <li>يتحقق من توافق السلسلة مع نافذة MPPT.</li>
+  <li>يحسب بنك بطاريات بعمق تفريغ واستقلالية.</li>
+  <li>يختار القواطع والمانعات ويربط الأرضي.</li>
+  <li>يحسب هبوط الجهد ويختار المقطع.</li>
+  <li>ينفّذ اختبارات ما بعد التركيب ويوثّقها.</li>
+  <li>يحسب LCOE ويقارن عروضاً.</li>
+  <li>يكتب مذكرة تصميم ومخططاً أحادياً.</li>
+</ol>
+
+<h3>المتطلبات المسبقة</h3>
+<ul>
+  <li>أساسيات الكهرباء (فولت/أمبير/واط) — من العدد الثالث.</li>
+  <li>قراءة مخططات بسيطة.</li>
+  <li>آلة حاسبة علمية.</li>
+</ul></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62548 — تصميم الأنظمة الكهروضوئية.</li><li>IEC 60364-7-712 — التركيبات الكهروضوئية في المباني.</li></ol></div>
+    <div class="comments" data-comments-for="ee806f5c-c2dc-4157-a6f2-85eb5705114c">
+      <button class="mag-btn no-print" type="button" data-load-comments="ee806f5c-c2dc-4157-a6f2-85eb5705114c">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-ee806f5c-c2dc-4157-a6f2-85eb5705114c"></div>
+    </div>
+  </section><section class="article" id="a-c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef" data-article-id="c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef">
+    <span class="cat">أساسيات</span>
+    <h2>من الفوتون إلى الأمبير: كيف تولّد الخلية الكهرباء؟ <a class="art-permalink" href="https://capkitco.com/issue/05/3-c27b7ac8/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">لا يوجد شيء يتحرك في اللوح. لا مروحة، لا محرك. فقط سيليكون، وفوتونات، وإلكترونات تُدفع في اتجاه واحد. فهم هذه الرقصة هو أساس كل قرار هندسي بعده.</p>
+    <div class="prose"><p>الخلية الكهروضوئية قطعة من السيليكون المشاب (شبه موصل) بسماكة أقل من ملّيمتر. ليست بطارية، ولا مولّداً دوّاراً. هي <strong>صمام اتجاهي للطاقة</strong>: تدخلها فوتونات، فتخرج إلكترونات في اتجاه واحد.</p>
+
+<h3>الفيزياء في ثلاث خطوات</h3>
+<ol>
+  <li><strong>الفوتون يصل:</strong> إن كانت طاقته أكبر من «فجوة الطاقة» للمادة (≈1.1 إلكترون-فولت للسيليكون)، يحرّر إلكتروناً من مكانه.</li>
+  <li><strong>المجال الداخلي يفصل:</strong> في منطقة الوصلة (P-N) يوجد مجال كهربائي يدفع الإلكترون في جهة، والثقب في الجهة الأخرى.</li>
+  <li><strong>الدائرة تكتمل:</strong> تصلحاطر الأطراف بموصل خارجي، فيمر تيار.</li>
+</ol>
+
+<p>لهذا لا يعمل اللوح بالحرارة: الحرارة تزيد الاهتزاز وتقلل الفجوة، فينخفض الجهد قليلاً ويرتفع التيار قليلاً — والنتيجة انخفاض في القدرة.</p>
+
+<h3>منحنى IV: بطاقة هوية اللوح</h3>
+<p>لكل لوح منحنى يصف علاقة التيار بالجهد. منه نستخرج أربعة أرقام:</p>
+<ul>
+  <li><strong>Voc:</strong> جهد الدائرة المفتوحة — أعلى جهد يظهر عند البرد.</li>
+  <li><strong>Isc:</strong> تيار الدائرة القصيرة — أعلى تيار يظهر عند أقوى شمس.</li>
+  <li><strong>Vmp / Imp:</strong> نقطة القدرة القصوى (أفضل تشغيل).</li>
+  <li><strong>FF:</strong> معامل الامتلاء — يقيس جودة الخلية.</li>
+</ul>
+
+<p style="text-align:center; font-size:1.05rem;"><strong>P = V × I</strong> — والقدرة القصوى عند «كوع» المنحنى.</p>
+
+<h3>الشروط القياسية (STC)</h3>
+<p>كل ورقة بيانات تقيس عند: إشعاع 1000 واط/م²، حرارة 25°م، طيف AM1.5. هذا ليس واقعاً، بل مرجع للمقارنة. في الحقل، الحرارة 60°م والإشعاع متغيّر — لذلك القدرة الفعلية أقل دائماً.</p>
+
+<h3>معاملات الحرارة: الرقم الذي ينساه الجميع</h3>
+<table>
+  <thead>
+    <tr><th>المعامل</th><th>القيمة النموذجية</th><th>ماذا يعني</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pmax</td><td>−0.30 إلى −0.40 %/°م</td><td>كل درجة فوق 25 تُفقد 0.35% من القدرة</td></tr>
+    <tr><td>Voc</td><td>−0.25 إلى −0.30 %/°م</td><td>الجهد ينخفض بالحرارة — يؤثر على السلاسل</td></tr>
+    <tr><td>Isc</td><td>+0.04 إلى +0.06 %/°م</td><td>التيار يرتفع قليلاً</td></tr>
+  </tbody>
+</table>
+
+<blockquote>لوح 550 واط عند 25°م قد يعطي 500 واط عند 60°م. من يصمم على 550 فقط، يبني نظاماً يعمل بأقل من وعده.</blockquote>
+
+<h3>الكفاءة: لماذا لا نرى 100%؟</h3>
+<p>لأن الفوتونات ليست كلها بالطاقة المناسبة: بعضها ضعيف (يمر)، وبعضها قوي جداً (تتحول الزيادة إلى حرارة)، وهناك خسائر توصيل وانعكاس. أفضل الألواح التجارية اليوم: 21–24%.</p></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>حساب القدرة عند حرارة أعلى</h3>
+<p>P(T) = P(STC) × [1 + γ × (T − 25)]</p>
+<p>مثال: لوح 550 واط، γ = −0.35%/°م، حرارة الخلية 65°م:</p>
+<p>P = 550 × [1 − 0.0035 × 40] = 550 × 0.86 = <strong>473 واط</strong>.</p>
+
+<h3>حساب Voc عند البرد (مهم للسلاسل)</h3>
+<p>Voc(T) = Voc(STC) × [1 + β × (T − 25)]</p>
+<p>مثال: Voc = 49.5V، β = −0.27%/°م، أدنى حرارة 5°م:</p>
+<p>Voc = 49.5 × [1 + (−0.0027 × −20)] = 49.5 × 1.054 = <strong>52.2V</strong>.</p>
+<p>هذا الرقم هو ما يجب أن يبقى تحت أقصى جهد للعاكس، لا 49.5.</p>
+
+<h3>قراءة ورقة بيانات (مثال)</h3>
+<table>
+  <thead>
+    <tr><th>البند</th><th>القيمة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pmax</td><td>550 W</td></tr>
+    <tr><td>Voc</td><td>49.5 V</td></tr>
+    <tr><td>Isc</td><td>14.0 A</td></tr>
+    <tr><td>Vmp</td><td>41.8 V</td></tr>
+    <tr><td>Imp</td><td>13.2 A</td></tr>
+    <tr><td>Efficiency</td><td>21.3%</td></tr>
+    <tr><td>Temp coeff Pmax</td><td>−0.35 %/°C</td></tr>
+  </tbody>
+</table></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 61215 / IEC 61730 — اختبارات وأمان الألواح.</li><li>IEC 60904 — قياس الأجهزة الكهروضوئية.</li></ol></div>
+    <div class="comments" data-comments-for="c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef">
+      <button class="mag-btn no-print" type="button" data-load-comments="c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-c27b7ac8-15c3-4401-aacd-8aeb5dd3aeef"></div>
+    </div>
+  </section><section class="article" id="a-4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9" data-article-id="4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9">
+    <span class="cat">أساسيات</span>
+    <h2>الشمس ليست في مكان واحد: الإشعاع والميل والظل <a class="art-permalink" href="https://capkitco.com/issue/05/4-4a6a5438/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">لوح واحد في القاهرة لا ينتج مثل نفسه في أسوان أو الإسكندرية. والظل الذي يغطي 5% من اللوح قد يخسر 50% من السلسلة. هذا المقال يحوّل الشمس من كلام إلى أرقام.</p>
+    <div class="prose"><p>قبل أن تحسب أي شيء، اعرف ثلاثة أرقام عن موقعك: كم إشعاع يصل؟ بأي زاوية أفضل؟ وما الذي سيظلله؟ هذه الأرقام تحدد 70% من تصميمك.</p>
+
+<h3>ثلاثة أنواع من الإشعاع</h3>
+<ul>
+  <li><strong>GHI:</strong> الإشعاع الكلي على سطح أفقي — ما يقاس في محطات الأرصاد.</li>
+  <li><strong>DNI:</strong> الإشعاع المباشر القادم من قرص الشمس.</li>
+  <li><strong>DHI:</strong> الإشعاع المنتشر من السماء (مهم في الأيام الغائمة).</li>
+</ul>
+
+<p>الألواح المائلة تستقبل مزيجاً أكبر من GHI. ولهذا يُستخدم مفهوم <strong>ساعات الشمس المكافئة (PSH)</strong>: عدد الساعات التي لو أشرقت الشمس بكثافة 1000 واط/م² لكانت الطاقة نفسها.</p>
+
+<table>
+  <thead>
+    <tr><th>المنطقة</th><th>PSH تقريبية (يومي)</th><th>ملاحظة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>القاهرة</td><td>5.4 – 5.8</td><td>غبار صحراوي يقلل الإنتاج</td></tr>
+    <tr><td>أسوان</td><td>6.2 – 6.6</td><td>أعلى إشعاع في مصر</td></tr>
+    <tr><td>الإسكندرية</td><td>4.9 – 5.3</td><td>رطوبة وبخار ماء</td></tr>
+    <tr><td>الرياض</td><td>6.0 – 6.5</td><td>حرارة عالية تُخفّض الجهد</td></tr>
+    <tr><td>دبي</td><td>5.6 – 6.1</td><td>غبار + رطوبة ساحلية</td></tr>
+  </tbody>
+</table>
+<p>الأرقام تقديرية للتصميم الأولي — استخدم قاعدة بيانات موقعية عند التصميم النهائي.</p>
+
+<h3>الميل والاتجاه</h3>
+<p>القاعدة العامة: <strong>الميل ≈ خط عرض الموقع</strong> لأفضل إنتاج سنوي. في القاهرة (30° شمالاً) → 30°. وفي الجنوب أقل قليلاً. والاتجاه: <strong>الجنوب</strong> في نصف الكرة الشمالي.</p>
+<ul>
+  <li>ميل أقل (15–20°) يناسب الأحمال الصيفية (تكييف).</li>
+  <li>ميل أعلى (35–40°) يناسب الأحمال الشتوية ويقلل تراكم الغبار.</li>
+  <li>انحراف ±15° عن الجنوب يخسر 1–3% فقط.</li>
+</ul>
+
+<h3>الظل: القاتل الصامت</h3>
+<p>الظل على جزء من اللوح يخفض تيار السلسلة كلها، لأن الخلايا على التوالي. الثنائيات (Bypass Diodes) تحمي من الحرارة الزائدة، لكنها لا تستعيد الإنتاج.</p>
+
+<p>قاعدة عملية: <strong>لا تظلل لوحاً أبداً</strong>. وإن كان لا بد، فاجعل الظل على سلسلة منفصلة أو استخدم محسّنات (Optimizers) / عواكس ميكروية.</p>
+
+<h3>مسافة الصفوف</h3>
+<p>إذا كان عندك أكثر من صف، يجب أن تترك مسافة كافية حتى لا يظلل الصف الأمامي الخلفي شتاءً. القاعدة تعتمد على ارتفاع الصف وزاوية الشمس في أسوأ يوم (21 ديسمبر).</p>
+
+<blockquote>الظل في الظهيرة قد لا يهم. الظل الساعة 9 صباحاً في ديسمبر هو الذي يحدد تصميمك.</blockquote></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>حساب مسافة الصفوف</h3>
+<p>المسافة (D) ≈ ارتفاع الصف (H) ÷ tan(زاوية الشمس في أسوأ يوم)</p>
+<p>مثال: ارتفاع 1.2 م، زاوية الشمس 35° في ديسمبر → D ≈ 1.2 ÷ 0.70 = <strong>1.7 م</strong> (بين نهاية صف وبداية التالي).</p>
+
+<h3>حساب الإنتاج المتوقع</h3>
+<p>الإنتاج اليومي (kWh) ≈ قدرة النظام (kW) × PSH × معامل النظام (0.75 – 0.85).</p>
+<p>مثال: 5 kW × 5.5 × 0.8 ≈ <strong>22 كيلوواط/ساعة يومياً</strong> في المتوسط.</p>
+
+<h3>خسائر يجب طرحها</h3>
+<table>
+  <thead>
+    <tr><th>الخسارة</th><th>النسبة التقريبية</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>حرارة</td><td>8 – 12%</td></tr>
+    <tr><td>غبار</td><td>2 – 8%</td></tr>
+    <tr><td>كابلات DC/AC</td><td>1 – 3%</td></tr>
+    <tr><td>عاكس</td><td>2 – 4%</td></tr>
+    <tr><td>ظل جزئي</td><td>0 – 20%</td></tr>
+    <tr><td>تقادم سنوي</td><td>0.5% / سنة</td></tr>
+  </tbody>
+</table>
+
+<h3>أدوات القياس</h3>
+<ul>
+  <li>مقياس إشعاع (Pyranometer) للمواقع الكبيرة.</li>
+  <li>تطبيقات مسار الشمس + كاميرا 360 لتوثيق الظل.</li>
+  <li>قاعدة بيانات إشعاع موقعية (NASA POWER / PVGIS).</li>
+</ul></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 60904-3 — الطيف المرجعي.</li><li>PVGIS / NASA POWER — قواعد بيانات الإشعاع.</li></ol></div>
+    <div class="comments" data-comments-for="4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9">
+      <button class="mag-btn no-print" type="button" data-load-comments="4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-4a6a5438-5f9f-47dd-a52c-a2dd97de8ab9"></div>
+    </div>
+  </section><section class="article" id="a-6bcacd9e-6eff-4b4e-866c-bf671e821121" data-article-id="6bcacd9e-6eff-4b4e-866c-bf671e821121">
+    <span class="cat">مكونات</span>
+    <h2>الألواح: أجيال الخلايا وكيف تقرأ ورقة البيانات <a class="art-permalink" href="https://capkitco.com/issue/05/5-6bcacd9e/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">كل الألواح سوداء ومستطيلة. الفرق بين لوح وآخر ليس في الشكل، بل في سبعة أرقام على ورقة البيانات، وفي ضمانة لا يقرأها أحد.</p>
+    <div class="prose"><p>سوق الألواح مليء بأسماء متشابهة وأسعار متباعدة. والسؤال الحقيقي ليس «أي ماركة؟» بل «أي تقنية، وبأي معاملات حرارة، وبأي ضمان؟». لأن اللوح سيعمل 25 سنة، والماركة قد تتغير.</p>
+
+<h3>أجيال الخلايا</h3>
+<table>
+  <thead>
+    <tr><th>التقنية</th><th>الكفاءة التجارية</th><th>الميزة</th><th>العيب</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Poly (متعدد التبلور)</td><td>15 – 18%</td><td>رخيص</td><td>كفاءة أقل، مساحة أكبر</td></tr>
+    <tr><td>Mono PERC</td><td>20 – 22.5%</td><td>توازن جيد، سعر معقول</td><td>حساسية PID أعلى</td></tr>
+    <tr><td>TOPCon</td><td>21.5 – 24%</td><td>كفاءة عالية، معامل حرارة أفضل</td><td>سعر أعلى قليلاً</td></tr>
+    <tr><td>HJT</td><td>23 – 25.5%</td><td>أفضل معامل حرارة</td><td>تكلفة تصنيع أعلى</td></tr>
+    <tr><td>IBC</td><td>23 – 24.5%</td><td>مظهر نظيف بلا خطوط</td><td>تكلفة عالية</td></tr>
+  </tbody>
+</table>
+
+<p>القاعدة العملية في 2027: <strong>TOPCon هي الخيار المتوازن</strong> لمعظم المشروعات. PERC ما زالت مقبولة إن كان الفرق السعري كبيراً.</p>
+
+<h3>ثنائي الوجه (Bifacial)</h3>
+<p>اللوح الشفاف من الخلف ينتج من الضوء المنعكس من الأرض. المكسب: 5–15% حسب الأرض (أسود 5%، رمل 10%، ثلج 25%). لكنه يشترط:</p>
+<ul>
+  <li>تركيب مرتفع عن السطح (≥ 20 سم) ومساحة خلفية مفتوحة.</li>
+  <li>أرضية فاتحة أو رملية.</li>
+  <li>عاكس يدعم المدخلين أو ميزان مناسب.</li>
+</ul>
+
+<h3>سبعة أرقام في ورقة البيانات</h3>
+<ol>
+  <li><strong>Pmax:</strong> القدرة عند STC — ليست ما ستحصل عليه.</li>
+  <li><strong>معامل حرارة Pmax:</strong> كلما اقترب من −0.30 كان أفضل للحرارة.</li>
+  <li><strong>Voc/Isc:</strong> لتصميم السلاسل والحماية.</li>
+  <li><strong>Vmp/Imp:</strong> لتقدير التيار الفعلي.</li>
+  <li><strong>كفاءة:</strong> تحدد المساحة المطلوبة.</li>
+  <li><strong>الجهد الأقصى للنظام:</strong> 1000V أو 1500V — قاعدة تصميم.</li>
+  <li><strong>الضمان:</strong> 25 سنة أداء (عادة 80–87% من القدرة) + 10–15 سنة تصنيع.</li>
+</ol>
+
+<h3>التدهور مع الزمن</h3>
+<p>اللوح يفقد قدرته ببطء: 0.4–0.55% سنوياً للتقنيات الحديثة. في 25 سنة، يكون عند 80–87% من قدرته. لكن هذا مشروط بأن:</p>
+<ul>
+  <li>لم يتعرض لظل دائم أو حرارة خانقة.</li>
+  <li>لم تتكون فيه بقع ساخنة (Hotspots).</li>
+  <li>لم يحدث PID (تسرب جهد عبر الطبقات).</li>
+</ul>
+
+<blockquote>ضمانة 25 سنة لا تُغني عن التصميم الجيد. الشركة تضمن اللوح، لا أنك ركّبته بشكل يجعله يعيش 25 سنة.</blockquote>
+
+<h3>علامات الخطر عند الشراء</h3>
+<ul>
+  <li>لوح بلا بطاقة بيانات كاملة أو بلا رقم تسلسلي.</li>
+  <li>سعر أقل 20% من السوق بلا سبب.</li>
+  <li>«1500V» مكتوب على لوح صغير مخصص لنظام 1000V.</li>
+  <li>ضمان شفهي فقط.</li>
+</ul></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>حساب المساحة المطلوبة</h3>
+<p>المساحة ≈ القدرة المطلوبة ÷ (إشعاع 1000 × الكفاءة)</p>
+<p>مثال: 10 كيلوواط بكفاءة 21% → 10,000 ÷ 210 ≈ <strong>47.6 م²</strong> من الخلايا، أي نحو 55–65 م² مع الإطارات والمسافات.</p>
+
+<h3>PID: العدّو الصامت</h3>
+<p>Potential Induced Degradation: فرق جهد بين الخلايا والإطار يسبب تسرب أيونات، فتقل القدرة. الوقاية:</p>
+<ul>
+  <li>تأريض مناسب للإطار.</li>
+  <li>استخدام عواكس ذات تأريض سلبي أو تقنيات PID recovery.</li>
+  <li>التحقق من قيمة PID resistance في ورقة البيانات.</li>
+</ul>
+
+<h3>البقع الساخنة (Hotspot)</h3>
+<p>خلية مظللة تعمل كمقاومة حمل، ترتفع حرارتها. الاختبار: كاميرا حرارية بعد الظهر — فرق أكثر من 10°م بين خلية وجاراتها يستدعي الفحص.</p>
+
+<h3>معايير الاختيار السريعة</h3>
+<table>
+  <thead>
+    <tr><th>المعيار</th><th>القيمة الجيدة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>معامل حرارة Pmax</td><td>−0.30 %/°م أو أفضل</td></tr>
+    <tr><td>تدهور السنة الأولى</td><td>≤ 2%</td></tr>
+    <tr><td>تدهور سنوي</td><td>≤ 0.55%</td></tr>
+    <tr><td>ضمان أداء</td><td>≥ 25 سنة</td></tr>
+    <tr><td>شهادة</td><td>IEC 61215 + 61730</td></tr>
+  </tbody>
+</table></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 61215 — تأهيل التصميم.</li><li>IEC 61730 — سلامة الألواح.</li><li>IEC 62804 — مقاومة PID.</li></ol></div>
+    <div class="comments" data-comments-for="6bcacd9e-6eff-4b4e-866c-bf671e821121">
+      <button class="mag-btn no-print" type="button" data-load-comments="6bcacd9e-6eff-4b4e-866c-bf671e821121">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-6bcacd9e-6eff-4b4e-866c-bf671e821121"></div>
+    </div>
+  </section><section class="article" id="a-ff17c91f-b631-49cf-9798-cd1c91070ad1" data-article-id="ff17c91f-b631-49cf-9798-cd1c91070ad1">
+    <span class="cat">مكونات</span>
+    <h2>العاكس: قلب النظام الذي يقرر نجاحه <a class="art-permalink" href="https://capkitco.com/issue/05/6-ff17c91f/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">الألواح تنتج تياراً مستمراً لا تستخدمه أي جهاز. العاكس هو الذي يحوّله إلى تيار متردد. وهو أيضاً أول من يفشل، وأول من يحدد كفاءة النظام.</p>
+    <div class="prose"><p>العاكس ليس «محولاً» فقط. هو كمبيوتر يتابع نقطة القدرة القصوى، ويحمي النظام، ويتصل بالشبكة، ويتوقف عند انقطاعها، ويسجل الإنتاج. اختياره الخاطئ يُفسد نظاماً كاملاً.</p>
+
+<h3>ثلاثة أنواع</h3>
+<table>
+  <thead>
+    <tr><th>النوع</th><th>كيف يعمل</th><th>الأنسب لـ</th><th>العيب</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>String Inverter</td><td>سلسلة ألواح في عاكس مركزي</td><td>أسطح كبيرة، مشروعات</td><td>ظل جزئي يؤثر على السلسلة</td></tr>
+    <tr><td>Micro Inverter</td><td>عاكس صغير لكل لوح</td><td>أسطح معقدة/مظللة</td><td>تكلفة أعلى، صيانة أصعب</td></tr>
+    <tr><td>Hybrid</td><td>عاكس + شحن بطاريات + إدارة</td><td>أنظمة مع تخزين</td><td>تعقيد، تكلفة</td></tr>
+  </tbody>
+</table>
+
+<h3>MPPT: لماذا هو مهم؟</h3>
+<p>اللوح لا يعطي قدرته القصوى إلا عند جهد معين. مع تغيّر الإشعاع والحرارة، تتغير هذه النقطة. متتبع نقطة القدرة القصوى (MPPT) يبحث عنها باستمرار — كفاءته عادة 99%+.</p>
+<p>لذلك: نافذة MPPT (مدى الجهد الذي يعمل فيه) هي أهم رقم في ورقة العاكس، وليس قدرته فقط.</p>
+
+<h3>الأرقام التي تحكم الاختيار</h3>
+<ul>
+  <li><strong>أقصى جهد DC:</strong> 600/1000/1100 فولت — يجب أن يبقى Voc عند البرد تحته.</li>
+  <li><strong>نافذة MPPT:</strong> مثلاً 120–500 فولت — يجب أن يقع Vmp داخل النطاق صيفاً وشتاءً.</li>
+  <li><strong>أقصى تيار لكل MPPT:</strong> يحدد عدد السلاسل المتوازية.</li>
+  <li><strong>الكفاءة:</strong> 96–98% (الأوروبية) — الفرق 2% يظهر في الفاتورة.</li>
+  <li><strong>نسبة DC/AC:</strong> 1.1–1.3 مقبولة (Clipping بسيط أفضل من عاكس كبير بلا داعٍ).</li>
+</ul>
+
+<h3>الحماية المدمجة</h3>
+<ul>
+  <li><strong>Anti-islanding:</strong> يفصل عند انقطاع الشبكة — لحماية الفنيين.</li>
+  <li><strong>حماية الجهد والتردد:</strong> حسب كود الشبكة المحلي.</li>
+  <li><strong>عزل DC:</strong> بعض العواكس معزولة، وبعضها لا — مسألة سلامة.</li>
+  <li><strong>AFCI:</strong> كشف قوس DC (اختياري لكنه مهم على الأسطح الخشبية).</li>
+</ul>
+
+<blockquote>العاكس الذي يفتقد ميزة anti-islanding ليس رخيصاً. هو يقتل من يعمل على الشبكة أثناء انقطاعها.</blockquote>
+
+<h3>Clipping: متى يكون مقبولاً؟</h3>
+<p>إن كانت الألواح أكبر من العاكس بقليل، سيُقصّ الإنتاج في ساعات الذروة القليلة. هذا مقبول اقتصادياً (1–3% سنوياً) لأنه يوسّع الإنتاج في الصباح والمساء. لكن التجاوز الكبير (1.5×) يعني إهداراً.</p></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>وضع العاكس على السطح أو داخلاً؟</h3>
+<table>
+  <thead>
+    <tr><th>المعيار</th><th>خارجي</th><th>داخلي</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>الحرارة</td><td>مرتفعة صيفاً (خفض عمر)</td><td>معتدلة</td></tr>
+    <tr><td>الغبار</td><td>يحتاج تنظيف</td><td>أقل</td></tr>
+    <tr><td>طول كابلات DC</td><td>قصير</td><td>أطول (هبوط جهد)</td></tr>
+    <tr><td>الوصول للصيانة</td><td>صعب</td><td>سهل</td></tr>
+  </tbody>
+</table>
+
+<h3>حساب نسبة DC/AC</h3>
+<p>DC/AC = قدرة الألواح ÷ قدرة العاكس.</p>
+<p>مثال: 12 كيلوواط ألواح + 10 كيلوواط عاكس = 1.2 — نسبة مقبولة.</p>
+
+<h3>فقدان الكفاءة الحقيقي</h3>
+<p>لا تنظر إلى «أقصى كفاءة 98.6%». انظر إلى <strong>الكفاءة الأوروبية</strong> (متوسط مرجّح). الفرق بين 96% و98% يعني ~2% من إنتاجك السنوي.</p>
+
+<h3>علامات عاكس رديء</h3>
+<ol>
+  <li>لا يحمل شهادة IEC 62109 أو شهادة شبكة محلية.</li>
+  <li>نافذة MPPT ضيقة جداً (تبدأ عند 300V مثلاً).</li>
+  <li>لا يدعم مراقبة أو بيانات.</li>
+  <li>مروحة تعمل دائماً (تصميم حراري ضعيف).</li>
+</ol></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62109-1/-2 — سلامة العواكس.</li><li>IEC 62116 — اختبار anti-islanding.</li><li>IEC 61727 — توصيل الشبكة.</li></ol></div>
+    <div class="comments" data-comments-for="ff17c91f-b631-49cf-9798-cd1c91070ad1">
+      <button class="mag-btn no-print" type="button" data-load-comments="ff17c91f-b631-49cf-9798-cd1c91070ad1">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-ff17c91f-b631-49cf-9798-cd1c91070ad1"></div>
+    </div>
+  </section><section class="article" id="a-f4911a4f-e8f2-44eb-8358-dc1bee38acea" data-article-id="f4911a4f-e8f2-44eb-8358-dc1bee38acea">
+    <span class="cat">مكونات</span>
+    <h2>البطاريات وBMS: تخزين الطاقة كمسألة سلامة قبل الكفاءة <a class="art-permalink" href="https://capkitco.com/issue/05/7-f4911a4f/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">البطارية أكبر خطر في النظام: طاقة كيميائية كثيفة قابلة للانفلات. اختيارها ليس «كم كيلوواط/ساعة»، بل «كم دورة، وبأي عمق، وبأي حماية».</p>
+    <div class="prose"><p>البطارية تحوّل نظاماً «يعمل نهاراً» إلى نظام «يعمل دائماً». لكنها أيضاً أغلى مكوّن، وأول ما يتلف إن أُسيء استخدامه. وفهمها يبدأ من ثلاثة أرقام: السعة، عمق التفريغ، وعدد الدورات.</p>
+
+<h3>المقارنة الأساسية</h3>
+<table>
+  <thead>
+    <tr><th>المعيار</th><th>رصاص-حمض</th><th>ليثيوم LFP</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>عمق التفريغ الآمن</td><td>50%</td><td>80 – 90%</td></tr>
+    <tr><td>عدد الدورات</td><td>500 – 1200</td><td>3000 – 6000</td></tr>
+    <tr><td>الكفاءة (ذهاب/عودة)</td><td>80 – 85%</td><td>90 – 95%</td></tr>
+    <tr><td>الوزن لكل kWh</td><td>25 – 35 كجم</td><td>8 – 12 كجم</td></tr>
+    <tr><td>السعر الأولي</td><td>أقل</td><td>أعلى</td></tr>
+    <tr><td>السعر على العمر</td><td>أعلى غالباً</td><td>أقل</td></tr>
+    <tr><td>الصيانة</td><td>ماء + تهوية</td><td>شبه صفر</td></tr>
+  </tbody>
+</table>
+
+<p>في 2027، الليثيوم LFP هو الخيار الافتراضي للأنظمة السكنية. الرصاص ما زال منطقياً في أنظمة صغيرة منخفضة الميزانية أو تطبيقات الاحتياط القصير.</p>
+
+<h3>عمق التفريغ (DOD): الرقم الذي يحدد العمر</h3>
+<p>تفريغ البطارية إلى 100% يستهلك عمرها أسرع. في الرصاص، الحد الآمن 50%. في LFP، 80–90%. لذلك:</p>
+<p><strong>السعة المطلوبة = الطاقة المطلوبة ÷ DOD المسموح.</strong></p>
+
+<h3>معدل الشحن (C-rate)</h3>
+<p>بطارية 100 أمبير-ساعة تُشحن بتيار 20 أمبير = 0.2C. الشحن السريع يرفع الحرارة ويقصر العمر. الأغلب في الأنظمة السكنية: 0.1–0.3C.</p>
+
+<h3>BMS: من يحمي البطارية؟</h3>
+<p>نظام إدارة البطارية يراقب كل خلية: الجهد، الحرارة، التيار. ويقطع عند:</p>
+<ul>
+  <li>ارتفاع/انخفاض جهد خلية عن الحد.</li>
+  <li>ارتفاع حرارة.</li>
+  <li>تيار شحن/تفريغ زائد.</li>
+  <li>قصر داخلي.</li>
+</ul>
+<p>بدون BMS، بطارية ليثيوم = خطر حريق. وليس «خياراً».</p>
+
+<blockquote>البطارية ليست خزاناً سلبياً. هي مفاعل كيميائي يحتاج حراسة إلكترونية دائمة.</blockquote>
+
+<h3>الحرارة: العدو الأول</h3>
+<p>كل 10°م فوق 25°م تقصّر عمر الليثيوم إلى النصف تقريباً. لذلك: مكان مظلل، تهوية جيدة، وليس في غرفة مغلقة بلا تكييف.</p>
+
+<h3>السلامة</h3>
+<ul>
+  <li>LFP أقل عرضة للاحتراق من NMC — ويُفضّل في المنازل.</li>
+  <li>لا تُركّب البطارية قرب مواد قابلة للاشتعال.</li>
+  <li>كابلات قصيرة وسماكة كافية، مع قاطع DC.</li>
+  <li>تهوية للرصاص (غازات) ومراقبة للليثيوم.</li>
+</ul></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>حساب بنك البطاريات</h3>
+<p>السعة (Ah) = (الطاقة اليومية Wh × أيام الاستقلالية) ÷ (جهد النظام × DOD × كفاءة العاكس)</p>
+<p>مثال: 6,000 Wh يومياً، يومان استقلالية، نظام 48V، DOD 80%، كفاءة 90%:</p>
+<p>السعة = (6,000 × 2) ÷ (48 × 0.8 × 0.9) = 12,000 ÷ 34.6 ≈ <strong>347 Ah</strong>.</p>
+
+<h3>مقارنة العمر والتكلفة</h3>
+<table>
+  <thead>
+    <tr><th>البند</th><th>رصاص 12V/200Ah</th><th>LFP 48V/100Ah</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>الطاقة القابلة للاستخدام</td><td>1.2 kWh</td><td>4.0 kWh</td></tr>
+    <tr><td>الدورات</td><td>800</td><td>4000</td></tr>
+    <tr><td>العمر التقريبي (دورة/يوم)</td><td>~2.2 سنة</td><td>~11 سنة</td></tr>
+  </tbody>
+</table>
+
+<h3>أنظمة الجهد</h3>
+<ul>
+  <li>12V: أنظمة صغيرة جداً (أقل من 1 كيلوواط).</li>
+  <li>24V: أنظمة متوسطة (1–3 كيلوواط).</li>
+  <li>48V: الأنظمة السكنية الحديثة (3–10 كيلوواط).</li>
+</ul>
+<p>رفع الجهد يقلل التيار، فيقل مقطع الكابل والخسائر.</p></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62619 — سلامة بطاريات الليثيوم الصناعية.</li><li>IEC 62620 — اختبار خلايا الليثيوم.</li><li>مراجع BMS وحماية الخلايا.</li></ol></div>
+    <div class="comments" data-comments-for="f4911a4f-e8f2-44eb-8358-dc1bee38acea">
+      <button class="mag-btn no-print" type="button" data-load-comments="f4911a4f-e8f2-44eb-8358-dc1bee38acea">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-f4911a4f-e8f2-44eb-8358-dc1bee38acea"></div>
+    </div>
+  </section><section class="article" id="a-ae19ca51-b289-40e6-90b6-af8498658d57" data-article-id="ae19ca51-b289-40e6-90b6-af8498658d57">
+    <span class="cat">هياكل</span>
+    <h2>الهياكل: حيث تتحول الكهرباء إلى مسؤولية ميكانيكية <a class="art-permalink" href="https://capkitco.com/issue/05/8-ae19ca51/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">لوح 25 كجم على سطح، مع رياح 100 كم/س، يصبح قذيفة. التثبيت ليس «حديداً وأسمنتاً»؛ هو حساب أحمال وعزل ومتانة.</p>
+    <div class="prose"><p>في كل نظام شمسي، هناك جزء كهربائي وجزء ميكانيكي. الكهربائي يحسب الفولت، والميكانيكي يحسب ما يحدث حين تهب الريح. إغفال الثاني يعني أن النظام قد يعمل ممتازاً… حتى أول عاصفة.</p>
+
+<h3>أنواع التثبيت</h3>
+<table>
+  <thead>
+    <tr><th>النوع</th><th>الوصف</th><th>الأنسب لـ</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>مثبت على سطح مائل</td><td>قواعد على السقف القائم</td><td>أسطح قرميد/معدن</td></tr>
+    <tr><td>مثبت على سطح مستوٍ</td><td>هياكل مائلة بقواعد ثقل</td><td>أسطح خرسانية</td></tr>
+    <tr><td>أرضي (Ground Mount)</td><td>هيكل مستقل</td><td>مساحات مفتوحة</td></tr>
+    <tr><td>متتبع للشمس</td><td>محور واحد/اثنان</td><td>مشروعات كبيرة</td></tr>
+  </tbody>
+</table>
+
+<h3>الأحمال: ماذا تؤثر على الهيكل؟</h3>
+<ul>
+  <li><strong>الوزن الميت:</strong> ألواح + هيكل + كابلات.</li>
+  <li><strong>الرياح:</strong> قوة رفع (Uplift) — أخطر من الوزن.</li>
+  <li><strong>الزلازل:</strong> حسب المنطقة.</li>
+  <li><strong>الثلج:</strong> في المناطق الباردة.</li>
+  <li><strong>التمدد الحراري:</strong> تمدد الألومنيوم يسبب انحناءً أو كسراً.</li>
+</ul>
+
+<h3>الرفع (Uplift): لماذا تطير الألواح؟</h3>
+<p>الريح تمر فوق اللوح، فيقل الضغط أعلاه ويرتفع أسفله — قوة رفع. كلما زادت الزاوية والارتفاع، زادت. لذلك:</p>
+<ul>
+  <li>تثبيت كل قاعدة بمسمارين على الأقل، وليس واحداً.</li>
+  <li>استخدام براغي ستانلس أو مجلفن، لا حديد عادي.</li>
+  <li>مراعاة المسافة بين نقاط التثبيت حسب توصية الشركة.</li>
+</ul>
+
+<h3>عزل السقف: أخطر إهمال</h3>
+<p>كل ثقب في السقف نقطة تسرب محتملة. القاعدة:</p>
+<ol>
+  <li>استخدم قواعد بختم مطاطي (EPDM) وليس سيليكون فقط.</li>
+  <li>ضع طبقة عزل إضافية حول كل اختراق.</li>
+  <li>اختبر بالماء بعد التركيب قبل رفع الألواح.</li>
+</ol>
+
+<blockquote>النظام الشمسي الذي يسرب الماء سيُزال بعد سنة، مهما كان إنتاجه ممتازاً.</blockquote>
+
+<h3>التهوية الخلفية</h3>
+<p>اترك 10–20 سم بين اللوح والسطح. هذا يقلل حرارة الخلية 5–10°م، أي يرفع الإنتاج 2–4%. كما يقلل تراكم الأتربة.</p>
+
+<h3>التأريض المعدني</h3>
+<p>الهيكل المعدني يجب أن يُربط بالأرضي الرئيسي، مع وصلات (Bonding) بين القطع، لأن أي عطل كهربائي قد يجعله حاملاً للجهد.</p></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>التمدد الحراري</h3>
+<p>التمدد = معامل التمدد × الطول × فرق الحرارة.</p>
+<p>ألومنيوم (23×10⁻⁶/°م): قضيب 6 م بفرق 40°م يتمدد ≈ <strong>5.5 مم</strong>. لذلك تُترك فواصل تمدد في المسارات الطويلة.</p>
+
+<h3>حساب حمل الرياح (تقريبي)</h3>
+<p>ضغط الرياح q = 0.613 × V² (V بالمتر/ثانية، q بالباسكال).</p>
+<p>مثال: 30 م/ث → q ≈ 552 Pa. لوح 2 م² → قوة ≈ 1,100 N (≈110 كجم) — وهذا يفوق وزن اللوح بخمسة أضعاف.</p>
+
+<h3>المسافة بين القواعد</h3>
+<ul>
+  <li>حسب توصية المصنّع (عادة 0.8–1.2 م للعرض).</li>
+  <li>في المناطق العاصفة: قلّل المسافة وزد عدد المثبتات.</li>
+  <li>لا تُثبّت في منتصف اللوح — فقط في الإطار.</li>
+</ul>
+
+<h3>المواد</h3>
+<table>
+  <thead>
+    <tr><th>المكوّن</th><th>المادة المفضلة</th><th>لماذا</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>قضبان</td><td>ألومنيوم مؤكسد</td><td>خفيف ومقاوم للتآكل</td></tr>
+    <tr><td>قواعد</td><td>ستانلس 304/316</td><td>لا يصدأ</td></tr>
+    <tr><td>براغي</td><td>ستانلس/مجلفن ساخن</td><td>يمنع التآكل الجلفاني</td></tr>
+    <tr><td>ختم الثقوب</td><td>EPDM</td><td>مقاوم للشمس</td></tr>
+  </tbody>
+</table></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62548 — متطلبات التركيب.</li><li>مراجع أحمال الرياح (ASCE 7 / Eurocode 1).</li></ol></div>
+    <div class="comments" data-comments-for="ae19ca51-b289-40e6-90b6-af8498658d57">
+      <button class="mag-btn no-print" type="button" data-load-comments="ae19ca51-b289-40e6-90b6-af8498658d57">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-ae19ca51-b289-40e6-90b6-af8498658d57"></div>
+    </div>
+  </section><section class="article" id="a-84a98213-0ee0-40b1-a3be-8a38ffb99cb4" data-article-id="84a98213-0ee0-40b1-a3be-8a38ffb99cb4">
+    <span class="cat">تصميم</span>
+    <h2>من الفاتورة إلى القدرة: كيف تُصمّم نظاماً بالأرقام؟ <a class="art-permalink" href="https://capkitco.com/issue/05/9-84a98213/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">«احسب استهلاكك واضرب في 5» ليست طريقة تصميم. التصميم يبدأ من ملف أحمال، ويمر بخسائر، وينتهي بقدرة مبررة.</p>
+    <div class="prose"><p>أي نظام شمسي يبدأ بسؤال واحد: كم تستهلك فعلاً؟ لا كم تدفع، بل كم كيلوواط/ساعة تستهلك يومياً، ومتى. لأن النظام المصمم على المتوسط سيفشل في أسوأ يوم.</p>
+
+<h3>الخطوة 1: ملف الأحمال</h3>
+<table>
+  <thead>
+    <tr><th>الجهاز</th><th>القدرة (W)</th><th>ساعات/يوم</th><th>Wh/يوم</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>إضاءة LED (10)</td><td>100</td><td>5</td><td>500</td></tr>
+    <tr><td>ثلاجة</td><td>150</td><td>8 (دورة)</td><td>1,200</td></tr>
+    <tr><td>تكييف 1.5 حصان</td><td>1,200</td><td>6</td><td>7,200</td></tr>
+    <tr><td>غسالة</td><td>500</td><td>1</td><td>500</td></tr>
+    <tr><td>سخان</td><td>2,000</td><td>1</td><td>2,000</td></tr>
+    <tr><td>مضخة ماء</td><td>750</td><td>1</td><td>750</td></tr>
+    <tr><td>تلفزيون/راوتر</td><td>150</td><td>6</td><td>900</td></tr>
+  </tbody>
+</table>
+<p>المجموع ≈ <strong>13,050 Wh/يوم</strong>. هذا رقم كبير — ولاحظ أن التكييف وحده أكثر من نصفه.</p>
+
+<h3>الخطوة 2: معامل التزامن</h3>
+<p>لن تعمل كل الأجهزة معاً. اضرب في معامل 0.6–0.8 للحصول على الحمل التصميمي الفعلي:</p>
+<p>13,050 × 0.7 ≈ <strong>9,135 Wh/يوم</strong>.</p>
+
+<h3>الخطوة 3: القدرة الكهروضوئية</h3>
+<p>القدرة (kW) = الطاقة اليومية ÷ (PSH × معامل النظام)</p>
+<p>9,135 ÷ (5.5 × 0.8) ≈ <strong>2.1 كيلوواط</strong> — لكن هذا متوسط. لأسوأ شهر، اقسم على PSH في ديسمبر (4.0) → ≈ 2.9 كيلوواط.</p>
+
+<h3>الخطوة 4: العاكس</h3>
+<p>اختر عاكساً يقارب القدرة القصوى المتزامنة (لا مجموع الألواح). هنا: 2.1–3 كيلوواط.</p>
+
+<h3>الخطوة 5: البطارية (إن لزم)</h3>
+<p>إن أردت استقلالية يوم: 9,135 Wh ÷ (0.8 DOD × 0.9 كفاءة) ≈ 12.7 kWh تخزين.</p>
+
+<h3>الخطوة 6: الهبوط والخسائر</h3>
+<p>أضف 10–15% هامشاً للخسائر والتقادم. النظام النهائي: <strong>3.2 كيلوواط ألواح + عاكس 3 كيلوواط + بطارية 12 kWh</strong>.</p>
+
+<blockquote>التصميم ليس رقماً واحداً. هو سلسلة قرارات، كل واحد يقلل عدم اليقين.</blockquote>
+
+<h3>الخطأ الأشهر: التصميم على المتوسط</h3>
+<p>نظام صُمم على 5.5 ساعة شمس سيعمل ممتازاً في الصيف، وينقطع في الشتاء. الصحيح: احسب على أسوأ شهر، أو اعتمد على الشبكة كاحتياط.</p></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>صيغ التصميم الأساسية</h3>
+<pre>E_daily (Wh) = Σ (P_device × hours)
+E_design = E_daily × diversity_factor
+PV_kW = E_design / (PSH_worst × system_efficiency)
+Battery_kWh = E_design × autonomy_days / (DOD × inverter_eff)
+Inverter_kW ≈ peak_simultaneous_load</pre>
+
+<h3>معاملات النظام النموذجية</h3>
+<table>
+  <thead>
+    <tr><th>المكوّن</th><th>الكفاءة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>اللوح (حرارة/غبار)</td><td>0.85 – 0.92</td></tr>
+    <tr><td>كابلات DC</td><td>0.98 – 0.99</td></tr>
+    <tr><td>MPPT</td><td>0.98 – 0.99</td></tr>
+    <tr><td>عاكس</td><td>0.95 – 0.97</td></tr>
+    <tr><td>بطارية (ذهاب/عودة)</td><td>0.85 – 0.95</td></tr>
+  </tbody>
+</table>
+<p>حاصل ضرب المعاملات يعطي «معامل النظام» الكلي: 0.70 – 0.85.</p>
+
+<h3>حمل الذروة</h3>
+<p>ليس مجموع الأحمال، بل أقصى حمل متزامن. استخدم عداداً أو سجّل أسبوعاً. في المنازل، الذروة تحدث عند تشغيل التكييف + السخان + المطبخ معاً.</p></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62548 — تصميم الأنظمة.</li><li>مراجع تقدير الأحمال السكنية.</li></ol></div>
+    <div class="comments" data-comments-for="84a98213-0ee0-40b1-a3be-8a38ffb99cb4">
+      <button class="mag-btn no-print" type="button" data-load-comments="84a98213-0ee0-40b1-a3be-8a38ffb99cb4">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-84a98213-0ee0-40b1-a3be-8a38ffb99cb4"></div>
+    </div>
+  </section><section class="article" id="a-1a31f6dd-0414-4d40-a54a-e4cee0f75d18" data-article-id="1a31f6dd-0414-4d40-a54a-e4cee0f75d18">
+    <span class="cat">تصميم</span>
+    <h2>السلاسل: كيف تجمع الألواح دون أن تحرق العاكس؟ <a class="art-permalink" href="https://capkitco.com/issue/05/10-1a31f6dd/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">توصيل الألواح على التوالي يرفع الجهد، والتوازي يرفع التيار. الخطأ في أي منهما يعني عاكساً محروقاً أو إنتاجاً ضائعاً.</p>
+    <div class="prose"><p>بعد اختيار الألواح والعاكس، يأتي السؤال العملي: كم لوحاً في السلسلة؟ وكم سلسلة؟ الجواب ليس ذوقاً، بل ثلاثة قيود يجب احترامها كلها.</p>
+
+<h3>القيد 1: أقصى جهد</h3>
+<p>جهد السلسلة يصل ذروته في أبرد يوم. لذلك:</p>
+<p><strong>Voc(أبرد يوم) × عدد الألواح &lt; أقصى جهد للعاكس</strong></p>
+<p>اترك هامشاً 5–10% للأمان. لو كان أقصى جهد للعاكس 1000V، فاجعل الحساب لا يتجاوز 950V.</p>
+
+<h3>القيد 2: نافذة MPPT</h3>
+<p>في أحرّ يوم، ينخفض Vmp. يجب أن يبقى أعلى من الحد الأدنى لنافذة MPPT:</p>
+<p><strong>Vmp(أحر يوم) × عدد الألواح &gt; أدنى جهد MPPT</strong></p>
+<p>إن انخفض الجهد تحت النافذة، يخرج العاكس من التتبع ويفقد إنتاجاً.</p>
+
+<h3>القيد 3: التيار</h3>
+<p>السلاسل المتوازية تجمع التيار. يجب ألا يتجاوز:</p>
+<ul>
+  <li>أقصى تيار للمدخل في العاكس.</li>
+  <li>تيار القاطع/المانع (بعد هامش 1.25).</li>
+</ul>
+
+<h3>مثال عملي</h3>
+<p>لوح: Voc 49.5V، Vmp 41.8V، Isc 14A. عاكس: أقصى 1000V، نافذة 200–800V، أقصى تيار 26A.</p>
+<ol>
+  <li><strong>أقصى عدد:</strong> 950 ÷ (49.5 × 1.05) ≈ 18 لوحاً (نظرياً).</li>
+  <li><strong>أدنى عدد:</strong> 200 ÷ (41.8 × 0.85) ≈ 6 ألواح.</li>
+  <li><strong>عدد السلاسل:</strong> 26 ÷ 14 ≈ 1.8 → سلسلتان كحد أقصى.</li>
+</ol>
+<p>اختيار عملي: سلسلتان × 10 ألواح (20 لوحاً) إذا كان الجهد يسمح، أو سلسلة واحدة × 14 لوحاً.</p>
+
+<blockquote>السلسلة القصيرة جداً تخسر الجهد، والطويلة جداً تحرق العاكس في أول موجة برد. الحساب هو ما بينهما.</blockquote>
+
+<h3>عدم التطابق (Mismatch)</h3>
+<p>لا تُخلط ألواحاً من ماركات أو قدرات مختلفة في سلسلة واحدة. اختلاف 5% في الجهد يعني خسارة أكبر. وإن اضطررت، استخدم محسّنات.</p>
+
+<h3>التظليل والثنائيات</h3>
+<p>الثنائيات تتجاوز الخلايا المظللة، لكن الإنتاج يبقى منخفضاً. الحل الأمثل: تقسيم السلاسل بحيث يكون التظليل في سلسلة واحدة فقط.</p></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>جدول تحقق سريع</h3>
+<table>
+  <thead>
+    <tr><th>الفحص</th><th>المعادلة</th><th>النتيجة المطلوبة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>أقصى جهد</td><td>Voc_min × N × 1.05</td><td>&lt; Vmax_inverter</td></tr>
+    <tr><td>أدنى جهد</td><td>Vmp_max × N × 0.85</td><td>&gt; MPPT_min</td></tr>
+    <tr><td>أقصى تيار</td><td>Isc × 1.25 × strings</td><td>≤ fuse/breaker</td></tr>
+    <tr><td>توافق الألواح</td><td>فرق Voc</td><td>≤ 5%</td></tr>
+  </tbody>
+</table>
+
+<h3>مثال حساب Voc عند البرد</h3>
+<p>Voc 49.5V، β = −0.27%/°م، أدنى حرارة 0°م، 14 لوحاً:</p>
+<p>Voc_cold = 49.5 × [1 + (−0.0027 × −25)] = 49.5 × 1.0675 ≈ 52.8V</p>
+<p>× 14 = <strong>739V</strong> — آمن لعاكس 1000V بهامش.</p>
+
+<h3>مثال Vmp عند الحر</h3>
+<p>Vmp 41.8V، حرارة خلية 70°م، معامل −0.35%/°م:</p>
+<p>Vmp_hot = 41.8 × [1 − 0.0035 × 45] ≈ 35.2V × 14 = <strong>493V</strong> — داخل النافذة.</p></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62548 — تكوين السلاسل.</li><li>أدلة مصنّعي العواكس لنوافذ MPPT.</li></ol></div>
+    <div class="comments" data-comments-for="1a31f6dd-0414-4d40-a54a-e4cee0f75d18">
+      <button class="mag-btn no-print" type="button" data-load-comments="1a31f6dd-0414-4d40-a54a-e4cee0f75d18">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-1a31f6dd-0414-4d40-a54a-e4cee0f75d18"></div>
+    </div>
+  </section><section class="article" id="a-1089a6a3-c94e-4b83-a295-ef6fc0fd7803" data-article-id="1089a6a3-c94e-4b83-a295-ef6fc0fd7803">
+    <span class="cat">حماية</span>
+    <h2>الحماية: ما يمنع النظام من أن يصبح حريقاً <a class="art-permalink" href="https://capkitco.com/issue/05/11-1089a6a3/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">الجانب المستمر (DC) أخطر من المتردد: قوسه لا ينطفئ بسهولة. الحماية ليست «قاطعاً» فقط، بل منظومة قواطع ومانعات وتأريض وتوصيلات.</p>
+    <div class="prose"><p>في التيار المتردد، القوس الكهربائي ينطفئ عند مروره بالصفر 50 مرة في الثانية. في التيار المستمر لا يوجد صفر — القوس يستمر ويحرق. لهذا حماية الجانب DC ليست نسخة من حماية المنزل، بل عالم مختلف.</p>
+
+<h3>طبقات الحماية</h3>
+<table>
+  <thead>
+    <tr><th>الطبقة</th><th>الوظيفة</th><th>المكوّن</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1. الفصل</td><td>عزل السلسلة للصيانة</td><td>مفتاح DC عازل</td></tr>
+    <tr><td>2. القصر</td><td>قطع تيار العطل</td><td>مانع gPV</td></tr>
+    <tr><td>3. الحمل الزائد</td><td>حماية الكابل</td><td>قاطع DC</td></tr>
+    <tr><td>4. الصواعق</td><td>تفريغ الزيادة</td><td>مانعة صواعق (SPD)</td></tr>
+    <tr><td>5. التسرب</td><td>حماية الأشخاص</td><td>RCD نوع B أو مراقب عزل</td></tr>
+    <tr><td>6. التأريض</td><td>مسار آمن للعطل</td><td>شبكة أرضي + ربط</td></tr>
+    <tr><td>7. القوس</td><td>كشف قوس DC</td><td>AFCI</td></tr>
+  </tbody>
+</table>
+
+<h3>لماذا RCD نوع B؟</h3>
+<p>العاكس قد يولّد تياراً مستمراً متسرباً. القواطع العادية (AC) لا تراه. النوع B يكتشف التسرب المتردد والمستمر معاً. البديل: عاكس معزول (Galvanic Isolation) + مراقبة عزل.</p>
+
+<h3>مانعة الصواعق (SPD)</h3>
+<p>تركّب على جانب DC وجانب AC. وظيفتها تحويل زيادة الجهد إلى الأرض قبل أن تصل للعاكس. اختر:</p>
+<ul>
+  <li>النوع 2 للمباني السكنية (Type 2).</li>
+  <li>جهد تشغيل مناسب (Ucpv أعلى من Voc الأقصى).</li>
+  <li>مؤشر حالة مرئي — واستبدلها بعد أي صاعقة قريبة.</li>
+</ul>
+
+<h3>التأريض والربط</h3>
+<p>ثلاثة أشياء منفصلة يجب ألا تُخلط:</p>
+<ol>
+  <li><strong>تأريض الإطارات:</strong> كل لوح يُربط بالهيكل، والهيكل بالأرضي.</li>
+  <li><strong>تأريض العاكس:</strong> حسب دليل المصنّع.</li>
+  <li><strong>ربط الأجزاء المعدنية (Bonding):</strong> مواسير، هياكل، صناديق — كلها على مسار واحد.</li>
+</ol>
+
+<blockquote>سلك الأرضي لا يعمل إلا مرة واحدة. اجعله يعمل صحيحاً في تلك المرة.</blockquote>
+
+<h3>الوسم والتحذير</h3>
+<p>كل صندوق DC يجب أن يحمل ملصقاً: «تيار مستمر — خطر»، وجهد النظام، ومصدر الفصل. هذا ليس ترفاً: الفني الذي يفتح صندوقاً بلا ملصق يفترض أنه ميت.</p>
+
+<h3>أخطاء قاتلة</h3>
+<ul>
+  <li>استخدام قاطع AC على جانب DC («لأنه يعمل»).</li>
+  <li>وصل الأرضي بالإطار فقط دون ربط بالشبكة الرئيسية.</li>
+  <li>تجاوز مانعة الصواعق لأنها «تفصل كثيراً».</li>
+  <li>عدم ترك مسافة عزل كافية حول أطراف DC.</li>
+</ul></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>اختيار المانع (Fuse) والقاطع</h3>
+<p>تيار المانع ≥ Isc × 1.25، وبجهد DC ≥ Voc الأقصى للسلسلة.</p>
+<p>مثال: Isc = 14A → مانع 20A / 1000V DC (gPV).</p>
+
+<h3>اختيار مقطع الأرضي</h3>
+<table>
+  <thead>
+    <tr><th>مقطع الفاز</th><th>مقطع الأرضي</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>≤ 16 مم²</td><td>نفس المقطع</td></tr>
+    <tr><td>25 – 35 مم²</td><td>16 مم²</td></tr>
+    <tr><td>&gt; 35 مم²</td><td>نصف المقطع</td></tr>
+  </tbody>
+</table>
+
+<h3>ترتيب الحماية في السلسلة</h3>
+<pre>لوح → مانع gPV → مفتاح DC عازل → SPD → عاكس
+                                    ↓
+                              أرضي رئيسي</pre>
+
+<h3>اختبار مانعة الصواعق</h3>
+<ul>
+  <li>فحص مؤشر الحالة (أخضر/أحمر).</li>
+  <li>قياس مقاومة العزل بعد الفصل.</li>
+  <li>الاستبدال بعد كل صاعقة قريبة أو 5 سنوات.</li>
+</ul></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62548 — الحماية والتأريض.</li><li>IEC 61643 — مانعات الصواعق.</li><li>IEC 60364-4-41 — الحماية من الصعق.</li></ol></div>
+    <div class="comments" data-comments-for="1089a6a3-c94e-4b83-a295-ef6fc0fd7803">
+      <button class="mag-btn no-print" type="button" data-load-comments="1089a6a3-c94e-4b83-a295-ef6fc0fd7803">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-1089a6a3-c94e-4b83-a295-ef6fc0fd7803"></div>
+    </div>
+  </section><section class="article" id="a-c340d035-26a4-47fb-a589-e7d4e1b130a1" data-article-id="c340d035-26a4-47fb-a589-e7d4e1b130a1">
+    <span class="cat">حماية</span>
+    <h2>الكابلات: حيث تُفقد الكيلوواطات بصمت <a class="art-permalink" href="https://capkitco.com/issue/05/12-c340d035/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">كابل رفيع لا يحترق فوراً، لكنه يسخن ويفقد جهداً. الخسارة 5% في كابل تعني 5% من إنتاجك تذهب حرارة كل يوم لخمسة وعشرين سنة.</p>
+    <div class="prose"><p>الكابل هو أرخص مكوّن في النظام، وأكثر مكوّن يُختصر. والمشكلة أنه لا يفشل فوراً: يعمل، لكنه يسخن ويهبط بالجهد، ويقصر عمر العاكس. الحساب هنا بسيط ويستحق دقائق.</p>
+
+<h3>ثلاثة معايير للاختيار</h3>
+<ol>
+  <li><strong>تيار التحمّل:</strong> يتحمل Isc × 1.25 على الأقل.</li>
+  <li><strong>هبوط الجهد:</strong> ≤ 1–2% في DC، ≤ 3% في AC.</li>
+  <li><strong>الظروف:</strong> حرارة، تجميع، تعرض للشمس، دفن.</li>
+</ol>
+
+<h3>جدول مقاطع DC (نحاس، عزل PVC، 30°م)</h3>
+<table>
+  <thead>
+    <tr><th>المقطع (مم²)</th><th>تيار التحمّل التقريبي</th><th>الاستخدام</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>4</td><td>32 – 37 A</td><td>سلاسل صغيرة</td></tr>
+    <tr><td>6</td><td>41 – 47 A</td><td>سلسلة واحدة</td></tr>
+    <tr><td>10</td><td>57 – 65 A</td><td>تجميع سلاسل</td></tr>
+    <tr><td>16</td><td>76 – 85 A</td><td>رئيسي DC</td></tr>
+    <tr><td>25</td><td>101 – 110 A</td><td>أنظمة كبيرة</td></tr>
+  </tbody>
+</table>
+<p>الأرقام تقريبية وتتغير مع طريقة التركيب ودرجة الحرارة — استخدم جداول الكود عند التصميم النهائي.</p>
+
+<h3>هبوط الجهد</h3>
+<p>القانون: <strong>ΔV = (2 × L × I × ρ) ÷ A</strong></p>
+<ul>
+  <li>L: طول الكابل (اتجاه واحد) بالمتر.</li>
+  <li>I: التيار بالأمبير.</li>
+  <li>ρ: مقاومة النحاس ≈ 0.0175 Ω·mm²/m.</li>
+  <li>A: المقطع بالمم².</li>
+</ul>
+
+<p>مثال: 20 متراً، 14 أمبير، 6 مم²:</p>
+<p>ΔV = (2 × 20 × 14 × 0.0175) ÷ 6 = <strong>1.63 فولت</strong> — أي 0.7% عند 230V. ممتاز.</p>
+
+<h3>الموصلات MC4</h3>
+<p>هي نقاط الفشل الأكثر شيوعاً. قواعدها:</p>
+<ul>
+  <li>استخدم ماركة واحدة (خلط الماركات يسبب تسرباً وحرارة).</li>
+  <li>عصا التجعيد (Crimping Tool) المخصصة، لا الكماشة.</li>
+  <li>اسحب الكابل بعد التجعيد للتأكد من الثبات.</li>
+  <li>لا تفك وصلة تحت حمل — افصل أولاً.</li>
+</ul>
+
+<blockquote>معظم حرائق الأنظمة الشمسية لا تبدأ من العاكس، بل من وصلة MC4 رخيصة أو كابل غير مثبت.</blockquote>
+
+<h3>التثبيت</h3>
+<ul>
+  <li>كل 1 متر على الأقل، وبعيداً عن حواف السطح الحادة.</li>
+  <li>استخدم مثبتات UV-resistant، لا بلاستيك عادي.</li>
+  <li>تجنّب الانحناء الحاد (نصف قطر ≥ 4 أضعاف القطر).</li>
+  <li>مرّر الكابلات في مسار محمي من الشمس المباشرة.</li>
+</ul></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>معاملات تصحيح</h3>
+<table>
+  <thead>
+    <tr><th>الحالة</th><th>المعامل</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>حرارة 40°م</td><td>0.87</td></tr>
+    <tr><td>حرارة 50°م</td><td>0.82</td></tr>
+    <tr><td>تجميع 4 كابلات</td><td>0.80</td></tr>
+    <tr><td>تعرض للشمس</td><td>0.90</td></tr>
+    <tr><td>دفن</td><td>0.85</td></tr>
+  </tbody>
+</table>
+
+<h3>مثال حساب كامل</h3>
+<p>سلسلة 14A، كابل 6 مم²، 25 متراً، حرارة 45°م:</p>
+<ol>
+  <li>تيار التصميم: 14 × 1.25 = 17.5A.</li>
+  <li>تيار الكابل بعد التصحيح: 47 × 0.85 ≈ 40A → آمن.</li>
+  <li>الهبوط: (2×25×14×0.0175) ÷ 6 = 2.04V ≈ 0.9% → مقبول.</li>
+</ol>
+
+<h3>هبوط جانب AC</h3>
+<p>نفس المعادلة لكن بتيار AC. مثال: 5 كيلوواط عند 230V ≈ 22A، طول 15م، مقطع 6:</p>
+<p>ΔV = (2×15×22×0.0175) ÷ 6 = 1.9V ≈ 0.8% — ممتاز.</p>
+
+<h3>علامات كابل سيئ</h3>
+<ol>
+  <li>سخونة ملموسة عند الوصلات.</li>
+  <li>تغير لون العزل (اصفرار/اسوداد).</li>
+  <li>هبوط جهد أكبر من المحسوب.</li>
+  <li>رائحة بلاستيك عند صندوق التجميع.</li>
+</ol></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 60364-5-52 — اختيار الكابلات.</li><li>IEC 60228 — موصلات الكابلات.</li></ol></div>
+    <div class="comments" data-comments-for="c340d035-26a4-47fb-a589-e7d4e1b130a1">
+      <button class="mag-btn no-print" type="button" data-load-comments="c340d035-26a4-47fb-a589-e7d4e1b130a1">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-c340d035-26a4-47fb-a589-e7d4e1b130a1"></div>
+    </div>
+  </section><section class="article" id="a-440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b" data-article-id="440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b">
+    <span class="cat">تنفيذ</span>
+    <h2>من الورقة إلى السطح: تسلسل التركيب واختبارات القبول <a class="art-permalink" href="https://capkitco.com/issue/05/13-440a9bf4/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">التركيب ليس «ركّب ثم شغّل». هو تسلسل محكوم، ينتهي باختبارات موثّقة تُثبت أن النظام يعمل كما صُمّم — أو تكشف أنه لا يعمل.</p>
+    <div class="prose"><p>أي نظام شمسي يمر بثلاث مراحل لا يجوز خلطها: التجهيز، التركيب، والاختبار. من يختصر الثالثة يسلّم نظاماً «يعمل» لا يعرف أحد إن كان سيصمد.</p>
+
+<h3>قبل الصعود: التجهيز</h3>
+<ul>
+  <li>مراجعة مخطط النظام ومسار الكابلات.</li>
+  <li>فحص السطح: قدرة تحمّل، عزل، حالة.</li>
+  <li>تأمين السلامة: حزام، سقالة، توقّف العمل عند الريح.</li>
+  <li>ترتيب المواد وتوثيق الأرقام التسلسلية.</li>
+</ul>
+
+<h3>تسلسل التركيب</h3>
+<ol>
+  <li><strong>الهيكل:</strong> تثبيت القواعد، ثم القضبان، ثم عزل الثقوب.</li>
+  <li><strong>الألواح:</strong> رفع وتثبيت، مع ترك 10–20 سم تهوية.</li>
+  <li><strong>كابلات DC:</strong> من الألواح إلى صندوق التجميع، ثم للعاكس.</li>
+  <li><strong>العاكس:</strong> تثبيت، توصيل DC وAC والأرضي.</li>
+  <li><strong>AC:</strong> قاطع، SPD، توصيل بالشبكة.</li>
+  <li><strong>الوسم:</strong> أسماء الدوائر، تحذيرات DC.</li>
+  <li><strong>التشغيل:</strong> أول إضاءة، ثم قياسات.</li>
+</ol>
+
+<h3>اختبارات القبول (لا تسليم بدونها)</h3>
+<table>
+  <thead>
+    <tr><th>الاختبار</th><th>كيف</th><th>القيمة المقبولة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Voc لكل سلسلة</td><td>ملتيمتر DC</td><td>مطابق للمحسوب ±5%</td></tr>
+    <tr><td>Isc لكل سلسلة</td><td>ملتيمتر DC</td><td>مطابق ±10%</td></tr>
+    <tr><td>مقاومة العزل</td><td>Megger 1000V</td><td>≥ 1 MΩ</td></tr>
+    <tr><td>الاستمرارية</td><td>أفوميتر</td><td>≈ 0 Ω</td></tr>
+    <tr><td>التأريض</td><td>Earth Tester</td><td>≤ 5 Ω</td></tr>
+    <tr><td>أداء العاكس</td><td>لوحة/تطبيق</td><td>إنتاج متوقع</td></tr>
+    <tr><td>مانعة الصواعق</td><td>مؤشر الحالة</td><td>سليم</td></tr>
+  </tbody>
+</table>
+
+<h3>وثّق كل شيء</h3>
+<p>ملف التسليم يجب أن يحتوي:</p>
+<ul>
+  <li>صوراً لكل مرحلة (قبل/بعد).</li>
+  <li>قراءات الاختبار موقّعة.</li>
+  <li>مخططاً أحادياً (As-Built).</li>
+  <li>أرقاماً تسلسلية للألواح والعاكس.</li>
+  <li>إعدادات العاكس (شبكة، جهد، تردد).</li>
+</ul>
+
+<blockquote>النظام الذي لا يوجد له ملف، لا يوجد له ضمان. وأي فني سيعمل عليه لاحقاً سيعمل في الظلام.</blockquote>
+
+<h3>أخطاء تركيب شائعة</h3>
+<ol>
+  <li>تثبيت الألواح مباشرة على السطح بلا تهوية.</li>
+  <li>ترك كابلات DC مكشوفة على السطح.</li>
+  <li>توصيل AC قبل التأكد من إعدادات الشبكة.</li>
+  <li>عدم تركيب مفتاح DC عازل.</li>
+  <li>تسليم بلا قياس Voc — أخطرها.</li>
+</ol></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>قراءة Voc: كيف تعرف أن السلسلة سليمة؟</h3>
+<p>Voc المقاس يجب أن يقارب: Voc(STC) × عدد الألواح × معامل الحرارة للحظة.</p>
+<p>مثال: 14 لوحاً × 49.5V = 693V عند 25°م. في يوم 40°م: ≈ 693 × 0.96 ≈ <strong>665V</strong> — النقصان الطبيعي.</p>
+<p>إن قرأت 0V → سلسلة مفتوحة. إن قرأت أقل بكثير → لوح مفقود أو وصلة سيئة.</p>
+
+<h3>اختبار العزل</h3>
+<ol>
+  <li>افصل السلسلة عن العاكس.</li>
+  <li>اضبط Megger على 1000V DC.</li>
+  <li>قِس بين (+) والأرضي، ثم (−) والأرضي.</li>
+  <li>النتيجة &lt; 1 MΩ → رطوبة أو تلف عزل أو كابل مسحوق.</li>
+</ol>
+
+<h3>أدوات لا يستغني عنها الفريق</h3>
+<ul>
+  <li>ملتيمتر DC بمقاسات 1000V.</li>
+  <li>Megger.</li>
+  <li>كاميرا حرارية.</li>
+  <li>جهاز تتبع منحنى IV (للمشروعات الكبيرة).</li>
+  <li>Earth Tester.</li>
+</ul></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62446-1 — اختبار وتوثيق الأنظمة الكهروضوئية.</li><li>IEC 62548 — متطلبات التركيب.</li></ol></div>
+    <div class="comments" data-comments-for="440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b">
+      <button class="mag-btn no-print" type="button" data-load-comments="440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-440a9bf4-9c7d-4ed1-a4e7-d9322ec3f19b"></div>
+    </div>
+  </section><section class="article" id="a-ed746a7f-a2a0-4693-bdf4-f8f6070374a0" data-article-id="ed746a7f-a2a0-4693-bdf4-f8f6070374a0">
+    <span class="cat">برمجة وبيانات</span>
+    <h2>المراقبة: كيف يحوّل المطوّر الألواح إلى بيانات <a class="art-permalink" href="https://capkitco.com/issue/05/14-ed746a7f/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">النظام الذي لا يُقاس لا يُدار. المراقبة ليست تطبيقاً يفتحه المالك؛ هي طبقة بيانات تحوّل الإنتاج إلى قرارات وصيانة تنبؤية.</p>
+    <div class="prose"><p>كل عاكس حديث ينتج بيانات: قدرة، جهد، حرارة، حالة. المشكلة أن هذه البيانات محبوسة في تطبيق المصنّع. المهندس والمطوّر يحتاجان الوصول إليها لبناء لوحة واحدة، وتنبيهات دقيقة، وصيانة مبنية على الأرقام.</p>
+
+<h3>ثلاث طبقات للمراقبة</h3>
+<table>
+  <thead>
+    <tr><th>الطبقة</th><th>ماذا تعطي</th><th>لمن</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>تطبيق المصنّع</td><td>قراءات أساسية</td><td>المالك</td></tr>
+    <tr><td>بوابة محلية (Gateway)</td><td>Modbus/RS485، جمع كل العواكس</td><td>الفني/المشغّل</td></tr>
+    <tr><td>منصة بيانات</td><td>تحليلات، تنبؤ، تقارير</td><td>المهندس/المطوّر</td></tr>
+  </tbody>
+</table>
+
+<h3>البروتوكولات</h3>
+<ul>
+  <li><strong>Modbus RTU/TCP:</strong> الأشهر في العواكس.</li>
+  <li><strong>SunSpec:</strong> نموذج بيانات موحّد فوق Modbus.</li>
+  <li><strong>MQTT:</strong> للنقل إلى السحابة.</li>
+  <li><strong>API المصنّع:</strong> حسب التوفر.</li>
+</ul>
+
+<h3>مؤشرات يجب حسابها</h3>
+<table>
+  <thead>
+    <tr><th>المؤشر</th><th>المعادلة</th><th>القيمة الجيدة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Performance Ratio (PR)</td><td>الإنتاج الفعلي ÷ الإنتاج النظري</td><td>0.75 – 0.85</td></tr>
+    <tr><td>Yield (kWh/kWp)</td><td>الإنتاج ÷ القدرة المركّبة</td><td>حسب الموقع</td></tr>
+    <tr><td>Availability</td><td>وقت التشغيل ÷ الوقت الكلي</td><td>&gt; 98%</td></tr>
+    <tr><td>Specific Yield اليومي</td><td>kWh ÷ kWp</td><td>3 – 6</td></tr>
+  </tbody>
+</table>
+
+<h3>تنبيهات ذكية لا تنبيهات مزعجة</h3>
+<p>النظام الجيد ينبّه على <strong>الأحداث</strong>، لا على كل قراءة:</p>
+<ul>
+  <li>إنتاج صفر في ساعات الشمس.</li>
+  <li>انخفاض PR أكثر من 10% عن المتوسط.</li>
+  <li>حرارة عاكس مرتفعة.</li>
+  <li>جهد سلسلة غير طبيعي.</li>
+  <li>انقطاع اتصال أطول من ساعة.</li>
+</ul>
+
+<blockquote>البيانات التي لا تُنتج إجراءً هي ضجيج. الانضباط الحقيقي أن تعرف أي رقم يستحق أن يوقظك ليلاً.</blockquote>
+
+<h3>لماذا للمطوّر دور؟</h3>
+<p>لأن التكامل بين عواكس من ماركات مختلفة، وربط الإنتاج بالطقس، وحساب PR تلقائياً، وتوليد تقرير شهري — كلها تحتاج كوداً. والمطوّر الذي يفهم الكهرباء يبني أدوات أفضل من أي تطبيق جاهز.</p></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>قراءة Modbus نموذجية</h3>
+<pre>Slave ID: 1
+Read Holding Registers: 30000–30100 (حسب الماركة)
+Power AC: register 0x9C87 (مثال)
+Energy Total: register 0x9C8B (مثال)</pre>
+<p>القيم تختلف بين المصنّعين — استخدم خريطة SunSpec أو دليل الجهاز.</p>
+
+<h3>بنية MQTT مقترحة</h3>
+<pre>pv/{site}/inverter/{id}/power
+pv/{site}/inverter/{id}/energy_today
+pv/{site}/inverter/{id}/status
+pv/{site}/weather/irradiance</pre>
+
+<h3>حساب PR</h3>
+<p>PR = الإنتاج الفعلي (kWh) ÷ (الإشعاع على السطح (kWh/m²) × القدرة المركّبة (kWp))</p>
+<p>مثال: 40 kWh يومياً، إشعاع 5.5 kWh/m²، نظام 10 kWp → PR = 40 ÷ 55 = <strong>0.73</strong> (مقبول في يوم حار).</p>
+
+<h3>جودة البيانات</h3>
+<ul>
+  <li>تحقق من الطوابع الزمنية (UTC موحّد).</li>
+  <li>اكشف القيم الشاذة (Spikes) قبل الحساب.</li>
+  <li>سجّل فواصل الاتصال كبيانات ناقصة، لا كأصفار.</li>
+</ul></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>SunSpec Alliance — نماذج بيانات العواكس.</li><li>IEC 61724-1 — قياس أداء الأنظمة الكهروضوئية.</li></ol></div>
+    <div class="comments" data-comments-for="ed746a7f-a2a0-4693-bdf4-f8f6070374a0">
+      <button class="mag-btn no-print" type="button" data-load-comments="ed746a7f-a2a0-4693-bdf4-f8f6070374a0">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-ed746a7f-a2a0-4693-bdf4-f8f6070374a0"></div>
+    </div>
+  </section><section class="article" id="a-7e14911f-ad45-45fb-8381-de6a4045d7e7" data-article-id="7e14911f-ad45-45fb-8381-de6a4045d7e7">
+    <span class="cat">صيانة</span>
+    <h2>الصيانة: من العَرَض إلى السبب في عشر دقائق <a class="art-permalink" href="https://capkitco.com/issue/05/15-7e14911f/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">معظم أعطال الأنظمة الشمسية ليست غامضة: غبار، وصلة، ظل، أو عاكس. جدول تشخيص جيد يوفّر أياماً من التخمين.</p>
+    <div class="prose"><p>النظام الشمسي قليل الحركة، ومنخفض الصيانة — ولهذا يظن الناس أنه بلا صيانة. الحقيقة: قليل الصيانة لا يعني صفرها، والفرق بين نظام يعيش 5 سنوات ونظام يعيش 20 هو الزيارة الدورية.</p>
+
+<h3>خطة الصيانة</h3>
+<table>
+  <thead>
+    <tr><th>الدورية</th><th>المهام</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>أسبوعية (نظام كبير)</td><td>فحص بصري، قراءة الإنتاج</td></tr>
+    <tr><td>شهرية</td><td>تنظيف حسب الغبار، مراجعة التنبيهات</td></tr>
+    <tr><td>ربع سنوية</td><td>فحص الوصلات، شد البراغي، كاميرا حرارية</td></tr>
+    <tr><td>سنوية</td><td>اختبار عزل، مراجعة PR، تحديث العاكس</td></tr>
+  </tbody>
+</table>
+
+<h3>جدول تشخيص الأعطال</h3>
+<table>
+  <thead>
+    <tr><th>العَرَض</th><th>الأسباب المحتملة</th><th>الفحص</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>إنتاج صفر نهاراً</td><td>فصل DC، عاكس متوقف، شبكة مقطوعة</td><td>Voc، حالة العاكس، قاطع AC</td></tr>
+    <tr><td>إنتاج أقل 20%</td><td>غبار، ظل جديد، سلسلة معطلة</td><td>مقارنة السلاسل، تنظيف، فحص ظل</td></tr>
+    <tr><td>توقف متكرر</td><td>حرارة عاكس، جهد شبكة، إعدادات</td><td>سجل الأعطال، تهوية، قياس جهد</td></tr>
+    <tr><td>عاكس يسخن</td><td>تهوية مسدودة، شمس مباشرة</td><td>تنظيف المراوح، مظلة</td></tr>
+    <tr><td>صوت طنين</td><td>اهتزاز هيكل، مروحة</td><td>شد البراغي، فحص المروحة</td></tr>
+    <tr><td>رائحة احتراق</td><td>وصلة سيئة، كابل صغير</td><td>فصل فوري + كاميرا حرارية</td></tr>
+  </tbody>
+</table>
+
+<h3>الكاميرا الحرارية: أداة الفني الحديثة</h3>
+<p>صوّر الألواح والوصلات بعد الظهر. البقع الساخنة (Hotspots) تظهر بفرق 10°م+. هذا يكشف:</p>
+<ul>
+  <li>خلية تالفة.</li>
+  <li>ثنائي معطوب.</li>
+  <li>وصلة MC4 سيئة (سخونة موضعية).</li>
+  <li>سلسلة معطلة (لوح بارد وسط ساخن).</li>
+</ul>
+
+<blockquote>الغبار ليس مشكلة جمالية. طبقة رقيقة تقلل الإنتاج 5–15%، وفي المناطق الصحراوية أكثر.</blockquote>
+
+<h3>التنظيف الصحيح</h3>
+<ul>
+  <li>صباحاً أو مساءً، لا في الظهيرة (صدمة حرارية).</li>
+  <li>ماء + فرشاة ناعمة، بلا منظفات كاشطة.</li>
+  <li>بلا ضغط عالٍ على الإطار أو الوصلات.</li>
+  <li>لا تقف على اللوح.</li>
+</ul></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>مقارنة سلاسل</h3>
+<p>قِس Voc لكل سلسلة في نفس اللحظة. الفرق &gt; 5% يشير إلى:</p>
+<ul>
+  <li>لوح مفقود أو مظلل.</li>
+  <li>وصلة سيئة.</li>
+  <li>ثنائي مفتوح.</li>
+</ul>
+
+<h3>تقدير خسارة الغبار</h3>
+<p>قارن إنتاج يوم نظيف بإنتاج أسبوع بعده. النسبة هي خسارة الغبار التقريبية. إن تجاوزت 8%، غيّر جدول التنظيف.</p>
+
+<h3>تحديث العاكس</h3>
+<ul>
+  <li>نزّل التحديث من الموقع الرسمي فقط.</li>
+  <li>سجّل الإعدادات قبل التحديث.</li>
+  <li>نفّذه في وقت غير ذروة الإنتاج.</li>
+</ul>
+
+<h3>سجل الصيانة</h3>
+<p>كل زيارة يجب أن تُسجّل: التاريخ، القراءات، الأعمال، القطع المستبدلة. هذا السجل يحمي الضمان ويكشف التدهور التدريجي.</p></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 61724-1 — مراقبة الأداء.</li><li>أدلة O&amp;M للمشروعات الكهروضوئية.</li></ol></div>
+    <div class="comments" data-comments-for="7e14911f-ad45-45fb-8381-de6a4045d7e7">
+      <button class="mag-btn no-print" type="button" data-load-comments="7e14911f-ad45-45fb-8381-de6a4045d7e7">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-7e14911f-ad45-45fb-8381-de6a4045d7e7"></div>
+    </div>
+  </section><section class="article" id="a-3e284f22-3ad1-4116-85e7-45655e1e7b5e" data-article-id="3e284f22-3ad1-4116-85e7-45655e1e7b5e">
+    <span class="cat">اقتصاديات</span>
+    <h2>الجدوى: LCOE، الاسترداد، ومتى لا تستحق الشمس؟ <a class="art-permalink" href="https://capkitco.com/issue/05/16-3e284f22/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">الطاقة الشمسية ليست «توفيراً مضموناً». هي قرار مالي يعتمد على تعريفة الكهرباء، وسعر التركيب، والإشعاع، وسلوك الاستهلاك. ومن لا يحسب LCOE يبيع الوهم.</p>
+    <div class="prose"><p>في كل عرض تجاري، ستسمع: «النظام يرجع فلوسه في 4 سنين». وقد يكون صحيحاً، أو لا. الفرق أن أحدهما حُسب، والآخر قيل.</p>
+
+<h3>ثلاثة أرقام تحكم القرار</h3>
+<ul>
+  <li><strong>CAPEX:</strong> تكلفة التركيب الكاملة (ألواح + عاكس + هيكل + كابلات + تركيب + تراخيص).</li>
+  <li><strong>OPEX:</strong> الصيانة والتأمين والتنظيف سنوياً (1–2% من CAPEX).</li>
+  <li><strong>الإنتاج:</strong> كيلوواط/ساعة سنوياً، بعد الخسائر والتدهور.</li>
+</ul>
+
+<h3>الاسترداد البسيط</h3>
+<p>الاسترداد (سنة) = CAPEX ÷ التوفير السنوي.</p>
+<p>مثال: 250,000 جنيه ÷ 45,000 جنيه توفير = <strong>5.5 سنة</strong>.</p>
+<p>لكن هذا الرقم يتجاهل: التدهور، ارتفاع الأسعار، تكلفة رأس المال. ولهذا يُستخدم LCOE.</p>
+
+<h3>LCOE: التكلفة الحقيقية للكيلوواط/ساعة</h3>
+<p>هي متوسط تكلفة إنتاج كيلوواط/ساعة على عمر النظام، بما يشمل رأس المال والصيانة.</p>
+<p><strong>LCOE = (CAPEX + مجموع OPEX المخصوم) ÷ (مجموع الإنتاج المخصوم)</strong></p>
+
+<table>
+  <thead>
+    <tr><th>البند</th><th>القيمة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>CAPEX</td><td>250,000</td></tr>
+    <tr><td>OPEX سنوي</td><td>2,500</td></tr>
+    <tr><td>إنتاج السنة الأولى</td><td>16,000 kWh</td></tr>
+    <tr><td>تدهور سنوي</td><td>0.5%</td></tr>
+    <tr><td>عمر النظام</td><td>25 سنة</td></tr>
+    <tr><td>معدل الخصم</td><td>10%</td></tr>
+    <tr><td><strong>LCOE تقريبي</strong></td><td><strong>1.0 – 1.2 جنيه/kWh</strong></td></tr>
+  </tbody>
+</table>
+<p>إذا كانت تعريفة الكهرباء 1.8 جنيه، فالنظام يوفّر ~0.7 جنيه لكل كيلوواط/ساعة — أي 35% من الفاتورة.</p>
+
+<h3>متى لا تستحق الشمس؟</h3>
+<ul>
+  <li>تعريفة كهرباء منخفضة جداً (مدعومة).</li>
+  <li>سطح مظلل معظم اليوم.</li>
+  <li>استهلاك منخفض جداً (نظام صغير جداً لا يغطي التكلفة الثابتة).</li>
+  <li>شبكة غير مستقرة تحتاج بطاريات كبيرة ترفع CAPEX.</li>
+</ul>
+
+<blockquote>الشمس مجانية، لكن النظام ليس كذلك. الجدوى تُحسب على النظام، لا على الشمس.</blockquote>
+
+<h3>التمويل والضمانات</h3>
+<ul>
+  <li>ضمان الألواح: 25 سنة أداء + 10–15 تصنيع.</li>
+  <li>ضمان العاكس: 5–10 سنوات (قابل للتمديد).</li>
+  <li>ضمان التركيب: 1–5 سنوات.</li>
+  <li>التأمين: على النظام كجزء من العقار.</li>
+</ul>
+<p>اقرأ الضمان: من يغطي النقل؟ من يغطي العمالة؟ ما شروط الإبطال (مثل عدم الصيانة الدورية)؟</p>
+
+<h3>صافي القياس (Net Metering)</h3>
+<p>في الأنظمة المتصلة بالشبكة، تُصدّر الفائض وتُحاسب عليه. القواعد تختلف بين الدول والشركات:</p>
+<ul>
+  <li>صافي شهري أم سنوي؟</li>
+  <li>سعر التصدير مساوٍ للشراء أم أقل؟</li>
+  <li>هل هناك سقف للتصدير؟</li>
+</ul>
+<p>هذه الشروط قد تغيّر التصميم: نظام 10 كيلوواط مع تصدير مجاني أفضل من نظام 6 كيلوواط مع بطارية مكلفة.</p></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>نموذج حساب مبسّط (25 سنة)</h3>
+<pre>لكل سنة t من 1 إلى 25:
+  إنتاج(t) = 16,000 × (0.995)^(t-1)
+  توفير(t) = إنتاج(t) × تعريفة
+  صافي(t) = توفير(t) − OPEX
+الاسترداد = السنة التي يصبح عندها المجموع التراكمي ≥ 0</pre>
+
+<h3>حساسية القرار</h3>
+<table>
+  <thead>
+    <tr><th>المتغير</th><th>تأثيره على الجدوى</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>سعر التركيب</td><td>عكسي مباشر</td></tr>
+    <tr><td>تعريفة الكهرباء</td><td>طردي</td></tr>
+    <tr><td>الإشعاع</td><td>طردي</td></tr>
+    <tr><td>التدهور</td><td>عكسي طفيف</td></tr>
+    <tr><td>سعر الفائدة</td><td>عكسي (للمموّل)</td></tr>
+  </tbody>
+</table>
+
+<h3>مقارنة سيناريوهات</h3>
+<table>
+  <thead>
+    <tr><th>السيناريو</th><th>الاسترداد</th><th>ملاحظة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>سكني 5 kWp بلا بطارية</td><td>5 – 7 سنوات</td><td>الأفضل اقتصادياً</td></tr>
+    <tr><td>سكني 5 kWp + بطارية</td><td>9 – 14 سنة</td><td>قيمة الاستقلالية</td></tr>
+    <tr><td>تجاري 50 kWp</td><td>3 – 5 سنوات</td><td>استهلاك نهاري مرتفع</td></tr>
+  </tbody>
+</table></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEA PVPS — منهجيات LCOE.</li><li>IEC 61724 — قياس الإنتاج.</li></ol></div>
+    <div class="comments" data-comments-for="3e284f22-3ad1-4116-85e7-45655e1e7b5e">
+      <button class="mag-btn no-print" type="button" data-load-comments="3e284f22-3ad1-4116-85e7-45655e1e7b5e">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-3e284f22-3ad1-4116-85e7-45655e1e7b5e"></div>
+    </div>
+  </section><section class="article" id="a-778c59e9-6245-42ce-b1cc-d330d7dc7c72" data-article-id="778c59e9-6245-42ce-b1cc-d330d7dc7c72">
+    <span class="cat">توعية</span>
+    <h2>سبع علامات في العرض التجاري تعني أن النظام لن يصمد <a class="art-permalink" href="https://capkitco.com/issue/05/17-778c59e9/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">أغلى ما في النظام الشمسي ليس اللوح، بل الخطأ. وهذه العلامات تظهر في العرض قبل أن تظهر على السطح.</p>
+    <div class="prose"><p>سوق الطاقة الشمسية فيه مهندسون محترمون، وفيه من يبيع «ألواحاً» بلا حساب. والفارق لا يظهر في السعر فقط، بل في سبع علامات يمكنك اكتشافها في العرض نفسه.</p>
+
+<h3>1) عرض بلا حسابات</h3>
+<p>عرض يقول «10 كيلوواط تكفي شقة 150 متراً» بلا ملف أحمال ولا حساب إنتاج ولا سلاسل. هذا ليس عرضاً هندسياً، بل رقم.</p>
+<p><strong>اطلب:</strong> مذكرة حساب، وملف أحمال، وحساب إنتاج شهري.</p>
+
+<h3>2) ألواح بلا بيانات أو ضمان</h3>
+<p>لوح بلا بطاقة كاملة، أو بلا رقم تسلسلي، أو بسعر أقل 25% من السوق. غالباً يكون:</p>
+<ul>
+  <li>لوحاً مستعملاً مُعاد تغليفه.</li>
+  <li>قدرة معلنة غير حقيقية (500W مكتوب على لوح 400).</li>
+  <li>ضماناً بلا كيان قانوني.</li>
+</ul>
+<p><strong>اطلب:</strong> بطاقة البيانات الأصلية + رقم تسلسلي + ضمان مكتوب.</p>
+
+<h3>3) عاكس بلا شهادة شبكة</h3>
+<p>عاكس بلا شهادة IEC 62109 أو شهادة ربط شبكة محلية قد:</p>
+<ul>
+  <li>لا يفصل عند انقطاع الشبكة (خطر على الفنيين).</li>
+  <li>لا يُعتمد من شركة الكهرباء.</li>
+  <li>يتعطل بعد سنة.</li>
+</ul>
+
+<h3>4) كابلات رفيعة ووصلات رخيصة</h3>
+<p>لا يمكنك رؤية الكابل بعد التركيب. اطلب:</p>
+<ul>
+  <li>مقطعاً موثقاً في العرض.</li>
+  <li>وصلات MC4 من ماركة معروفة.</li>
+  <li>صوراً للتمديد قبل التغطية.</li>
+</ul>
+
+<h3>5) لا حماية DC ولا تأريض</h3>
+<p>صندوق بلا مانعات ولا مفتاح عازل ولا SPD = نظام بلا فرامل. هذه ليست «إضافات»، بل أساس.</p>
+
+<h3>6) لا اختبارات ولا ملف تسليم</h3>
+<p>تسليم بلا قراءة Voc ولا عزل ولا مخطط = نظام بلا هوية. عند أول عطل، يبدأ التخمين.</p>
+
+<h3>7) ضمان شامل يغطي «كل شيء»</h3>
+<p>ضمان مكتوب بعبارة عامة بلا استثناءات واضحة غالباً غير قابل للتنفيذ. اقرأ:</p>
+<ul>
+  <li>مدة كل مكوّن على حدة.</li>
+  <li>من يتحمل العمالة والنقل.</li>
+  <li>شروط الإبطال.</li>
+</ul>
+
+<blockquote>العرض الجيد يُقرأ كوثيقة هندسية، لا كإعلان. إن لم تجد فيه رقماً واحداً يمكن التحقق منه، فلا توقّع.</blockquote>
+
+<h3>أسئلة اسألها قبل الدفع</h3>
+<ol>
+  <li>ما ملف الأحمال الذي بنيتم عليه التصميم؟</li>
+  <li>كم لوحاً وكم سلسلة، ولماذا؟</li>
+  <li>ما أقصى Voc عند أدنى حرارة؟</li>
+  <li>ما مقطع الكابلات DC وAC؟</li>
+  <li>ما تجهيزات الحماية على الجانبين؟</li>
+  <li>هل ستسلّمني تقرير اختبارات موقّعاً؟</li>
+  <li>من يضمن ماذا، وبأي مدة؟</li>
+</ol></div>
+    <details class="tech"><summary>اقرأ التفاصيل الفنية العميقة…</summary><div class="tech-body prose"><h3>علامات على نظام مركّب حديثاً</h3>
+<table>
+  <thead>
+    <tr><th>الملاحظة</th><th>الدلالة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>كابلات مكشوفة على السطح</td><td>تلف UV خلال سنوات</td></tr>
+    <tr><td>ألواح ملتصقة بلا تهوية</td><td>حرارة + خسارة إنتاج</td></tr>
+    <tr><td>صندوق DC بلا ملصقات</td><td>خطر على الفني</td></tr>
+    <tr><td>لا يوجد مخطط</td><td>صيانة عشوائية مستقبلاً</td></tr>
+    <tr><td>العاكس في الشمس المباشرة</td><td>عمر أقصر</td></tr>
+  </tbody>
+</table></div></details>
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>إرشادات حماية المستهلك في أنظمة الطاقة الشمسية.</li><li>IEC 62446-1 — التوثيق والاختبار.</li></ol></div>
+    <div class="comments" data-comments-for="778c59e9-6245-42ce-b1cc-d330d7dc7c72">
+      <button class="mag-btn no-print" type="button" data-load-comments="778c59e9-6245-42ce-b1cc-d330d7dc7c72">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-778c59e9-6245-42ce-b1cc-d330d7dc7c72"></div>
+    </div>
+  </section><section class="article" id="a-611e27c9-30ea-402f-8aba-2ccf0d611859" data-article-id="611e27c9-30ea-402f-8aba-2ccf0d611859">
+    <span class="cat">ترفيه</span>
+    <h2>طرائف من الورش الشمسية: حين تخون الشمس أصحابها <a class="art-permalink" href="https://capkitco.com/issue/05/18-611e27c9/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">ألواح على سطح، حساب خاطئ، ومالك متفائل. هذه ثلاث قصص حقيقية من عالم الطاقة الشمسية، كلها تُضحك وكلها درس.</p>
+    <div class="prose"><p>في كل مشروع شمسي، هناك لحظة يظن فيها الجميع أن الحساب «مجرد أرقام على ورق». ثم تأتي أول موجة حر، أو أول شتاء، لتشرح الدرس بطريقتها.</p>
+
+<h3>1) النظام الذي يعمل… في الظل</h3>
+<p>ركّب صاحب فيلا ألواحه على سطح بجوار مدخنة. قال له الفني: «الظل شوية في الصبح وخلاص». في الشتاء، ظل المدخنة يغطي سلسلة كاملة حتى العاشرة صباحاً. الإنتاج انخفض 35%، والمفاجأة أن العاكس كان سليماً تماماً.</p>
+<p><strong>الدرس:</strong> الظل يُحسب في أسوأ يوم، لا في يوم التركيب.</p>
+
+<h3>2) البطارية التي «تكفي يومين»</h3>
+<p>اشترى مالك نظاماً ببطارية 200 أمبير/ساعة واثقاً أنها تكفي يومين. لكن الحساب كان على 12 فولت و50% تفريغ، مع حمل تكييف. استمرت ساعتين ونصف.</p>
+<p><strong>الدرس:</strong> «أمبير ساعة» ليست طاقة. الطاقة = جهد × سعة × عمق تفريغ × كفاءة.</p>
+
+<h3>3) العاكس الذي صرخ في العيد</h3>
+<p>في يوم عيد، اجتمع الجميع في البيت، وشُغّل الفرن والتكييف والسخان. العاكس 3 كيلوواط فصل. ظنّ المالك أنه معطوب، والحقيقة أنه كان يعمل بأمان: الحماية فعلت عملها.</p>
+<p><strong>الدرس:</strong> الفصل ليس عطلاً. هو الحماية. لكن التصميم السيئ هو ما جعله يحدث.</p>
+
+<h3>4) اللوح الذي غسلوه بالماء والصابون</h3>
+<p>قرر أحد الملاك تنظيف الألواح بمنظف أرضيات. بعد شهرين، ظهرت بقع بيضاء وخدوش. الطلاء العاكس تضرر، والإنتاج انخفض 8%.</p>
+<p><strong>الدرس:</strong> الماء والفرشاة الناعمة فقط. اللوح ليس أرضية.</p>
+
+<blockquote>الأنظمة الشمسية لا تفشل غالباً بسبب الشمس. تفشل بسبب افتراضاتنا عنها.</blockquote>
+
+<p>ابتسم، ثم افتح مذكرة التصميم. غالباً ستجد فيها افتراضاً واحداً لم تُثبته.</p></div>
+    
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>قصص ميدانية متداولة بين فنيي الطاقة الشمسية — أُعيدت صياغتها لأغراض تعليمية.</li></ol></div>
+    <div class="comments" data-comments-for="611e27c9-30ea-402f-8aba-2ccf0d611859">
+      <button class="mag-btn no-print" type="button" data-load-comments="611e27c9-30ea-402f-8aba-2ccf0d611859">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-611e27c9-30ea-402f-8aba-2ccf0d611859"></div>
+    </div>
+  </section><section class="article" id="a-5a4b6620-6c7c-473d-9f12-45e480b06b8b" data-article-id="5a4b6620-6c7c-473d-9f12-45e480b06b8b">
+    <span class="cat">ورشة العدد</span>
+    <h2>ورشة العدد: شركات التركيب التي تبيع الثقة <a class="art-permalink" href="https://capkitco.com/issue/05/19-5a4b6620/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">سوق الطاقة الشمسية لا يشتري «ألواحاً»؛ يشتري طمأنينة: أن النظام سيعمل 25 سنة، وأن من ركّبه سيجيب حين يتصل به.</p>
+    <div class="prose"><p>في أي سوق شمسية، الأسعار متقاربة. الفرق بين شركة تنجح وأخرى تتعثر ليس في اللوح، بل في <strong>ما بعد التركيب</strong>: هل ترد على الهاتف بعد سنة؟ هل تقدم تقريراً؟ هل تعرف نظامك الذي ركبته قبل ثلاث سنوات؟</p>
+
+<h3>ما يشتريه العميل فعلاً</h3>
+<ul>
+  <li><strong>الحساب:</strong> أن يرى ملف أحمال، لا وعوداً.</li>
+  <li><strong>الوثيقة:</strong> مخطط وقراءات وضمان مكتوب.</li>
+  <li><strong>الاستمرارية:</strong> من يصون النظام بعد 5 سنوات.</li>
+</ul>
+
+<h3>ما يميز الورشة المحترفة</h3>
+<ol>
+  <li>مذكرة تصميم لكل مشروع (loads, strings, protection).</li>
+  <li>تقرير اختبارات موقّع عند التسليم.</li>
+  <li>جدول صيانة سنوي — لا زيارة واحدة.</li>
+  <li>أرشيف صور لكل تركيب.</li>
+  <li>مراقبة عن بُعد (حتى لو بسيطة).</li>
+</ol>
+
+<blockquote>الشركة التي تُظهر قياساتها تبني سمعة لا تُشترى بالإعلانات.</blockquote>
+
+<h3>لماذا على CapKitco؟</h3>
+<p>لأن صفحة ورشتك تعرض أعمالك، ويمكن للعميل أن يطلبك مباشرة. أضف:</p>
+<ul>
+  <li>صور مشروعات قبل/بعد.</li>
+  <li>قراءات إنتاج موثقة (صورة من التطبيق).</li>
+  <li>قائمة المكونات والضمانات.</li>
+</ul>
+
+<p>هذه الثلاثة تحوّل صفحتك من «إعلان» إلى <strong>ملف اعتماد</strong>.</p>
+
+<h3>فرصة محلية</h3>
+<p>معظم المكونات مستوردة، لكن هناك ما يمكن تصنيعه محلياً بجودة عالية: الهياكل المعدنية، صناديق التجميع، الكابلات المجمّعة، وحوامل التثبيت. الورشة التي تتقن التصنيع المحلي تقلّل التكلفة وتقصّر زمن التسليم — وهذا ميزة تنافسية حقيقية في سوق يتوقّف عند نقص قطعة.</p></div>
+    
+    
+    <div class="comments" data-comments-for="5a4b6620-6c7c-473d-9f12-45e480b06b8b">
+      <button class="mag-btn no-print" type="button" data-load-comments="5a4b6620-6c7c-473d-9f12-45e480b06b8b">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-5a4b6620-6c7c-473d-9f12-45e480b06b8b"></div>
+    </div>
+  </section><section class="article" id="a-3e42d761-7aaf-42f6-9463-96f33d4097fb" data-article-id="3e42d761-7aaf-42f6-9463-96f33d4097fb">
+    <span class="cat">ملحق</span>
+    <h2>ملاحق العدد: مشروع 10 كيلوواط، قوائم الفحص، المسرد، المراجع <a class="art-permalink" href="https://capkitco.com/issue/05/20-3e42d761/" title="رابط دائم للمقال">🔗</a></h2>
+    <p class="summary">ملاحق عملية للعدد الخامس: مشروع نظام 10 كيلوواط محلول بالأرقام، ثلاث قوائم فحص للتصميم والتركيب والتشغيل، مسرد المصطلحات، والمراجع القياسية.</p>
+    <div class="prose"><h3>ملحق أ — مشروع متكامل: نظام 10 كيلوواط متصل بالشبكة</h3>
+<p>هذا تمرين كامل: من المعطيات إلى الجدوى. اقرأه كمنهج، لا كسعر نهائي — الأسعار والتعريفات تتغير، لكن تسلسل القرارات لا يتغير.</p>
+
+<h4>1. المعطيات</h4>
+<ul>
+  <li>الموقع: القاهرة (خط عرض 30°).</li>
+  <li>الإشعاع: 5.5 ساعة شمس مكافئة (متوسط)، و4.0 في أسوأ شهر (ديسمبر).</li>
+  <li>الاستهلاك الشهري: 1,400 كيلوواط/ساعة.</li>
+  <li>تعريفة الكهرباء: 1.8 جنيه/كيلوواط/ساعة.</li>
+  <li>السطح: خرساني مستوٍ، 70 م² متاحة.</li>
+</ul>
+
+<h4>2. حساب الحمل</h4>
+<ul>
+  <li>الاستهلاك اليومي = 1,400 ÷ 30 ≈ <strong>46.7 كيلوواط/ساعة</strong>.</li>
+  <li>الحمل النهاري المقدّر (تكييف/عمل) ≈ 55% = 25.7 كيلوواط/ساعة.</li>
+  <li>القدرة المطلوبة = 25.7 ÷ (5.5 × 0.8) ≈ <strong>5.8 كيلوواط</strong>.</li>
+  <li>مع استهداف تغطية أعلى وتصدير للشبكة: <strong>10 كيلوواط ذروة</strong>.</li>
+</ul>
+
+<h4>3. اختيار الألواح</h4>
+<p>لوح 550 واط، Voc = 49.5 فولت، Vmp = 41.8 فولت، Isc = 14 أمبير، معامل القدرة −0.35%/°م.</p>
+<p>العدد = 10,000 ÷ 550 ≈ 18.2 → <strong>20 لوحاً</strong> (11 كيلوواط ذروة).</p>
+
+<h4>4. تصميم السلاسل</h4>
+<table>
+  <thead>
+    <tr><th>الفحص</th><th>الحساب</th><th>النتيجة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Voc عند 0°م</td><td>49.5 × 1.0675</td><td>52.8 فولت</td></tr>
+    <tr><td>أقصى عدد في السلسلة</td><td>950 ÷ 52.8</td><td>≈ 17 → نختار 10</td></tr>
+    <tr><td>Vmp عند 70°م</td><td>35.2 × 10</td><td>352 فولت (داخل النافذة)</td></tr>
+    <tr><td>عدد السلاسل</td><td>20 ÷ 10</td><td>سلسلتان</td></tr>
+    <tr><td>تيار الحماية</td><td>14 × 1.25 × 2</td><td>35 أمبير</td></tr>
+  </tbody>
+</table>
+
+<h4>5. العاكس</h4>
+<p>عاكس 10 كيلوواط، مدخلا MPPT، كفاءة أوروبية ≥ 97%، أقصى جهد DC 1000 فولت، نافذة MPPT 200–850 فولت.</p>
+<p>نسبة DC/AC = 11 ÷ 10 = 1.1 — ضمن النطاق المقبول.</p>
+
+<h4>6. الكابلات</h4>
+<ul>
+  <li><strong>DC:</strong> 6 مم²، طول 20 م، تيار 14 أمبير → هبوط ≈ 1.6 فولت (0.7%).</li>
+  <li><strong>AC:</strong> 6 مم²، تيار 43 أمبير، طول 15 م → هبوط ≈ 1.1 فولت.</li>
+</ul>
+
+<h4>7. الحماية</h4>
+<ul>
+  <li>مانع gPV 20 أمبير لكل سلسلة.</li>
+  <li>مفتاح DC عازل 32 أمبير / 1000 فولت.</li>
+  <li>مانعة صواعق نوع 2 على الجانبين DC وAC.</li>
+  <li>قاطع AC 63 أمبير + RCD نوع B 30 ملّي أمبير.</li>
+  <li>تأريض ≤ 5 أوم + ربط الهيكل والأجزاء المعدنية.</li>
+</ul>
+
+<h4>8. الهيكل</h4>
+<ul>
+  <li>ميل 25°، اتجاه جنوب.</li>
+  <li>مسافة صفوف 1.7 م.</li>
+  <li>تهوية خلفية 15 سم، قواعد ستانلس، ختم EPDM.</li>
+</ul>
+
+<h4>9. الإنتاج المتوقع</h4>
+<p>سنوي = 11 × 5.5 × 0.8 × 365 ≈ <strong>17,600 كيلوواط/ساعة</strong>.</p>
+<p>بعد التدهور في السنة العاشرة ≈ 16,700 كيلوواط/ساعة.</p>
+
+<h4>10. الجدوى</h4>
+<table>
+  <thead>
+    <tr><th>البند</th><th>القيمة</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>التكلفة الرأسمالية (CAPEX)</td><td>≈ 250,000 جنيه</td></tr>
+    <tr><td>التوفير السنوي (استهلاك كامل)</td><td>≈ 31,700 جنيه</td></tr>
+    <tr><td>الاسترداد البسيط</td><td>≈ 7.9 سنة</td></tr>
+    <tr><td>LCOE</td><td>≈ 1.1 جنيه/kWh</td></tr>
+    <tr><td>التعريفة</td><td>1.8 جنيه/kWh</td></tr>
+    <tr><td>صافي التوفير للكيلوواط/ساعة</td><td>≈ 39%</td></tr>
+  </tbody>
+</table>
+<p><strong>تنبيه:</strong> الأرقام إرشادية للتمرين. المطلوب هو المنهج، لا الرقم النهائي.</p>
+
+<h3>ملحق ب — قوائم فحص</h3>
+<h4>قبل التصميم</h4>
+<ul>
+  <li>☐ ملف أحمال لاثني عشر شهراً.</li>
+  <li>☐ مساحة السطح الصافية واتجاهه.</li>
+  <li>☐ دراسة ظل في ديسمبر.</li>
+  <li>☐ حالة السطح والعزل.</li>
+  <li>☐ تعريفة الكهرباء وشروط الربط.</li>
+</ul>
+<h4>قبل التركيب</h4>
+<ul>
+  <li>☐ مذكرة تصميم معتمدة.</li>
+  <li>☐ جدول كميات وأرقام تسلسلية.</li>
+  <li>☐ خطة سلامة (سقالة/حزام).</li>
+  <li>☐ تصاريح إن لزمت.</li>
+</ul>
+<h4>قبل التشغيل</h4>
+<ul>
+  <li>☐ قياس Voc وIsc لكل سلسلة.</li>
+  <li>☐ مقاومة عزل ≥ 1 ميجا أوم.</li>
+  <li>☐ تأريض ≤ 5 أوم.</li>
+  <li>☐ إعدادات العاكس للشبكة.</li>
+  <li>☐ مانعات الصواعق سليمة.</li>
+  <li>☐ ملصقات تحذير DC.</li>
+  <li>☐ مخطط As-Built.</li>
+</ul>
+<h4>بعد 30 يوماً</h4>
+<ul>
+  <li>☐ مقارنة الإنتاج بالمتوقع.</li>
+  <li>☐ فحص حراري للوصلات.</li>
+  <li>☐ مراجعة تنبيهات المراقبة.</li>
+</ul>
+
+<h3>ملحق ج — مسرد المصطلحات</h3>
+<table>
+  <thead>
+    <tr><th>المصطلح</th><th>المعنى</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>STC</td><td>الشروط القياسية: 1000 واط/م²، 25°م، AM1.5</td></tr>
+    <tr><td>PSH</td><td>ساعات الشمس المكافئة</td></tr>
+    <tr><td>Voc</td><td>جهد الدائرة المفتوحة</td></tr>
+    <tr><td>Isc</td><td>تيار الدائرة القصيرة</td></tr>
+    <tr><td>MPPT</td><td>متتبع نقطة القدرة القصوى</td></tr>
+    <tr><td>PR</td><td>نسبة الأداء الفعلية إلى النظرية</td></tr>
+    <tr><td>LCOE</td><td>التكلفة المستوية للكيلوواط/ساعة</td></tr>
+    <tr><td>PID</td><td>تدهور بسبب فرق الجهد</td></tr>
+    <tr><td>DOD</td><td>عمق التفريغ</td></tr>
+    <tr><td>BMS</td><td>نظام إدارة البطارية</td></tr>
+    <tr><td>SPD</td><td>مانعة صواعق</td></tr>
+    <tr><td>AFCI</td><td>كاشف قوس كهربائي</td></tr>
+    <tr><td>Anti-islanding</td><td>الفصل عند انقطاع الشبكة</td></tr>
+    <tr><td>Bifacial</td><td>لوح ينتج من الوجهين</td></tr>
+    <tr><td>Clipping</td><td>قصّ الإنتاج الزائد في الذروة</td></tr>
+  </tbody>
+</table>
+
+<h3>ملحق د — المراجع القياسية</h3>
+<ul>
+  <li>IEC 62548 — تصميم الأنظمة الكهروضوئية.</li>
+  <li>IEC 60364-7-712 — التركيبات الكهروضوئية في المباني.</li>
+  <li>IEC 61215 / IEC 61730 — تأهيل وسلامة الألواح.</li>
+  <li>IEC 62109-1/-2 — سلامة العواكس.</li>
+  <li>IEC 62116 — اختبار anti-islanding.</li>
+  <li>IEC 61727 — توصيل الشبكة.</li>
+  <li>IEC 62446-1 — التوثيق والاختبار.</li>
+  <li>IEC 61724-1 — مراقبة الأداء.</li>
+  <li>IEC 61643 — مانعات الصواعق.</li>
+  <li>IEC 62619 — سلامة بطاريات الليثيوم.</li>
+  <li>IEC 60364-5-52 — اختيار الكابلات.</li>
+</ul></div>
+    
+    <div class="citations"><h3>المصادر والمراجع</h3><ol><li>IEC 62548 · IEC 60364-7-712 · IEC 61215/61730 · IEC 62109 · IEC 62116 · IEC 61727 · IEC 62446-1 · IEC 61724-1.</li></ol></div>
+    <div class="comments" data-comments-for="3e42d761-7aaf-42f6-9463-96f33d4097fb">
+      <button class="mag-btn no-print" type="button" data-load-comments="3e42d761-7aaf-42f6-9463-96f33d4097fb">💬 عرض التعليقات</button>
+      <div class="comments-list" id="comments-3e42d761-7aaf-42f6-9463-96f33d4097fb"></div>
+    </div>
+  </section></article>
+</main>
+
+<script src="/magazine-config.js"></script>
+<script src="/issue.js"></script>
+</body>
+</html>
