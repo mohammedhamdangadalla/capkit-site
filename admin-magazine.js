@@ -104,6 +104,100 @@
       </table>`;
   }
 
+  /* ═══════════ الغلاف: رفع من الجهاز ═══════════ */
+
+  const COVER_BUCKET = 'magazine-assets';
+
+  async function compressImage(file, maxSize = 1600, quality = 0.85) {
+    if (!file.type.startsWith('image/')) throw new Error('الملف ليس صورة');
+    if (file.size > 8 * 1024 * 1024) throw new Error('الصورة أكبر من 8 ميجابايت');
+
+    let bitmap;
+    try {
+      bitmap = await createImageBitmap(file);
+    } catch {
+      throw new Error('صيغة الصورة غير مدعومة في هذا المتصفح');
+    }
+
+    const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
+    const w = Math.max(1, Math.round(bitmap.width * scale));
+    const h = Math.max(1, Math.round(bitmap.height * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+    bitmap.close?.();
+
+    const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', quality));
+    if (!blob) throw new Error('تعذّر ضغط الصورة');
+    return blob;
+  }
+
+  function setCoverPreview(url) {
+    const img = document.getElementById('isCoverPreview');
+    if (!img) return;
+    if (url) {
+      img.src = url;
+      img.style.display = 'block';
+    } else {
+      img.removeAttribute('src');
+      img.style.display = 'none';
+    }
+  }
+
+  function bindCoverUpload() {
+    const input = document.getElementById('isCoverFile');
+    if (!input || input.dataset.bound === '1') return;
+    input.dataset.bound = '1';
+
+    // معاينة فورية عند لصق رابط
+    document.getElementById('isCover')?.addEventListener('input', (e) => {
+      setCoverPreview(e.target.value.trim());
+    });
+
+    input.addEventListener('change', async (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const status = document.getElementById('isCoverStatus');
+      input.disabled = true;
+      if (status) status.textContent = 'جارٍ الضغط…';
+
+      try {
+        const blob = await compressImage(file);
+        if (status) status.textContent = 'جارٍ الرفع…';
+
+        const path = `covers/issue-${Date.now()}.jpg`;
+        const { error } = await client().storage.from(COVER_BUCKET).upload(path, blob, {
+          contentType: 'image/jpeg',
+          cacheControl: '31536000',
+          upsert: false,
+        });
+        if (error) throw error;
+
+        const { data } = client().storage.from(COVER_BUCKET).getPublicUrl(path);
+        document.getElementById('isCover').value = data.publicUrl;
+        setCoverPreview(data.publicUrl);
+        if (status) status.textContent = `✔ ${Math.round(blob.size / 1024)}KB`;
+        toast('تم رفع الغلاف');
+      } catch (err) {
+        console.error('[magazine] cover upload failed:', err);
+        if (status) status.textContent = '✖ فشل الرفع';
+        const msg = String(err?.message || '');
+        toast(
+          /Bucket not found/i.test(msg)
+            ? 'Bucket magazine-assets غير موجود — نفّذ db/011_magazine_assets_bucket.sql'
+            : msg || 'فشل رفع الغلاف',
+          'error',
+        );
+      } finally {
+        input.disabled = false;
+        input.value = '';
+      }
+    });
+  }
+
   /* ═══════════ العدد: إنشاء/تعديل ═══════════ */
 
   function openIssueModal() {
@@ -113,6 +207,9 @@
     document.getElementById('isTitle').value = '';
     document.getElementById('isDesc').value = '';
     document.getElementById('isCover').value = '';
+    setCoverPreview('');
+    document.getElementById('isCoverStatus').textContent = '';
+    bindCoverUpload();
     document.getElementById('isDate').value = new Date().toISOString().slice(0, 10);
     document.getElementById('isPublished').checked = false;
     document.getElementById('issueModal').classList.add('open');
@@ -127,6 +224,9 @@
     document.getElementById('isTitle').value = issue.title || '';
     document.getElementById('isDesc').value = issue.description || '';
     document.getElementById('isCover').value = issue.cover_image || '';
+    setCoverPreview(issue.cover_image || '');
+    document.getElementById('isCoverStatus').textContent = '';
+    bindCoverUpload();
     document.getElementById('isDate').value = issue.publish_date || '';
     document.getElementById('isPublished').checked = Boolean(issue.is_published);
     document.getElementById('issueModal').classList.add('open');

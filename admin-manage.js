@@ -427,6 +427,10 @@
     document.getElementById('npDesc').value = '';
     document.getElementById('npPrice').value = '';
     document.getElementById('npImage').value = '';
+    const npPrev = document.getElementById('npImagePreview');
+    if (npPrev) { npPrev.removeAttribute('src'); npPrev.style.display = 'none'; }
+    const npStat = document.getElementById('npImageStatus');
+    if (npStat) npStat.textContent = '';
     document.getElementById('productModal').classList.add('open');
   }
 
@@ -514,6 +518,97 @@
       if (btn) btn.disabled = false;
     }
   }
+
+  /* ═══════════ رفع صورة المنتج من الجهاز ═══════════ */
+
+  async function compressImage(file, maxSize = 1200, quality = 0.85) {
+    if (!file.type.startsWith('image/')) throw new Error('الملف ليس صورة');
+    if (file.size > 8 * 1024 * 1024) throw new Error('الصورة أكبر من 8 ميجابايت');
+
+    let bitmap;
+    try {
+      bitmap = await createImageBitmap(file);
+    } catch {
+      throw new Error('صيغة الصورة غير مدعومة في هذا المتصفح');
+    }
+
+    const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
+    const w = Math.max(1, Math.round(bitmap.width * scale));
+    const h = Math.max(1, Math.round(bitmap.height * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+    bitmap.close?.();
+
+    const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', quality));
+    if (!blob) throw new Error('تعذّر ضغط الصورة');
+    return blob;
+  }
+
+  function bindProductImageUpload() {
+    const input = document.getElementById('npImageFile');
+    if (!input || input.dataset.bound === '1') return;
+    input.dataset.bound = '1';
+
+    document.getElementById('npImage')?.addEventListener('input', (e) => {
+      const img = document.getElementById('npImagePreview');
+      const url = e.target.value.trim();
+      if (!img) return;
+      img.style.display = url ? 'block' : 'none';
+      if (url) img.src = url;
+    });
+
+    input.addEventListener('change', async (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const status = document.getElementById('npImageStatus');
+      input.disabled = true;
+      if (status) status.textContent = 'جارٍ الضغط…';
+
+      try {
+        const blob = await compressImage(file);
+        if (status) status.textContent = 'جارٍ الرفع…';
+
+        const { data: auth } = await client().auth.getUser();
+        const uid = auth?.user?.id;
+        if (!uid) throw new Error('سجّل الدخول مرة أخرى');
+
+        const path = `${uid}/admin-${Date.now()}.jpg`;
+        const { error } = await client().storage.from('product-images').upload(path, blob, {
+          contentType: 'image/jpeg',
+          cacheControl: '31536000',
+          upsert: false,
+        });
+        if (error) throw error;
+
+        const { data } = client().storage.from('product-images').getPublicUrl(path);
+        document.getElementById('npImage').value = data.publicUrl;
+        const img = document.getElementById('npImagePreview');
+        if (img) { img.src = data.publicUrl; img.style.display = 'block'; }
+        if (status) status.textContent = `✔ ${Math.round(blob.size / 1024)}KB`;
+        toast('تم رفع صورة المنتج');
+      } catch (err) {
+        console.error('[admin] product image upload failed:', err);
+        if (status) status.textContent = '✖ فشل الرفع';
+        const msg = String(err?.message || '');
+        toast(
+          /row-level security|permission|403/i.test(msg)
+            ? 'لا تملك صلاحية الرفع — نفّذ سياسة product-images في db/011'
+            : msg || 'فشل رفع الصورة',
+          'error',
+        );
+      } finally {
+        input.disabled = false;
+        input.value = '';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', bindProductImageUpload);
+  window.addEventListener('admin:ready', bindProductImageUpload);
 
   window.AdminPanels = {
     onTab(tab) {

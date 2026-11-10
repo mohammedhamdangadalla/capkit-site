@@ -431,7 +431,15 @@
           </div>
           <div class="admin-field"><label>عنوان العدد *</label><input id="isTitle" maxlength="120" placeholder="العدد الأول — أساسيات الإلكترونيات"></div>
           <div class="admin-field"><label>وصف قصير</label><textarea id="isDesc" rows="3" maxlength="400" placeholder="ماذا يحتوي هذا العدد؟"></textarea></div>
-          <div class="admin-field"><label>رابط صورة الغلاف</label><input id="isCover" dir="ltr" placeholder="https://…"></div>
+          <div class="admin-field">
+            <label>غلاف العدد</label>
+            <input id="isCover" dir="ltr" placeholder="https://… أو ارفع صورة من جهازك">
+            <div style="display:flex; align-items:center; gap:10px; margin-top:8px; flex-wrap:wrap;">
+              <input type="file" id="isCoverFile" accept="image/*" style="font-size:.78rem;">
+              <span id="isCoverStatus" style="font-size:.75rem; color:var(--text-secondary);"></span>
+            </div>
+            <img id="isCoverPreview" alt="" style="display:none; margin-top:10px; width:96px; height:128px; object-fit:cover; border-radius:8px; border:1px solid var(--line);">
+          </div>
           <label class="card-toggle" style="display:flex; gap:8px; align-items:center; margin-top:6px;">
             <input type="checkbox" id="isPublished">
             <span style="font-size:.86rem; color:var(--text-secondary);">نشر العدد فوراً</span>
@@ -472,7 +480,15 @@
           <div class="admin-field"><label>السعر (جنيه) *</label><input id="npPrice" type="number" min="0" step="1" placeholder="295"></div>
           <div class="admin-field"><label>الورشة *</label><select id="npWorkshop"></select></div>
           <div class="admin-field"><label>التصنيف</label><select id="npCategory"></select></div>
-          <div class="admin-field"><label>رابط الصورة (اختياري)</label><input id="npImage" dir="ltr" placeholder="https://…"></div>
+          <div class="admin-field">
+            <label>صورة المنتج</label>
+            <input id="npImage" dir="ltr" placeholder="https://… أو ارفع صورة من جهازك">
+            <div style="display:flex; align-items:center; gap:10px; margin-top:8px; flex-wrap:wrap;">
+              <input type="file" id="npImageFile" accept="image/*" style="font-size:.78rem;">
+              <span id="npImageStatus" style="font-size:.75rem; color:var(--text-secondary);"></span>
+            </div>
+            <img id="npImagePreview" alt="" style="display:none; margin-top:10px; width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid var(--line);">
+          </div>
           <div class="admin-modal-actions">
             <button class="admin-mini" onclick="AdminPanels.closeProductModal()">إلغاء</button>
             <button class="admin-mini gold" id="npSave" onclick="AdminPanels.saveProduct()">حفظ ونشر</button>
@@ -489,8 +505,8 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="supabase-config.js"></script>
 <script defer src="admin.js?v=4"></script>
-<script defer src="admin-manage.js?v=4"></script>
-<script defer src="admin-magazine.js?v=4"></script>
+<script defer src="admin-manage.js?v=5"></script>
+<script defer src="admin-magazine.js?v=5"></script>
 <script defer src="footer.js"></script>
 </body>
 </html>
