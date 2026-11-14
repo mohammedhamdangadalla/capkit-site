@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-10T21:48:19.310Z",
+  "generatedAt": "2026-11-14T18:59:44.229Z",
   "counts": {
     "product": 6,
     "service": 1,
     "workshop": 2,
     "profile": 1,
-    "issue": 5,
-    "article": 60
+    "issue": 6,
+    "article": 83
   },
   "pages": [
     {
@@ -87,7 +87,199 @@
       "type": "profile",
       "id": "01cca51c-0618-49b8-b388-51cc89088b97",
       "slug": "mohammed",
-      "lastmod": "2026-11-10T05:34:25.029691+00:00"
+      "lastmod": "2026-11-13T18:10:14.442679+00:00"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/",
+      "file": "issue/06/index.html",
+      "type": "issue",
+      "id": "4fe66672-1085-4591-8dcd-7bb934714c99",
+      "slug": "06",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/1-a4c0d74b/",
+      "file": "issue/06/1-a4c0d74b/index.html",
+      "type": "article",
+      "id": "a4c0d74b-486d-43dd-a02d-92a7085bbf6f",
+      "slug": "1-a4c0d74b",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/2-7c73fee2/",
+      "file": "issue/06/2-7c73fee2/index.html",
+      "type": "article",
+      "id": "7c73fee2-b755-47a1-bb35-b4da608d17c2",
+      "slug": "2-7c73fee2",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/3-60254a28/",
+      "file": "issue/06/3-60254a28/index.html",
+      "type": "article",
+      "id": "60254a28-8789-4767-acc7-4b218ec14696",
+      "slug": "3-60254a28",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/4-bc863c6b/",
+      "file": "issue/06/4-bc863c6b/index.html",
+      "type": "article",
+      "id": "bc863c6b-6282-4891-a272-85fcc9b6ad56",
+      "slug": "4-bc863c6b",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/5-7de850b6/",
+      "file": "issue/06/5-7de850b6/index.html",
+      "type": "article",
+      "id": "7de850b6-4516-4aae-bc17-1e4486faeae3",
+      "slug": "5-7de850b6",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/6-000aa5b3/",
+      "file": "issue/06/6-000aa5b3/index.html",
+      "type": "article",
+      "id": "000aa5b3-349a-44b5-a2f9-2e43d50e983d",
+      "slug": "6-000aa5b3",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/7-5e0e0e79/",
+      "file": "issue/06/7-5e0e0e79/index.html",
+      "type": "article",
+      "id": "5e0e0e79-1f45-4060-99de-9e6300078f3e",
+      "slug": "7-5e0e0e79",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/8-f8175d5f/",
+      "file": "issue/06/8-f8175d5f/index.html",
+      "type": "article",
+      "id": "f8175d5f-34c8-43e0-9c4e-e4fe79d9dd14",
+      "slug": "8-f8175d5f",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/9-5eef1d1d/",
+      "file": "issue/06/9-5eef1d1d/index.html",
+      "type": "article",
+      "id": "5eef1d1d-e9aa-4170-8731-bd99be644061",
+      "slug": "9-5eef1d1d",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/10-ad3d61ae/",
+      "file": "issue/06/10-ad3d61ae/index.html",
+      "type": "article",
+      "id": "ad3d61ae-2d4f-46c9-b386-26237235b43a",
+      "slug": "10-ad3d61ae",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/11-da9c7bc9/",
+      "file": "issue/06/11-da9c7bc9/index.html",
+      "type": "article",
+      "id": "da9c7bc9-2bc2-4e1b-8682-c490ef789b9a",
+      "slug": "11-da9c7bc9",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/12-b8f98068/",
+      "file": "issue/06/12-b8f98068/index.html",
+      "type": "article",
+      "id": "b8f98068-7d6e-427e-94aa-fea668ca611c",
+      "slug": "12-b8f98068",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/13-d0db4b2a/",
+      "file": "issue/06/13-d0db4b2a/index.html",
+      "type": "article",
+      "id": "d0db4b2a-42fa-470e-bcf6-94f9f9bceb4c",
+      "slug": "13-d0db4b2a",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/14-26872bfd/",
+      "file": "issue/06/14-26872bfd/index.html",
+      "type": "article",
+      "id": "26872bfd-cab6-472c-b1ce-fa3c65a2fb72",
+      "slug": "14-26872bfd",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/15-00edd900/",
+      "file": "issue/06/15-00edd900/index.html",
+      "type": "article",
+      "id": "00edd900-8f31-4661-a925-ef831ceea18f",
+      "slug": "15-00edd900",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/16-da8df28c/",
+      "file": "issue/06/16-da8df28c/index.html",
+      "type": "article",
+      "id": "da8df28c-0105-4380-8451-d02e58678fa4",
+      "slug": "16-da8df28c",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/17-c16dc63a/",
+      "file": "issue/06/17-c16dc63a/index.html",
+      "type": "article",
+      "id": "c16dc63a-06c5-4977-aac9-a43351fea5e0",
+      "slug": "17-c16dc63a",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/18-f620ae09/",
+      "file": "issue/06/18-f620ae09/index.html",
+      "type": "article",
+      "id": "f620ae09-e2f5-44a3-89a5-d40dffa0131b",
+      "slug": "18-f620ae09",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/19-3769aca2/",
+      "file": "issue/06/19-3769aca2/index.html",
+      "type": "article",
+      "id": "3769aca2-665e-47e8-8c6e-a103f8102ccc",
+      "slug": "19-3769aca2",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/20-a2c4ee75/",
+      "file": "issue/06/20-a2c4ee75/index.html",
+      "type": "article",
+      "id": "a2c4ee75-a579-4d85-a2b2-cc8715fd9a37",
+      "slug": "20-a2c4ee75",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/21-673e67e1/",
+      "file": "issue/06/21-673e67e1/index.html",
+      "type": "article",
+      "id": "673e67e1-0b11-4c9c-9bb3-878090fc2c63",
+      "slug": "21-673e67e1",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/22-357ad48c/",
+      "file": "issue/06/22-357ad48c/index.html",
+      "type": "article",
+      "id": "357ad48c-7ebb-43cc-a9bf-38725ad92849",
+      "slug": "22-357ad48c",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/23-444867be/",
+      "file": "issue/06/23-444867be/index.html",
+      "type": "article",
+      "id": "444867be-99e1-4f24-b1e0-f3e5ed1ef561",
+      "slug": "23-444867be",
+      "lastmod": "2026-11-15"
     },
     {
       "url": "https://capkitco.com/issue/05/",
