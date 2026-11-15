@@ -209,7 +209,10 @@ function renderProduct() {
   document.getElementById('productTitle').textContent = p.title || 'بدون اسم';
 
   const priceEl = document.getElementById('productPrice');
-  priceEl.innerHTML = `<span>${p.price || 0}</span><small>${p.currency || 'EGP'}</small>`;
+  const isFree = Number(p.price) === 0;
+  priceEl.innerHTML = isFree
+    ? '<span>مجاني</span>'
+    : `<span>${p.price || 0}</span><small>${p.currency || 'EGP'}</small>`;
 
   document.getElementById('productDescription').textContent = p.description || 'لا يوجد وصف';
 
@@ -217,6 +220,7 @@ function renderProduct() {
   renderGallery();
   renderSeller();
   renderWhatsApp();
+  applyDigitalCta();
   
   document.title = `${p.title || 'المنتج'} — Capkitco`;
   
@@ -238,6 +242,24 @@ function renderProduct() {
     
   initComments('product', p.id);
   initRating('product', p.id);
+}
+
+// ═══ المنتج الرقمي المجاني ═══
+function applyDigitalCta() {
+  const p = currentProduct;
+  if (Number(p.price) !== 0) return;
+
+  const orderBtn = document.getElementById('orderProductBtn');
+  if (orderBtn) orderBtn.style.display = 'none';
+
+  const wa = document.getElementById('whatsappBtn');
+  if (wa) {
+    wa.href = '/book.html';
+    wa.removeAttribute('target');
+    wa.textContent = '📘 افتح الكتاب مجاناً';
+    wa.style.background = 'var(--gold)';
+    wa.style.color = 'var(--obsidian)';
+  }
 }
 
 // ═══ Badges ═══

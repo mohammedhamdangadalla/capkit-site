@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600" role="img" aria-label="الكتاب التفاعلي — مجاني">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0a08"/>
+      <stop offset="0.55" stop-color="#16130d"/>
+      <stop offset="1" stop-color="#0d0c09"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8d5a0"/>
+      <stop offset="0.5" stop-color="#c9a961"/>
+      <stop offset="1" stop-color="#8f6f2f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.28" r="0.6">
+      <stop offset="0" stop-color="#c9a961" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#c9a961" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#c9a961" stroke-opacity="0.10" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="1600" fill="url(#bg)"/>
+  <rect width="1200" height="1600" fill="url(#grid)"/>
+  <rect width="1200" height="1600" fill="url(#glow)"/>
+
+  <!-- إطار -->
+  <rect x="54" y="54" width="1092" height="1492" rx="18" fill="none" stroke="url(#gold)" stroke-opacity="0.55" stroke-width="2"/>
+
+  <!-- شعار أعلى -->
+  <text x="600" y="150" text-anchor="middle" font-family="Georgia, serif" font-size="34" letter-spacing="10" fill="#e8d5a0" opacity="0.85">CAPKITCO</text>
+  <line x1="470" y1="178" x2="730" y2="178" stroke="url(#gold)" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- الكتاب -->
+  <g transform="translate(600 640)">
+    <rect x="-230" y="-260" width="460" height="520" rx="16" fill="#1b1710" stroke="url(#gold)" stroke-width="3"/>
+    <rect x="-204" y="-234" width="408" height="468" rx="8" fill="none" stroke="#c9a961" stroke-opacity="0.35" stroke-width="2"/>
+    <line x1="-6" y1="-234" x2="-6" y2="234" stroke="#c9a961" stroke-opacity="0.28" stroke-width="2"/>
+    <!-- نقاط كأنها بيانات -->
+    <g fill="#c9a961" opacity="0.75">
+      <circle cx="-150" cy="-150" r="7"/><circle cx="-80" cy="-150" r="7"/>
+      <circle cx="-150" cy="-90" r="7"/><circle cx="-80" cy="-90" r="7"/>
+      <circle cx="-150" cy="-30" r="7"/><circle cx="-80" cy="-30" r="7"/>
+    </g>
+    <g stroke="#c9a961" stroke-opacity="0.5" stroke-width="2" fill="none">
+      <path d="M-150 -150 L-80 -90 L-150 -30"/>
+      <path d="M-80 -150 L-150 -90 L-80 -30"/>
+    </g>
+    <g fill="#c9a961" opacity="0.35">
+      <rect x="30" y="-160" width="150" height="12" rx="6"/>
+      <rect x="30" y="-120" width="110" height="12" rx="6"/>
+      <rect x="30" y="-80" width="150" height="12" rx="6"/>
+      <rect x="30" y="-40" width="90" height="12" rx="6"/>
+      <rect x="30" y="0" width="130" height="12" rx="6"/>
+    </g>
+  </g>
+
+  <!-- شارة مجاني -->
+  <g transform="translate(600 985)">
+    <rect x="-92" y="-32" width="184" height="64" rx="32" fill="url(#gold)"/>
+    <text x="0" y="10" text-anchor="middle" font-family="Tajawal, Arial, sans-serif" font-size="30" font-weight="700" fill="#14100a">مجاني</text>
+  </g>
+
+  <!-- العنوان -->
+  <text x="600" y="1120" text-anchor="middle" font-family="Amiri, Georgia, serif" font-size="76" fill="#f5f0e8">الكتاب التفاعلي</text>
+  <text x="600" y="1200" text-anchor="middle" font-family="Tajawal, Arial, sans-serif" font-size="36" fill="#c9a961">الليزر · الراوتر · الطباعة ثلاثية الأبعاد</text>
+  <text x="600" y="1270" text-anchor="middle" font-family="Tajawal, Arial, sans-serif" font-size="26" fill="#9a9384">خمس حاسبات — كل رقم معادلته</text>
+
+  <!-- تذييل -->
+  <line x1="380" y1="1380" x2="820" y2="1380" stroke="#c9a961" stroke-opacity="0.35" stroke-width="1.5"/>
+  <text x="600" y="1435" text-anchor="middle" font-family="Tajawal, Arial, sans-serif" font-size="24" letter-spacing="4" fill="#7f7a6d">CAPKITCO.COM/BOOK.HTML</text>
+</svg>

@@ -404,6 +404,8 @@ function renderCardRating(avg, count) {
 function appendBookCard() {
   const grid = document.getElementById('featuredProductsGrid');
   if (!grid || grid.querySelector('[data-book-card]')) return;
+  // إن أُضيف الكتاب كمنتج في القاعدة، لا نضيف البطاقة الثابتة
+  if (grid.querySelector('a[href*="/product/interactive-book"]')) return;
 
   const a = document.createElement('a');
   a.href = '/book.html';

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-15T16:36:21.912Z",
+  "generatedAt": "2026-11-15T18:04:50.983Z",
   "counts": {
-    "product": 6,
+    "product": 7,
     "service": 1,
     "workshop": 2,
     "profile": 1,
@@ -9,6 +9,14 @@
     "article": 84
   },
   "pages": [
+    {
+      "url": "https://capkitco.com/product/interactive-book/",
+      "file": "product/interactive-book/index.html",
+      "type": "product",
+      "id": "fe5336aa-0674-44b0-b3f7-2f173a2135ba",
+      "slug": "interactive-book",
+      "lastmod": "2026-11-15T18:02:53.188147+00:00"
+    },
     {
       "url": "https://capkitco.com/product/p-a3175fcd/",
       "file": "product/p-a3175fcd/index.html",
