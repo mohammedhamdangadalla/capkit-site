@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الكتاب التفاعلي: الليزر والراوتر والطباعة ثلاثية الأبعاد | CapKitco</title>
+<meta name="description" content="كتاب تفاعلي للتصنيع الرقمي: حاسبة إعدادات ليزر CO2، حاسبة Kerf، حاسبة تغذية الراوتر، وحاسبة وزن وزمن الطباعة ثلاثية الأبعاد — كل رقم معادلته.">
+<link rel="canonical" href="https://capkitco.com/book.html">
+<meta property="og:title" content="الكتاب التفاعلي — ثلاث ماكينات">
+<meta property="og:description" content="حاسبات دقيقة لليزر والراوتر والطباعة ثلاثية الأبعاد، تعمل بلا إنترنت.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://capkitco.com/book.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/book.css">
+</head>
+<body>
+
+<header class="book-top">
+  <div class="inner">
+    <a class="brand" href="/">CapKit<span>co</span> · الكتاب التفاعلي</a>
+    <nav>
+      <a href="#laser">الليزر</a>
+      <a href="#router">الراوتر</a>
+      <a href="#printer">الطباعة</a>
+      <a href="#checklist">قائمة الفحص</a>
+    </nav>
+  </div>
+  <div class="progress"><i id="progressBar"></i></div>
+</header>
+
+<section class="book-hero">
+  <div class="wrap">
+    <div class="kicker">العدد السادس · إصدار تجريبي</div>
+    <h1>ثلاث ماكينات، حاسبة واحدة للفهم</h1>
+    <p>كل رقم في هذا الكتاب يظهر معادلته. لا صندوق أسود، ولا «جرّب وشوف». اقرأ المعادلة، غيّر المتغير، ثم اختبر على قصاصة صغيرة قبل القطعة الحقيقية.</p>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <h2>كيف نضمن الدقة؟</h2>
+    <p class="lead">
+      الحاسبات هنا مبنية على <strong>موديل فيزيائي بسيط</strong> ومعاملات مُعايرة على قيم ميدانية شائعة.
+      الموديل يعطي <em>نقطة بداية محسوبة</em>، وليس ضماناً: ماكينتك، وعدستك، ونظافة مراياك، ورطوبة ورشتك كلها تغيّر النتيجة.
+    </p>
+
+    <div class="note">
+      <strong>قاعدة الاستخدام:</strong> خُذ الرقم من الحاسبة، ثم اقطع مربعاً 20×20 مم على قصاصة من نفس المادة.
+      إن كان القطع كاملاً وحافته نظيفة، فالرقم صحيح لماكينتك. إن لم يكن، عدّل ±10% وسجّل النتيجة في دفترك.
+    </div>
+
+    <h3>ثوابت المواد في موديل الليزر</h3>
+    <p class="lead">المعامل <code>k</code> هو الطاقة اللازمة لقطع مليمتر مربع واحد (جول/مم²). كلما زاد، كانت المادة أصعب على الشعاع.</p>
+    <table>
+      <thead>
+        <tr><th>المادة</th><th>k (J/mm²)</th><th>ملاحظة</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>أكريليك مصبوب</td><td>1.20</td><td>حافة لامعة، يحتاج هواءً قوياً</td></tr>
+        <tr><td>MDF</td><td>0.85</td><td>دخان كثيف</td></tr>
+        <tr><td>خشب رقائقي</td><td>0.95</td><td>يتفاوت حسب الغراء</td></tr>
+        <tr><td>خشب صلب</td><td>1.00</td><td>العروق تغيّر النتيجة</td></tr>
+        <tr><td>جلد طبيعي</td><td>0.35</td><td>قدرة منخفضة</td></tr>
+        <tr><td>كرتون</td><td>0.20</td><td>سريع جداً</td></tr>
+        <tr><td>جوخ/قماش</td><td>0.18</td><td>يحتاج تثبيتاً</td></tr>
+      </tbody>
+    </table>
+
+    <div class="formula">speed (mm/s) = (P_watt × power% ÷ 100) ÷ (k × thickness_mm)</div>
+  </div>
+</section>
+
+<section id="laser">
+  <div class="wrap">
+    <h2>١ · الليزر CO2</h2>
+    <p class="lead">حاسبتان: إعدادات القطع، وتعويض Kerf. وبينهما تحذير المواد الممنوعة.</p>
+
+    <div class="calc">
+      <h3>حاسبة إعدادات القطع</h3>
+      <div class="sub">أدخل مادتك وسماكتها وقدرة ماكينتك — واحصل على سرعة وقدرة وتمريرات مبدئية.</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="lzMat">المادة</label>
+          <select id="lzMat">
+            <option value="acrylic">أكريليك</option>
+            <option value="mdf" selected>MDF</option>
+            <option value="plywood">خشب رقائقي</option>
+            <option value="wood">خشب صلب</option>
+            <option value="leather">جلد</option>
+            <option value="cardboard">كرتون</option>
+            <option value="felt">جوخ</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="lzThick">السماكة (مم)</label>
+          <input id="lzThick" type="number" min="0.5" max="20" step="0.5" value="3">
+        </div>
+        <div class="field">
+          <label for="lzPower">قدرة الماكينة (واط)</label>
+          <input id="lzPower" type="number" min="20" max="200" step="10" value="60">
+        </div>
+        <div class="field">
+          <label for="lzPct">القدرة المستخدمة (%)</label>
+          <input id="lzPct" type="number" min="10" max="100" step="5" value="55">
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="cell"><b id="lzSpeed">—</b><span>السرعة (مم/ث)</span></div>
+        <div class="cell"><b id="lzPasses">—</b><span>التمريرات</span></div>
+        <div class="cell"><b id="lzEnergy">—</b><span>الطاقة النوعية (J/مم)</span></div>
+      </div>
+
+      <div id="lzMsg" class="msg ok">جاهز للحساب.</div>
+      <div class="formula" id="lzFormula"></div>
+    </div>
+
+    <div class="calc">
+      <h3>حاسبة Kerf والتعويض</h3>
+      <div class="sub">قِس قطعة اختبارية، ثم أدخل المقاس المطلوب والمقاس الناتج.</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="kfDesign">المقاس المرسوم (مم)</label>
+          <input id="kfDesign" type="number" min="5" max="500" step="0.1" value="20">
+        </div>
+        <div class="field">
+          <label for="kfMeasured">المقاس الناتج (مم)</label>
+          <input id="kfMeasured" type="number" min="5" max="500" step="0.05" value="19.7">
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="cell"><b id="kfKerf">—</b><span>Kerf الكلي (مم)</span></div>
+        <div class="cell"><b id="kfSide">—</b><span>لكل جانب (مم)</span></div>
+        <div class="cell"><b id="kfSlot">—</b><span>ارسم الأخدود</span></div>
+        <div class="cell"><b id="kfTab">—</b><span>ارسم اللسان</span></div>
+      </div>
+
+      <div id="kfMsg" class="msg warn">استخدم نفس المادة والعدسة والسماكة عند القياس.</div>
+      <div class="formula">kerf = design − measured ; slot = W − kerf ; tab = T + kerf</div>
+    </div>
+
+    <div class="note">
+      <strong>مواد ممنوعة على ليزر CO2:</strong> PVC والفينيل (غاز كلوريد هيدروجين + حمض يتلف المرايا)، البولي كربونات، ABS،
+      وأي مادة مجهولة التركيب. الضرر هنا ليس على القطعة، بل على الماكينة والرئة.
+    </div>
+  </div>
+</section>
+
+<section id="router">
+  <div class="wrap">
+    <h2>٢ · راوتر CNC</h2>
+    <p class="lead">حمل الرقاقة هو الرقم الذي يفصل بين قطع نظيف وأداة مكسورة. أدخل أبعاد أداتك وسرعة مغزلك.</p>
+
+    <div class="calc">
+      <h3>حاسبة التغذية والسرعة</h3>
+      <div class="sub">الهدف: حمل رقاقة داخل النطاق الموصى به للمادة.</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="rtMat">المادة</label>
+          <select id="rtMat">
+            <option value="wood">خشب صلب</option>
+            <option value="mdf" selected>MDF</option>
+            <option value="plywood">خشب رقائقي</option>
+            <option value="acrylic">أكريليك</option>
+            <option value="alu">ألومنيوم</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rtDia">قطر الأداة (مم)</label>
+          <input id="rtDia" type="number" min="1" max="20" step="0.5" value="6">
+        </div>
+        <div class="field">
+          <label for="rtFlutes">عدد الأسنان</label>
+          <input id="rtFlutes" type="number" min="1" max="6" step="1" value="2">
+        </div>
+        <div class="field">
+          <label for="rtRpm">دوران المغزل (RPM)</label>
+          <input id="rtRpm" type="number" min="4000" max="30000" step="500" value="18000">
+        </div>
+        <div class="field">
+          <label for="rtThick">سماكة المادة (مم)</label>
+          <input id="rtThick" type="number" min="1" max="60" step="1" value="18">
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="cell"><b id="rtChip">—</b><span>حمل الرقاقة (مم/سن)</span></div>
+        <div class="cell"><b id="rtFeed">—</b><span>التغذية (مم/دقيقة)</span></div>
+        <div class="cell"><b id="rtDepth">—</b><span>عمق التمريرة (مم)</span></div>
+        <div class="cell"><b id="rtPasses">—</b><span>عدد التمريرات</span></div>
+      </div>
+
+      <div id="rtMsg" class="msg ok">جاهز للحساب.</div>
+      <div class="formula" id="rtFormula">feed = RPM × flutes × chip_load ; depth ≤ 0.5 × tool_diameter</div>
+    </div>
+
+    <div class="note">
+      <strong>قبل أي قطع:</strong> اضبط صفر Z على سطح المادة، ثبّت اللوح من أربع نقاط، وارفع الأداة قبل تحريك المحاور.
+      أداة مكسورة أرخص من طاولة محفورة.
+    </div>
+  </div>
+</section>
+
+<section id="printer">
+  <div class="wrap">
+    <h2>٣ · الطباعة ثلاثية الأبعاد</h2>
+    <p class="lead">قدّر الوزن والزمن قبل أن تضغط «Print»، وشخّص العيب بدل تخمينه.</p>
+
+    <div class="calc">
+      <h3>حاسبة الكتلة والزمن</h3>
+      <div class="sub">اختر الشكل وأبعاده — نحسب الحجم والمساحة، ثم الكتلة والزمن التقديري.</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="prShape">الشكل</label>
+          <select id="prShape">
+            <option value="cube">مكعب/متوازي</option>
+            <option value="cyl">أسطوانة</option>
+            <option value="plate">لوح رقيق</option>
+          </select>
+        </div>
+        <div class="field" id="fA">
+          <label for="prA">الطول (مم)</label>
+          <input id="prA" type="number" min="1" max="500" step="1" value="60">
+        </div>
+        <div class="field" id="fB">
+          <label for="prB">العرض (مم)</label>
+          <input id="prB" type="number" min="1" max="500" step="1" value="40">
+        </div>
+        <div class="field" id="fC">
+          <label for="prC">الارتفاع (مم)</label>
+          <input id="prC" type="number" min="1" max="500" step="1" value="30">
+        </div>
+        <div class="field">
+          <label for="prWalls">عدد الجدران</label>
+          <input id="prWalls" type="number" min="1" max="8" step="1" value="2">
+        </div>
+        <div class="field">
+          <label for="prLayer">سماكة الطبقة (مم)</label>
+          <input id="prLayer" type="number" min="0.08" max="0.4" step="0.02" value="0.2">
+        </div>
+        <div class="field">
+          <label for="prInfill">الحشو (%)</label>
+          <input id="prInfill" type="number" min="0" max="100" step="5" value="20">
+        </div>
+        <div class="field">
+          <label for="prMat">المادة</label>
+          <select id="prMat">
+            <option value="1.24" selected>PLA (1.24)</option>
+            <option value="1.27">PETG (1.27)</option>
+            <option value="1.04">ABS (1.04)</option>
+            <option value="1.21">TPU (1.21)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="prFlow">التدفق (مم³/ث)</label>
+          <input id="prFlow" type="number" min="1" max="20" step="0.5" value="5">
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="cell"><b id="prVol">—</b><span>الحجم (سم³)</span></div>
+        <div class="cell"><b id="prMass">—</b><span>الكتلة (جم)</span></div>
+        <div class="cell"><b id="prTime">—</b><span>الزمن التقديري</span></div>
+        <div class="cell"><b id="prFil">—</b><span>طول الفتيل (م)</span></div>
+      </div>
+
+      <div id="prMsg" class="msg ok">تقدير تقريبي — الزمن الحقيقي يعتمد على التسارع وعدد الحركات.</div>
+      <div class="formula" id="prFormula">mass = (shell + infill × (V − shell)) × ρ ; time = V_used ÷ flow</div>
+    </div>
+
+    <div class="calc">
+      <h3>مشخّص العيوب</h3>
+      <div class="sub">اختر العَرَض — واحصل على الأسباب والحلول مرتبة بالأرجح.</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="prDefect">العَرَض</label>
+          <select id="prDefect">
+            <option value="stringing">خيوط بين الأجزاء</option>
+            <option value="warping">التواء الأطراف</option>
+            <option value="layer">انفصال الطبقات</option>
+            <option value="elephant">قدم الفيل</option>
+            <option value="clog">انسداد الفوهة</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="diagOut" class="diag-out"></div>
+    </div>
+  </div>
+</section>
+
+<section id="checklist">
+  <div class="wrap">
+    <h2>قائمة الفحص</h2>
+    <p class="lead">تُحفظ في متصفحك. استخدمها قبل كل جلسة عمل.</p>
+    <ul class="checklist" id="checklistList"></ul>
+    <div class="out">
+      <div class="cell"><b id="chkDone">0/0</b><span>منجز</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="book-foot">
+  <div class="wrap">
+    <p>الكتاب التفاعلي — إصدار تجريبي · <a href="/magazine.html">المجلة</a> · <a href="/issue/06/">العدد السادس</a></p>
+    <p>كل الحسابات تقديرية ومبنية على موديلات معلنة أعلاه. اختبر دائماً على قصاصة قبل القطعة النهائية.</p>
+  </div>
+</footer>
+
+<script src="/book.js" defer></script>
+</body>
+</html>

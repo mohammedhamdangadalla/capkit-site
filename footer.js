@@ -59,6 +59,7 @@
       <a href="/manifesto.html">الميثاق</a>
       <span>·</span>
       <a href="/magazine.html">المجلة</a>
+      <a href="/book.html">الكتاب التفاعلي</a>
       <span>·</span>
       <a href="/terms.html">الشروط</a>
       <span>·</span>

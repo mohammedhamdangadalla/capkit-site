@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-14T18:59:44.229Z",
+  "generatedAt": "2026-11-15T16:36:21.912Z",
   "counts": {
     "product": 6,
     "service": 1,
     "workshop": 2,
     "profile": 1,
     "issue": 6,
-    "article": 83
+    "article": 84
   },
   "pages": [
     {
@@ -279,6 +279,14 @@
       "type": "article",
       "id": "444867be-99e1-4f24-b1e0-f3e5ed1ef561",
       "slug": "23-444867be",
+      "lastmod": "2026-11-15"
+    },
+    {
+      "url": "https://capkitco.com/issue/06/24-4defbf51/",
+      "file": "issue/06/24-4defbf51/index.html",
+      "type": "article",
+      "id": "4defbf51-e2fa-48e5-85c9-8a4226f49bfe",
+      "slug": "24-4defbf51",
       "lastmod": "2026-11-15"
     },
     {
