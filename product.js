@@ -229,7 +229,7 @@ function renderProduct() {
   setTimeout(() => {
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {
-      shareBtn.onclick = () => shareItem('product', p.id, p.title);
+      shareBtn.onclick = () => shareItem('product', p.id, p.title, p.images?.[0], itemUrlAbsolute('product', p));
     }
   }, 100);
 

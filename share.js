@@ -1,8 +1,10 @@
 // ═══ Share System ═══
 
 // ═══ Share Product/Service ═══
-window.shareItem = function(type, id, title, imageUrl) {
-  const url = `${window.location.origin}/${type}?id=${id}`;
+window.shareItem = function(type, id, title, imageUrl, urlOverride) {
+  // الرابط الثابت (/product/slug/) هو ما يقرأه واتساب — لا الصفحة الديناميكية
+  const staticUrl = (window.__PRERENDER__ && window.__PRERENDER__.url) || null;
+  const url = urlOverride || staticUrl || `${window.location.origin}/${type}?id=${id}`;
   const shareTitle = `${title} — CapKit Co.`;
   const shareText = `شوف "${title}" على CapKit Co.`;
 

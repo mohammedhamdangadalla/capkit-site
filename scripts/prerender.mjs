@@ -124,7 +124,33 @@ function breadcrumb(url, name) {
 }
 
 /** يبني كتلة <head> كاملة للصفحة المولّدة */
-function buildHead({ title, description, url, image, ogType = 'website', graph }) {
+/**
+ * يحوّل صورة المنتج إلى نسخة مناسبة للمشاركة:
+ * 1200px، JPEG، خفيفة — لأن واتساب/فيسبوك يرفضان الملفات الضخمة وWebP/SVG.
+ */
+function ogImageOf(url) {
+  const fallback = { url: LOGO, type: 'image/png' };
+  if (!url) return fallback;
+  if (/\.svg($|\?)/i.test(url)) return fallback;
+
+  try {
+    const u = new URL(url);
+    if (!/\.supabase\.co$/.test(u.hostname)) return { url, type: undefined };
+    if (!u.pathname.includes('/storage/v1/object/public/')) return { url, type: undefined };
+
+    u.pathname = u.pathname.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/');
+    u.searchParams.set('width', '1200');
+    u.searchParams.set('quality', '80');
+    // Supabase لا يدعم format=jpg — origin يعيد JPEG للصور JPEG وPNG للـPNG
+    u.searchParams.set('format', 'origin');
+    const type = /\.png($|\?)/i.test(u.pathname) ? 'image/png' : 'image/jpeg';
+    return { url: u.toString(), type };
+  } catch {
+    return { url, type: undefined };
+  }
+}
+
+function buildHead({ title, description, url, image, ogType = 'website', graph, imageW, imageH, imageType }) {
   return `<!-- SEO-META:START -->
 <link rel="canonical" href="${esc(url)}">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -135,11 +161,16 @@ function buildHead({ title, description, url, image, ogType = 'website', graph }
 <meta property="og:title" id="ogTitle" content="${esc(title)}">
 <meta property="og:description" id="ogDescription" content="${esc(description)}">
 <meta property="og:image" id="ogImage" content="${esc(image)}">
+<meta property="og:image:alt" content="${esc(title)}">
+${imageW ? `<meta property="og:image:width" content="${imageW}">
+<meta property="og:image:height" content="${imageH}">` : ''}
+${imageType ? `<meta property="og:image:type" content="${imageType}">` : ''}
 <meta property="og:url" id="ogUrl" content="${esc(url)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" id="twitterTitle" content="${esc(title)}">
 <meta name="twitter:description" id="twitterDescription" content="${esc(description)}">
 <meta name="twitter:image" id="twitterImage" content="${esc(image)}">
+<meta name="twitter:image:alt" content="${esc(title)}">
 <script type="application/ld+json">
 ${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)}
 </script>
@@ -235,7 +266,11 @@ for (const p of products) {
   const url = `${SITE}/product/${slug}/`;
   const sellerName = p.workshop_id ? workshopName.get(p.workshop_id) || 'ورشة' : 'بائع حر';
   const images = (p.images || []).filter(Boolean);
-  const image = images[0] || LOGO;
+  const rawImage = images[0] || LOGO;
+  const og = slug === 'interactive-book'
+    ? { url: `${SITE}/book-cover.png`, type: 'image/png' }
+    : ogImageOf(rawImage);
+  const image = og.url;
   const description = trunc(p.description || `${p.title} — منتج من ${BRAND}`);
   const title = `${p.title} — ${BRAND}`;
   const price = Number(p.price) || 0;
@@ -274,6 +309,9 @@ for (const p of products) {
     description,
     url,
     image,
+    imageType: og.type,
+    imageW: slug === 'interactive-book' ? 1200 : undefined,
+    imageH: slug === 'interactive-book' ? 630 : undefined,
     ogType: 'product',
     graph: [orgNode, siteNode, breadcrumb(url, p.title), productNode],
   });

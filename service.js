@@ -191,7 +191,7 @@ function renderService() {
   
   setTimeout(() => {
     const shareBtn = document.getElementById('shareBtn');
-    if (shareBtn) shareBtn.onclick = () => shareItem('service', s.id, s.title);
+    if (shareBtn) shareBtn.onclick = () => shareItem('service', s.id, s.title, null, itemUrlAbsolute('service', s));
   }, 100);
 
   updateOpenGraph({
