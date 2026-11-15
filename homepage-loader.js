@@ -398,9 +398,38 @@ function renderCardRating(avg, count) {
   `;
 }
 
+
+
+// ═══ بطاقة الكتاب التفاعلي (منتج مجاني) ═══
+function appendBookCard() {
+  const grid = document.getElementById('featuredProductsGrid');
+  if (!grid || grid.querySelector('[data-book-card]')) return;
+
+  const a = document.createElement('a');
+  a.href = '/book.html';
+  a.className = 'product-card';
+  a.dataset.bookCard = '1';
+
+  a.innerHTML = `
+    <div class="product-image">
+      <span class="badge-original">📘 مجاني</span>
+      <div class="product-emblem" style="font-size:3rem;">📘</div>
+    </div>
+    <div class="product-info">
+      <div class="product-title">الكتاب التفاعلي: الليزر والراوتر والطباعة</div>
+      <div class="product-desc">5 حاسبات تحسب الإعدادات من المعادلة نفسها…</div>
+      <div class="product-footer">
+        <div class="product-price">مجاني <small>EGP</small></div>
+        <span class="btn-wa" style="background:var(--gold); color:var(--obsidian); border-color:var(--gold);">افتح الكتاب</span>
+      </div>
+    </div>`;
+
+  grid.prepend(a);
+}
+
 // ═══ Start ═══
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => { loadHomepageContent().then(loadPremiumShowcase); });
+  document.addEventListener('DOMContentLoaded', () => { loadHomepageContent().then(() => { loadPremiumShowcase(); appendBookCard(); }); });
 } else {
-  loadHomepageContent().then(loadPremiumShowcase);
+  loadHomepageContent().then(() => { loadPremiumShowcase(); appendBookCard(); });
 }

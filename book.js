@@ -253,6 +253,124 @@
     $('diagOut').innerHTML = html;
   }
 
+  /* ═════════════ 4.5) حفظ إعدادات المواد ═════════════ */
+
+  var SAVE_KEY = 'ckbook.materials';
+
+  function loadSaved() {
+    try { return JSON.parse(localStorage.getItem(SAVE_KEY) || '[]'); } catch (e) { return []; }
+  }
+
+  function storeSaved(list) {
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(list)); } catch (e) { /* private mode */ }
+  }
+
+  function renderSaved() {
+    var box = $('lzSaved');
+    if (!box) return;
+    var list = loadSaved();
+
+    if (!list.length) {
+      box.innerHTML = '<p style="font-size:.82rem;color:var(--ink-muted);margin-top:10px;">لم تحفظ إعدادات بعد. اضبط المادة ثم اضغط «احفظ».</p>';
+      return;
+    }
+
+    var rows = list.map(function (r, i) {
+      return '<tr><td>' + r.name + '</td><td>' + fx(r.t, 1) + ' مم</td><td>' + r.W + 'و ' + r.pct + '%</td>' +
+        '<td>' + fx(r.speed, 1) + ' مم/ث</td><td>' + r.passes + '</td>' +
+        '<td><button type="button" data-del="' + i + '" title="حذف">✕</button></td></tr>';
+    }).join('');
+
+    box.innerHTML =
+      '<table class="saved-table"><thead><tr><th>المادة</th><th>السماكة</th><th>الإعداد</th>' +
+      '<th>السرعة</th><th>التمريرات</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
+
+    box.querySelectorAll('[data-del]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var l = loadSaved();
+        l.splice(Number(b.getAttribute('data-del')), 1);
+        storeSaved(l);
+        renderSaved();
+      });
+    });
+  }
+
+  function saveCurrent() {
+    var mat = $('lzMat').value;
+    var entry = {
+      name: LASER_NAMES[mat] || mat,
+      t: num($('lzThick'), 3),
+      W: num($('lzPower'), 60),
+      pct: num($('lzPct'), 55),
+      speed: parseFloat($('lzSpeed').textContent) || 0,
+      passes: parseInt($('lzPasses').textContent, 10) || 1
+    };
+
+    var list = loadSaved().filter(function (r) {
+      return !(r.name === entry.name && r.t === entry.t && r.W === entry.W && r.pct === entry.pct);
+    });
+    list.push(entry);
+    storeSaved(list);
+    renderSaved();
+
+    var box = $('lzMsg');
+    box.className = 'msg ok';
+    box.textContent = 'تم حفظ إعداد ' + entry.name + ' بسماكة ' + fx(entry.t, 1) + ' مم في متصفحك.';
+  }
+
+  function clearSaved() {
+    storeSaved([]);
+    renderSaved();
+    var box = $('lzMsg');
+    box.className = 'msg warn';
+    box.textContent = 'تم مسح الإعدادات المحفوظة من هذا المتصفح.';
+  }
+
+  /* ═════════════ 4.6) تكلفة القطعة ═════════════ */
+
+  function calcCost() {
+    var area = Math.max(0, num($('csArea'), 600)) / 10000;   // م²
+    var price = Math.max(0, num($('csPrice'), 400));
+    var waste = Math.min(50, Math.max(0, num($('csWaste'), 10))) / 100;
+    var rate = Math.max(0, num($('csRate'), 17));
+    var time = Math.max(0, num($('csTime'), 12));
+    var labor = Math.max(0, num($('csLabor'), 60));
+    var lmin = Math.max(0, num($('csLaborMin'), 10));
+    var cons = Math.max(0, num($('csCons'), 2));
+    var margin = Math.min(90, Math.max(0, num($('csMargin'), 35))) / 100;
+
+    var mat = area * price * (1 + waste);
+    var mach = rate * time / 60;
+    var lab = labor * lmin / 60;
+    var total = mat + mach + lab + cons;
+
+    var sell = margin < 0.95 ? total / (1 - margin) : total;
+    var profit = sell - total;
+
+    $('csMat').textContent = fx(mat, 1);
+    $('csMach').textContent = fx(mach, 1);
+    $('csLab').textContent = fx(lab, 1);
+    $('csTotal').textContent = fx(total, 1);
+    $('csSell').textContent = fx(sell, 1);
+    $('csProfit').textContent = fx(profit, 1);
+
+    $('csFormula').textContent =
+      'material = ' + fx(area, 4) + ' m² × ' + price + ' × (1+' + waste + ') = ' + fx(mat, 1) +
+      ' ; total = ' + fx(total, 1) + ' ; price = total ÷ (1 − ' + margin + ') = ' + fx(sell, 1);
+
+    var box = $('csMsg');
+    if (margin > 0.6) {
+      box.className = 'msg warn';
+      box.textContent = 'هامش فوق 60% قد يكون مرتفعاً للسوق المحلي — تأكد من قيمة التشطيب والضمان في عرضك.';
+    } else if (total <= 0) {
+      box.className = 'msg bad';
+      box.textContent = 'أدخل قيماً أكبر من صفر للحصول على نتيجة.';
+    } else {
+      box.className = 'msg ok';
+      box.textContent = 'التكلفة ' + fx(total, 1) + ' — السعر المقترح ' + fx(sell, 1) + ' — الربح ' + fx(profit, 1) + ' للقطعة.';
+    }
+  }
+
   /* ═════════════ 5) قائمة الفحص ═════════════ */
 
   var CHECKS = [
@@ -353,11 +471,21 @@
 
     $('prDefect').addEventListener('change', renderDefect);
 
+    $('lzSave').addEventListener('click', saveCurrent);
+    $('lzClear').addEventListener('click', clearSaved);
+
+    ['csArea', 'csPrice', 'csWaste', 'csRate', 'csTime', 'csLabor', 'csLaborMin', 'csCons', 'csMargin'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('input', calcCost);
+    });
+
     calcLaser();
     calcKerf();
     calcRouter();
     calcPrinter();
+    calcCost();
     renderDefect();
+    renderSaved();
     renderChecklist();
     toggleShape();
     initProgress();

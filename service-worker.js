@@ -1,15 +1,24 @@
-// ═══ CapKit Souq — Service Worker v4 ═══
+// ═══ CapKit Souq — Service Worker v5 ═══
+// v5: تخزين مسبق لكتاب التفاعلي (يعمل بلا إنترنت) + نفس سياسة v4.
 // v4: الأصول الثابتة (CSS/JS/صور/خطوط) تُخدم من الكاش فوراً مع تحديث في الخلفية
 //     (stale-while-revalidate)، بينما تبقى صفحات HTML على Network-First
 //     حتى لا يرى المستخدم محتوى قديماً.
 
-const CACHE_NAME = 'capkit-v4';
+const CACHE_NAME = 'capkit-v5';
+
+// أصول الكتاب التفاعلي — تُخزَّن مسبقاً ليعمل بلا إنترنت
+const PRECACHE = ['/book.html', '/book.css', '/book.js'];
 
 // أصول لا تتغيّر كثيراً — الكاش أولاً
 const STATIC_DESTINATIONS = new Set(['style', 'script', 'image', 'font']);
 
 // ═══ Install ═══
 self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(PRECACHE))
+      .catch(() => {})
+  );
   self.skipWaiting();
 });
 

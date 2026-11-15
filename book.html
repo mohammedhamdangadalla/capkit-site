@@ -14,6 +14,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/book.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Product","name":"الكتاب التفاعلي: الليزر والراوتر والطباعة ثلاثية الأبعاد","description":"خمس حاسبات لليزر CO2 والراوتر والطباعة ثلاثية الأبعاد، كل رقم مع معادلته. يعمل بلا إنترنت.","brand":{"@type":"Brand","name":"CapKitco"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EGP","availability":"https://schema.org/InStock","url":"https://capkitco.com/book.html"}}
+</script>
 </head>
 <body>
 
@@ -24,6 +27,7 @@
       <a href="#laser">الليزر</a>
       <a href="#router">الراوتر</a>
       <a href="#printer">الطباعة</a>
+      <a href="#cost">التكلفة</a>
       <a href="#checklist">قائمة الفحص</a>
     </nav>
   </div>
@@ -116,6 +120,12 @@
 
       <div id="lzMsg" class="msg ok">جاهز للحساب.</div>
       <div class="formula" id="lzFormula"></div>
+
+      <div class="actions">
+        <button type="button" id="lzSave">＋ احفظ إعدادات مادتي</button>
+        <button type="button" id="lzClear" class="ghost">مسح المحفوظ</button>
+      </div>
+      <div id="lzSaved"></div>
     </div>
 
     <div class="calc">
@@ -293,6 +303,69 @@
       </div>
 
       <div id="diagOut" class="diag-out"></div>
+    </div>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="wrap">
+    <h2>٤ · تكلفة القطعة</h2>
+    <p class="lead">سعر القطعة ليس «سعر المادة + ربح». أدخل أرقامك الحقيقية، واحصل على التكلفة والسعر المقترح.</p>
+
+    <div class="calc">
+      <h3>حاسبة التكلفة والتسعير</h3>
+      <div class="sub">كل الأرقام بعملتك المحلية. الهامش يُحسب على سعر البيع لا على التكلفة.</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="csArea">مساحة القطعة (سم²)</label>
+          <input id="csArea" type="number" min="1" max="100000" step="1" value="600">
+        </div>
+        <div class="field">
+          <label for="csPrice">سعر المتر المربع</label>
+          <input id="csPrice" type="number" min="1" max="100000" step="10" value="400">
+        </div>
+        <div class="field">
+          <label for="csWaste">الهالك (%)</label>
+          <input id="csWaste" type="number" min="0" max="50" step="1" value="10">
+        </div>
+        <div class="field">
+          <label for="csRate">تكلفة ساعة الماكينة</label>
+          <input id="csRate" type="number" min="0" max="10000" step="1" value="17">
+        </div>
+        <div class="field">
+          <label for="csTime">زمن التشغيل (دقيقة)</label>
+          <input id="csTime" type="number" min="0" max="600" step="1" value="12">
+        </div>
+        <div class="field">
+          <label for="csLabor">أجر ساعة العمالة</label>
+          <input id="csLabor" type="number" min="0" max="10000" step="1" value="60">
+        </div>
+        <div class="field">
+          <label for="csLaborMin">زمن العمالة (دقيقة)</label>
+          <input id="csLaborMin" type="number" min="0" max="600" step="1" value="10">
+        </div>
+        <div class="field">
+          <label for="csCons">مستهلكات (جنيه/قطعة)</label>
+          <input id="csCons" type="number" min="0" max="10000" step="1" value="2">
+        </div>
+        <div class="field">
+          <label for="csMargin">هامش الربح (%)</label>
+          <input id="csMargin" type="number" min="0" max="90" step="5" value="35">
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="cell"><b id="csMat">—</b><span>تكلفة المادة</span></div>
+        <div class="cell"><b id="csMach">—</b><span>الماكينة</span></div>
+        <div class="cell"><b id="csLab">—</b><span>العمالة</span></div>
+        <div class="cell"><b id="csTotal">—</b><span>التكلفة الكلية</span></div>
+        <div class="cell"><b id="csSell">—</b><span>السعر المقترح</span></div>
+        <div class="cell"><b id="csProfit">—</b><span>الربح</span></div>
+      </div>
+
+      <div id="csMsg" class="msg ok">جاهز للحساب.</div>
+      <div class="formula" id="csFormula"></div>
     </div>
   </div>
 </section>
