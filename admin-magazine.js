@@ -225,8 +225,15 @@
         card('قراءة مقال', t.article_view || 0, 'آخر 30 يوماً'),
         card('تحميل PDF', t.pdf_download || 0, 'آخر 30 يوماً'),
         card('فتح الكتاب', t.book_open || 0, 'آخر 30 يوماً'),
+        card('اليوم', s.today || 0, 'منذ منتصف الليل'),
         card('كل الأحداث', s.last30 || 0, 'الكل: ' + (s.total || 0)),
       ].join('');
+
+      const last = s.last_event_at
+        ? new Date(s.last_event_at).toLocaleString('ar-EG')
+        : '—';
+      box.insertAdjacentHTML('beforeend',
+        '<div style="grid-column:1/-1; font-size:.72rem; color:#7b7568;">آخر حدث: ' + last + '</div>');
     } catch (err) {
       console.warn('[admin] stats failed', err);
       box.innerHTML = '<div style="font-size:.8rem; color:#9a9384;">تعذّر تحميل الإحصاءات — نفّذ db/013_analytics.sql أولاً.</div>';

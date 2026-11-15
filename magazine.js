@@ -5,6 +5,10 @@
   'use strict';
 
   const cfg = window.MAG_CONFIG || {};
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.ckTrackOnce) window.ckTrackOnce('magazine_view');
+  });
+
   const grid = document.getElementById('issuesGrid');
 
   // تتبّع فتح عدد من الأرشيف

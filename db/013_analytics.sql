@@ -77,53 +77,78 @@ security definer
 set search_path = public
 as $$
 declare
-  result jsonb;
+  v_total bigint;
+  v_today bigint;
+  v_7     bigint;
+  v_30    bigint;
+  v_last  timestamptz;
+  v_by_type    jsonb;
+  v_by_type_30 jsonb;
+  v_top        jsonb;
+  v_daily      jsonb;
 begin
   if not public.ck_is_admin() then
     raise exception 'not authorized' using errcode = '42501';
   end if;
 
-  select jsonb_build_object(
-    'total', (select count(*) from public.analytics_events),
-    'last7', (select count(*) from public.analytics_events where created_at > now() - interval '7 days'),
-    'last30', (select count(*) from public.analytics_events where created_at > now() - interval '30 days'),
-    'by_type', coalesce((
-      select jsonb_object_agg(event_type, c)
-      from (select event_type, count(*) c from public.analytics_events group by event_type) t
-    ), '{}'::jsonb),
-    'by_type_30', coalesce((
-      select jsonb_object_agg(event_type, c)
-      from (
-        select event_type, count(*) c
-        from public.analytics_events
-        where created_at > now() - interval '30 days'
-        group by event_type
-      ) t
-    ), '{}'::jsonb),
-    'top_issues', coalesce((
-      select jsonb_agg(jsonb_build_object('slug', target_slug, 'views', c) order by c desc)
-      from (
-        select target_slug, count(*) c
-        from public.analytics_events
-        where event_type = 'issue_view' and target_slug is not null
-        group by target_slug
-        order by c desc
-        limit 10
-      ) t
-    ), '[]'::jsonb),
-    'daily', coalesce((
-      select jsonb_agg(jsonb_build_object('day', d, 'views', c) order by d)
-      from (
-        select to_char(created_at::date, 'YYYY-MM-DD') d, count(*) c
-        from public.analytics_events
-        where created_at > now() - interval '30 days'
-          and event_type in ('magazine_view', 'issue_view', 'article_view')
-        group by 1
-      ) t
-    ), '[]'::jsonb)
-  ) into result;
+  select
+    count(*),
+    count(*) filter (where created_at >= current_date),
+    count(*) filter (where created_at > now() - interval '7 days'),
+    count(*) filter (where created_at > now() - interval '30 days'),
+    max(created_at)
+  into v_total, v_today, v_7, v_30, v_last
+  from public.analytics_events;
 
-  return result;
+  select coalesce(jsonb_object_agg(event_type, c), '{}'::jsonb)
+  into v_by_type
+  from (
+    select event_type, count(*) c
+    from public.analytics_events
+    group by event_type
+  ) t;
+
+  select coalesce(jsonb_object_agg(event_type, c), '{}'::jsonb)
+  into v_by_type_30
+  from (
+    select event_type, count(*) c
+    from public.analytics_events
+    where created_at > now() - interval '30 days'
+    group by event_type
+  ) t;
+
+  select coalesce(jsonb_agg(jsonb_build_object('slug', target_slug, 'views', c) order by c desc), '[]'::jsonb)
+  into v_top
+  from (
+    select target_slug, count(*) c
+    from public.analytics_events
+    where event_type = 'issue_view' and target_slug is not null
+    group by target_slug
+    order by c desc
+    limit 10
+  ) t;
+
+  select coalesce(jsonb_agg(jsonb_build_object('day', d, 'views', c) order by d), '[]'::jsonb)
+  into v_daily
+  from (
+    select to_char(created_at::date, 'YYYY-MM-DD') d, count(*) c
+    from public.analytics_events
+    where created_at > now() - interval '30 days'
+      and event_type in ('magazine_view', 'issue_view', 'article_view')
+    group by 1
+  ) t;
+
+  return jsonb_build_object(
+    'total', v_total,
+    'today', v_today,
+    'last7', v_7,
+    'last30', v_30,
+    'last_event_at', v_last,
+    'by_type', v_by_type,
+    'by_type_30', v_by_type_30,
+    'top_issues', v_top,
+    'daily', v_daily
+  );
 end;
 $$;
 

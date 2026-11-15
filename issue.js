@@ -115,6 +115,17 @@
 
   function setupTocObserver() {
     const links = [...document.querySelectorAll('#tocList a')];
+
+    links.forEach((a, idx) => {
+      a.addEventListener('click', () => {
+        if (window.ckTrack) {
+          window.ckTrack('article_view', {
+            slug: String(state.issue?.issue_number || '').padStart(2, '0') + '-' + (idx + 1),
+            id: a.getAttribute('data-target'),
+          });
+        }
+      });
+    });
     const sections = links.map((l) => document.getElementById(l.dataset.target)).filter(Boolean);
     if (!sections.length || !('IntersectionObserver' in window)) return;
 
