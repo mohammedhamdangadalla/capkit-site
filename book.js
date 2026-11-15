@@ -489,6 +489,14 @@
     renderChecklist();
     toggleShape();
     initProgress();
+
+    if (window.ckTrackOnce) window.ckTrackOnce('book_open');
+    ['lzMat', 'rtMat', 'prShape', 'csArea'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('change', function () {
+        if (window.ckTrackOnce) window.ckTrackOnce('book_tool', { slug: id });
+      });
+    });
   }
 
   function toggleShape() {

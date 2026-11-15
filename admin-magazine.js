@@ -198,6 +198,41 @@
     });
   }
 
+
+  /* ═══════════ إحصاءات المجلة ═══════════ */
+
+  async function loadStats() {
+    const box = document.getElementById('magStats');
+    if (!box) return;
+
+    try {
+      const { data, error } = await client().rpc('magazine_stats');
+      if (error) throw error;
+
+      const s = data || {};
+      const t = s.by_type_30 || {};
+
+      const card = (label, value, sub) => `
+        <div style="background:#141414; border:1px solid #2a2a2a; border-radius:12px; padding:12px 14px;">
+          <div style="font-size:1.55rem; font-weight:700; color:var(--gold); line-height:1.2;">${value ?? 0}</div>
+          <div style="font-size:.75rem; color:#b9b2a3;">${label}</div>
+          ${sub ? `<div style="font-size:.67rem; color:#7b7568; margin-top:2px;">${sub}</div>` : ''}
+        </div>`;
+
+      box.innerHTML = [
+        card('زيارات المجلة', t.magazine_view || 0, 'آخر 30 يوماً'),
+        card('فتح عدد', t.issue_view || 0, 'آخر 30 يوماً'),
+        card('قراءة مقال', t.article_view || 0, 'آخر 30 يوماً'),
+        card('تحميل PDF', t.pdf_download || 0, 'آخر 30 يوماً'),
+        card('فتح الكتاب', t.book_open || 0, 'آخر 30 يوماً'),
+        card('كل الأحداث', s.last30 || 0, 'الكل: ' + (s.total || 0)),
+      ].join('');
+    } catch (err) {
+      console.warn('[admin] stats failed', err);
+      box.innerHTML = '<div style="font-size:.8rem; color:#9a9384;">تعذّر تحميل الإحصاءات — نفّذ db/013_analytics.sql أولاً.</div>';
+    }
+  }
+
   /* ═══════════ العدد: إنشاء/تعديل ═══════════ */
 
   function openIssueModal() {
@@ -424,6 +459,6 @@
   };
 
   window.addEventListener('admin:tab', (e) => {
-    if (e.detail?.tab === 'magazine') loadIssues();
+    if (e.detail?.tab === 'magazine') { loadIssues(); loadStats(); }
   });
 })();

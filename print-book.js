@@ -66,6 +66,48 @@
     return true;
   }
 
+
+  /* ─────────── زر تحميل PDF (إن وُجد ملف العدد) ─────────── */
+
+  function addPdfButton() {
+    var bar = document.querySelector('.mag-top');
+    if (!bar || bar.querySelector('.pdf-download-link')) return;
+
+    var issue = window.__ISSUE__ && window.__ISSUE__.issue;
+    if (!issue || !issue.issue_number) return;
+
+    var nn = String(issue.issue_number).padStart(2, '0');
+    var url = '/marketing/pdf/issue-' + nn + '.pdf';
+
+    fetch(url, { method: 'HEAD' })
+      .then(function (r) {
+        if (!r.ok) return;
+        var a = document.createElement('a');
+        a.className = 'mag-btn pdf-download-link';
+        a.href = url;
+        a.setAttribute('download', '');
+        a.textContent = '⬇ تحميل PDF';
+        a.addEventListener('click', function () {
+          if (window.ckTrack) window.ckTrack('pdf_download', { slug: nn });
+        });
+        bar.insertBefore(a, bar.querySelector('.spacer') || null);
+      })
+      .catch(function () {});
+  }
+
+  function tryPdfButton() {
+    var tries = 0;
+    var t = setInterval(function () {
+      tries += 1;
+      if (window.__ISSUE__ && window.__ISSUE__.issue) {
+        clearInterval(t);
+        addPdfButton();
+      } else if (tries > 30) {
+        clearInterval(t);
+      }
+    }, 200);
+  }
+
   /* ─────────── تحميل Paged.js بعد جهوزية المحتوى ─────────── */
 
   function contentReady() {
@@ -98,6 +140,8 @@
 
   function start() {
     document.documentElement.classList.add('print-mode');
+    if (window.ckTrack) window.ckTrack('print_book', { slug: (window.__ISSUE__ && window.__ISSUE__.issue && String(window.__ISSUE__.issue.issue_number).padStart(2, '0')) || null });
+    addPdfButton();
     if (!buildCover()) {
       console.warn('[print-book] لا توجد بيانات عدد — سيُطبع بدون غلاف');
     }
@@ -112,6 +156,7 @@
     } else {
       addButton();
     }
+    tryPdfButton();
     return;
   }
 

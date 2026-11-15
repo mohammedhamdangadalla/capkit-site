@@ -7,6 +7,14 @@
   const cfg = window.MAG_CONFIG || {};
   const grid = document.getElementById('issuesGrid');
 
+  // تتبّع فتح عدد من الأرشيف
+  grid?.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href*="/issue/"]');
+    if (!a || !window.ckTrack) return;
+    const mm = a.href.match(/\/issue\/(\d+)/);
+    window.ckTrack('issue_open', { slug: mm ? mm[1] : null });
+  });
+
   // خريطة روابط الصفحات المولّدة: issue.id → /issue/01/
   let staticIssueUrls = null;
 
@@ -63,7 +71,9 @@
         return emptyState('لم يصدر عدد بعد', 'تابعنا — العدد الأول في الطريق.');
       }
 
-      grid.innerHTML = issues.map((i) => `
+      if (window.ckTrackOnce) window.ckTrackOnce('magazine_view');
+
+    grid.innerHTML = issues.map((i) => `
         <a class="issue-card" href="${issueHref(i)}">
           <div class="cover ${i.cover_image ? '' : 'empty'}">
             ${i.cover_image

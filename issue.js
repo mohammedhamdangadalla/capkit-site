@@ -313,6 +313,12 @@
       state.issue = window.__ISSUE__.issue;
       state.articles = window.__ISSUE__.articles || [];
       renderIssue(state.issue, state.articles);
+      if (window.ckTrackOnce) {
+        window.ckTrackOnce('issue_view', {
+          slug: String(state.issue.issue_number).padStart(2, '0'),
+          id: state.issue.id,
+        });
+      }
       return;
     }
 
@@ -331,6 +337,12 @@
       state.issue = issue;
       state.articles = articles;
       renderIssue(issue, articles);
+      if (window.ckTrackOnce) {
+        window.ckTrackOnce('issue_view', {
+          slug: String(issue.issue_number).padStart(2, '0'),
+          id: issue.id,
+        });
+      }
     } catch (err) {
       console.error(err);
       showError();
