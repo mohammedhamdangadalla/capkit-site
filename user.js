@@ -576,15 +576,24 @@ function renderCardRating(avg, count) {
 }
 
 // ═══ Share ═══
-window.shareProfile = function() {
-  const url = window.location.href;
-  
+window.shareProfile = async function() {
+  const url = window.__PRERENDER__?.url || (location.origin + location.pathname);
+  const title = (currentProfile && currentProfile.full_name) || 'CapKitco';
+
   if (navigator.share) {
-    navigator.share({ title: currentProfile?.full_name || 'CapKit', url });
-  } else {
-    navigator.clipboard.writeText(url).then(() => {
-      alert('✅ تم نسخ الرابط');
-    });
+    try {
+      await navigator.share({ title, text: title + ' على CapKitco', url });
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+  }
+
+  try {
+    await navigator.clipboard.writeText(url);
+    alert('✅ تم نسخ الرابط');
+  } catch (err) {
+    window.open('https://wa.me/?text=' + encodeURIComponent(title + '\n' + url), '_blank');
   }
 };
 

@@ -337,7 +337,15 @@ for (const p of products) {
   html = setStyle(html, 'loadingState', 'display: none;');
   html = setStyle(html, 'productContent', 'display: block;');
   html = replaceInnerById(html, 'h1', 'productTitle', esc(p.title));
-  html = replaceInnerById(html, 'div', 'productPrice', `<span>${price}</span><small>${esc(currency)}</small>`);
+  const isDigitalProduct = Boolean(
+    (p.specs && (p.specs.access === 'free' || p.specs.url)) || slug === 'interactive-book'
+  );
+  const priceHtml = isDigitalProduct
+    ? '<span>مجاني</span>'
+    : price > 0
+      ? `<span>${price}</span><small>${esc(currency)}</small>`
+      : '<span style="font-size:1.1rem;">السعر عند الطلب</span>';
+  html = replaceInnerById(html, 'div', 'productPrice', priceHtml);
   html = replaceInnerById(html, 'div', 'productDescription', esc(p.description || 'لا يوجد وصف'));
 
   const badges = [

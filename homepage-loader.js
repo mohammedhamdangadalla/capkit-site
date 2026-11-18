@@ -264,7 +264,7 @@ function createProductCard(product, index = 99) {
         <span class="workshop-name">${sellerName}</span>
       </div>
       <div class="product-footer">
-        <div class="product-price">${product.price || 0} <small>${product.currency || 'EGP'}</small></div>
+        <div class="product-price">${product.price > 0 ? product.price : 'اتصل للسعر'}${product.price > 0 ? ` <small>${product.currency || 'EGP'}</small>` : ''}</div>
         <span class="btn-wa">واتساب</span>
       </div>
     </div>
@@ -296,7 +296,7 @@ function createOriginalCard(product) {
       <div class="product-desc">${escapeHtml((product.description || '').substring(0, 40))}...</div>
       ${renderCardRating(product.rating_avg, product.rating_count)}
       <div class="product-footer">
-        <div class="product-price">${product.price || 0} <small>${product.currency || 'EGP'}</small></div>
+        <div class="product-price">${product.price > 0 ? product.price : 'اتصل للسعر'}${product.price > 0 ? ` <small>${product.currency || 'EGP'}</small>` : ''}</div>
       </div>
     </div>
   `;

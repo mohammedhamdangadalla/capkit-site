@@ -155,31 +155,67 @@
     btn.hidden = false;
   }
 
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise((resolve, reject) => {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  function feedback(btn, label) {
+    const original = btn.innerHTML;
+    btn.innerHTML = '<span>✅</span><span>' + label + '</span>';
+    setTimeout(() => { btn.innerHTML = original; }, 1900);
+  }
+
   function renderShare(profile, name) {
     const btn = $('cardShare');
-    const shareUrl = location.href;
-    const shareTitle = `${name} — Capkitco`;
+    if (!btn) return;
 
-    btn.addEventListener('click', async () => {
-      const payload = {
-        title: shareTitle,
-        text: `${name} على Capkitco`,
-        url: shareUrl
-      };
+    const shareUrl = (window.__PRERENDER__ && window.__PRERENDER__.url) || (location.origin + location.pathname);
+    const shareTitle = name + ' — Capkitco';
+    const shareText = name + ' على Capkitco';
 
-      try {
-        if (navigator.share) {
-          await navigator.share(payload);
+    btn.addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      // 1) مشاركة النظام — تُستدعى أولاً قبل أي await لتبقى إيماءة المستخدم
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
           return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+          console.warn('[card] native share failed:', err);
         }
-        await navigator.clipboard.writeText(shareUrl);
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span>✅</span><span>تم نسخ الرابط</span>';
-        setTimeout(() => { btn.innerHTML = original; }, 1800);
-      } catch (err) {
-        if (err && err.name === 'AbortError') return;
-        console.warn('Share failed:', err);
       }
+
+      // 2) نسخ الرابط
+      try {
+        await copyText(shareUrl);
+        feedback(btn, 'تم نسخ الرابط');
+        return;
+      } catch (err) {
+        console.warn('[card] copy failed:', err);
+      }
+
+      // 3) بديل أخير: واتساب
+      window.open('https://wa.me/?text=' + encodeURIComponent(shareText + '\n' + shareUrl), '_blank');
     });
   }
 

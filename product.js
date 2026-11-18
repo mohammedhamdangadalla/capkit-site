@@ -209,10 +209,18 @@ function renderProduct() {
   document.getElementById('productTitle').textContent = p.title || 'بدون اسم';
 
   const priceEl = document.getElementById('productPrice');
-  const isFree = Number(p.price) === 0;
-  priceEl.innerHTML = isFree
+
+  // المنتج الرقمي فقط هو «مجاني». سعر 0 في منتج عادي يعني «السعر عند الطلب».
+  const isDigital = Boolean(
+    (p.specs && (p.specs.access === 'free' || p.specs.url)) || p.slug === 'interactive-book'
+  );
+  const hasPrice = Number(p.price) > 0;
+
+  priceEl.innerHTML = isDigital
     ? '<span>مجاني</span>'
-    : `<span>${p.price || 0}</span><small>${p.currency || 'EGP'}</small>`;
+    : hasPrice
+      ? `<span>${p.price}</span><small>${p.currency || 'EGP'}</small>`
+      : '<span style="font-size:1.1rem;">السعر عند الطلب</span>';
 
   document.getElementById('productDescription').textContent = p.description || 'لا يوجد وصف';
 
@@ -247,7 +255,10 @@ function renderProduct() {
 // ═══ المنتج الرقمي المجاني ═══
 function applyDigitalCta() {
   const p = currentProduct;
-  if (Number(p.price) !== 0) return;
+  const isDigital = Boolean(
+    (p.specs && (p.specs.access === 'free' || p.specs.url)) || p.slug === 'interactive-book'
+  );
+  if (!isDigital) return;
 
   const orderBtn = document.getElementById('orderProductBtn');
   if (orderBtn) orderBtn.style.display = 'none';
