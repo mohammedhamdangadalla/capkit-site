@@ -1368,36 +1368,41 @@ section { padding: 90px 24px; }
 </p>
 </div>
 
-<div class="digital-grid reveal">
-<div class="digital-card">
-<div class="digital-tag">DIGITAL ASSET — 01</div>
-<h3 class="digital-title">حزمة المتجهات البرونزية (Vector Pack Vol. 1)</h3>
-<p class="digital-desc">ملفات مسارات أدوات متقدمة بصيغ DXF و CDR متوافقة مع Aspire و CorelDRAW للتشكيل المعدني.</p>
-<ul class="digital-specs">
-<li>تنسيقات متوافقة تماماً مع Mach3</li>
-<li>إرشادات العمق ومسارات الـ Drag Knife</li>
-<li>حق الاستخدام التجاري الفردي</li>
-</ul>
-<div class="digital-action">
-<span class="digital-price">$45 USD</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في شراء حزمة المتجهات البرونزية الرقمية من كاب كيت كو" class="btn-reserve">اطلب الملفات</a>
-</div>
+<div class="digital-grid reveal" id="coGrid">
+  <div style="grid-column:1/-1; text-align:center; color:#9a9384; padding:24px;">جارٍ تحميل القطع…</div>
 </div>
 
-<div class="digital-card">
-<div class="digital-tag">DIGITAL ASSET — 02</div>
-<h3 class="digital-title">مخططات النقش العميق والزخرفة (G-Code Master)</h3>
-<p class="digital-desc">أكواد جاهزة للتشغيل البرمجي على ماكينات الـ CNC لنقش الشعارات الدقيقة واللوحات الجدارية المعدنية.</p>
-<ul class="digital-specs">
-<li>تم اختبارها عملياً في ورش كاب كيت كو</li>
-<li>متوافقة مع ألواح التن بليت 0.3 مم</li>
-<li>دعم فني مباشر عبر الواتساب للاستفسارات</li>
-</ul>
-<div class="digital-action">
-<span class="digital-price">$75 USD</span>
-<a href="https://wa.me/?text=مرحباً، أرغب في شراء حزمة G-Code Master من كاب كيت كو" class="btn-reserve">اطلب الملفات</a>
-</div>
-</div>
+<div id="coAdmin" style="display:none; max-width:780px; margin:34px auto 0;">
+  <div class="cert-card" style="padding:26px;">
+    <div class="section-num" style="justify-content:flex-start;">إدارة · للمشرف فقط</div>
+    <h3 class="section-title" style="font-size:1.3rem; margin:8px 0 4px;">إضافة قطعة جديدة إلى الأرشيف</h3>
+    <p class="section-desc" style="margin-bottom:14px;">تُنشر فوراً كقطعة أصلية في Cap Kit Co. وتظهر في صفحة المنتج والأرشيف.</p>
+
+    <form id="coForm" style="display:grid; gap:12px;">
+      <input id="coTitle" placeholder="اسم القطعة" required maxlength="120" style="padding:11px 13px; border-radius:10px; border:1px solid #3a3428; background:#0f0e0b; color:#f5f0e8; font-family:inherit; font-size:.9rem;">
+      <textarea id="coDesc" placeholder="الوصف (ما القطعة، المادة، الأبعاد)" rows="3" required maxlength="600" style="padding:11px 13px; border-radius:10px; border:1px solid #3a3428; background:#0f0e0b; color:#f5f0e8; font-family:inherit; font-size:.9rem;"></textarea>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <input id="coPrice" type="number" min="0" step="1" placeholder="السعر (0 = عند الطلب)" style="padding:11px 13px; border-radius:10px; border:1px solid #3a3428; background:#0f0e0b; color:#f5f0e8; font-family:inherit; font-size:.9rem;">
+        <input id="coCurrency" value="EGP" placeholder="العملة" style="padding:11px 13px; border-radius:10px; border:1px solid #3a3428; background:#0f0e0b; color:#f5f0e8; font-family:inherit; font-size:.9rem;">
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <input id="coSerial" placeholder="الرقم التسلسلي (اختياري)" style="padding:11px 13px; border-radius:10px; border:1px solid #3a3428; background:#0f0e0b; color:#f5f0e8; font-family:inherit; font-size:.9rem;">
+        <input id="coImage" placeholder="رابط الصورة (اختياري)" style="padding:11px 13px; border-radius:10px; border:1px solid #3a3428; background:#0f0e0b; color:#f5f0e8; font-family:inherit; font-size:.9rem;">
+      </div>
+
+      <label style="font-size:.78rem; color:#9a9384;">أو ارفع صورة من جهازك:</label>
+      <input id="coImageFile" type="file" accept="image/*" style="font-size:.8rem; color:#c9a961;">
+
+      <textarea id="coSpecs" placeholder="المواصفات — سطر لكل بند بالشكل: المادة: برونز" rows="3" style="padding:11px 13px; border-radius:10px; border:1px solid #3a3428; background:#0f0e0b; color:#f5f0e8; font-family:inherit; font-size:.9rem;"></textarea>
+
+      <div style="display:flex; align-items:center; gap:14px; margin-top:4px;">
+        <button id="coSave" type="submit" class="btn-reserve">＋ أضف القطعة</button>
+        <span id="coMsg" style="font-size:.82rem;"></span>
+      </div>
+    </form>
+  </div>
 </div>
 </div>
 </section>
@@ -1530,6 +1535,10 @@ section { padding: 90px 24px; }
 </section>
 
 <!-- ═══ Footer ═══ -->
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="supabase-config.js"></script>
+<script defer src="links.js?v=2"></script>
+<script defer src="capkit-co.js?v=1"></script>
 <script defer src="footer.js"></script>
 
 <!-- ═══ Reveal on Scroll ═══ -->

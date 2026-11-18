@@ -2,6 +2,49 @@
 
 let isMenuLoading = false; // ✅ القفل لمنع التكرار
 
+
+// ═══ القائمة المنسدلة: تُنقل إلى body حتى لا يقصّها الهيدر على الهاتف ═══
+function positionUserDropdown() {
+  const dd = document.getElementById('userDropdown');
+  const btn = document.getElementById('userBtn');
+  if (!dd || !btn || !dd.classList.contains('active')) return;
+
+  const r = btn.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const width = Math.min(280, vw - 20);
+
+  dd.style.position = 'fixed';
+  dd.style.width = width + 'px';
+  dd.style.minWidth = '0';
+  dd.style.right = 'auto';
+  dd.style.left = Math.min(Math.max(10, r.right - width), vw - width - 10) + 'px';
+  dd.style.top = Math.round(r.bottom + 8) + 'px';
+  dd.style.maxHeight = Math.max(160, vh - r.bottom - 24) + 'px';
+  dd.style.overflowY = 'auto';
+  dd.style.zIndex = '9999';
+}
+
+function toggleUserDropdown() {
+  const dd = document.getElementById('userDropdown');
+  if (!dd) return;
+
+  const willOpen = !dd.classList.contains('active');
+  if (willOpen) {
+    // انقله خارج الهيدر (overflow / backdrop-filter يقصّانه)
+    if (dd.parentElement !== document.body) document.body.appendChild(dd);
+    dd.classList.add('active');
+    positionUserDropdown();
+  } else {
+    closeUserDropdown();
+  }
+}
+
+function closeUserDropdown() {
+  const dd = document.getElementById('userDropdown');
+  if (dd) dd.classList.remove('active');
+}
+
 async function initUserMenu() {
   if (isMenuLoading) return; // إذا كانت الدالة تعمل، اخرج فوراً
   if (!window.supabaseClient) {
@@ -73,8 +116,15 @@ async function initUserMenu() {
       // ربط الأزرار
       document.getElementById('userBtn').addEventListener('click', (e) => {
         e.stopPropagation();
-        document.getElementById('userDropdown').classList.toggle('active');
+        toggleUserDropdown();
       });
+
+      // أغلق بمفتاح Escape وأعد التموضع عند تغيّر المقاس
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape') closeUserDropdown();
+      });
+      window.addEventListener('resize', () => positionUserDropdown());
+      window.addEventListener('scroll', () => closeUserDropdown(), { passive: true });
       
       // ✅ رسالة الوداع عند الخروج
       document.getElementById('logoutBtn').addEventListener('click', async () => {
@@ -85,9 +135,11 @@ async function initUserMenu() {
       });
       
       // اقفل عند الضغط بره
-      document.addEventListener('click', () => {
-        document.getElementById('userDropdown')?.classList.remove('active');
+      document.addEventListener('click', (ev) => {
+        const dd = document.getElementById('userDropdown');
+        if (dd && !dd.contains(ev.target)) dd.classList.remove('active');
       });
+      document.getElementById('userDropdown').addEventListener('click', (ev) => ev.stopPropagation());
       
     } else {
       // ❌ المستخدم مش مسجل دخول
