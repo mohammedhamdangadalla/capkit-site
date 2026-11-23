@@ -265,7 +265,8 @@ export default {
     const headers = {
       'Content-Type': 'application/xml; charset=utf-8',
       'X-Sitemap-Total': String(result.total),
-      'X-Sitemap-Dynamic': String(result.counts.products + result.counts.workshops + result.counts.issues),
+      'X-Sitemap-Dynamic': String(result.total - STATIC_PAGES.length),
+      'X-Sitemap-Articles': String(result.counts.articles || 0),
       // عند الفشل لا نخزّن: نريد إعادة المحاولة فور إصلاح المفتاح
       'Cache-Control': degraded ? 'no-store' : 'public, max-age=0, s-maxage=600',
       'CDN-Cache-Control': degraded ? 'no-store' : `max-age=${TTL_SECONDS}`,
