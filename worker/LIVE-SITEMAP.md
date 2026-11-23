@@ -169,3 +169,20 @@ curl "https://capkitco.com/sitemap.xml?purge=<PURGE_SECRET>"
 3. **`lastmod` صادق** — إعادة الزحف للمحتوى المتغيّر.
 
 هذا الثلاثي يحقق الأثر نفسه بلا مخاطرة.
+
+
+---
+
+## 8. تحذير: كاش الحافة قد يتجاهلQuery String
+
+لاحظنا عملياً أن `https://capkitco.com/sitemap.xml?diag=1` يعيد **نفس الخريطة المخزّنة** مع `cf-cache-status: HIT` — أي أن Cloudflare يخدم النسخة المخزّنة ولا يشغّل الـWorker أصلاً.
+
+**النتيجة:** `?purge=…` و`?diag=1` لا يعملان ما دامت النسخة موجودة في كاش الحافة.
+
+### الحلول
+1. **Purge من اللوحة:** Caching ← Purge by URL ← `https://capkitco.com/sitemap.xml` (الأسرع).
+2. **قاعدة Cache Rule:** Bypass cache عندما `URI Path equals /sitemap.xml` و`Query String contains purge` أو `diag`.
+3. **مسار منفصل للتشخيص:** أضف route مثل `capkitco.com/sitemap-diag` في `wrangler` واقرأ منه التشخيص.
+
+### المفتاح الاحتياطي
+الـWorker يجرّب `SUPABASE_SERVICE_KEY` أولاً، وإن فشل (401) يعيد المحاولة بالمفتاح العام `sb_publishable_…` المضمّن. لذلك لا تتوقف الخريطة عند فساد السر — لكن الأصل إصلاح السر.

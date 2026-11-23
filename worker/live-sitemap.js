@@ -13,6 +13,8 @@
 const SITE = 'https://capkitco.com';
 const TTL_SECONDS = 600;
 const CACHE_KEY_URL = `${SITE}/__sitemap-cache`;
+// مفتاح عام (publishable) — يُستخدم إن فشل مفتاح الخدمة. آمن للنشر.
+const ANON_KEY = 'sb_publishable_-YDp-ImPkEOhA4_cKWOJAA_d_2_wJkP';
 
 const STATIC_PAGES = [
   { path: '/', changefreq: 'daily', priority: '1.0' },
@@ -56,28 +58,40 @@ function urlTag({ loc, lastmod, changefreq, priority }) {
 }
 
 async function sb(env, path, errors) {
-  const key = cleanSecret(env.SUPABASE_SERVICE_KEY);
   const base = cleanSecret(env.SUPABASE_URL).replace(/\/$/, '');
-
-  if (!key || !base) {
-    errors.push(`${path}: متغيرات البيئة ناقصة (SUPABASE_URL أو SUPABASE_SERVICE_KEY)`);
+  if (!base) {
+    errors.push(`${path}: SUPABASE_URL غير مضبوط`);
     return [];
   }
 
-  // مفاتيح Supabase الحديثة (sb_secret_…) تُرسَل في apikey فقط،
-  // أما مفاتيح JWT القديمة (eyJ…) فتحتاج Authorization أيضاً.
-  const headers = { apikey: key };
-  if (key.startsWith('eyJ')) headers.Authorization = `Bearer ${key}`;
+  const serviceKey = cleanSecret(env.SUPABASE_SERVICE_KEY);
+  const candidates = [];
+  if (serviceKey) candidates.push({ key: serviceKey, label: 'service' });
+  candidates.push({ key: ANON_KEY, label: 'anon' });
 
-  const res = await fetch(`${base}/rest/v1/${path}`, { headers });
+  for (const c of candidates) {
+    const headers = { apikey: c.key };
+    if (c.key.startsWith('eyJ')) headers.Authorization = `Bearer ${c.key}`;
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    errors.push(`${path}: HTTP ${res.status} — ${body.slice(0, 160)}`);
-    return [];
+    try {
+      const res = await fetch(`${base}/rest/v1/${path}`, { headers });
+
+      if (res.ok) {
+        const rows = await res.json();
+        if (c.label === 'anon' && serviceKey) {
+          console.warn('[live-sitemap] استُخدم المفتاح العام بعد فشل مفتاح الخدمة');
+        }
+        return rows;
+      }
+
+      const body = await res.text().catch(() => '');
+      errors.push(`${path}: HTTP ${res.status} (${c.label}) — ${body.slice(0, 100)}`);
+    } catch (e) {
+      errors.push(`${path}: ${c.label} — ${e && e.message}`);
+    }
   }
 
-  return res.json();
+  return [];
 }
 
 async function buildSitemap(env) {
