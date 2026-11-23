@@ -77,9 +77,10 @@
 
       if (window.ckTrackOnce) window.ckTrackOnce('magazine_view');
 
-    grid.innerHTML = issues.map((i) => `
+    grid.innerHTML = issues.map((i, idx) => `
         <a class="issue-card" href="${issueHref(i)}">
           <div class="cover ${i.cover_image ? '' : 'empty'}">
+            ${idx === 0 ? '<span class="latest-badge">الأحدث</span>' : ''}
             ${i.cover_image
               ? `<img src="${esc(i.cover_image)}" alt="غلاف ${esc(i.title)}" loading="lazy" decoding="async" width="600" height="800">`
               : '✦'}

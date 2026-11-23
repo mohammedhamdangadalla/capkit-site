@@ -330,3 +330,123 @@ details.tech .tech-body { padding: 16px; }
 .print-mode .pc-title { font-family: 'Amiri', serif; font-size: 26pt; line-height: 1.4; margin: 5mm 0 4mm; }
 .print-mode .pc-sub { font-size: 10.5pt; color: #ddd; line-height: 1.8; max-width: 120mm; }
 .print-mode .pc-brand { margin-top: 8mm; font-size: 9pt; letter-spacing: .2em; color: #c9a961; }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   تسلسل بصري: شارة الأحدث + شريط الأدوات المصاحبة + الموبايل
+   ═══════════════════════════════════════════════════════════════════ */
+
+.issue-card .cover { position: relative; }
+
+.latest-badge {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 10px;
+  z-index: 2;
+  background: var(--gold);
+  color: #fff;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+/* الأداة المصاحبة — أسفل الأعداد، لا فوقها */
+.mag-tools {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+.mag-tools .tools-title {
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.tool-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-2, #fff);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.tool-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.tool-icon { font-size: 1.7rem; line-height: 1; }
+
+.tool-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.tool-kicker {
+  font-size: .67rem;
+  letter-spacing: .1em;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.tool-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+
+.tool-desc { font-size: .79rem; color: var(--ink-muted); line-height: 1.6; }
+
+.tool-cta {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+/* ── الموبايل: عمود واحد وترتيب أوضح ── */
+@media (max-width: 640px) {
+  .mag-hero { padding: 34px 16px 18px; }
+  .mag-hero h1 { font-size: 1.75rem; }
+  .mag-hero p { font-size: .92rem; margin-top: 10px; }
+
+  .issues-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 12px 16px 36px;
+  }
+
+  .issue-card .cover { aspect-ratio: 4 / 5; }
+  .issue-card h2 { font-size: 1.08rem; }
+
+  .mag-tools { padding: 0 16px 56px; }
+
+  .tool-card {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .tool-desc { display: none; }
+
+  .tool-cta {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+  }
+}
