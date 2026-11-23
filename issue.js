@@ -254,7 +254,27 @@
             send.disabled = false;
             return;
           }
-          box.innerHTML = '<p style="color: var(--gold); font-size:.86rem;">✅ تم إرسال تعليقك للمراجعة.</p>';
+          // هل الناشر مشرف؟ تعليقه يُنشر فوراً
+          let isAdmin = false;
+          try {
+            const r = await client.rpc('ck_is_admin');
+            isAdmin = Boolean(r && r.data);
+          } catch (e) { /* تجاهل */ }
+
+          if (isAdmin) {
+            box.innerHTML = '<p style="color: var(--gold); font-size:.86rem;">✅ نُشر تعليقك.</p>';
+            const list = document.getElementById(`comments-${articleId}`);
+            if (list) {
+              list.insertAdjacentHTML('beforeend', `
+                <div class="comment">
+                  <span class="who">أنت</span>
+                  <span class="when">الآن</span>
+                  <p>${esc(text)}</p>
+                </div>`);
+            }
+          } else {
+            box.innerHTML = '<p style="color: var(--gold); font-size:.86rem;">✅ وصل تعليقك — يظهر بعد اعتماد الإدارة.</p>';
+          }
         });
 
         box.appendChild(area);

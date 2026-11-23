@@ -119,36 +119,80 @@ async function loadHomepageContent() {
 }
 
 // ═══ Live Visitor Counter Logic ═══
+// ═══ أرقام المنصة: تعدّ تصاعدياً ثم تتحدّث دورياً ═══
+function animateCount(el, to, ms) {
+  if (!el) return;
+  const target = Number(to) || 0;
+  const from = Number(String(el.textContent).replace(/[^\d.-]/g, '')) || 0;
+  const duration = ms == null ? 900 : ms;
+
+  if (target <= from || duration <= 0) {
+    el.textContent = target.toLocaleString('ar-EG');
+    return;
+  }
+
+  const t0 = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - t0) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(from + (target - from) * eased).toLocaleString('ar-EG');
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function applyPlatformStats(data) {
+  if (!data) return;
+  // لا نعرض صفراً مكان رقم غير متاح: نترك الشرطة كما هي
+  const setNum = (id, value) => {
+    if (typeof value === 'number' && isFinite(value)) {
+      animateCount(document.getElementById(id), value);
+    }
+  };
+  setNum('statMembers', data.profiles_total);
+  setNum('statWorkshops', data.workshops_total);
+  setNum('statProducts', data.products_total);
+  setNum('statArticles', data.articles_total);
+  setNum('statReads', data.reads_total);
+  setNum('dailySignupsCount', data.signups_today);
+  setNum('statActivityToday', data.activity_today);
+
+  // الرقم الكبير: عدّ أبطأ ليُرى وهو يتصاعد
+  if (typeof data.activity_total === 'number' && isFinite(data.activity_total)) {
+    animateCount(document.getElementById('statActivity'), data.activity_total, 1500);
+  }
+}
+
+async function refreshPlatformStats() {
+  if (!window.supabaseClient) return;
+  try {
+    const { data, error } = await window.supabaseClient.rpc('public_stats');
+    if (error || !data) {
+      console.warn('public_stats unavailable:', error?.message || 'no data');
+      return;
+    }
+    applyPlatformStats(data);
+  } catch (err) {
+    console.warn('public_stats error:', err);
+  }
+}
+
 async function initLiveCounter() {
   if (!window.supabaseClient) return;
 
-  const signupsEl = document.getElementById('dailySignupsCount');
+  await refreshPlatformStats();
+  // تحديث كل دقيقة — الأرقام تنمو مع الوقت
+  setInterval(refreshPlatformStats, 60000);
 
-  try {
-    // RPC مجمّع (SECURITY DEFINER) — لا نقرأ الجدول مباشرة، فلا 401 ولا كشف صفوف
-    const { data, error } = await window.supabaseClient.rpc('public_stats');
-
-    if (!error && data && typeof data.signups_today === 'number') {
-      if (signupsEl) signupsEl.textContent = data.signups_today;
-    } else if (signupsEl) {
-      // لا نعرض رقماً وهمياً: نُخفي الرقم بدل تلفيقه
-      signupsEl.textContent = '—';
-      console.warn('public_stats unavailable:', error?.message || 'no data');
-    }
-  } catch (err) {
-    if (signupsEl) signupsEl.textContent = '—';
-    console.warn('Error fetching daily signups:', err);
-  }
-
-  // 2. تتبع الزوار النشطين لحظياً باستخدام Supabase Realtime Presence
+  // الزوار النشطون لحظياً (Presence)
   try {
     const room = window.supabaseClient.channel('public-room');
-    
+
     room.on('presence', { event: 'sync' }, () => {
       const state = room.presenceState();
-      const activeCount = Object.keys(state).length || 1; 
+      const activeCount = Object.keys(state).length || 1;
       const activeEl = document.getElementById('activeVisitorsCount');
-      if (activeEl) activeEl.textContent = activeCount;
+      if (activeEl) activeEl.textContent = String(activeCount);
     });
 
     await room.subscribe(async (status) => {
@@ -159,7 +203,7 @@ async function initLiveCounter() {
   } catch (err) {
     console.warn('Realtime presence error:', err);
     const activeEl = document.getElementById('activeVisitorsCount');
-    if (activeEl) activeEl.textContent = Math.floor(Math.random() * 5) + 3;
+    if (activeEl) activeEl.textContent = '—'; // لا أرقام وهمية
   }
 }
 

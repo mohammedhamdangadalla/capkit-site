@@ -2622,3 +2622,87 @@ body {
   .deal-safety { padding: 14px; }
   .ds-head { gap: 10px; }
 }
+
+
+/* ═══ شريط أرقام المنصة ═══ */
+.ck-stats-wrap {
+  max-width: 920px;
+  margin: -12px auto 26px;
+  padding: 0 16px;
+}
+.ck-stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background: var(--border-light, #2a2a2a);
+  border: 1px solid var(--border-light, #2a2a2a);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.ck-stat {
+  background: var(--obsidian, #0a0a0a);
+  padding: 14px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ck-stat b {
+  font-family: 'Amiri', serif;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--gold, #c9a961);
+  font-variant-numeric: tabular-nums;
+}
+.ck-stat span {
+  font-size: .72rem;
+  color: var(--text-secondary, #b9b2a3);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+}
+.ck-stats-note {
+  text-align: center;
+  margin-top: 8px;
+  font-size: .74rem;
+  color: #8a8578;
+}
+.ck-stats-note strong { color: var(--text-secondary, #b9b2a3); }
+
+@media (max-width: 640px) {
+  .ck-stats { grid-template-columns: repeat(3, 1fr); }
+  .ck-stat { padding: 11px 6px; }
+  .ck-stat b { font-size: 1.25rem; }
+  .ck-stat span { font-size: .66rem; }
+  .ck-stat:nth-child(4), .ck-stat:nth-child(5) { display: flex; }
+  .ck-stats { grid-auto-rows: 1fr; }
+}
+
+
+/* الرقم الكبير */
+.ck-hero-stat {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.ck-hero-stat b {
+  display: block;
+  font-family: 'Amiri', serif;
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  line-height: 1.1;
+  color: var(--gold, #c9a961);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+.ck-hero-stat span {
+  display: block;
+  margin-top: 4px;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  color: var(--text-secondary, #b9b2a3);
+}
+
+@media (max-width: 720px) {
+  .ck-stats { grid-template-columns: repeat(3, 1fr); }
+  .ck-hero-stat b { font-size: 2.6rem; }
+}

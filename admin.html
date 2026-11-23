@@ -411,6 +411,15 @@
           <div class="state-message"><div class="state-icon">⏳</div><div class="state-title">جارٍ التحميل…</div></div>
         </div>
 
+        <!-- تعليقات المقالات المعلّقة -->
+        <div style="border:1px solid var(--border-light,#2a2a2a); border-radius:12px; padding:14px; margin-top:18px;">
+          <div class="admin-toolbar" style="margin-bottom:10px;">
+            <strong style="color: var(--gold);">💬 تعليقات معلّقة للمراجعة</strong>
+            <span class="admin-count" id="pendingCommentsCount">—</span>
+          </div>
+          <div id="pendingComments"></div>
+        </div>
+
         <!-- محرر العدد -->
         <div id="magazineEditor" style="display:none; margin-top:22px;">
           <div class="admin-toolbar" style="margin-bottom:10px;">
@@ -507,6 +516,7 @@
 <script defer src="supabase-config.js"></script>
 <script defer src="admin.js?v=4"></script>
 <script defer src="admin-manage.js?v=5"></script>
+<script defer src="admin-comments.js?v=1"></script>
 <script defer src="admin-magazine.js?v=7"></script>
 <script defer src="footer.js"></script>
 </body>

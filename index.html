@@ -261,14 +261,42 @@
   </section>
 
   <!-- ═══ LIVE VISITOR COUNTER WIDGET ═══ -->
-  <div class="live-counter-container" style="text-align: center; margin: -20px auto 20px auto; padding: 0 15px;">
-    <div class="live-counter-badge" id="liveCounterWidget">
-      <span class="pulse-dot"></span>
-      <span class="counter-text">
-        <strong id="activeVisitorsCount">...</strong> زائر نشط الآن 
-        <span class="separator">|</span> 
-        <strong id="dailySignupsCount">...</strong> انضموا اليوم
-      </span>
+  <div class="ck-stats-wrap">
+    <div class="ck-hero-stat">
+      <b id="statActivity">—</b>
+      <span>نشاط موثّق منذ الإطلاق</span>
+    </div>
+
+    <div class="ck-stats" id="ckStats" aria-label="أرقام المنصة">
+      <div class="ck-stat">
+        <b id="activeVisitorsCount">—</b>
+        <span><i class="pulse-dot"></i> زائر الآن</span>
+      </div>
+      <div class="ck-stat">
+        <b id="statMembers">—</b>
+        <span>عضو مسجّل</span>
+      </div>
+      <div class="ck-stat">
+        <b id="statWorkshops">—</b>
+        <span>ورشة</span>
+      </div>
+      <div class="ck-stat">
+        <b id="statProducts">—</b>
+        <span>منتج</span>
+      </div>
+      <div class="ck-stat">
+        <b id="statArticles">—</b>
+        <span>مقال منشور</span>
+      </div>
+      <div class="ck-stat">
+        <b id="statReads">—</b>
+        <span>قراءة للمجلة</span>
+      </div>
+    </div>
+
+    <div class="ck-stats-note">
+      <strong id="dailySignupsCount">—</strong> انضموا اليوم ·
+      <span id="statActivityToday">—</span> نشاط اليوم · الأرقام تتحدّث تلقائياً
     </div>
   </div>
 
@@ -377,7 +405,7 @@
 <script defer src="tree.js"></script>
 <script defer src="drawer.js"></script>
 <script defer src="user-menu.js?v=2"></script>
-<script defer src="homepage-loader.js?v=10"></script>
+<script defer src="homepage-loader.js?v=12"></script>
 <script defer src="app.js"></script>
 
 <script>
