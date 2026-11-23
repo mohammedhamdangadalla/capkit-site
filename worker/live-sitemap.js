@@ -171,9 +171,23 @@ export default {
     const purgeToken = url.searchParams.get('purge');
     const purgeValid = Boolean(purgeToken && env.PURGE_SECRET && purgeToken === env.PURGE_SECRET);
     const debug = url.searchParams.get('debug') === '1' && purgeValid;
-    const diag = url.searchParams.get('diag') === '1';
 
     if (purgeValid) await cache.delete(cacheKey);
+
+    // تشخيص فوري: لا يستخدم الكاش ولا يُخزَّن
+    if (url.searchParams.get('diag') === '1') {
+      const d = await buildSitemap(env);
+      return new Response(
+        JSON.stringify({
+          total: d.total,
+          counts: d.counts,
+          errors: d.errors,
+          keyLength: cleanSecret(env.SUPABASE_SERVICE_KEY).length,
+          degraded: d.counts.products + d.counts.workshops + d.counts.issues === 0,
+        }, null, 2),
+        { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } }
+      );
+    }
 
     if (!purgeValid && !debug) {
       const cached = await cache.match(cacheKey);
@@ -191,18 +205,6 @@ export default {
       console.error('[live-sitemap] errors:', JSON.stringify(result.errors));
     }
     console.log('[live-sitemap] counts:', JSON.stringify(result.counts), 'total:', result.total);
-
-    if (diag) {
-      return new Response(
-        JSON.stringify({
-          total: result.total,
-          counts: result.counts,
-          errors: result.errors,
-          degraded,
-        }, null, 2),
-        { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } }
-      );
-    }
 
     if (debug) {
       return new Response(
