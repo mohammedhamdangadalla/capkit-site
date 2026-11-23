@@ -124,6 +124,45 @@
 }
 </script>
 <!-- SEO-META:END -->
+
+<style>
+/* تنسيق حرج لشريط الأرقام — يضمن الشكل حتى لو تأخر تحديث styles.css */
+.ck-stats-wrap { max-width: 920px; margin: -12px auto 26px; padding: 0 16px; }
+.ck-hero-stat { text-align: center; margin-bottom: 16px; }
+.ck-hero-stat b {
+  display: block; font-family: 'Amiri', serif;
+  font-size: clamp(2.4rem, 6vw, 3.4rem); line-height: 1.15;
+  color: #c9a961; font-variant-numeric: tabular-nums;
+}
+.ck-hero-stat span {
+  display: block; margin-top: 4px; font-size: .78rem;
+  letter-spacing: .08em; color: #b9b2a3;
+}
+.ck-stats {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px;
+  background: #2a2a2a; border: 1px solid #2a2a2a; border-radius: 14px; overflow: hidden;
+}
+.ck-stat {
+  background: #0a0a0a; padding: 14px 10px; text-align: center;
+  display: flex; flex-direction: column; gap: 2px; min-width: 0;
+}
+.ck-stat b {
+  font-family: 'Amiri', serif; font-size: 1.55rem; line-height: 1.2;
+  color: #c9a961; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.ck-stat span {
+  font-size: .72rem; color: #b9b2a3; display: inline-flex;
+  align-items: center; gap: 5px; justify-content: center; white-space: nowrap;
+}
+.ck-stats-note { text-align: center; margin-top: 8px; font-size: .74rem; color: #8a8578; }
+.ck-stats-note strong { color: #b9b2a3; }
+@media (max-width: 720px) {
+  .ck-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ck-hero-stat b { font-size: 2.6rem; }
+  .ck-stat b { font-size: 1.25rem; }
+  .ck-stat span { font-size: .68rem; }
+}
+</style>
 </head>
 <body>
 
