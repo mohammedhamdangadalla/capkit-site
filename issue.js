@@ -168,6 +168,25 @@
     });
   }
 
+  async function loadCommentCounts(articles) {
+    try {
+      const ids = (articles || []).map((a) => a.id).filter(Boolean);
+      if (!ids.length) return;
+      const rows = await api(
+        `/rest/v1/article_comments?select=article_id&is_approved=eq.true&article_id=in.(${ids.join(',')})`,
+      );
+      const counts = {};
+      rows.forEach((r) => { counts[r.article_id] = (counts[r.article_id] || 0) + 1; });
+      Object.keys(counts).forEach((id) => {
+        const btn = document.querySelector(`[data-load-comments="${id}"]`);
+        if (btn) {
+          btn.dataset.count = counts[id];
+          btn.textContent = `💬 التعليقات (${counts[id]})`;
+        }
+      });
+    } catch (e) { /* تحسيني */ }
+  }
+
   async function loadComments(articleId, btn) {
     if (btn.dataset.loaded === '1') return;
     btn.disabled = true;
@@ -197,7 +216,7 @@
         : '<p style="color: var(--ink-muted); font-size:.86rem;">لا تعليقات بعد — كن أول من يشارك.</p>';
 
       btn.dataset.loaded = '1';
-      btn.textContent = '💬 التعليقات';
+      btn.textContent = btn.dataset.count ? `💬 التعليقات (${btn.dataset.count})` : '💬 التعليقات';
       btn.after(buildAddComment(articleId));
     } catch (err) {
       console.error(err);

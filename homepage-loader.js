@@ -127,7 +127,7 @@ function animateCount(el, to, ms) {
   const duration = ms == null ? 900 : ms;
 
   if (target <= from || duration <= 0) {
-    el.textContent = target.toLocaleString('ar-EG');
+    el.textContent = target.toLocaleString('en-US');
     return;
   }
 
@@ -135,7 +135,7 @@ function animateCount(el, to, ms) {
   const step = (now) => {
     const t = Math.min(1, (now - t0) / duration);
     const eased = 1 - Math.pow(1 - t, 3);
-    el.textContent = Math.round(from + (target - from) * eased).toLocaleString('ar-EG');
+    el.textContent = Math.round(from + (target - from) * eased).toLocaleString('en-US');
     if (t < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
