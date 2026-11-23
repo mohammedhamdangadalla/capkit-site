@@ -64,9 +64,12 @@ async function sb(env, path, errors) {
     return [];
   }
 
-  const res = await fetch(`${base}/rest/v1/${path}`, {
-    headers: { apikey: key, Authorization: `Bearer ${key}` },
-  });
+  // مفاتيح Supabase الحديثة (sb_secret_…) تُرسَل في apikey فقط،
+  // أما مفاتيح JWT القديمة (eyJ…) فتحتاج Authorization أيضاً.
+  const headers = { apikey: key };
+  if (key.startsWith('eyJ')) headers.Authorization = `Bearer ${key}`;
+
+  const res = await fetch(`${base}/rest/v1/${path}`, { headers });
 
   if (!res.ok) {
     const body = await res.text().catch(() => '');
@@ -168,6 +171,7 @@ export default {
     const purgeToken = url.searchParams.get('purge');
     const purgeValid = Boolean(purgeToken && env.PURGE_SECRET && purgeToken === env.PURGE_SECRET);
     const debug = url.searchParams.get('debug') === '1' && purgeValid;
+    const diag = url.searchParams.get('diag') === '1';
 
     if (purgeValid) await cache.delete(cacheKey);
 
@@ -188,6 +192,18 @@ export default {
     }
     console.log('[live-sitemap] counts:', JSON.stringify(result.counts), 'total:', result.total);
 
+    if (diag) {
+      return new Response(
+        JSON.stringify({
+          total: result.total,
+          counts: result.counts,
+          errors: result.errors,
+          degraded,
+        }, null, 2),
+        { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } }
+      );
+    }
+
     if (debug) {
       return new Response(
         JSON.stringify(
@@ -204,6 +220,30 @@ export default {
         ),
         { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } },
       );
+    }
+
+    // إذا فشلت قاعدة البيانات: اخدم النسخة الثابتة الكاملة بدل خريطة ناقصة
+    if (degraded) {
+      try {
+        const fallback = await fetch(SITE + '/sitemap-static.xml', { cf: { cacheTtl: 0 } });
+        if (fallback.ok) {
+          const body = await fallback.text();
+          if (body.includes('<urlset')) {
+            return new Response(body, {
+              headers: {
+                'Content-Type': 'application/xml; charset=utf-8',
+                'Cache-Control': 'public, max-age=300, s-maxage=300',
+                'CDN-Cache-Control': 'max-age=300',
+                'X-Cache': 'FALLBACK',
+                'X-Sitemap-Total': String((body.match(/<url>/g) || []).length),
+                'X-Sitemap-Fallback': 'static',
+              },
+            });
+          }
+        }
+      } catch (e) {
+        console.error('[live-sitemap] fallback failed:', e && e.message);
+      }
     }
 
     const headers = {

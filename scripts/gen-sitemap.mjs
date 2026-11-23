@@ -128,4 +128,6 @@ ${entries
 `;
 
 await writeFile(join(ROOT, 'sitemap.xml'), xml, 'utf8');
+// نسخة للطوارئ: يخدمها العامل إذا فشل الاتصال بقاعدة البيانات
+await writeFile(join(ROOT, 'sitemap-static.xml'), xml, 'utf8');
 console.log(`✔ sitemap.xml: ${entries.length} رابط (${STATIC.length} ثابت + ${dynamic.length} ديناميكي).`);
