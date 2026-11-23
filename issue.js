@@ -48,6 +48,17 @@
 
   /* ─────────── العرض ─────────── */
 
+  async function loadIssueViews(issue) {
+    try {
+      const { data, error } = await window.supabaseClient.rpc('issue_views');
+      if (error || !data) return;
+      const key = String(issue.issue_number).padStart(2, '0');
+      const n = data.issues && data.issues[key];
+      const el = document.getElementById('issueViews');
+      if (el && n) el.textContent = '👁 ' + n + ' مشاهدة';
+    } catch (e) { /* تحسيني */ }
+  }
+
   function renderIssue(issue, articles) {
     if (!IS_STATIC) {
       document.title = `العدد ${issue.issue_number} — ${issue.title} | Capkitco`;
@@ -63,6 +74,8 @@
     }
 
     // الفهرس
+    loadIssueViews(issue);
+
     $('tocList').innerHTML = articles.map((a) => `
       <li><a href="#a-${a.id}" data-target="a-${a.id}">${esc(a.title)}</a></li>`).join('');
 
@@ -73,6 +86,7 @@
         <div class="num">العدد ${esc(issue.issue_number)}</div>
         <h1>${esc(issue.title)}</h1>
         ${issue.publish_date ? `<div class="date">${esc(fmtDate(issue.publish_date))}</div>` : ''}
+        <span class="issue-views" id="issueViews"></span>
         ${issue.description ? `<p class="lead">${esc(issue.description)}</p>` : ''}
       </header>`;
 

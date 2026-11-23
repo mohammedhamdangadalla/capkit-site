@@ -77,6 +77,24 @@
 
       if (window.ckTrackOnce) window.ckTrackOnce('magazine_view');
 
+      // عدّاد المشاهدات (مجمّع، بلا بيانات شخصية)
+      let views = {};
+      try {
+        const vr = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/issue_views`, {
+          method: 'POST',
+          headers: {
+            apikey: cfg.supabaseKey,
+            Authorization: `Bearer ${cfg.supabaseKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: '{}',
+        });
+        if (vr.ok) {
+          const vj = await vr.json();
+          views = (vj && vj.issues) || {};
+        }
+      } catch (e) { /* العدّاد تحسيني — لا يعطّل الصفحة */ }
+
     grid.innerHTML = issues.map((i, idx) => `
         <a class="issue-card" href="${issueHref(i)}">
           <div class="cover ${i.cover_image ? '' : 'empty'}">
@@ -89,6 +107,7 @@
             <div class="num">العدد ${esc(i.issue_number)}</div>
             <h2>${esc(i.title)}</h2>
             ${i.publish_date ? `<div class="date">${esc(fmtDate(i.publish_date))}</div>` : ''}
+            ${views[String(i.issue_number).padStart(2, '0')] ? `<div class="issue-views">👁 ${views[String(i.issue_number).padStart(2, '0')]} مشاهدة</div>` : ''}
             ${i.description ? `<p class="desc">${esc(i.description.slice(0, 90))}${i.description.length > 90 ? '…' : ''}</p>` : ''}
           </div>
         </a>`).join('');

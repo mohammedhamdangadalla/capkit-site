@@ -450,3 +450,15 @@ details.tech .tech-body { padding: 16px; }
     padding-top: 10px;
   }
 }
+
+
+/* عدّاد مشاهدات العدد */
+.issue-views {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .72rem;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+.issue-head .issue-views { margin-inline-start: 10px; }
